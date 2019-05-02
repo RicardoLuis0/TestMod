@@ -19,6 +19,7 @@ class SSG : MyWeapon {
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;
+		+WEAPON.NOAUTOFIRE;
 		Inventory.PickupMessage "You've got the Super Shotgun!";
 	}
 	override void BeginPlay(){
@@ -33,8 +34,6 @@ class SSG : MyWeapon {
 			DSSG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
 		Select:
-			TNT1 A 0 A_UpdateBob();
-		SelectLoop:
 			DSSG A 1 A_Raise;
 			loop;
 		deselect:
@@ -79,13 +78,9 @@ class SSG : MyWeapon {
 			}
 			goto ready;
 		fireboth:
-			DSSG A 0 A_Bob();
 			DSSF A 2 Bright;
-			DSSG A 0 A_Bob();
 			DSSF B 2 Bright;
-			DSSG A 0 A_Bob();
 			DSSF C 2;
-			DSSG A 0 A_Bob();
 			DSSF J 2;
 			DSGG A 0 {
 				if(CVar.GetCVar("ssg_autoreload",player).getInt()!=0){
@@ -96,13 +91,9 @@ class SSG : MyWeapon {
 			DSSF A 0 A_ReFire("reload");
 			goto ready;
 		fireright:
-			DSSG A 0 A_Bob();
 			DSSF D 2 Bright;
-			DSSG A 0 A_Bob();
 			DSSF E 2 Bright;
-			DSSG A 0 A_Bob();
 			DSSF F 2;
-			DSSG A 0 A_Bob();
 			DSSF J 2;
 			DSSG A 0 {
 				if(invoker.fireright){
@@ -120,13 +111,9 @@ class SSG : MyWeapon {
 			DSGG A 0 A_ReFire("reload");
 			goto ready;
 		fireleft:
-			DSSG A 0 A_Bob();
 			DSSF G 2 Bright;
-			DSSG A 0 A_Bob();
 			DSSF H 2 Bright;
-			DSSG A 0 A_Bob();
 			DSSF I 2;
-			DSSG A 0 A_Bob();
 			DSSF J 2;
 			DSGG A 0 {
 				if(CVar.GetCVar("ssg_autoreload",player).getInt()!=0){
@@ -234,7 +221,6 @@ class SSG : MyWeapon {
 			TNT1 A 4 Bright A_Light2;
 			goto lightdone;
 		noammo:
-			DSSG A 0 A_Bob();
 			DSSG A 3 A_PlaySound("weapons/sshoto");
 			goto ready;
 		spawn:

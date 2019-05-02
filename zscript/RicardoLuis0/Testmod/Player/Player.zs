@@ -30,12 +30,12 @@ class TestModPlayer : PlayerPawn{
 		+THRUSPECIES;
 		Species "ThruPlayer";
 
-		Player.DisplayName "Generic";
+		Player.DisplayName "Pistol Start (Harder)";
 		Player.CrouchSprite "PLYC";
 
 		Player.StartItem "MyPistol";
-		Player.StartItem "Clip", 36;
-		Player.StartItem "MyPistolClip", 13;
+		Player.StartItem "Clip", 51;//3 pistol clips
+		Player.StartItem "MyPistolClip", 18;//17+1
 		Player.StartItem "AssaultRifleLoadedAmmo", 20;
 		Player.StartItem "PumpLoaded", 8;
 		Player.StartItem "SSGLoaded", 2;
@@ -119,6 +119,7 @@ class TestModPlayer : PlayerPawn{
 
 	override void BeginPlay(){
 		super.BeginPlay();
+		initSway();
 		initClasses();
 		pickup_distance=150;
 	}
@@ -217,8 +218,12 @@ class TestModPlayer : PlayerPawn{
 		}
 	}
 
-	BulletPuff LineAttack_Straight(String puff,int dmg){
-		return BulletPuff(LineAttack(angle,4096,pitch,dmg,"None",puff,LAF_NORANDOMPUFFZ));
+	BulletPuff LineAttack_Straight(String puff,int dmg,bool trueheight=false){
+		if(trueheight){
+			return BulletPuff(LineAttack(angle,4096,pitch,dmg,"None",puff,LAF_NORANDOMPUFFZ|LAF_NOINTERACT|LAF_OVERRIDEZ,offsetz:player.viewz-pos.z));
+		}else{
+			return BulletPuff(LineAttack(angle,4096,pitch,dmg,"None",puff,LAF_NORANDOMPUFFZ|LAF_NOINTERACT));
+		}
 	}
 
 	Vector3 getLookAtPos(String puff="VisTracer"){//puff recommended to be derived from vistracer

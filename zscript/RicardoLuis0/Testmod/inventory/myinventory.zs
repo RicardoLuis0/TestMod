@@ -15,11 +15,11 @@ class MyInventory:Inventory{
 
 	override void Touch(Actor toucher){
 		if(notouch)return;
-		return Super.Touch(toucher);
+		Super.Touch(toucher);
 	}
 
 	void SuperTouch(Actor toucher){
-		return Super.Touch(toucher);
+		Super.Touch(toucher);
 	}
 
 	virtual void GlowStart(){

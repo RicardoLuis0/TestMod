@@ -34,7 +34,6 @@ class MyPlasmaRifle : MyWeapon {
 			invoker.init=false;
 			W_SetLayerFrame(LAYER,0);
 		}
-		TNT1 A 0 A_Bob();
 		DPGG A 10 W_SetLayerSprite(LAYER,"PNAAA");
 		DPGG A 0 {
 			invoker.init=true;
@@ -54,7 +53,6 @@ class MyPlasmaRifle : MyWeapon {
 		Stop;
 	Select:
 		DPGG A 0 {
-			A_UpdateBob();
 			A_Overlay(LAYER,"WeaponOverlay");
 			invoker.init=true;
 		}
@@ -72,7 +70,6 @@ class MyPlasmaRifle : MyWeapon {
 			}
 			return ResolveState(null);
 		}
-		DPGG A 0 A_Bob();
 		DPGG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
 		DPGG A 0{
 			A_PlaySound("weapons/click02");
@@ -83,7 +80,6 @@ class MyPlasmaRifle : MyWeapon {
 			}
 			updateFire();
 		}
-		DPGG A 0 A_Bob();
 		DPGG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		Goto Ready;
 	ResetFire:
@@ -98,11 +94,8 @@ class MyPlasmaRifle : MyWeapon {
 		}
 		Goto Ready;
 	ShotgunFire:
-		DPGG A 0 A_Bob();
 		DPGG A 2 A_FirePShotgun();
-		DPGG B 0 A_Bob();
 		DPGG B 3 W_SetLayerSprite(LAYER,"PHNB");
-		DPGG A 0 A_Bob();
 		DPGG A 6 W_SetLayerSprite(LAYER,"PHNA");
 		DPGG A 3 A_Refire("ShotgunFire");
 		DPGG A 0 A_FireEnd();
@@ -116,11 +109,8 @@ class MyPlasmaRifle : MyWeapon {
 		DPGF D 3 Bright A_Light(1);
 		Goto LightDone;
 	AutoFire:
-		DPGG A 0 A_Bob();
 		DPGG A 1 A_FireGun();
-		DPGG B 0 A_Bob();
 		DPGG B 1 W_SetLayerSprite(LAYER,"PHNB");
-		DPGG A 0 A_Bob();
 		DPGG A 1 W_SetLayerSprite(LAYER,"PHNA");
 		DPGG A 3 A_Refire("AutoFire");
 		DPGG A 0 A_FireEnd();
@@ -134,7 +124,6 @@ class MyPlasmaRifle : MyWeapon {
 		DPGF D 1 Bright A_Light(1);
 		Goto LightDone;
 	LauncherFireStop:
-		DPGG A 0 A_Bob();
 		DPGF C 5 Bright;
 		Goto Ready;
 	LauncherFire:
@@ -146,45 +135,35 @@ class MyPlasmaRifle : MyWeapon {
 			}
 			return ResolveState(null);
 		}
-		TNT1 A 0 A_Bob();
 		DPGF A 5 Bright;
-		TNT1 A 0 A_Bob();
 		DPGF C 5 Bright;
 		DPGF C 0 {
 			return CheckFire(null,"Ready");
 		}
-		TNT1 A 0 A_Bob();
 		DPGF A 5 Bright;
-		TNT1 A 0 A_Bob();
 		DPGF C 5 Bright;
 		DPGF C 0 {
 			return CheckFire(null,"Ready");
 		}
-		TNT1 A 0 A_Bob();
 		DPGF A 5 Bright;
-		TNT1 A 0 A_Bob();
 		DPGF C 5 Bright;
 		DPGF C 0 {
 			return CheckFire(null,"Ready");
 		}
 		DPGF B 0 W_SetLayerSprite(LAYER,"PHNB");
 	LauncherFireLoop1:
-		TNT1 A 0 A_Bob();
 		DPGF B 3 Bright;
-		TNT1 A 0 A_Bob();
 		DPGF D 3 Bright;
 		DPGF D 0 {
 			return CheckFire("LauncherFireLoop1","LauncherFireStop",null);
 		}
 		DPGF C 0 A_FirePLauncher;
-		DPGG C 0 A_Bob();
 		DPGG C 5 A_WeaponOffset(0,52,WOF_INTERPOLATE);
 		DPGG C 0 {
 			A_SetBlend("AliceBlue",.5,10);
 			invoker.altloop=20;
 		}
 	LauncherFireLoop2:
-		DPGG C 0 A_Bob();
 		DPGG C 1 {
 			A_WeaponOffset(0,32+invoker.altloop,WOF_INTERPOLATE);
 			if(invoker.altloop==0){
@@ -201,7 +180,6 @@ class MyPlasmaRifle : MyWeapon {
 		Loop;
 	RailFire:
 		DPGF C 0 A_FirePRail;
-		DPGG C 0 A_Bob();
 		DPGG C 5 A_WeaponOffset(0,52,WOF_INTERPOLATE);
 		DPGG C 0 {
 			A_SetBlend("AliceBlue",.5,10);
@@ -209,7 +187,6 @@ class MyPlasmaRifle : MyWeapon {
 		}
 		//A_RailAttack
 	RailFireLoop:
-		DPGG C 0 A_Bob();
 		DPGG C 1 {
 			A_WeaponOffset(0,32+invoker.altloop,WOF_INTERPOLATE);
 			if(invoker.altloop==0){
@@ -250,7 +227,6 @@ class MyPlasmaRifle : MyWeapon {
 		Loop;
 	OverheatStart:
 		DPGG A 0 A_PlaySound("weapons/overheat",CHAN_AUTO);
-		DPGG A 0 A_Bob();
 		DPGG A 3 W_SetLayerSprite(LAYER,"PHOA");
 		DPGG C 6 W_SetLayerSprite(LAYER,"PHOC");
 	OverheatUp:
@@ -265,7 +241,6 @@ class MyPlasmaRifle : MyWeapon {
 		Loop;
 	OverheatStop:
 		DPGG C 6 W_SetLayerSprite(LAYER,"PHOC");
-		DPGG A 0 A_Bob();
 		DPGG A 3 W_SetLayerSprite(LAYER,"PHOA");
 		goto Ready;
 	WeaponOverlay:

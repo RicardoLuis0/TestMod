@@ -29,9 +29,6 @@ OptionMenu "TestmodOptionsMenu" {
 	Option "Extra Weapon Bob","extra_weapon_bob","OnOff"
 	StaticText "Weapon bob while firing/etc.","DarkRed"
 	StaticText ""
-	Slider "Particle Density","particle_density_modifier",0,3,.1
-	StaticText "Particle Density for Effects.","DarkRed"
-	StaticText ""
 	StaticText "---","White"
 	StaticText ""
 	StaticText "Server Variables","Gold"
@@ -54,7 +51,7 @@ OptionMenu "TestmodOptionsMenu" {
 	StaticText ""
 	Option "ZombieMen Drop Rifles","zombiemen_drop_rifle","OnOff"
 	StaticText "ZombieMen Drop Rilfes at 20% Chance.","DarkRed"
-	StaticText "This is the only way to get the rifle in the vanilla maps.","DarkRed"
+	StaticText "This is the only way to get the rifle in pistol start, worth double ammo as a pickup.","DarkRed"
 	StaticText ""
 	Option "Random Damage Mode","random_damage_mode","DamageModes"
 }

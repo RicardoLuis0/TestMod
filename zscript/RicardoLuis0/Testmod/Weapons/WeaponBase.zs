@@ -152,7 +152,6 @@ class MyWeapon:Weapon{
 
 	virtual void ReadyTick() {
 	}
-
 	PSPrite PSP_Get(int layer=PSP_WEAPON){
 		if(owner){
 			PlayerPawn pp=PlayerPawn(owner);
@@ -206,11 +205,5 @@ class MyWeapon:Weapon{
 
 	action void W_SetLayerSprite(int layer, name sprite) {
 		invoker.SetLayerSprite(layer,sprite);
-	}
-	action void A_Bob(){
-		if(invoker.extra_weapon_bob)A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
-	}
-	action void A_UpdateBob(){
-		invoker.extra_weapon_bob=CVar.FindCVar("extra_weapon_bob").GetInt();
 	}
 }

@@ -1,1 +1,5 @@
 #include "zscript/ricardoluis0/testmod/player/player.zs"
+#include "zscript/ricardoluis0/testmod/player/inertia.zs"
+#include "zscript/ricardoluis0/testmod/player/startchoices/riflestart.zs"
+#include "zscript/ricardoluis0/testmod/player/startchoices/shotgunstart.zs"
+#include "zscript/ricardoluis0/testmod/player/startchoices/ssgstart.zs"

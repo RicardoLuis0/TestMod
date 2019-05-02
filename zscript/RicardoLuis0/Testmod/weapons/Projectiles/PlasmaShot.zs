@@ -23,11 +23,13 @@ class PlasmaShot01:FastProjectile{
 		Stop;
 	}
 }
+
 class PlasmaShot01Silent:PlasmaShot01{
 	Default{
 		SeeSound "";
 	}
 }
+
 class PlasmaShot01Trail:actor{
 	Default{
 		+NOINTERACTION;

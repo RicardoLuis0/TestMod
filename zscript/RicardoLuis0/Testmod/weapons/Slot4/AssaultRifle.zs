@@ -33,26 +33,22 @@ class AssaultRifle : MyWeapon {
 			ASRG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
 		Select:
-			TNT1 A 0 A_UpdateBob();
-		SelectLoop:
 			ASRG A 1 A_Raise;
 			loop;
 		deselect:
 			ASRG A 1 A_Lower;
 			loop;
 		fire:
-			ASRG A 0 A_Bob();
 			ASRG A 0 A_FireGun;
 			ASRF A 1 BRIGHT;
-			ASRG A 2 Offset(0,35) A_Bob();
-			ASRG A 2 A_Bob();
+			ASRG A 2 Offset(0,35);
+			ASRG A 2;
 			ASRG A 0{
 				if(invoker.firemode==0){
 					return ResolveState("ready");
 				}
 				return ResolveState(null);
 			}
-			ASRG A 0 A_Bob();
 			ASRG A 1 A_ReFire;
 			goto ready;
 		flash:
@@ -71,13 +67,12 @@ class AssaultRifle : MyWeapon {
 			ASRG A 0 A_PostReloadGun;
 			goto ready;
 		bolt:
-			ASRK A 2 A_Bob();
-			ASRK B 2 A_Bob();
-			ASRK C 5 A_Bob();
-			ASRK D 0 A_Bob();
+			ASRK A 2;
+			ASRK B 2;
+			ASRK C 5;
 			ASRK D 20 A_PlaySound("weapons/rifle_bolt");
-			ASRK C 10 A_Bob();
-			ASRK B 5 A_Bob();
+			ASRK C 10;
+			ASRK B 5;
 			ASRK A 0{
 				invoker.loaded=true;
 			}
@@ -91,7 +86,6 @@ class AssaultRifle : MyWeapon {
 			MGUN A -1;
 			stop;
 		altfire:
-			ASRG A 0 A_Bob();
 			ASRG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
 			ASRG A 0{
 				A_PlaySound("weapons/click02");
@@ -105,7 +99,6 @@ class AssaultRifle : MyWeapon {
 					//invoker.crosshair=43;
 				}
 			}
-			ASRG A 0 A_Bob();
 			ASRG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			Goto Ready;
 	}

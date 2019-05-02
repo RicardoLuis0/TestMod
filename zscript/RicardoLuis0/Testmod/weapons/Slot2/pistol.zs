@@ -1,6 +1,6 @@
 class MyPistolClip : Ammo{
 	Default{
-		Inventory.MaxAmount 13;
+		Inventory.MaxAmount 18;
 		+Inventory.IgnoreSkill;
 	}
 }
@@ -14,10 +14,10 @@ class MyPistol : MyWeapon{
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive1 0;
-		Weapon.AmmoGive2 12;
+		Weapon.AmmoGive2 17;
 		Inventory.Pickupmessage "You've got the Pistol!";
 		+WEAPON.AMMO_OPTIONAL;
-		//+WEAPON.NOAUTOFIRE;
+		+WEAPON.NOAUTOFIRE;
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
@@ -37,7 +37,6 @@ class MyPistol : MyWeapon{
 		Loop;
 	Select:
 		TNT1 A 0 {
-			A_UpdateBob();
 			if(CountInv("MyPistolClip")==0){
 				return ResolveState("SelectEmpty");
 			}else{
@@ -78,9 +77,7 @@ class MyPistol : MyWeapon{
 			}
 			return ResolveState(null);
 		}
-		TNT1 A 0 A_Bob();
 		DPIF A 3 Fire;
-		TNT1 A 0 A_Bob();
 		DPIG C 3;
 		TNT1 A 0 {
 			if(CountInv("MyPistolClip")==0){
@@ -89,12 +86,10 @@ class MyPistol : MyWeapon{
 				return ResolveState(null);
 			}
 		}
-		TNT1 A 0 A_Bob();
 		DPIG B 3;
 		TNT1 A 0 A_ReFire;
 		Goto Ready;
 	FireEmpty:
-		TNT1 A 0 A_Bob();
 		DPIG C 9;
 		Goto ReadyEmpty;
 	Flash:
@@ -104,7 +99,7 @@ class MyPistol : MyWeapon{
 		DEPI A -1;
 		Stop;
 	Reload:
-		TNT1 A 0 CheckReload("Clip","MyPistolClip",13,"Ready","Ready","ReloadPartial","ReloadPartialEmpty","ReloadEmpty","ReloadFull");
+		TNT1 A 0 CheckReload("Clip","MyPistolClip",18,"Ready","Ready","ReloadPartial","ReloadPartialEmpty","ReloadEmpty","ReloadFull");
 		Goto Ready;
 	ReloadPartial:
 		TNT1 A 0 {
@@ -128,26 +123,32 @@ class MyPistol : MyWeapon{
 		Goto ReloadEmptyAnim;
 	ReloadAnim:
 		DPIR A 3 A_PlaySound("weapons/pistolclipout",CHAN_5);
-		DPIR BC 3;
+		DPIR B 3;
+		DPIR C 3;
 		DPIR D 6;
-		DPIR EF 3;
+		DPIR E 3;
+		DPIR F 3;
 		DPIR G 3 A_PlaySound("weapons/pistolclipin",CHAN_5);
-		DPIR HIJ 3;
+		DPIR H 3;
+		DPIR I 3;
+		DPIR J 3;
 		TNT1 A 0 {
 			if(invoker.partial){
 				A_GiveInventory("MyPistolClip",CountInv("Clip"));
 				A_SetInventory("Clip",0);
 			}else{
-				A_TakeInventory("Clip",13-CountInv("MyPistolClip"));
-				A_SetInventory("MyPistolClip",13);
+				A_TakeInventory("Clip",18-CountInv("MyPistolClip"));
+				A_SetInventory("MyPistolClip",18);
 			}
 		}
 		Goto Ready;
 	ReloadEmptyAnim:
 		DPIE A 3 A_PlaySound("weapons/pistolclipout",CHAN_5);
-		DPIE BC 3;
+		DPIE B 3;
+		DPIE C 3;
 		DPIE D 6;
-		DPIE EF 3;
+		DPIE E 3;
+		DPIE F 3;
 		DPIE G 3 A_PlaySound("weapons/pistolclipin",CHAN_5);
 		DPIE H 5;
 		DPIR I 4 A_PlaySound("weapons/pistolclose",CHAN_5);
@@ -157,15 +158,15 @@ class MyPistol : MyWeapon{
 				A_GiveInventory("MyPistolClip",CountInv("Clip"));
 				A_SetInventory("Clip",0);
 			}else{
-				A_TakeInventory("Clip",12);
-				A_SetInventory("MyPistolClip",12);
+				A_TakeInventory("Clip",17);
+				A_SetInventory("MyPistolClip",17);
 			}
 		}
 		Goto Ready;
 	}
 	bool i;
 	action void fire(){
-		A_PlaySound("weapons/pistol_fire",invoker.i?CHAN_6:CHAN_7);
+		A_PlaySound("weapons/pistol_fire",invoker.i?CHAN_6:CHAN_7,0.25);
 		invoker.i=!invoker.i;
 		if(player.refire==0){
 			player.refire=1;

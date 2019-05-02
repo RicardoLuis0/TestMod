@@ -1,74 +1,7 @@
 class MyRocket:Rocket replaces Rocket{
-	CVAR particle_density_modifier;
-	override void BeginPlay(){
-		particle_density_modifier=CVar.FindCVar("particle_density_modifier");
-	}
 	action void A_RocketExplode(){
 		A_Explode();
-
-		//MyWeapon.DoParticleExplosion(invoker,"#FFFF00",100,2,10);
-		float mod=invoker.particle_density_modifier.getFloat();
-		int count1=int(5*mod);
-		int count2=int(10*mod);
-		//color1
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,1,15,15);
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,1.25,14.2,15);
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,1.75,13.25,16);
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,2,12.5,17);//--
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,2.25,11.65,18);
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,2.75,10.8,19);
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,3,10,20);
-
-		//color2
-		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count1,1,15,15);
-		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count1,1.5,13.75,16);
-		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count1,2,12.5,17);//--
-		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count1,2.5,11.75,18);
-		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count1,3,10,20);
-
-		//color3
-		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count1,1,15,15);
-		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count1,2,12.5,17);//--
-		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count1,3,10,20);
-
-		//color2
-		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count1,1,15,15);
-		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count1,2,12.5,17);//--
-		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count1,3,10,20);
-
-		//color1
-		MyWeapon.DoParticleExplosion(invoker,"#FF1000",count1,2,12.5,17);//--
-
-		//MyWeapon.DoParticleExplosion(invoker,"#FF8000",350,5,5);
-
-		//color1
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,4,10,25);
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,4.25,9.2,26);
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,4.75,8.25,27);
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,5,7.5,27);//--
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,5.25,6.65,28);
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,5.75,5.8,29);
-		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,6,5,30);
-
-		//color2
-		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count2,4,10,25);
-		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count2,5.5,8.75,26);
-		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count2,5,7.5,27);//--
-		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count2,5.5,6.25,28);
-		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count2,6,5,30);
-
-		//color3
-		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count2,6,10,25);
-		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count2,5,7.5,27);//--
-		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count2,6,5,30);
-
-		//color4
-		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count2,6,10,25);
-		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count2,5,7.5,27);//--
-		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count2,4,5,30);
-
-		//color5
-		MyWeapon.DoParticleExplosion(invoker,"#FF1000",count2,5,7.5,27);//--
+		
 	}
 
 	Default{

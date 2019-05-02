@@ -21,8 +21,9 @@ class GuidedRocketLauncher:MyWeapon{
 		laserenabled=true;
 	}
 	override void ReadyTick(){
+		super.ReadyTick();
 		if(laserenabled){
-			if(owner is "TestModPlayer")TestModPlayer(owner).LineAttack_Straight("LaserDot",0);
+			if(owner is "TestModPlayer")TestModPlayer(owner).LineAttack_Straight("LaserDot",0,true);
 		}
 	}
 	States{
@@ -30,8 +31,6 @@ class GuidedRocketLauncher:MyWeapon{
 			DRLG A 1 A_WeaponReady();
 			Loop;
 		Select:
-			TNT1 A 0 A_UpdateBob();
-		SelectLoop:
 			DRLG A 1 A_Raise;
 			Loop;
 		Deselect:
@@ -45,19 +44,12 @@ class GuidedRocketLauncher:MyWeapon{
 				return ResolveState(null);
 			}
 			DRLF A 0 Bright A_GunFlash;
-			TNT1 A 0 A_Bob();
 			DRLF A 3 Bright MyFire;
-			TNT1 A 0 A_Bob();
 			DRLF B 2;
-			TNT1 A 0 A_Bob();
 			DRLF C 2;
-			TNT1 A 0 A_Bob();
 			DRLF D 2;
-			TNT1 A 0 A_Bob();
 			DRLF E 2;
-			TNT1 A 0 A_Bob();
 			DRLG B 4;
-			TNT1 A 0 A_Bob();
 			DRLG C 6;
 			DRLG A 0 A_Refire;
 			Goto Ready;
