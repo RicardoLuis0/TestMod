@@ -41,7 +41,7 @@ class AssaultRifle : MyWeapon {
 		fire:
 			ASRG A 0 A_Bob();
 			ASRG A 0 A_FireGun;
-			ASRF A 1 BRIGHT A_Light1;
+			ASRF A 1 BRIGHT;
 			ASRG A 2 Offset(0,35) A_Bob();
 			ASRG A 2 A_Bob();
 			ASRG A 0{
@@ -53,6 +53,9 @@ class AssaultRifle : MyWeapon {
 			ASRG A 0 A_Bob();
 			ASRG A 1 A_ReFire;
 			goto ready;
+		flash:
+			TNT1 A 1 A_Light1;
+			goto lightdone;
 		reload:
 			ASRG A 0 A_PreReloadGun;
 			
@@ -148,6 +151,7 @@ class AssaultRifle : MyWeapon {
 		if(!invoker.loaded){
 			return P_Call("bolt","ready");
 		}
+		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
 		A_AlertMonsters();

@@ -16,6 +16,9 @@ weapons/cryobowreload   DSBOWREL
 weapons/cryobowhit      DSBOWHIT
 weapons/cryobowflyby    DSBOWFLY
 
+weapons/plasmaf			dsplasma
+weapons/plasmax			dsfirxpl
+
 weapons/gatlingfire1    dsgtfir1
 weapons/gatlingfire2    dsgtfir2
 weapons/gatlingfire3    dsgtfir3
