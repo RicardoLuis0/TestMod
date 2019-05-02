@@ -7,3 +7,4 @@
 #include "zscript/ricardoluis0/testmod/weapons/slot5/guidedrocketlauncher.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot6/plasmarifle.zs"
 #include "zscript/ricardoluis0/testmod/weapons/projectiles/guidedrocket.zs"
+#include "zscript/ricardoluis0/testmod/weapons/projectiles/superplasma.zs"

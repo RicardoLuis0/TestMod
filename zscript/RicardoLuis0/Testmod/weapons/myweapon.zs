@@ -60,7 +60,20 @@ class MyWeapon:Weapon{
 		}
 		return ResolveState(noFire);
 	}
-
+	action state CheckPFire(statelabel fire=null,statelabel noFire=null){
+		int input=GetPlayerInput(INPUT_BUTTONS);
+		if(input&BT_ATTACK){
+			return ResolveState(fire);
+		}
+		return ResolveState(noFire);
+	}
+	action state CheckAFire(statelabel altFire=null,statelabel noFire=null){
+		int input=GetPlayerInput(INPUT_BUTTONS);
+		if(input&BT_ALTATTACK){
+			return ResolveState(altFire);
+		}
+		return ResolveState(noFire);
+	}
 	virtual void ReadyTick() {
 	}
 

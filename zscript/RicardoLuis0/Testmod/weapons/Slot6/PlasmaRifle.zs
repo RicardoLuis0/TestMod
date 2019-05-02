@@ -1,4 +1,5 @@
 class MyPlasmaRifle : MyWeapon {
+	const LAYER = 9999;
 	int heat;
 	int heatmax;
 	int heatup;
@@ -10,7 +11,8 @@ class MyPlasmaRifle : MyWeapon {
 	bool init;
 	int spriteindex_prev;
 	int overheat_prev;
-	name cur_sprite;
+	int altloop;
+	int altuse;
 	Default{
 		Weapon.SlotNumber 6;
 		Weapon.AmmoType1 "Cell";
@@ -28,18 +30,23 @@ class MyPlasmaRifle : MyWeapon {
 		heatup=20;
 		heatdown=1;
 		heatdownreload=20;
+		altuse=15;
 		firing=false;
 		overheat=false;
 		overheat_prev=false;
 		spriteindex_prev=0;
 		reloading=false;
 		init=false;
-		cur_sprite="PHNA";
 	}
 
 	override void ReadyTick(){
 		if(!firing&&heat>0)HeatMinus();
 		if(init)HeatOverlay();
+	}
+
+	action void A_Overheat(){
+		invoker.overheat=true;
+		invoker.heat=invoker.heatmax;
 	}
 
 	void HeatPlus(){
@@ -60,18 +67,13 @@ class MyPlasmaRifle : MyWeapon {
 
 	void HeatOverlay(){
 		int overheatamt=7-int(ceil((double(heat)/heatmax)*7));
-		SetLayerFrame(2,overheatamt);
-		SetLayerSprite(2,cur_sprite);
-	}
-	
-	action void A_SetOSprite(name newspr){
-		invoker.cur_sprite=newspr;
+		SetLayerFrame(LAYER,overheatamt);
 	}
 
 	States{
 	Ready:
 		DPGG A 0 {
-			W_SetLayerSprite(2,"PHNA");
+			W_SetLayerSprite(LAYER,"PHNA");
 		}
 	ReadyLoop:
 		DPGG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
@@ -81,38 +83,117 @@ class MyPlasmaRifle : MyWeapon {
 		Loop;
 	Select:
 		DPGG A 0 {
-			A_Overlay(2,"WeaponOverlay");
+			A_Overlay(LAYER,"WeaponOverlay");
 			invoker.init=true;
 		}
 		DPGG A 1 A_Raise();
 		Wait;
 	Fire:
 		DPGG A 1{
-			A_FireGun();
-			W_SetLayerSprite(2,"PHNA");
+			W_SetLayerSprite(LAYER,"PHNA");
+			return A_FireGun();
 		}
-		DPGG B 1 W_SetLayerSprite(2,"PHNB");
-		DPGG A 1 W_SetLayerSprite(2,"PHNA");
+		DPGG B 1 W_SetLayerSprite(LAYER,"PHNB");
+		DPGG A 1 W_SetLayerSprite(LAYER,"PHNA");
 		DPGG A 3 A_MyRefire();
-		DPGG C 10 W_SetLayerSprite(2,"PHNC");
-		DPGG A 3 W_SetLayerSprite(2,"PHNA");
 		DPGG A 0 A_FireEnd();
 		Goto Ready;
+	AltFire:
+		DPGG A 0{
+			if(invoker.heat!=0||CountInv("Cell")<invoker.altuse){
+				return ResolveState("Ready");
+			}
+			return ResolveState(null);
+		}
+		DPGF AC 5 Bright;
+		DPGF C 0 {
+			return CheckAFire(null,"Ready");
+		}
+		DPGF AC 5 Bright;
+		DPGF C 0 {
+			return CheckAFire(null,"Ready");
+		}
+		DPGF AC 5 Bright;
+		DPGF C 0 {
+			return CheckAFire(null,"Ready");
+		}
+		DPGF AC 5 Bright;
+		DPGF C 0 {
+			return CheckAFire(null,"Ready");
+		}
+		DPGF AC 5 Bright;
+		DPGF C 0 {
+			return CheckAFire(null,"Ready");
+		}
+		DPGF A 0{
+			W_SetLayerSprite(LAYER,"PHNB");
+		}
+		DPGF BD 5 Bright;
+		DPGF D 0 {
+			return CheckAFire(null,"Ready");
+		}
+		DPGF BD 5 Bright;
+		DPGF D 0 {
+			return CheckAFire(null,"Ready");
+		}
+		DPGF BD 5 Bright;
+		DPGF D 0 {
+			return CheckAFire(null,"Ready");
+		}
+		DPGF BD 5 Bright;
+		DPGF D 0 {
+			return CheckAFire(null,"Ready");
+		}
+		DPGF BD 5 Bright;
+		DPGF D 0 {
+			return CheckAFire(null,"Ready");
+		}
+		DPGF C 0 {
+			A_SetBlend("LightSlateBlue",1,5);
+			invoker.firing=true;
+			A_AlertMonsters();
+			TakeInventory("Cell",invoker.altuse);
+			A_FireProjectile("SuperPlasmaBall",0,false);
+			A_Overheat();
+			W_SetLayerSprite(LAYER,"PHOC");
+		}
+		DPGG C 5 A_WeaponOffset(0,52,WOF_INTERPOLATE);
+		DPGG C 0 {
+			A_SetBlend("AliceBlue",.5,10);
+			invoker.altloop=20;
+		}
+	AltLoop:
+		DPGG C 1 {
+			A_WeaponOffset(0,32+invoker.altloop,WOF_INTERPOLATE);
+			if(invoker.altloop==0){
+				invoker.firing=false;
+				return ResolveState("OverheatUp");
+			}else{
+				invoker.altloop--;
+			}
+			return ResolveState(null);
+		}
+		Loop;
 	Reload:
-		DPGG A 1 W_SetLayerSprite(2,"PHNA");
-	ReloadStart:
-		DPGG C 6 W_SetLayerSprite(2,"PHNC");
+		DPGG A 0{
+			if(invoker.heat==0){
+				return ResolveState("Ready");
+			}else{
+				return ResolveState(null);
+			}
+		}
+		DPGG C 6 W_SetLayerSprite(LAYER,"PHNC");
 		DPGG C 0 {
 			invoker.reloading=true;
 		}
-	HeatReload:
+	ReloadLoop:
 		DPGG D 4{
-			W_SetLayerSprite(2,"PHNA");
+			W_SetLayerSprite(LAYER,"PHND");
 			return A_ReloadEnd();
 		}
 		Loop;
-	HeatReloadStop:
-		DPGG C 6 W_SetLayerSprite(2,"PHNC");
+	ReloadStop:
+		DPGG C 6 W_SetLayerSprite(LAYER,"PHNC");
 		Goto Ready;
 	Flash1:
 		DPGF A 1 Bright A_Light(2);
@@ -126,31 +207,32 @@ class MyPlasmaRifle : MyWeapon {
 		DEPG A -1;
 		Loop;
 	OverheatStart:
-		DPGG A 3 W_SetLayerSprite(2,"PHNA");
-		DPGG C 6 W_SetLayerSprite(2,"PHNC");
+		DPGG A 3 W_SetLayerSprite(LAYER,"PHOA");
+		DPGG C 6 W_SetLayerSprite(LAYER,"PHOC");
+	OverheatUp:
 		DPGG C 0{
 			invoker.reloading=true;
 		}
 	OverheatLoop:
 		DPGG D 4 {
-			W_SetLayerSprite(2,"PHND");
+			W_SetLayerSprite(LAYER,"PHOD");
 			return A_OverheatEnd();
 		}
 		Loop;
 	OverheatStop:
-		DPGG C 6 W_SetLayerSprite(2,"PHNC");
-		DPGG A 3 W_SetLayerSprite(2,"PHNA");
+		DPGG C 6 W_SetLayerSprite(LAYER,"PHOC");
+		DPGG A 3 W_SetLayerSprite(LAYER,"PHOA");
 		goto Ready;
 	WeaponOverlay:
-		PHNA A -1;
-		PHNB A -1;
-		PHNC A -1;
-		PHND A -1;
-		PHOA A -1;
-		PHOB A -1;
-		PHOC A -1;
-		PHOD A -1;
+		PHNA A -1 Bright;
 		Stop;
+		PHNB A 1 Bright;
+		PHNC A 1 Bright;
+		PHND A 1 Bright;
+		PHOA A 1 Bright;
+		PHOB A 1 Bright;
+		PHOC A 1 Bright;
+		PHOD A 1 Bright;
 	}
 
 	action State A_FireGun(){
@@ -164,7 +246,7 @@ class MyPlasmaRifle : MyWeapon {
 		invoker.firing=true;
 		invoker.HeatPlus();
 		A_AlertMonsters();
-		A_FireProjectile("PlasmaBall",0,1,0,0);
+		A_FireProjectile("PlasmaBall",0,true);
 		if(random(0,1)) {
 			A_GunFlash("Flash1");
 		} else {
@@ -193,14 +275,14 @@ class MyPlasmaRifle : MyWeapon {
 	action State A_ReloadEnd(){
 		if(invoker.heat==0){
 			invoker.reloading=false;
-			return ResolveState("HeatReloadStop");
+			return ResolveState("ReloadStop");
 		}
 		return ResolveState(null);
 	}
 	action State A_OverheatEnd(){
 		if(!invoker.overheat){
 			invoker.reloading=false;
-			return ResolveState("OverHeatStop");
+			return ResolveState("OverheatStop");
 		}
 		return ResolveState(null);
 	}

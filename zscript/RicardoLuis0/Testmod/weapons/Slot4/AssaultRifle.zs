@@ -141,6 +141,7 @@ class AssaultRifle : MyWeapon {
 		}
 		A_AlertMonsters();
 		//A_FireBullets(10,4,1,7,"BulletPuff");
+		console.printf(": "..player.vel.length());
 		A_FireBullets(invoker.getSpreadX(player.refire),invoker.getSpreadY(player.refire),1,invoker.dmg,"BulletPuff");
 		A_PlaySound("weapons/gatlingfire");
 		A_SetPitch(pitch+(random(-10,0)/5));
