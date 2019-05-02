@@ -40,14 +40,26 @@ class HeavyGatlingGun:MyWeapon{
 			DGTG A 1 A_Lower;
 			loop;
 		fire:
+			TNT1 A 0 {
+				if(CountInv("Clip")==0)return ResolveState("Ready");
+				return ResolveState(null);
+			}
 			goto spin2up;
 		firespin:
+			TNT1 A 0 {
+				if(CountInv("Clip")==0)return ResolveState("Ready");
+				return ResolveState(null);
+			}
 			DGTG A 0 A_Bob;
 			DGTF A 1 Bright A_FireGun;
 			DGTG A 0 A_Bob;
 			DGTF B 1 Bright;
 			goto idlespin2;
 		altfire:
+			TNT1 A 0 {
+				if(CountInv("Clip")==0)return ResolveState("Ready");
+				return ResolveState(null);
+			}
 			goto spin2up;
 		idlespin:
 			DGTG A 0 A_Bob;
@@ -116,7 +128,7 @@ class HeavyGatlingGun:MyWeapon{
 		player.refire=refire;
 		A_Recoil(1.5);
 		A_AlertMonsters();
-		A_SetPitch(pitch+(random(-10,0)/5),SPF_INTERPOLATE);
+		A_SetPitch(pitch+frandom(-2,0),SPF_INTERPOLATE);
 		A_PlaySound("weapons/gatlingfire");
 		return ResolveState(null);
 	}

@@ -18,6 +18,8 @@ class VisTracer:BulletPuff{
 class MyPlayer : PlayerPawn{
 	double fmove1temp,fmove2temp,smove1temp,smove2temp,vbobtemp;
 	bool movemod;
+	bool look_calc;
+	Vector3 look_pos;
 	Default{
 		Speed 1;
 		Health 100;
@@ -54,7 +56,6 @@ class MyPlayer : PlayerPawn{
 		Player.Colorset 1, "Gray",			0x60, 0x6F,  0x62;
 		Player.Colorset 2, "Brown",			0x40, 0x4F,  0x42;
 		Player.Colorset 3, "Red",			0x20, 0x2F,  0x22;
-		// Doom Legacy additions
 		Player.Colorset 4, "Light Gray",	0x58, 0x67,  0x5A;
 		Player.Colorset 5, "Light Brown",	0x38, 0x47,  0x3A;
 		Player.Colorset 6, "Light Red",		0xB0, 0xBF,  0xB2;
@@ -79,9 +80,7 @@ class MyPlayer : PlayerPawn{
 			forwardmove2=newmove/2;
 			sidemove2=newmove/2;
 		}
-		console.printf("Oldbob: "..viewbob);
 		viewbob=viewbob*(((forwardmove1/fmove1temp)+(sidemove1/smove1temp))/2);
-		console.printf("Newbob: "..viewbob);
 	}
 
 	void RevertMove(){
@@ -155,6 +154,7 @@ class MyPlayer : PlayerPawn{
 		if (!player || !player.mo || player.mo != self){
 			return;
 		}else{
+			look_calc=false;
 			if(player.ReadyWeapon is "MyWeapon"){
 				MyWeapon(player.ReadyWeapon).ReadyTick();
 			}
@@ -180,7 +180,11 @@ class MyPlayer : PlayerPawn{
 							}
 							if(inv_use&&!inv_hold){
 								//Inventory(hit).CallTryPickup(self);
-								Inventory(hit).Touch(self);
+								if(hit is "MyInventory"&&MyInventory(hit).notouch){
+									MyInventory(hit).SuperTouch(self);
+								}else{
+									Inventory(hit).Touch(self);
+								}
 							}
 						}
 					}
@@ -205,13 +209,17 @@ class MyPlayer : PlayerPawn{
 	}
 
 	Vector3 getLookAtPos(String puff="VisTracer"){//puff recommended to be derived from vistracer
+		if(look_calc){
+			return look_pos;
+		}
 		BulletPuff p=LineAttack_Straight(puff,0);
 		if(p){
 			Vector3 ret=p.pos;
 			p.destroy();
-			return ret;
+			look_calc=true;
+			look_pos=ret;
+			return look_pos;
 		}
-		console.printf("Cast Fail");
 		return pos;
 	}
 

@@ -1,15 +1,27 @@
 class MyInventory:Inventory{
 	bool glowing;
+	bool notouch;
 	string glow;
 	string noglow;
 	bool lastbright;
 	property glow:glow;
 	property noglow:noglow;
+	property notouch:notouch;
 	Default{
 		MyInventory.glow "HoverGlow";
 		MyInventory.noglow "None";
+		MyInventory.notouch false;
 	}
-	
+
+	override void Touch(Actor toucher){
+		if(notouch)return;
+		return Super.Touch(toucher);
+	}
+
+	void SuperTouch(Actor toucher){
+		return Super.Touch(toucher);
+	}
+
 	virtual void GlowStart(){
 		if(!glowing){
 			A_SetTranslation(glow);

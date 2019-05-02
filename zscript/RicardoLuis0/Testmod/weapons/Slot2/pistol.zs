@@ -32,16 +32,39 @@ class MyPistol : MyWeapon{
 				return ResolveState(null);
 			}
 		}
+	ReadyLoop:
 		DPIG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		Loop;
+	Select:
+		TNT1 A 0 {
+			if(CountInv("MyPistolClip")==0){
+				return ResolveState("SelectEmpty");
+			}else{
+				return ResolveState(null);
+			}
+		}
+	SelectLoop:
+		DPIG A 1 A_Raise;
+		Loop;
+	Deselect:
+		TNT1 A 0 {
+			if(CountInv("MyPistolClip")==0){
+				return ResolveState("DeselectEmpty");
+			}else{
+				return ResolveState(null);
+			}
+		}
+	DeselectLoop:
+		DPIG A 1 A_Lower;
 		Loop;
 	ReadyEmpty:
 		DPIG C 1 A_WeaponReady(WRF_ALLOWRELOAD);
 		Loop;
-	Select:
-		DPIG A 1 A_Raise;
+	SelectEmpty:
+		DPIG C 1 A_Raise;
 		Loop;
-	Deselect:
-		DPIG A 1 A_Lower;
+	DeselectEmpty:
+		DPIG C 1 A_Lower;
 		Loop;
 	Fire:
 		DPIG A 0 {
@@ -54,6 +77,7 @@ class MyPistol : MyWeapon{
 			}
 			return ResolveState(null);
 		}
+		TNT1 A 0 A_Bob();
 		DPIF A 3 Fire;
 		DPIG C 3;
 		TNT1 A 0 {
@@ -67,6 +91,7 @@ class MyPistol : MyWeapon{
 		TNT1 A 0 A_ReFire;
 		Goto Ready;
 	FireEmpty:
+		TNT1 A 0 A_Bob();
 		DPIG C 9;
 		Goto ReadyEmpty;
 	Flash:
@@ -88,6 +113,16 @@ class MyPistol : MyWeapon{
 			invoker.partial=false;
 		}
 		Goto ReloadAnim;
+	ReloadPartialEmpty:
+		TNT1 A 0 {
+			invoker.partial=true;
+		}
+		Goto ReloadEmptyAnim;
+	ReloadEmpty:
+		TNT1 A 0 {
+			invoker.partial=false;
+		}
+		Goto ReloadEmptyAnim;
 	ReloadAnim:
 		DPIR ABC 3;
 		DPIR D 6;
@@ -102,16 +137,6 @@ class MyPistol : MyWeapon{
 			}
 		}
 		Goto Ready;
-	ReloadPartialEmpty:
-		TNT1 A 0 {
-			invoker.partial=true;
-		}
-		Goto ReloadEmptyAnim;
-	ReloadEmpty:
-		TNT1 A 0 {
-			invoker.partial=false;
-		}
-		Goto ReloadEmptyAnim;
 	ReloadEmptyAnim:
 		DPIE ABC 3;
 		DPIE D 6;
@@ -134,7 +159,7 @@ class MyPistol : MyWeapon{
 		A_PlaySound("weapons/pistol", CHAN_WEAPON);
 		if(player.refire==0){
 			player.refire=1;
-			A_FireBullets(2,2,1,5,"BulletPuff");
+			A_FireBullets(1,1,1,5,"BulletPuff");
 			player.refire=0;
 		}else{
 			A_FireBullets(5,3,1,5,"BulletPuff");

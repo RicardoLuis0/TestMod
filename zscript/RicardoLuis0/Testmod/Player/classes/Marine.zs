@@ -13,10 +13,9 @@ class MarineClass:myPlayer{
 		Player.CrouchSprite "PLYC";
 
 		//Player.StartItem "Pistol";
-		Player.StartItem "AssaultRifle";
 		Player.StartItem "Fist";
 		Player.StartItem "MyPistol";
-		Player.StartItem "Clip", 60;
+		Player.StartItem "Clip", 36;
 		
 		Player.StartItem "MyPistolClip", 12;
 		Player.StartItem "AssaultRifleLoadedAmmo", 20;

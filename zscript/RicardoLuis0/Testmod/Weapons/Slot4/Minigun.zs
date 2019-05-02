@@ -40,8 +40,16 @@ class Minigun:MyWeapon{
 			PKCG A 1 A_Lower;
 			loop;
 		fire:
+			TNT1 A 0 {
+				if(CountInv("Clip")==0)return ResolveState("Ready");
+				return ResolveState(null);
+			}
 			goto spin2up;
 		firespin:
+			TNT1 A 0 {
+				if(CountInv("Clip")==0)return ResolveState("Ready");
+				return ResolveState(null);
+			}
 			PKCG A 0 A_Jump(128,"firespin2");
 			PKCG A 0 A_Bob;
 			PKCF A 1 Bright A_FireGun;
@@ -51,61 +59,61 @@ class Minigun:MyWeapon{
 			PKCF B 1 Bright A_FireGun;
 			goto idlespin2;
 		altfire:
+			TNT1 A 0 {
+				if(CountInv("Clip")==0)return ResolveState("Ready");
+				return ResolveState(null);
+			}
 			goto spin2up;
 		idlespin:
 			PKCG A 0 A_Bob;
 			PKCG A 1;
 		idlespin2:
 			PKCG A 0 A_Bob;
-			PKCG B 1;
-			PKCG A 0 A_Bob;
 			PKCG C 1;
-			PKCG A 0 A_Bob;
-			PKCG D 1;
 			PKCG A 0 CheckFire("firespin","idlespin","spin1down");
 			goto ready;
 		spin1up:
-			PKCG A 0 A_Bob;
-			PKCG A 3;
-			PKCG A 0 A_Bob;
-			PKCG B 3;
-			PKCG A 0 A_Bob;
-			PKCG C 2;
-			PKCG A 0 A_Bob;
-			PKCG D 2;
-			PKCG A 0 CheckFire("firespin","idlespin","spin1down");
-		spin1down:
 			PKCG A 0 A_Bob;
 			PKCG A 2;
 			PKCG A 0 A_Bob;
 			PKCG B 2;
 			PKCG A 0 A_Bob;
-			PKCG C 3;
+			PKCG C 1;
 			PKCG A 0 A_Bob;
-			PKCG D 3;
+			PKCG D 1;
+			PKCG A 0 CheckFire("firespin","idlespin","spin1down");
+		spin1down:
+			PKCG A 0 A_Bob;
+			PKCG A 1;
+			PKCG A 0 A_Bob;
+			PKCG B 1;
+			PKCG A 0 A_Bob;
+			PKCG C 2;
+			PKCG A 0 A_Bob;
+			PKCG D 2;
 			PKCG A 0 CheckFire("firespin","idlespin","spin2down");
 		spin2up:
 			PKCG A 0 A_Bob;
-			PKCG A 5;
+			PKCG A 6;
 			PKCG A 0 A_Bob;
 			PKCG B 5;
 			PKCG A 0 A_Bob;
 			PKCG C 4;
 			PKCG A 0 A_Bob;
-			PKCG D 4;
+			PKCG D 3;
 			PKCG A 0 CheckFire("spin1up","spin1up","spin2down");
 		spin2down:
 			PKCG A 0 A_Bob;
-			PKCG A 4;
+			PKCG A 3;
 			PKCG A 0 A_Bob;
 			PKCG B 4;
 			PKCG A 0 A_Bob;
 			PKCG C 5;
 			PKCG A 0 A_Bob;
-			PKCG D 5;
+			PKCG D 6;
 			PKCG A 0 CheckFire("spin2up","spin2up","ready");
 		spawn:
-			DEGT A -1;
+			PKCP A -1;
 			stop;
 	}
 	action State A_FireGun(){
@@ -115,11 +123,11 @@ class Minigun:MyWeapon{
 		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
-		A_FireBullets(2,1,1,invoker.dmg,"BulletPuff");
+		A_FireBullets(8,5,1,invoker.dmg,"BulletPuff");
 		player.refire=refire;
-		A_Recoil(1.5);
+		A_Recoil(0.5);
 		A_AlertMonsters();
-		A_SetPitch(pitch+(random(-10,0)/5),SPF_INTERPOLATE);
+		A_SetPitch(pitch+frandom(-1,0),SPF_INTERPOLATE);
 		A_PlaySound("weapons/gatlingfire");
 		return ResolveState(null);
 	}

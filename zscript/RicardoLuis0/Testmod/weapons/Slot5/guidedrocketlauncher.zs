@@ -43,15 +43,27 @@ class GuidedRocketLauncher:MyWeapon{
 			return ResolveState(null);
 		}
 		DRLF A 0 Bright A_GunFlash;
+		TNT1 A 0 A_Bob();
 		DRLF A 3 Bright MyFire;
-		DRLF BCDE 3;
-		DRLG BC 5;
+		TNT1 A 0 A_Bob();
+		DRLF B 2;
+		TNT1 A 0 A_Bob();
+		DRLF C 2;
+		TNT1 A 0 A_Bob();
+		DRLF D 2;
+		TNT1 A 0 A_Bob();
+		DRLF E 2;
+		TNT1 A 0 A_Bob();
+		DRLG B 4;
+		TNT1 A 0 A_Bob();
+		DRLG C 6;
 		DRLG A 0 A_Refire;
 		Goto Ready;
 	AltFire:
 		DRLG A 3 A_WeaponOffset(5,40,WOF_INTERPOLATE);
 		DRLG A 0{
 			A_PlaySound("DSCLICKY");
+			A_Print(invoker.laserenabled?"Laser Guide Off":"Laser Guide On");
 			invoker.laserenabled=!invoker.laserenabled;
 		}
 		DRLG A 3 A_WeaponOffset(0,32,WOF_INTERPOLATE);

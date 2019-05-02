@@ -27,97 +27,13 @@ class MyPlasmaRifle : MyWeapon {
 		Inventory.PickupMessage "You've got the Plasma Rifle!";
 	}
 
-	override void BeginPlay(){
-		super.BeginPlay();
-		firemode=0;
-		firemodemax=3;
-		fireState=ResolveState("AutoFire");
-		crosshair=20;
-		heat=0;
-		heatmax=500;
-		heatup=10;
-		heatdownreload=20;
-		heatdownoverheat=20;
-		heatdown=1;
-		altuse=10;
-		firing=false;
-		overheat=false;
-		reloading=false;
-		init=false;
-	}
-
-	action void updateFire(){
-		switch(invoker.firemode){
-		default:
-			invoker.firemode=0;
-		case 0://automatic
-			A_Print("Automatic");
-			invoker.heatdownoverheat=20;
-			invoker.heatup=10;
-			invoker.fireState=ResolveState("AutoFire");
-			invoker.ammouse1=1;
-			break;
-		case 1://shotgun
-			A_Print("Shotgun");
-			invoker.heatdownoverheat=20;
-			invoker.heatup=50;
-			invoker.fireState=ResolveState("ShotgunFire");
-			invoker.ammouse1=5;
-			break;
-		case 2://plasma launcher
-			A_Print("Plasma Launcher");
-			invoker.heatup=invoker.heatmax;
-			invoker.heatdownoverheat=10;
-			invoker.fireState=ResolveState("LauncherFire");
-			invoker.ammouse1=15;
-			break;
-		case 3:
-			A_Print("Railgun");
-			invoker.heatup=invoker.heatmax;
-			invoker.heatdownoverheat=30;
-			invoker.fireState=ResolveState("RailFire");
-			invoker.ammouse1=20;
-		}
-	}
-
-	override void ReadyTick(){
-		if(!firing&&heat>0)HeatMinus();
-		if(init)HeatOverlay();
-	}
-
-	action void A_Overheat(){
-		invoker.overheat=true;
-		invoker.heat=invoker.heatmax;
-	}
-
-	void HeatPlus(){
-		heat+=heatup;
-		if(heat>=heatmax){
-			heat=heatmax;
-			overheat=true;
-		}
-	}
-
-	void HeatMinus(){
-		heat-=reloading?(overheat?heatdownoverheat:heatdownreload):heatdown;
-		if(heat<=0){
-			heat=0;
-			overheat=false;
-		}
-	}
-
-	void HeatOverlay(){
-		int overheatamt=7-int(ceil((double(heat)/heatmax)*7));
-		SetLayerFrame(LAYER,overheatamt);
-	}
-
 	States{
 	NoAmmo:
 		DPGG A 0 {
-			A_Bob();
 			invoker.init=false;
 			W_SetLayerFrame(LAYER,0);
 		}
+		TNT1 A 0 A_Bob();
 		DPGG A 10 W_SetLayerSprite(LAYER,"PNAAA");
 		DPGG A 0 {
 			invoker.init=true;
@@ -137,6 +53,7 @@ class MyPlasmaRifle : MyWeapon {
 			A_Overlay(LAYER,"WeaponOverlay");
 			invoker.init=true;
 		}
+	SelectLoop:
 		DPGG A 1 A_Raise();
 		Wait;
 	AltFire:
@@ -200,7 +117,6 @@ class MyPlasmaRifle : MyWeapon {
 		DPGF C 5 Bright;
 		Goto Ready;
 	LauncherFire:
-		DPGG A 0 A_Bob();
 		DPGG A 0{
 			if(invoker.heat!=0){
 				return ResolveState("Reload");
@@ -209,21 +125,33 @@ class MyPlasmaRifle : MyWeapon {
 			}
 			return ResolveState(null);
 		}
-		DPGF AC 5 Bright A_Bob();
+		TNT1 A 0 A_Bob();
+		DPGF A 5 Bright;
+		TNT1 A 0 A_Bob();
+		DPGF C 5 Bright;
 		DPGF C 0 {
 			return CheckFire(null,"Ready");
 		}
-		DPGF AC 5 Bright A_Bob();
+		TNT1 A 0 A_Bob();
+		DPGF A 5 Bright;
+		TNT1 A 0 A_Bob();
+		DPGF C 5 Bright;
 		DPGF C 0 {
 			return CheckFire(null,"Ready");
 		}
-		DPGF AC 5 Bright A_Bob();
+		TNT1 A 0 A_Bob();
+		DPGF A 5 Bright;
+		TNT1 A 0 A_Bob();
+		DPGF C 5 Bright;
 		DPGF C 0 {
 			return CheckFire(null,"Ready");
 		}
 		DPGF B 0 W_SetLayerSprite(LAYER,"PHNB");
 	LauncherFireLoop1:
-		DPGF BD 3 Bright A_Bob();
+		TNT1 A 0 A_Bob();
+		DPGF B 3 Bright;
+		TNT1 A 0 A_Bob();
+		DPGF D 3 Bright;
 		DPGF D 0 {
 			return CheckFire("LauncherFireLoop1","LauncherFireStop",null);
 		}
@@ -323,6 +251,90 @@ class MyPlasmaRifle : MyWeapon {
 		PHOC A 1 Bright;
 		PHOD A 1 Bright;
 		PNAA A 1 Bright;
+	}
+
+	override void BeginPlay(){
+		super.BeginPlay();
+		firemode=0;
+		firemodemax=3;
+		fireState=ResolveState("AutoFire");
+		crosshair=20;
+		heat=0;
+		heatmax=500;
+		heatup=10;
+		heatdownreload=20;
+		heatdownoverheat=20;
+		heatdown=1;
+		altuse=10;
+		firing=false;
+		overheat=false;
+		reloading=false;
+		init=false;
+	}
+
+	action void updateFire(){
+		switch(invoker.firemode){
+		default:
+			invoker.firemode=0;
+		case 0://automatic
+			A_Print("Automatic");
+			invoker.heatdownoverheat=20;
+			invoker.heatup=10;
+			invoker.fireState=ResolveState("AutoFire");
+			invoker.ammouse1=1;
+			break;
+		case 1://shotgun
+			A_Print("Shotgun");
+			invoker.heatdownoverheat=20;
+			invoker.heatup=50;
+			invoker.fireState=ResolveState("ShotgunFire");
+			invoker.ammouse1=5;
+			break;
+		case 2://plasma launcher
+			A_Print("Plasma Launcher");
+			invoker.heatup=invoker.heatmax;
+			invoker.heatdownoverheat=10;
+			invoker.fireState=ResolveState("LauncherFire");
+			invoker.ammouse1=15;
+			break;
+		case 3:
+			A_Print("Railgun");
+			invoker.heatup=invoker.heatmax;
+			invoker.heatdownoverheat=30;
+			invoker.fireState=ResolveState("RailFire");
+			invoker.ammouse1=20;
+		}
+	}
+
+	override void ReadyTick(){
+		if(!firing&&heat>0)HeatMinus();
+		if(init)HeatOverlay();
+	}
+
+	action void A_Overheat(){
+		invoker.overheat=true;
+		invoker.heat=invoker.heatmax;
+	}
+
+	void HeatPlus(){
+		heat+=heatup;
+		if(heat>=heatmax){
+			heat=heatmax;
+			overheat=true;
+		}
+	}
+
+	void HeatMinus(){
+		heat-=reloading?(overheat?heatdownoverheat:heatdownreload):heatdown;
+		if(heat<=0){
+			heat=0;
+			overheat=false;
+		}
+	}
+
+	void HeatOverlay(){
+		int overheatamt=7-int(ceil((double(heat)/heatmax)*7));
+		SetLayerFrame(LAYER,overheatamt);
 	}
 
 	action State A_FireGun(){
