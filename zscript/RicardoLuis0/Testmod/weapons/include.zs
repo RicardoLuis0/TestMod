@@ -4,7 +4,6 @@
 #include "zscript/ricardoluis0/testmod/weapons/slot2/pistol.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot3/pumpshotgun.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot4/assaultrifle.zs"
-#include "zscript/ricardoluis0/testmod/weapons/slot5/remotec4.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot5/gatlingrocket.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot5/guidedrocketlauncher.zs"
 #include "zscript/ricardoluis0/testmod/weapons/projectiles/guidedrocket.zs"

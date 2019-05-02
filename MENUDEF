@@ -1,0 +1,10 @@
+OptionMenu "TestmodOptions"
+{
+	Title "Testmod Options"
+	Slider "Guided Rocket Max Follow Angle","guided_rocket_max_follow_angle",0,360,5
+}
+AddOptionMenu "OptionsMenu"
+{
+	StaticText ""
+    Submenu "Testmod Options","TestmodOptions"
+}

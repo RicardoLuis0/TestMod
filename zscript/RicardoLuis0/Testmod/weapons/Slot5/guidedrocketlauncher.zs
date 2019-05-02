@@ -1,22 +1,28 @@
 class LaserDot:VisTracer{
+	default{
+		
+	}
 	states{
 	Spawn:
-		RDOT A 1 BRIGHT;
+		RDOT A 2 BRIGHT;
 		Stop;
 	}
 }
 class GuidedRocketLauncher:MyWeapon{
 	Default{
 		Weapon.AmmoUse 0;
-		Weapon.AmmoGive 2;
+		Weapon.AmmoGive 5;
 		Weapon.AmmoType "RocketAmmo";
 		Weapon.SlotNumber 5;
 		+WEAPON.NOALERT;
 		Inventory.PickupMessage "Got Laser Guided Rocket Launcher";
 	}
-	override void Tick(){
-		super.Tick();
-		if(owner!=null)MyPlayer(owner).P_LineAttack("LaserDot",0);
+	override void BeginPlay(){
+		super.BeginPlay();
+		crosshair=48;
+	}
+	override void ReadyTick(){
+		MyPlayer(owner).P_LineAttack("LaserDot",0);
 	}
 	States{
 	Ready:

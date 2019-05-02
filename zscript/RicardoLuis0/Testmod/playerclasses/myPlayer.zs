@@ -5,8 +5,8 @@ class VisTracer:BulletPuff{
 		+BLOODLESSIMPACT
 		+DONTSPLASH
 		+NODECAL
-		+NOBLOCKMAP
-		+NOGRAVITY
+		-RANDOMIZE
+		VSpeed 0;
 	}
 	States{
 	Spawn:
@@ -29,9 +29,9 @@ class MyPlayer : PlayerPawn{
 
 		Player.StartItem "MyPistol";
 		Player.StartItem "Fist";
-		
+
 		Player.StartItem "Clip", 36;
-		
+
 		Player.StartItem "MyPistolClip", 12;
 		Player.StartItem "AssaultRifleLoadedAmmo", 20;
 		Player.StartItem "PumpLoaded", 8;
@@ -65,13 +65,22 @@ class MyPlayer : PlayerPawn{
 		super.BeginPlay();
 		initClasses();
 	}
-	
+	override void Tick(){
+		if (!player || !player.mo || player.mo != self){
+			return Super.Tick();
+		}else{
+			Super.Tick();
+			if(player.ReadyWeapon is "MyWeapon"){
+				MyWeapon(player.ReadyWeapon).ReadyTick();
+			}
+		}
+	}
 	void P_LineAttack(String puff,int dmg){
-		LineAttack(angle,4096,pitch,dmg,"None",puff);
+		LineAttack(angle,4096,pitch,dmg,"None",puff,LAF_NORANDOMPUFFZ);
 	}
 
 	Vector3 getLookAtPos(String puff="VisTracer"){//puff recommended to be derived from vistracer
-		BulletPuff p=BulletPuff(LineAttack(angle,4096,pitch,0,"None",puff));
+		BulletPuff p=BulletPuff(LineAttack(angle,4096,pitch,0,"None",puff,LAF_NORANDOMPUFFZ));
 		if(p){
 			Vector3 ret=p.pos;
 			p.destroy();

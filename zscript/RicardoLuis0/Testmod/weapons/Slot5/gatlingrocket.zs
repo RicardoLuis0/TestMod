@@ -7,16 +7,18 @@ class GatlingRocketLauncher : MyWeapon{
 		+WEAPON.NOALERT;
 		Inventory.PickupMessage "Got Gatling Rocket Launcher";
 	}
+	override void BeginPlay(){
+		super.BeginPlay();
+		crosshair=46;
+	}
 	States{
 	Ready:
 		REPG A 1 A_WeaponReady;
 		Loop;
 	Deselect:
-		REPG A 0 OnDeselect;
 		REPG A 1 A_Lower;
 		Loop;
 	Select:
-		REPG A 0 OnSelect(true,46);
 		REPG A 1 A_Raise;
 		Loop;
 	Fire:

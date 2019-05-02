@@ -45,24 +45,17 @@ class BasicThingSpawner:Actor{
 		super.BeginPlay();
 		setDrops();
 		max_weight=arrayMaxWeight();
-		Console.printf(":%d",max_weight);
 	}
 	virtual void setDrops(){}
 	States{
 		Spawn:
 			TNT1 A 0{
-				Console.printf("...");
 				int weight=random(0,max_weight);
-				Console.printf(":%d",weight);
 				BasicThingSpawnerElement toSpawn=getFromWeight(weight);
-				Console.printf("...1");
 				if(toSpawn!=null){
-					Console.printf("...2");
 					if(toSpawn.actor_name!="None"){
-						Console.printf("...3");
 						int i;
 						for(i=0;i<toSpawn.actor_amount;i++){
-							Console.printf("...4");
 							A_SpawnItemEx(toSpawn.actor_name);
 						}
 					}

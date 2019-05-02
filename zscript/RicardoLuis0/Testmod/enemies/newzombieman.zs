@@ -4,7 +4,10 @@ class NewZombieMan : MyEnemy replaces ZombieMan{
 	}
 	override void setDrops(){
 		//drops.Push(new("MyEnemy_Drop_Single").Init("Clip",1,255,5));
-		drops.Push(new("MyEnemy_Drop_Single").Init("AssaultRifle",1,255,5));
+		MyEnemy_Drop_Multi multidrop=new("MyEnemy_Drop_Multi").Init(255);
+		multidrop.Push(new("MyEnemy_Drop_Multi_Component").Init("AssaultRifle",1,1,5));
+		multidrop.Push(new("MyEnemy_Drop_Multi_Component").Init("Clip",1,9,5));
+		drops.Push(multidrop);
 	}
 	Default{
 		Health 20;

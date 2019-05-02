@@ -23,7 +23,8 @@ class MyWeapon:Weapon{
 	action state CheckReload(string ammotype,string magazinetype,int magazinecapacity,
 								statelabel noammo/* ammo is zero */,
 								statelabel magazinefull/* magazine is already full */,
-								statelabel partialreload/*not enough ammo for full reload*/,
+								statelabel partialreload/*magazine is not zero, not enough ammo for full reload*/,
+								statelabel emptypartialreload/*magazine is zero, not enough ammo for full reload*/,
 								statelabel emptyreload /* magazine is zero, enough ammo for full reload */,
 								statelabel fullreload /* magazine is not zero, enough ammo for full reload */)
 	{
@@ -32,9 +33,16 @@ class MyWeapon:Weapon{
 		int magazine=CountInv(magazinetype);
 		if(magazine==magazinecapacity) return ResolveState(magazinefull);
 		int toreload=magazinecapacity-magazine;
-		if(toreload>ammo) return ResolveState(partialreload);
-		if(magazine==0) return ResolveState(emptyreload);
-		return ResolveState(fullreload);
+		if(toreload>ammo) return ResolveState((magazine==0)?emptypartialreload:partialreload);
+		return ResolveState((magazine==0)?emptyreload:fullreload);
+	}
+	action state CheckAmmo(string ammotype,string magazinetype,int magazinecapacity,
+								statelabel noammo/* ammo is zero */,
+								statelabel magazinefull/* magazine is already full */)
+	{
+		if(CountInv(ammotype)==0) return ResolveState(noammo);
+		if(CountInv(magazinetype)==magazinecapacity) return ResolveState(magazinefull);
+		return ResolveState(null);
 	}
 	action state CheckFire(statelabel fire=null,statelabel altFire=null,statelabel noFire=null){
 		int input=GetPlayerInput(INPUT_BUTTONS);
@@ -47,12 +55,13 @@ class MyWeapon:Weapon{
 	}
 	action void OnSelect(bool UseCrosshair,int id=0){
 		if(UseCrosshair){
-			A_SetCrosshair(id);
+			invoker.crosshair=id;
 		}else{
-			A_SetCrosshair(0);
+			invoker.crosshair=0;
 		}
 	}
 	action void OnDeselect(){
-		A_SetCrosshair(0);
+	}
+	virtual void ReadyTick(){
 	}
 }

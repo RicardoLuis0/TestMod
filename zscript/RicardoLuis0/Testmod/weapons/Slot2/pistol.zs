@@ -17,16 +17,18 @@ class MyPistol : MyWeapon{
 		Inventory.Pickupmessage "You've got the Pistol";
 		+WEAPON.AMMO_OPTIONAL;
 	}
+	override void BeginPlay(){
+		super.BeginPlay();
+		crosshair=43;
+	}
 	States{
 	Ready:
 		PISG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 		Loop;
 	Select:
-		PISG A 0 OnSelect(true,43);
 		PISG A 1 A_Raise;
 		Loop;
 	Deselect:
-		PISG A 0 OnDeselect;
 		PISG A 1 A_Lower;
 		Loop;
 	Fire:
@@ -53,6 +55,7 @@ class MyPistol : MyWeapon{
 		PLSP A -1;
 		Stop;
 	Reload:
+		/*
 		PISG A 0 {
 			if(CountInv("Clip")==0||CountInv("MyPistolClip")==13){
 				return ResolveState("Ready");
@@ -61,28 +64,37 @@ class MyPistol : MyWeapon{
 			}
 			return ResolveState(null);
 		}
+		*/
+		PISG A 0 CheckReload("Clip","MyPistolClip",13,"Ready","Ready","ReloadPartial","ReloadPartialEmpty","ReloadEmpty","ReloadFull");
+		Goto Ready;
+	ReloadPartial:
 		PKR2 ABCDEFGHIJKL 3;
 		PKPR PQ 3;
 		PISG A 0 {
-			if(CountInv("Clip")>=(13-CountInv("MyPistolClip"))){
-				A_TakeInventory("Clip",13-CountInv("MyPistolClip"));
-				A_SetInventory("MyPistolClip",13);
-			}else{
-				A_GiveInventory("MyPistolClip",CountInv("Clip"));
-				A_SetInventory("Clip",0);
-			}
+			A_GiveInventory("MyPistolClip",CountInv("Clip"));
+			A_SetInventory("Clip",0);
+		}
+		Goto Ready;
+	ReloadFull:
+		PKR2 ABCDEFGHIJKL 3;
+		PKPR PQ 3;
+		PISG A 0 {
+			A_TakeInventory("Clip",13-CountInv("MyPistolClip"));
+			A_SetInventory("MyPistolClip",13);
+		}
+		Goto Ready;
+	ReloadPartialEmpty:
+		PKPR ABCDEFGHIJKLMNOPQ 3;
+		PISG A 0 {
+			A_SetInventory("MyPistolClip",CountInv("Clip"));
+			A_SetInventory("Clip",0);
 		}
 		Goto Ready;
 	ReloadEmpty:
 		PKPR ABCDEFGHIJKLMNOPQ 3;
 		PISG A 0 {
-			if(CountInv("Clip")>=12){
-				A_TakeInventory("Clip",12);
-				A_SetInventory("MyPistolClip",12);
-			}else{
-				A_SetInventory("MyPistolClip",CountInv("Clip"));
-				A_SetInventory("Clip",0);
-			}
+			A_TakeInventory("Clip",12);
+			A_SetInventory("MyPistolClip",12);
 		}
 		Goto Ready;
 	}

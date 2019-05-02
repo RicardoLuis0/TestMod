@@ -20,37 +20,47 @@ class GuidedRocket:Rocket{
 		super.BeginPlay();
 		alive=true;
 		rotspeed=5;
-		follow_limit=45;
+		CVar follow_limit_cv=CVar.FindCVar("guided_rocket_max_follow_angle");
+		follow_limit=follow_limit_cv.GetFloat();
 	}
 
 	override void Tick(){
+		class<Object> weaponclass="GuidedRocketLauncher";
 		super.Tick();
 		if(alive){
 			MyPlayer p=MyPlayer(GetPointer(AAPTR_TARGET));
 			if(p){
-				Vector3 lpos=p.getLookAtPos();
-				double dx=lpos.x-pos.x;
-				double dy=lpos.y-pos.y;
-				double dz=lpos.z-pos.z;
-				double targetangle=atan2(dy,dx);
-				double targetpitch=-(atan2(sqrt(dx*dx+dy*dy),dz)-90);
-				//angle=targetangle;
-				//pitch=targetpitch;
-				double adiff=anglediff(angle,targetangle);
-				double pdiff=anglediff(pitch,targetpitch);
-				//console.printf("angle:%f,targetangle:%f,pitch:%f,targetpitch:%f,adiff: %f,pdiff: %f",angle,targetangle,pitch,targetpitch,adiff,pdiff);
-				if(abs(adiff)<=follow_limit&&abs(pdiff)<=follow_limit){
-					if(abs(adiff)>rotspeed){
-						angle+=(adiff>0)?rotspeed:-rotspeed;
-					}else{
-						angle+=adiff;
+				if(p.player!=null&&p.player.ReadyWeapon.getClass()==weaponclass){
+					Vector3 lpos=p.getLookAtPos();
+					double dx=lpos.x-pos.x;
+					double dy=lpos.y-pos.y;
+					double dz=lpos.z-pos.z;
+					double targetangle=atan2(dy,dx);
+					double targetpitch=-(atan2(sqrt(dx*dx+dy*dy),dz)-90);
+					//angle=targetangle;
+					//pitch=targetpitch;
+					double adiff=anglediff(angle,targetangle);
+					double pdiff=anglediff(pitch,targetpitch);
+					//console.printf("angle:%f,targetangle:%f,pitch:%f,targetpitch:%f,adiff: %f,pdiff: %f",angle,targetangle,pitch,targetpitch,adiff,pdiff);
+					if(abs(adiff)<=follow_limit&&abs(pdiff)<=follow_limit){
+						if(abs(adiff)>rotspeed){
+							angle+=(adiff>0)?rotspeed:-rotspeed;
+						}else{
+							angle+=adiff;
+						}
+						if(abs(pdiff)>rotspeed){
+							pitch+=(pdiff>0)?rotspeed:-rotspeed;
+						}else{
+							pitch+=pdiff;
+						}
+						recalculateVelocity(20);
 					}
-					if(abs(pdiff)>rotspeed){
-						pitch+=(pdiff>0)?rotspeed:-rotspeed;
+				}else{
+					if(p.player==null){
+						console.printf("player is null");
 					}else{
-						pitch+=pdiff;
+						console.printf("player weapon class: "..p.player.ReadyWeapon.getClass());
 					}
-					recalculateVelocity(20);
 				}
 			}
 		}

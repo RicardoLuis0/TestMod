@@ -1,4 +1,4 @@
-class C4_Weap:MyWeapon{
+class C4_Weap:Weapon{
 	Default{
 		Weapon.SlotNumber 5;
 		+WEAPON.NOALERT;

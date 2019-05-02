@@ -6,7 +6,7 @@ class AssaultRifleLoadedAmmo : Ammo {
 }
 
 class AssaultRifle : MyWeapon {
-	bool ready;
+	bool loaded;
 	Default{
 		Weapon.SlotNumber 4;
 		Weapon.AmmoType1 "AssaultRifleLoadedAmmo";
@@ -18,16 +18,19 @@ class AssaultRifle : MyWeapon {
 		+WEAPON.ALT_AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Assault Rifle";
 	}
+	override void BeginPlay(){
+		super.BeginPlay();
+		crosshair=35;
+		loaded=true;
+	}
 	States{
 		ready:
 			CHGG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
 		select:
-			CHGG A 0 OnSelect(true,35);
 			CHGG A 1 A_Raise;
 			loop;
 		deselect:
-			CHGG A 0 OnDeselect;
 			CHGG A 1 A_Lower;
 			loop;
 		fire:
@@ -57,7 +60,7 @@ class AssaultRifle : MyWeapon {
 			CGCK C 10;
 			CGCK B 5;
 			CGCK A 0{
-				invoker.ready=true;
+				invoker.loaded=true;
 			}
 			
 			CHGG A 0 P_Return;
@@ -68,10 +71,6 @@ class AssaultRifle : MyWeapon {
 		spawn:
 			MGUN A -1;
 			stop;
-	}
-	override void BeginPlay(){
-		Super.BeginPlay();
-		ready=true;
 	}
 	const spread_max=10;
 	const spread_x=5;
@@ -87,8 +86,6 @@ class AssaultRifle : MyWeapon {
 			}else{
 				ftimes=1;
 			}
-			A_Log("ft:"..ftimes);
-			A_Log("sx:"..spread_x/ftimes);
 			return spread_x/ftimes;
 		}
 	}
@@ -109,12 +106,11 @@ class AssaultRifle : MyWeapon {
 				return ResolveState("reload");
 			}
 		}
-		if(!invoker.ready){
+		if(!invoker.loaded){
 			return P_Call("bolt","ready");
 		}
 		A_AlertMonsters();
 		//A_FireBullets(10,4,1,7,"BulletPuff");
-		A_Log("player.refire="..player.refire);
 		A_FireBullets(invoker.getSpreadX(player.refire),invoker.getSpreadY(player.refire),1,8,"BulletPuff");
 		A_PlaySound("weapons/gatlingfire");
 		A_SetPitch(pitch+(random(-10,0)/5));
@@ -132,7 +128,7 @@ class AssaultRifle : MyWeapon {
 		int cur = CountInv("AssaultRifleLoadedAmmo");
 		int reserve = CountInv("Clip");
 		if(cur==0){
-			invoker.ready=false;
+			invoker.loaded=false;
 			if(reserve>20){
 				A_SetInventory("AssaultRifleLoadedAmmo",20);
 				A_SetInventory("Clip",reserve-20);
@@ -152,7 +148,7 @@ class AssaultRifle : MyWeapon {
 		}
 	}
 	action State A_PostReloadGun(){
-		if(!invoker.ready){
+		if(!invoker.loaded){
 			return P_Call("bolt","ready");
 		}
 		return ResolveState("ready");
