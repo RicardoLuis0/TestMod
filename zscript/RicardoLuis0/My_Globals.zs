@@ -1,9 +1,8 @@
 class My_Globals:Thinker{
-	TID_Handler tid_handler;
 	My_Globals Init(){
 		Console.Printf("MyGlobals init");
 		ChangeStatNum(STAT_STATIC);
-		tid_handler = new("TID_Handler").Init();
+		//inits
 		return self;
 	}
 	static My_Globals Get(){

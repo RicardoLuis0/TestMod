@@ -6,7 +6,7 @@ class myMarine:myPlayer{
 		allowed_spawn_classes.Push("Heavy");
 		allowed_spawn_classes.Push("Explosives");
 	}
-	virtual bool allowMana(){
+	override bool allowMana(){
 		return false;
 	}
 	Default{
@@ -27,7 +27,7 @@ class myMarine:myPlayer{
 		Player.StartItem "ManaCapacity",100;
 		Player.StartItem "ManaRegenAmt",1;
 		*/
-		Player.StartItem "Clip", 90;*/
+		Player.StartItem "Clip", 90;
 		//Player.StartItem "AKAMMO",31;
 		
 		Player.WeaponSlot 1, "Fist","Chainsaw";

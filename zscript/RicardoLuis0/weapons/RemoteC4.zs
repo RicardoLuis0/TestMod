@@ -15,19 +15,27 @@ class C4_Weap:Weapon{
 		Loop;
 	Fire:
 		PISG A 4;
-		PISG B 6 A_ThrowGrenade("C4_World",20,8,4);
+		PISG A 0 {
+			int input=GetPlayerInput(INPUT_BUTTONS);
+			if(input&BT_CROUCH){
+				return ResolveState("ThrowSlow");
+			}
+			return ResolveState(null);
+		}
+		PISG B 6 A_ThrowGrenade("C4_World",8,20,4);
+		Goto ThrowEnd;
+	ThrowSlow:
+		PISG B 6 A_ThrowGrenade("C4_World",8,8,4);
+	ThrowEnd:
 		PISG C 4;
 		PISG B 5 A_ReFire;
 		Goto Ready;
 	AltFire:
 		PISG A 1{
-			let Tracker=My_Globals.get();
-			if(Tracker){
-				int TID=Tracker.tid_handler.getTID("C4_World");
-				Console.printf("Destroy: "..TID);
-				Thing_Destroy(TID);
+			ThinkerIterator it = ThinkerIterator.Create("C4_World");
+			for(C4_World p=C4_World(it.Next());p!=null;p=C4_World(it.Next())){
+				p.destroyself();
 			}
-			//Thing_Destroy(TID_Handler.getTIDstatic("C4_World"));
 		}
 		Goto Ready;
 	Flash:
@@ -42,26 +50,42 @@ class C4_Weap:Weapon{
 }
 
 class C4_World:Actor{
-	bool a;
+	bool exploded;
 	Default{
 		Radius 8;
 		Height 8;
-		Speed 25;
+		Speed 0;
 		Damage 0;
 		Projectile;
 		-NOGRAVITY
-		-MISSILE
+		-NOLIFTDROP
+		//-SOLID
+		//+NOEXPLODEFLOOR
 		+DEHEXPLOSION
+		//+BOUNCEONACTORS
+		BounceType "Doom";
 	}
 	override void BeginPlay(){
 		Super.BeginPlay();
-		a=true;
+		exploded=false;
 	}
 	States{
 	Spawn:
-		SGRN A 1 Bright A_C4_World_Set_TID;
+		SGRN A 1;
 		Loop;
 	Death:
+		TNT1 A 0{
+			A_ChangeVelocity(0,0,0,CVF_REPLACE);
+		}
+	DeathLoop:
+		SGRN A 1;
+		Loop;
+	Explode:
+		TNT1 A 0 {
+			bNOGRAVITY=true;
+			A_ChangeVelocity(0,0,0,CVF_REPLACE);
+			exploded=true;
+		}
 		MISL B 8 Bright A_Explode;
 		MISL C 6 Bright;
 		MISL D 4 Bright;
@@ -80,17 +104,7 @@ class C4_World:Actor{
 		Goto Death+1;
 	*/
 	}
-	action void A_C4_World_Set_TID(){
-		if(invoker.a){
-			int TID;
-			let Tracker=My_Globals.get();
-			if(Tracker){
-				TID=Tracker.tid_handler.getTID("C4_World");
-			}
-			//TID=TID_Handler.getTIDstatic("C4_World");
-			Console.printf("TID GOT: "..TID);
-			Thing_ChangeTID(0,TID);
-			invoker.a=false;
-		}
+	virtual void destroyself(){
+		if(!exploded) SetState(ResolveState("Explode"));
 	}
 }

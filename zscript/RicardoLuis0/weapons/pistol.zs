@@ -29,7 +29,11 @@ class MyPistol : Weapon replaces pistol{
 	Fire:
 		0PIF A 0 {
 			if(CountInv("MyPistolClip")==0){
-				return ResolveState("Ready");
+				if(CountInv("Clip")==0){
+					return ResolveState("Ready");
+				}else{
+					return ResolveState("Reload");
+				}
 			}
 			return ResolveState(null);
 		}
