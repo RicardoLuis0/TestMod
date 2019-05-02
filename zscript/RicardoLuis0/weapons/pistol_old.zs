@@ -1,15 +1,5 @@
-/*
-class PistolAmmo : Ammo {
+class ManaBall : Actor{
 	Default{
-		Inventory.MaxAmount 12;
-	}
-}
-*/
-
-class ManaBall : Actor
-{
-	Default
-	{
 		Radius 13;
 		Height 8;
 		Speed 40;
@@ -22,8 +12,7 @@ class ManaBall : Actor
 		//SeeSound "weapons/plasmaf";
 		DeathSound "weapons/plasmax";
 	}
-	States
-	{
+	States{
 	Spawn:
 		PLSS AB 6 Bright;
 		Loop;

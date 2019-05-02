@@ -32,6 +32,7 @@ class Mana : Ammo {
 		}else if(allow){
 			if(p.pCountInv("ManaCapacity")!=MaxAmount){
 				MaxAmount=p.pCountInv("ManaCapacity");
+				p.pSetInventory("Mana",MaxAmount);
 			}
 		}
 	}

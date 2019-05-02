@@ -85,7 +85,7 @@ class MCrossBow:Weapon replaces PlasmaRifle{
 		A_Recoil(2.0);
 		A_PlaySound("weapons/cryobowshot");
 		A_PlaySound("weapons/cryobowfire", CHAN_WEAPON);
-		A_FireCustomMissile("ManaCrossbowShotWeak",0,1);
+		A_FireProjectile("ManaCrossbowShotWeak",0,1);
 	}
 	action void A_FireStrong(){
 		A_GunFlash();
@@ -93,49 +93,9 @@ class MCrossBow:Weapon replaces PlasmaRifle{
 		A_Recoil(8.0);
 		A_PlaySound("weapons/cryobowshot");
 		A_PlaySound("weapons/cryobowfire", CHAN_WEAPON);
-		A_FireCustomMissile("ManaCrossbowShotStrong",0,1);
+		A_FireProjectile("ManaCrossbowShotStrong",0,1);
 	}
 }
-/*
-class CryoShot : FastProjectile{
-	Default{
-		Radius 4;
-		Height 8;
-		Speed 100;
-		Damage 6;
-		Projectile;
-		RenderStyle "Add";
-		Alpha 0.9;
-		+EXTREMEDEATH;
-		+RIPPER;
-		DeathSound "weapons/cryobowhit";
-		MissileType "CryoTrail";
-		MissileHeight 8;
-		Decal "PlasmaScorchLower";
-	}
-	States{
-	Spawn:
-		BSHT A 0 Bright;
-		BSHT A 0 Bright A_PlaySound("weapons/cryobowflyby", CHAN_BODY, 1.0, 1);
-		BSHT A 1 Bright;
-		Loop;
-	}
-}
-class CryoTrail:actor{
-	Default{
-		+NOINTERACTION;
-		Radius 4;
-		Height 8;
-		Renderstyle "Add";
-		Alpha 0.5;
-	}
-	States{
-	Spawn:
-		BSHT AABBCDEFG 1 Bright;
-		Stop;
-	}
-}
-*/
 class ManaCrossbowShotWeak:FastProjectile{
 	Default{
 		Radius 4;

@@ -1,6 +1,10 @@
 AKFIRE "AK47FIR"
+AKRELOAD1 "sounds/ak_clip_1.mp3"
+AKRELOAD2 "sounds/ak_clip_2.mp3"
+AKRELOAD3 "sounds/ak_bolt.mp3"
 SHOTFIRE "sounds/shotgunfire.wav"
 SHOTPUMP "sounds/shotgunpump.wav"
+TUBERELOAD "sounds/tube_reloadv2.wav"
 weapons/cryobowfire     DSBOWFIR
 weapons/cryobowshot     DSBOWSHT
 weapons/cryobowreload   DSBOWREL

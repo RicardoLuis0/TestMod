@@ -1,26 +1,115 @@
-class MyPlayer : PlayerPawn
-{
-	int manatickcount,manatickdelay;
-	Default
-	{
+class VisTracer:BulletPuff{
+	Default{
+		+ALWAYSPUFF
+		+PUFFONACTORS
+	}
+	override void BeginPlay(){
+		super.BeginPlay();
+		console.printf("VisTracer Spawn");
+	}
+	/*
+	States{
+	Spawn:
+		TNT1 A 0;
+	Melee:
+		TNT1 A 0;
+		Stop;
+	}*/
+}
+
+class BVector{
+	bool valid;
+	//int x,y,z;
+	Vector3 v;
+	virtual BVector Init(Vector3 nv,bool nb=true){
+		v=nv;
+		valid=nb;
+		return self;
+	}
+}
+
+class MyPlayer : PlayerPawn{
+	int ipow(int a,int e){
+		int r=1;
+		for(;e>0;e--){
+			r*=a;
+		}
+		return r;
+	}
+
+	Array<string> allowed_spawn_classes;
+	override void BeginPlay(){
+		super.BeginPlay();
+		initClasses();
+	}
+
+	Vector3 getLookAtPos(){
+		LineAttack(angle,4096,pitch,0,"None","VisTracer");
+		ThinkerIterator it = ThinkerIterator.Create("VisTracer");
+		VisTracer p=VisTracer(it.Next());
+		if(p){
+			Vector3 ret=p.pos;
+			p.destroy();
+			return ret;
+		}
+		console.printf("Cast Fail");
+		return pos;
+	}
+
+	virtual void initClasses(){
+		allowed_spawn_classes.Push("All");
+	}
+
+	virtual int getClassCount(){
+		return allowed_spawn_classes.Size();
+	}
+
+	virtual string getClassAtIndex(int index){
+		return allowed_spawn_classes[index];
+	}
+
+	virtual bool allowMana(){
+		return true;
+	}
+
+	virtual void pGiveInventory(String str,int amt){
+		A_GiveInventory(str,amt);
+	}
+
+	virtual void pTakeInventory(String str,int amt){
+		A_TakeInventory(str,amt);
+	}
+
+	virtual void pSetInventory(String str,int amt){
+		A_SetInventory(str,amt);
+	}
+
+	virtual int pCountInv(String str){
+		return CountInv(str);
+	}
+
+	virtual int pFindUniqueTid(){
+		return FindUniqueTid();
+	}
+
+	Default{
 		Speed 1;
 		Health 100;
 		Radius 16;
 		Height 56;
 		Mass 100;
 		PainChance 255;
-		Player.DisplayName "Marine";
+		Player.DisplayName "...";
 		Player.CrouchSprite "PLYC";
 		
 		Player.StartItem "MPistol";
-		Player.StartItem "AK";
+		Player.StartItem "Pistol";
 		Player.StartItem "Fist";
 		Player.StartItem "ManaRegenHandler";
 		Player.StartItem "ManaCapacity",100;
 		Player.StartItem "ManaRegenAmt",1;
-		Player.StartItem "Mana",100;
 		Player.StartItem "Clip", 90;
-		Player.StartItem "AKAMMO",31;
+		//Player.StartItem "AKAMMO",31;
 		
 		Player.WeaponSlot 1, "Fist","Chainsaw";
 		Player.WeaponSlot 2, "Pistol";
@@ -42,8 +131,7 @@ class MyPlayer : PlayerPawn
 		Player.Colorset 7, "Light Blue",	0xC0, 0xCF,  0xC2;
 	}
 
-	States
-	{
+	States{
 	Spawn:
 		PLAY A -1;
 		Loop;
@@ -93,14 +181,5 @@ class MyPlayer : PlayerPawn
 		PLAY STUVWX 5;
 		PLAY Y -1;
 		Stop;
-	}
-	virtual void pGiveInventory(String str,int amt){
-		A_GiveInventory(str,amt);
-	}
-	virtual int pCountInv(String str){
-		return CountInv(str);
-	}
-	virtual bool allowMana(){
-		return true;
 	}
 }
