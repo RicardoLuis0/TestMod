@@ -180,7 +180,7 @@ class PumpShotgun : MyWeapon {
 		A_AlertMonsters();
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
-		W_FireBullets(3,3,invoker.pellets,invoker.dmg,"BulletPuff");
+		W_FireBullets(2,2,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_SetPitch(pitch+frandom(-5,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-2,2),SPF_INTERPOLATE);
 		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO,0.5);

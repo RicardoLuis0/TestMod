@@ -1,6 +1,8 @@
 GameInfo {
-   PlayerClasses = "RifleStartTestModPlayer","TestModPlayer","ShotgunStartTestModPlayer","SSGStartTestModPlayer"
+   PlayerClasses = "TestModPlayer","RifleStartTestModPlayer","ShotgunStartTestModPlayer","MinigunStartTestModPlayer","GatlingGunStartTestModPlayer","SSGStartTestModPlayer"
+   AddEventHandlers = "ClientCVarUpdater"
 }
+
 DoomEdNums{
 	15000=MyPistol
 	15001=PumpShotgun

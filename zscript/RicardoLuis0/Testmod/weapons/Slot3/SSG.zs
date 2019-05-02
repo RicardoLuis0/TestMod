@@ -83,7 +83,7 @@ class SSG : MyWeapon {
 			DSSF C 2;
 			DSSF J 2;
 			DSGG A 0 {
-				if(CVar.GetCVar("ssg_autoreload",player).getInt()!=0){
+				if(CVar.GetCVar("cl_ssg_autoreload",player).getInt()!=0){
 					return ResolveState("Reload");
 				}
 				return ResolveState(null);
@@ -103,7 +103,7 @@ class SSG : MyWeapon {
 				}
 			}
 			DSGG A 0 {
-				if(CVar.GetCVar("ssg_autoreload",player).getInt()!=0){
+				if(CVar.GetCVar("cl_ssg_autoreload",player).getInt()!=0){
 					return ResolveState("Reload");
 				}
 				return ResolveState(null);
@@ -116,7 +116,7 @@ class SSG : MyWeapon {
 			DSSF I 2;
 			DSSF J 2;
 			DSGG A 0 {
-				if(CVar.GetCVar("ssg_autoreload",player).getInt()!=0){
+				if(CVar.GetCVar("cl_ssg_autoreload",player).getInt()!=0){
 					return ResolveState("Reload");
 				}
 				return ResolveState(null);

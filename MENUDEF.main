@@ -1,0 +1,15 @@
+OptionValue "DamageModes" {
+	0, "Doom"
+	1, "Full Random"
+	2, "None"
+}
+
+OptionMenu "TestmodOptionsMenu" {
+	Title "Testmod Options"
+	Submenu "Use to Pickup","TestmodOptionsMenuUseToPickup"
+	Submenu "Weapon Inertia","TestmodOptionsMenuWeaponInertia"
+	Submenu "Configure Server CVars","TestmodOptionsMenuServerCVars"
+	Submenu "Configure User CVars","TestmodOptionsMenuUserCVars"
+	Command "Update All Settings (Ingame)","netevent player_UpdateCVars"
+}
+

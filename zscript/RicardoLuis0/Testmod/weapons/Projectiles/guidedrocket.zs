@@ -31,8 +31,6 @@ class GuidedRocket:MyRocket{
 		super.BeginPlay();
 		alive=true;
 		rotspeed=5;
-		CVar follow_limit_cv=CVar.FindCVar("guided_rocket_max_follow_angle");
-		follow_limit=follow_limit_cv.GetFloat();
 	}
 
 	override void Tick(){
@@ -49,7 +47,7 @@ class GuidedRocket:MyRocket{
 					double targetpitch=-(atan2(sqrt(dy*dy+dx*dx),dz)-90);
 					double adiff=DeltaAngle(angle,targetangle);
 					double pdiff=DeltaAngle(pitch,targetpitch);
-					if(abs(adiff)<=follow_limit&&abs(pdiff)<=follow_limit){
+					if(abs(adiff)<=sv_guided_rocket_max_follow_angle&&abs(pdiff)<=sv_guided_rocket_max_follow_angle){
 						if(abs(adiff)>rotspeed){
 							angle+=(adiff>0)?rotspeed:-rotspeed;
 						}else{

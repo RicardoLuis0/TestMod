@@ -48,7 +48,7 @@ class PistolSpawner:Slot2Spawner replaces Pistol{
 class ShotgunSpawner:BasicThingSpawner replaces Shotgun{
 	override void setDrops(){
 		spawnlist.Push(new("BasicThingSpawnerElement").Init("PumpShotgun",1,3));
-		if(CVar.FindCVar("ssg_from_shotgun").GetInt())spawnlist.Push(new("BasicThingSpawnerElement").Init("SSG",1,1));
+		if(sv_ssg_from_shotgun)spawnlist.Push(new("BasicThingSpawnerElement").Init("SSG",1,1));
 	}
 }
 
@@ -68,7 +68,7 @@ class ChaingunSpawner:BasicThingSpawner replaces Chaingun{
 class RocketLauncherSpawner:BasicThingSpawner replaces RocketLauncher{
 	override void setDrops(){
 		spawnlist.Push(new("BasicThingSpawnerElement").Init("GuidedRocketLauncher",1,2));
-		if(CVar.FindCVar("gatling_rocket_launcher").GetInt())spawnlist.Push(new("BasicThingSpawnerElement").Init("GatlingRocketLauncher",1,1));
+		if(sv_gatling_rocket_launcher)spawnlist.Push(new("BasicThingSpawnerElement").Init("GatlingRocketLauncher",1,1));
 	}
 }
 

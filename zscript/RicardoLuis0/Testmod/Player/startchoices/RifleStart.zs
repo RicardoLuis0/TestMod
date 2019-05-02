@@ -1,6 +1,6 @@
 class RifleStartTestModPlayer:TestModPlayer{
 	Default{
-		Player.DisplayName "Rifle Start (Easier)";
+		Player.DisplayName "Rifle Start (Default)";
 
 		Player.StartItem "AssaultRifle";
 		Player.StartItem "MyPistol";

@@ -1,11 +1,10 @@
-class SSGStartTestModPlayer:TestModPlayer{
+class MinigunStartTestModPlayer:TestModPlayer{
 	Default{
-		Player.DisplayName "SSG Start (Serisouly?)";
+		Player.DisplayName "Minigun Start (Much Easier)";
 
-		Player.StartItem "SSG";
+		Player.StartItem "Minigun";
 		Player.StartItem "MyPistol";
-		Player.StartItem "Clip", 51;//3 pistol clips
-		Player.StartItem "Shell",24;//3 shotgun clips
+		Player.StartItem "Clip", 200;//max ammo
 		Player.StartItem "MyPistolClip", 18;//17+1
 		Player.StartItem "AssaultRifleLoadedAmmo", 20;
 		Player.StartItem "PumpLoaded", 8;

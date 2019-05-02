@@ -27,8 +27,9 @@ class TestModPlayer : PlayerPawn{
 		Height 56;
 		Mass 100;
 		PainChance 255;
-		+THRUSPECIES;
-		Species "ThruPlayer";
+
+		//+THRUSPECIES;
+		//Species "ThruPlayer";
 
 		Player.DisplayName "Pistol Start (Harder)";
 		Player.CrouchSprite "PLYC";
@@ -80,6 +81,7 @@ class TestModPlayer : PlayerPawn{
 		}
 		viewbob=viewbob*(((forwardmove1/fmove1temp)+(sidemove1/smove1temp))/2);
 	}
+
 	void RevertMove(){
 		if(movemod){
 			movemod=false;
@@ -115,15 +117,15 @@ class TestModPlayer : PlayerPawn{
 		return r;
 	}
 
-	Array<string> allowed_spawn_classes;
-
 	override void BeginPlay(){
 		super.BeginPlay();
-		initSway();
-		initClasses();
+		console.printf(":"..(1/2.0));
 		pickup_distance=150;
 	}
-
+	override void PostBeginPlay(){
+		super.PostBeginPlay();
+		initInertia();
+	}
 	Actor inv_lasthit;
 	bool inv_lastbright;
 	bool inv_hold;
@@ -172,8 +174,8 @@ class TestModPlayer : PlayerPawn{
 			if(player.ReadyWeapon is "MyWeapon"){
 				MyWeapon(player.ReadyWeapon).ReadyTick();
 			}
-			if(CVar.FindCVar("use_to_pickup").GetInt()){
-				if(CVar.FindCVar("auto_pickup").GetInt()){
+			if(sv_use_to_pickup){
+				if(sv_auto_pickup){
 					bPickup=true;
 				}else{
 					bPickup=false;
@@ -207,7 +209,7 @@ class TestModPlayer : PlayerPawn{
 						inv_lasthit=null;
 					}
 				}
-				inv_hold=(inv_use)?!CVar.FindCVar("hold_to_pickup").GetInt():false;
+				inv_hold=(inv_use)?!sv_hold_to_pickup:false;
 			}else{
 				bPickup=true;
 				if(inv_lasthit){
@@ -241,8 +243,8 @@ class TestModPlayer : PlayerPawn{
 		return pos;
 	}
 
-	virtual void initClasses(){
-		allowed_spawn_classes.Push("All");
+	void player_UpdateCVars(){
+		weaponinertia_UpdateCVars();
 	}
 
 	States{

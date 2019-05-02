@@ -61,7 +61,7 @@ class MyPlasmaRifle : MyWeapon {
 		Wait;
 	AltFire:
 		DPGG A 0 {
-			if(!CVar.FindCVar("plasmagun_extrafire").getInt()){
+			if(!sv_plasmagun_extrafire){
 				if(invoker.firemode!=0){
 					invoker.firemode=0;
 					updateFire(false);
@@ -89,7 +89,7 @@ class MyPlasmaRifle : MyWeapon {
 		}
 	Fire:
 		DPGG A 0 {
-			if(invoker.firemode!=0&&!CVar.FindCVar("plasmagun_extrafire").getInt())return ResolveState("ResetFire");
+			if(invoker.firemode!=0&&!sv_plasmagun_extrafire)return ResolveState("ResetFire");
 			return invoker.fireState;
 		}
 		Goto Ready;
@@ -422,7 +422,7 @@ class MyPlasmaRifle : MyWeapon {
 		if(invoker.overheat){
 			return ResolveState("OverheatStart");
 		}else{
-			if(CVar.GetCVar("plasma_rifle_classic_mode",player).getInt()!=0){
+			if(CVar.GetCVar("cl_plasma_rifle_classic_mode",player).getInt()!=0){
 				return ResolveState("Reload");
 			}
 			return ResolveState("Ready");

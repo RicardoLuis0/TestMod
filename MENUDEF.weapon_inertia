@@ -1,0 +1,39 @@
+OptionMenu "TestmodOptionsMenuWeaponInertia"{
+	Title "Weapon Inertia"
+	Option "Move Impulse","cl_weaponinertia_move_impulse","OnOff"
+	StaticText "Wether to take movement into account for Inertia","DarkRed"
+	StaticText ""
+	Option "Add Default Bob","cl_weaponinertia_old_movebob","OnOff"
+	StaticText "Wether to animate default movement bob on top of Inertia","DarkRed"
+	StaticText ""
+	Option "Invert X Look","cl_weaponinertia_invert_x_look","OnOff"
+	StaticText "X direction inverted for Look Inertia","DarkRed"
+	StaticText ""
+	Option "Invert Y Look","cl_weaponinertia_invert_y_look","OnOff"
+	StaticText "Y direction inverted for Look Inertia","DarkRed"
+	StaticText ""
+	Option "Move Forwards/Backwards Bidirectional","cl_weaponinertia_move_forward_back_bidirectional","OnOff"
+	StaticText "By Default, weapon moves down wether forwards or backwards","DarkRed"
+	StaticText "With this enabled, When going backwards, move weapon up","DarkRed"
+	StaticText "When going forwards, move weapon down","DarkRed"
+	StaticText ""
+	Slider "Weapon Look Inertia Scale","cl_weaponinertia_scale",0,5,.05
+	StaticText "Intensity of Look Inertia","DarkRed"
+	StaticText ""
+	Slider "Weapon Move Inertia X Scale","cl_weaponinertia_movescale_x",-5,5,.05
+	StaticText "Intensity of Move Inertia in the X direction","DarkRed"
+	StaticText ""
+	Slider "Weapon Move Inertia Y Scale","cl_weaponinertia_movescale_y",-5,5,.05
+	StaticText "Intensity of Move Inertia in the Y direction","DarkRed"
+	StaticText ""
+	Slider "Camera Bob Amount","cl_weaponinertia_zbob_amount",-5,5,0.05
+	StaticText "How much camera bob affects inertia","DarkRed"
+	StaticText ""
+	Slider "Y Offset","cl_weaponinertia_movescale_y",-25,25,1
+	StaticText "Y Offset for the weapon by default","DarkRed"
+	StaticText ""
+	Slider "Min Y Position","cl_weaponinertia_movescale_y",-25,25,1
+	StaticText "Minimum Y position for weapon","DarkRed"
+	StaticText ""
+	Command "Update All Settings (Ingame)","netevent weaponinertia_UpdateCVars"
+}

@@ -1,2 +1,0 @@
-class MyEnemy:Actor{
-}

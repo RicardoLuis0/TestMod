@@ -32,7 +32,7 @@ class MyWeapon:Weapon{
 		if(flags&FBF_NORANDOM){
 			A_FireBullets(spread_horiz,spread_vert,count,dmg,puff,flags,range,missile,vert_offset,horiz_offset);
 		}else{
-			switch(CVar.FindCVAR("random_damage_mode").GetInt()){
+			switch(sv_random_damage_mode){
 			default:
 			case 0://doom type random
 				A_FireBullets(spread_horiz,spread_vert,count,dmg,puff,flags,range,missile,vert_offset,horiz_offset);
@@ -124,6 +124,16 @@ class MyWeapon:Weapon{
 		if(CountInv(ammotype)==0) return ResolveState(noammo);
 		if(CountInv(magazinetype)==magazinecapacity) return ResolveState(magazinefull);
 		return ResolveState(null);
+	}
+
+	action int iCheckFire(){
+		int input=GetPlayerInput(INPUT_BUTTONS);
+		if(input&BT_ATTACK){
+			return 2;
+		}else if(input&BT_ALTATTACK){
+			return 1;
+		}
+		return 0;
 	}
 
 	action state CheckFire(statelabel fire=null,statelabel altFire=null,statelabel noFire=null){

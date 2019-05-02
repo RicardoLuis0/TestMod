@@ -1,6 +1,6 @@
 class ShotgunStartTestModPlayer:TestModPlayer{
 	Default{
-		Player.DisplayName "Shotgun Start (What?)";
+		Player.DisplayName "Shotgun Start (Easier)";
 
 		Player.StartItem "PumpShotgun";
 		Player.StartItem "MyPistol";
