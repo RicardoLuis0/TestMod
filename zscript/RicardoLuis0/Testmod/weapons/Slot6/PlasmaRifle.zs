@@ -30,7 +30,7 @@ class MyPlasmaRifle : MyWeapon {
 		heatup=20;
 		heatdown=1;
 		heatdownreload=20;
-		altuse=15;
+		altuse=10;
 		firing=false;
 		overheat=false;
 		overheat_prev=false;
@@ -98,9 +98,17 @@ class MyPlasmaRifle : MyWeapon {
 		DPGG A 3 A_MyRefire();
 		DPGG A 0 A_FireEnd();
 		Goto Ready;
+	AltStop:
+		DPGF AC 5 Bright;
+		DPGF C 0 {
+			return CheckAFire("AltLoop1","Ready");
+		}
+		Goto Ready;
 	AltFire:
 		DPGG A 0{
-			if(invoker.heat!=0||CountInv("Cell")<invoker.altuse){
+			if(invoker.heat!=0){
+				return ResolveState("Reload");
+			}else if(CountInv("Cell")<invoker.altuse){
 				return ResolveState("Ready");
 			}
 			return ResolveState(null);
@@ -117,42 +125,17 @@ class MyPlasmaRifle : MyWeapon {
 		DPGF C 0 {
 			return CheckAFire(null,"Ready");
 		}
-		DPGF AC 5 Bright;
-		DPGF C 0 {
-			return CheckAFire(null,"Ready");
-		}
-		DPGF AC 5 Bright;
-		DPGF C 0 {
-			return CheckAFire(null,"Ready");
-		}
-		DPGF A 0{
-			W_SetLayerSprite(LAYER,"PHNB");
-		}
-		DPGF BD 5 Bright;
+	AltLoop1:
+		DPGF BD 3 Bright;
 		DPGF D 0 {
-			return CheckAFire(null,"Ready");
-		}
-		DPGF BD 5 Bright;
-		DPGF D 0 {
-			return CheckAFire(null,"Ready");
-		}
-		DPGF BD 5 Bright;
-		DPGF D 0 {
-			return CheckAFire(null,"Ready");
-		}
-		DPGF BD 5 Bright;
-		DPGF D 0 {
-			return CheckAFire(null,"Ready");
-		}
-		DPGF BD 5 Bright;
-		DPGF D 0 {
-			return CheckAFire(null,"Ready");
+			return CheckFire(null,"AltLoop1","AltStop");
 		}
 		DPGF C 0 {
 			A_SetBlend("LightSlateBlue",1,5);
 			invoker.firing=true;
 			A_AlertMonsters();
 			TakeInventory("Cell",invoker.altuse);
+			A_Recoil(10);
 			A_FireProjectile("SuperPlasmaBall",0,false);
 			A_Overheat();
 			W_SetLayerSprite(LAYER,"PHOC");
@@ -162,7 +145,7 @@ class MyPlasmaRifle : MyWeapon {
 			A_SetBlend("AliceBlue",.5,10);
 			invoker.altloop=20;
 		}
-	AltLoop:
+	AltLoop2:
 		DPGG C 1 {
 			A_WeaponOffset(0,32+invoker.altloop,WOF_INTERPOLATE);
 			if(invoker.altloop==0){

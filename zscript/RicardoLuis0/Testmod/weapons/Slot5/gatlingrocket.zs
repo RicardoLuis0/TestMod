@@ -129,7 +129,7 @@ class GatlingRocketLauncher : MyWeapon{
 		Stop;
 	}
 	action void MyFire(){
-		A_Recoil(8);
+		A_Recoil(4);
 		A_TakeInventory("RocketAmmo",1);
 		A_GunFlash();
 		A_AlertMonsters();
