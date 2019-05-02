@@ -3,6 +3,10 @@ OptionMenu "TestmodOptions"
 	Title "Testmod Options"
 	Slider "Guided Rocket Max Follow Angle","guided_rocket_max_follow_angle",0,360,5
 	Option "Plasma Rifle Classic Mode","plasma_rifle_classic_mode","OnOff"
+	Option "Use to Pickup","use_to_pickup","OnOff"
+	Option "Auto Pickup","auto_pickup","OnOff"
+	Option "Hold to Pickup","hold_to_pickup","OnOff"
+	Option "Smart Auto-Pickup (Only works for mod items)","smart_pickup","OnOff"
 }
 AddOptionMenu "OptionsMenu"
 {

@@ -18,7 +18,11 @@ class Slot3Spawner:ClassRestrictedThingSpawner replaces Shotgun{
 	}
 }
 
-class Slot3SpawnerX1:Slot3Spawner replaces SuperShotgun{}
+class Slot3SpawnerX1:ClassRestrictedThingSpawner replaces SuperShotgun{
+	override void setDrops(){
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Shotguns","SSG",1,1));
+	}
+}
 
 class Slot4Spawner:ClassRestrictedThingSpawner replaces Chaingun{
 	override void setDrops(){

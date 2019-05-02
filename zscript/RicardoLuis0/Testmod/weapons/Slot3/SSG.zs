@@ -79,15 +79,23 @@ class SSG : MyWeapon {
 			goto ready;
 		fireboth:
 			DSSG A 0 A_Bob();
-			DSSF AB 2 Bright;
+			DSSF A 2 Bright;
 			DSSG A 0 A_Bob();
-			DSSF CJ 2;
+			DSSF B 2 Bright;
+			DSSG A 0 A_Bob();
+			DSSF C 2;
+			DSSG A 0 A_Bob();
+			DSSF J 2;
 			goto reload;
 		fireright:
 			DSSG A 0 A_Bob();
-			DSSF DE 2;
+			DSSF D 2 Bright;
 			DSSG A 0 A_Bob();
-			DSSF FJ 2;
+			DSSF E 2 Bright;
+			DSSG A 0 A_Bob();
+			DSSF F 2;
+			DSSG A 0 A_Bob();
+			DSSF J 2;
 			DSSG A 0 {
 				if(invoker.fireright){
 					return ResolveState("reload");
@@ -98,9 +106,13 @@ class SSG : MyWeapon {
 			goto ready;
 		fireleft:
 			DSSG A 0 A_Bob();
-			DSSF GH 2 Bright;
+			DSSF G 2 Bright;
 			DSSG A 0 A_Bob();
-			DSSF IJ 2;
+			DSSF H 2 Bright;
+			DSSG A 0 A_Bob();
+			DSSF I 2;
+			DSSG A 0 A_Bob();
+			DSSF J 2;
 			goto reload;
 		reload:
 			DSSG A 0{
@@ -127,7 +139,7 @@ class SSG : MyWeapon {
 			DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
 			DXSS AB 2;
 			DSSG A 0 {
-				A_SetInventory("Shell",CountInv("Shell")-2);
+				A_SetInventory("Shell",CountInv("Shell")-1);
 			}
 			DSSG VWOP 2;
 			DSSG Q 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);

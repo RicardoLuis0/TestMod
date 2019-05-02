@@ -1,4 +1,8 @@
 class MyEnemy:Actor{
+
+	Vector3 LastKnownPos;
+	int lastsee;
+
 	int maxresurrect;
 	
 	override void BeginPlay(){
@@ -16,5 +20,17 @@ class MyEnemy:Actor{
 			}
 			Thing_Raise(0);
 		}
+	}
+
+	action State A_StealthLook(){
+		return ResolveState(null);
+	}
+
+	action State A_StealthChase(){
+		return ResolveState(null);
+	}
+
+	action State A_StealthSearch(){
+		return ResolveState(null);
 	}
 }

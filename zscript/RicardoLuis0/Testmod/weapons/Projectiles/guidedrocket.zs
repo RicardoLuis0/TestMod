@@ -36,11 +36,8 @@ class GuidedRocket:Rocket{
 					double dz=lpos.z-pos.z;
 					double targetangle=atan2(dy,dx);
 					double targetpitch=-(atan2(sqrt(dx*dx+dy*dy),dz)-90);
-					//angle=targetangle;
-					//pitch=targetpitch;
 					double adiff=anglediff(angle,targetangle);
 					double pdiff=anglediff(pitch,targetpitch);
-					//console.printf("angle:%f,targetangle:%f,pitch:%f,targetpitch:%f,adiff: %f,pdiff: %f",angle,targetangle,pitch,targetpitch,adiff,pdiff);
 					if(abs(adiff)<=follow_limit&&abs(pdiff)<=follow_limit){
 						if(abs(adiff)>rotspeed){
 							angle+=(adiff>0)?rotspeed:-rotspeed;

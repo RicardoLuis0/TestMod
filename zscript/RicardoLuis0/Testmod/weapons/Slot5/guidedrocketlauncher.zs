@@ -22,7 +22,7 @@ class GuidedRocketLauncher:MyWeapon{
 	}
 	override void ReadyTick(){
 		if(laserenabled){
-			MyPlayer(owner).P_LineAttack("LaserDot",0);
+			MyPlayer(Owner).LineAttack_Straight("LaserDot",0);
 		}
 	}
 	States{

@@ -89,21 +89,29 @@ class PumpShotgun : MyWeapon {
 			0SGG A 0 A_ReloadStart;
 			goto reloadm;
 		reloadm:
+			0SGG A 0 A_Bob();
 			0SGG A 2 A_WeaponOffset(7,43,WOF_INTERPOLATE);
+			0SGG A 0 A_Bob();
 			0SGG A 2 A_WeaponOffset(14,54,WOF_INTERPOLATE);
 			goto reloadloop;
 		reloadloop:
 			0SGG A 0 A_ReloadMid;
+			0SGG A 0 A_Bob();
 			0SGG A 4 A_WeaponOffset(28,66,WOF_INTERPOLATE);
 			0SGG A 0 A_PlaySound("weapons/sshotl",CHAN_AUTO);
+			0SGG A 0 A_Bob();
 			0SGG A 4 A_WeaponOffset(28,77,WOF_INTERPOLATE);
+			0SGG A 0 A_Bob();
 			0SGG A 2 A_WeaponOffset(28,66,WOF_INTERPOLATE);
 			0SGG A 0 A_ReloadEnd;
 			0SGG A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			loop;
 		reloadstop:
+			0SGG A 0 A_Bob();
 			0SGG A 2 A_WeaponOffset(14,54,WOF_INTERPOLATE);
+			0SGG A 0 A_Bob();
 			0SGG A 2 A_WeaponOffset(7,43,WOF_INTERPOLATE);
+			0SGG A 0 A_Bob();
 			0SGG A 2 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			0SGG A 0 P_Return;
 			goto ready;
@@ -118,6 +126,7 @@ class PumpShotgun : MyWeapon {
 			0SGG A 0 P_Return;
 			goto ready;
 		noammo:
+			0SGG A 0 A_Bob();
 			0SGG A 3 A_PlaySound("weapons/sshoto");
 			goto ready;
 		spawn:

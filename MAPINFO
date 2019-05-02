@@ -3,4 +3,7 @@ GameInfo {
 }
 GameDefaults {
    OldFallingDamage
+   KeepFullInventory
+}
+DoomEdNums{
 }

@@ -6,6 +6,14 @@ Class Restricted Spawner only spawn items/enemies that are allowed by the classe
 
 */
 
+class ThingSpawnerBase:Actor{
+	Actor spawnactor(string act_name){
+		Actor actor_object=Spawn(act_name);
+		actor_object.SetOrigin(pos,false);
+		return actor_object;
+	}
+}
+
 class BasicThingSpawnerElement{
 	string actor_name;
 	int actor_amount;
@@ -18,7 +26,7 @@ class BasicThingSpawnerElement{
 	}
 }
 
-class BasicThingSpawner:SpawnerBase{
+class BasicThingSpawner:ThingSpawnerBase{
 	Array<BasicThingSpawnerElement> spawnlist;
 	int max_weight;
 	int arrayMaxWeight(){
@@ -81,7 +89,7 @@ class ClassRestrictedThingSpawnerElement{
 	}
 }
 
-class ClassRestrictedThingSpawner:SpawnerBase{
+class ClassRestrictedThingSpawner:ThingSpawnerBase{
 	Array<ClassRestrictedThingSpawnerElement> spawnlist;
 	ClassRestrictedThingSpawnerElement getRandom(){
 		bool non_none=false;
@@ -94,10 +102,10 @@ class ClassRestrictedThingSpawner:SpawnerBase{
 				ThinkerIterator it = ThinkerIterator.Create("MyPlayer");
 				MyPlayer p=null;
 				for(p=MyPlayer(it.Next());p!=null;p=MyPlayer(it.Next())){
-					int class_count=p.getClassCount();
+					int class_count=p.allowed_spawn_classes.Size();
 					int i2;
 					for(i2=0;i2<class_count;i2++){
-						if(p.getClassAtIndex(i2)==spawnlist[i].actor_class_required||p.getClassAtIndex(i2)=="All"){
+						if(p.allowed_spawn_classes[i2]==spawnlist[i].actor_class_required||p.allowed_spawn_classes[i2]=="All"){
 							non_none=true;
 							allowed_drops.Push(spawnlist[i]);
 							break;
