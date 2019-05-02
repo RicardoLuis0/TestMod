@@ -20,7 +20,7 @@ class PlasmaShot01:FastProjectile{
 		Loop;
 	Death:
 		TNT1 A 1;
-		stop;
+		Stop;
 	}
 }
 class PlasmaShot01Silent:PlasmaShot01{

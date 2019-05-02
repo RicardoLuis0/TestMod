@@ -256,7 +256,7 @@ class SSG : MyWeapon {
 		A_GunFlash();
 		A_AlertMonsters();
 		A_TakeInventory("SSGLoaded",1);
-		A_FireBullets(5,5,invoker.pellets,invoker.dmg,"BulletPuff");
+		W_FireBullets(5,5,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_Recoil(2.0);
 		A_SetPitch(pitch+frandom(-5,-2),SPF_INTERPOLATE);
 		A_SetAngle(angle+(CountInv("SSGLoaded")==1?frandom(-5,-2):frandom(2,5)),SPF_INTERPOLATE);
@@ -267,7 +267,7 @@ class SSG : MyWeapon {
 		A_GunFlash();
 		A_AlertMonsters();
 		A_TakeInventory("SSGLoaded",2);
-		A_FireBullets(10,6,int(invoker.pellets*2.2),invoker.dmg,"BulletPuff");
+		W_FireBullets(10,6,int(invoker.pellets*2.2),invoker.dmg,"BulletPuff");
 		A_Recoil(5.0);
 		A_SetPitch(pitch+frandom(-10,-5),SPF_INTERPOLATE);
 		A_PlaySound("weapons/ssg_fire2_01",CHAN_AUTO);

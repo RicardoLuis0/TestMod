@@ -36,7 +36,7 @@ class PumpShotgun : MyWeapon {
 				if(invoker.first){
 					invoker.first=false;
 					if(CountInv("PumpLoaded")!=9){
-						return P_Call("Pump","Ready");
+						return P_Call("Pump");
 					}
 				}
 				return ResolveState(null);
@@ -75,12 +75,27 @@ class PumpShotgun : MyWeapon {
 			0SGF D 1;
 			0SGG A 0 A_Bob();
 			0SGF E 1;
+			0SGG A 0 P_Call("Pump");
+			/*
 			0SGG A 0 A_PlaySound("weapons/shotgun_pump",CHAN_AUTO);
-			0SGG BCD 3;
+			0SGG A 0 A_Bob();
+			0SGG B 3;
+			0SGG A 0 A_Bob();
+			0SGG C 3;
+			0SGG A 0 A_Bob();
+			0SGG D 3;
+			0SGG A 0 A_Bob();
 			0SGG E 4;
-			0SGG DCB 3;
+			0SGG A 0 A_Bob();
+			0SGG D 3;
+			0SGG A 0 A_Bob();
+			0SGG C 3;
+			0SGG A 0 A_Bob();
+			0SGG B 3;
 			0SGG A 0 A_Bob();
 			0SGG A 5;
+			*/
+			0SGG A 0 A_Bob();
 			0SGG A 5 A_Refire;
 			0SGG A 0 {
 				if(CountInv("PumpLoaded")==0) return ResolveState("Reload");
@@ -104,7 +119,9 @@ class PumpShotgun : MyWeapon {
 			0SGG A 0 A_Bob();
 			0SGF C 2 A_ReFire;
 			0SGG A 0 A_Bob();
-			0SGF DE 2;
+			0SGF D 2;
+			0SGG A 0 A_Bob();
+			0SGF E 2;
 			goto ready;
 		altfire:
 			0SGG A 0 A_Bob();
@@ -166,9 +183,21 @@ class PumpShotgun : MyWeapon {
 			0SGG A 0 A_Bob();
 			0SGG A 5;
 			0SGG A 0 A_PlaySound("weapons/shotgun_pump",CHAN_AUTO);
-			0SGG BCD 3;
+			0SGG A 0 A_Bob();
+			0SGG B 3;
+			0SGG A 0 A_Bob();
+			0SGG C 3;
+			0SGG A 0 A_Bob();
+			0SGG D 3;
+			0SGG A 0 A_Bob();
 			0SGG E 4;
-			0SGG DCB 3;
+			0SGG A 0 A_Bob();
+			0SGG D 3;
+			0SGG A 0 A_Bob();
+			0SGG C 3;
+			0SGG A 0 A_Bob();
+			0SGG B 3;
+			0SGG A 0 A_Bob();
 			0SGG A 5;
 			0SGG A 0 P_Return;
 			goto ready;
@@ -201,7 +230,7 @@ class PumpShotgun : MyWeapon {
 		A_AlertMonsters();
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
-		A_FireBullets (3,3,invoker.pellets,invoker.dmg,"BulletPuff");
+		W_FireBullets(3,3,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_SetPitch(pitch+frandom(-5,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-2,2),SPF_INTERPOLATE);
 		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO);
@@ -215,7 +244,7 @@ class PumpShotgun : MyWeapon {
 		A_AlertMonsters();
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
-		A_FireBullets (6,6,invoker.pellets,invoker.dmg,"BulletPuff");
+		W_FireBullets(6,6,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_SetPitch(pitch+frandom(-3,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-3,3),SPF_INTERPOLATE);
 		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO);
@@ -232,7 +261,7 @@ class PumpShotgun : MyWeapon {
 	}
 	action State A_ReloadMid(){
 		if(CountInv("PumpLoaded")>=9||CountInv("Shell")==0){
-			return P_Call("reloadstop","ready");
+			return P_Call2("reloadstop","ready");
 		}
 		if(CountInv("PumpLoaded")>0){
 			return CheckFire("fire","afl");
@@ -242,7 +271,7 @@ class PumpShotgun : MyWeapon {
 	action State A_ReloadEnd(){
 		A_TakeInventory("Shell",1);
 		A_GiveInventory("PumpLoaded",1);
-		if(CountInv("PumpLoaded")==1) return P_Call("reloadstop",P_CallSL("pump","reload"));
+		if(CountInv("PumpLoaded")==1) return P_Call2("reloadstop",P_CallSL2("pump","reload"));
 		return ResolveState(null);
 	}
 }

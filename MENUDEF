@@ -1,4 +1,10 @@
-OptionMenu "TestmodOptions" {
+OptionValue "DamageModes" {
+	0, "Doom"
+	1, "Full Random"
+	2, "None"
+}
+
+OptionMenu "TestmodOptionsMenu" {
 	Title "Testmod Options"
 	StaticText "User Variables","Gold"
 	StaticText ""
@@ -45,10 +51,12 @@ OptionMenu "TestmodOptions" {
 	StaticText ""
 	Option "ZombieMen Drop Rifles","zombiemen_drop_rifle","OnOff"
 	StaticText "ZombieMen Drop Rilfes at 20% Chance.","DarkRed"
-	StaticText "Impossible to get Rifle in vanilla if this is Off.","DarkRed"
+	StaticText "This is the only way to get the rifle in the vanilla maps.","DarkRed"
+	StaticText ""
+	Option "Random Damage Mode","random_damage_mode","DamageModes"
 }
 
 AddOptionMenu "OptionsMenu" {
 	StaticText ""
-    Submenu "Testmod Options","TestmodOptions"
+    Submenu "Testmod Options","TestmodOptionsMenu"
 }

@@ -2,6 +2,7 @@ SERVER FLOAT guided_rocket_max_follow_angle = 45;
 SERVER BOOL ssg_from_shotgun = false;
 SERVER BOOL plasmagun_extrafire = false;
 SERVER BOOL zombiemen_drop_rifle = true;
+SERVER INT random_damage_mode = 0;
 USER BOOL plasma_rifle_classic_mode = true;
 USER BOOL use_to_pickup = false;
 USER BOOL auto_pickup = true;

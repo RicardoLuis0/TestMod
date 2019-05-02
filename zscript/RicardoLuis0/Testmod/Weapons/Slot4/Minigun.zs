@@ -128,7 +128,7 @@ class Minigun:MyWeapon{
 		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
-		A_FireBullets(8,5,1,invoker.dmg,"BulletPuff");
+		W_FireBullets(8,5,1,invoker.dmg,"BulletPuff");
 		player.refire=refire;
 		A_Recoil(1);
 		A_AlertMonsters();

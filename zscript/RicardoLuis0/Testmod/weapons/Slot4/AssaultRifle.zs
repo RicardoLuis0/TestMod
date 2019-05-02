@@ -152,12 +152,12 @@ class AssaultRifle : MyWeapon {
 			}
 		}
 		if(!invoker.loaded){
-			return P_Call("bolt","ready");
+			return P_Call2("bolt","ready");
 		}
 		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
-		A_FireBullets(invoker.getSpreadX(refire,player.vel.length()),invoker.getSpreadY(refire,player.vel.length()),1,invoker.dmg,"BulletPuff");
+		W_FireBullets(invoker.getSpreadX(refire,player.vel.length()),invoker.getSpreadY(refire,player.vel.length()),1,invoker.dmg,"BulletPuff");
 		player.refire=refire;
 		A_Recoil(0.5);
 		A_AlertMonsters();
@@ -198,7 +198,7 @@ class AssaultRifle : MyWeapon {
 	}
 	action State A_PostReloadGun(){
 		if(!invoker.loaded){
-			return P_Call("bolt","ready");
+			return P_Call2("bolt","ready");
 		}
 		return ResolveState("ready");
 	}

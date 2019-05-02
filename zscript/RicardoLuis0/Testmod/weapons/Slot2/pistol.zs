@@ -169,10 +169,10 @@ class MyPistol : MyWeapon{
 		invoker.i=!invoker.i;
 		if(player.refire==0){
 			player.refire=1;
-			A_FireBullets(1,1,1,5,"BulletPuff");
+			W_FireBullets(1,1,1,5,"BulletPuff");
 			player.refire=0;
 		}else{
-			A_FireBullets(5,3,1,5,"BulletPuff");
+			W_FireBullets(5,3,1,5,"BulletPuff");
 		}
 		A_GunFlash();
 	}
