@@ -1,12 +1,15 @@
 OptionMenu "TestmodOptions"
 {
 	Title "Testmod Options"
+	StaticText "Server Variables","Gold"
 	Slider "Guided Rocket Max Follow Angle","guided_rocket_max_follow_angle",0,360,5
+	Option "SuperShotgun spawn from Shotgun Drops (Useful for DOOM/Ultimate DOOM)","ssg_from_shotgun","OnOff"
+	StaticText "User Variables","Gold"
 	Option "Plasma Rifle Classic Mode","plasma_rifle_classic_mode","OnOff"
 	Option "Use to Pickup","use_to_pickup","OnOff"
 	Option "Auto Pickup","auto_pickup","OnOff"
 	Option "Hold to Pickup","hold_to_pickup","OnOff"
-	Option "Smart Auto-Pickup (Only works for mod items)","smart_pickup","OnOff"
+	Option "Smart Auto-Pickup (Only works for mod items) NOT IMPLEMENTED YET","smart_pickup","OnOff"
 }
 AddOptionMenu "OptionsMenu"
 {

@@ -45,3 +45,23 @@ class PlasmaShot01Trail:actor{
 		Stop;
 	}
 }
+
+class PlasmaRailTrail:actor{
+	Default{
+		+NOINTERACTION;
+		+NOBLOCKMAP;
+		+NOGRAVITY;
+		+NOTELEPORT;
+		Radius 4;
+		Scale 4;
+		Height 8;
+		Renderstyle "Add";
+		Alpha 0.1;
+	}
+	States{
+	Spawn:
+		BSHT A 10 Bright;
+		BSHT AABBCDEFG 1 Bright;
+		Stop;
+	}
+}

@@ -25,6 +25,8 @@ class MyPlayer : PlayerPawn{
 		Height 56;
 		Mass 100;
 		PainChance 255;
+		+THRUSPECIES;
+		Species "ThruPlayer";
 
 		Player.DisplayName "Generic";
 		Player.CrouchSprite "PLYC";

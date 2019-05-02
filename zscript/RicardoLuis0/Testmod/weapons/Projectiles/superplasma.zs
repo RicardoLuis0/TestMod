@@ -3,7 +3,7 @@ class superplasmaball:Actor{
 		Radius 13;
 		Height 8;
 		Speed 25;
-		Damage 50;
+		Damage 150;
 		Projectile;
 		+RANDOMIZE
 		+ZDOOMTRANS

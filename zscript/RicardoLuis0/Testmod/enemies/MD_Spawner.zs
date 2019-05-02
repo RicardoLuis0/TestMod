@@ -26,7 +26,7 @@ class MD_Component{
 	}
 }
 
-class MD_Spawner:Actor{
+class MD_Spawner:ThingSpawnerBase{
 	Array<MD_Component> droplist;
 
 	virtual void setDrops(){}//override and push to droplist from here in child classes
@@ -61,37 +61,13 @@ class MD_Spawner:Actor{
 		MD_Component comp=getFromWeight(randnum);
 		return comp==null?null:comp.Get();
 	}
-	Actor spawnactor(string act_name){
-		Actor actor_object=Spawn(act_name);
-		actor_object.SetOrigin(pos,false);
-		return actor_object;
-	}
 	bool DoSpawn(){
-		Float AmmoFactor=G_SkillPropertyFloat(SKILLP_DropAmmoFactor);
-		if(AmmoFactor==-1)AmmoFactor=0.5;
 		MD_DropItem di = Get();
 		if (di==NULL) return false;
 		if(di.pname=="None")return true;
 		Class<Actor> actor_class=di.pname;
 		if(actor_class==NULL) return false;
 		Actor actor_object=spawnactor(di.pname);
-		if(actor_object==NULL)return false;
-		if(actor_object is "weapon"){
-			Weapon weap=Weapon(actor_object);
-			if(weap==null)return false;
-			weap.bAlwaysPickup = false;
-			weap.bDropped = bDropped;
-			if (AmmoFactor > 0){
-				weap.AmmoGive1 = int(weap.AmmoGive1 * AmmoFactor);
-				weap.AmmoGive2 = int(weap.AmmoGive2 * AmmoFactor);
-			}
-		}else if(actor_object is "ammo"){
-			Ammo ammoitem=Ammo(actor_object);
-			if(ammoitem==null)return false;
-			if (AmmoFactor > 0){
-				ammoitem.Amount=int(ammoitem.Amount * AmmoFactor);
-			}
-		}
-		return true;
+		return (actor_object);
 	}
 }

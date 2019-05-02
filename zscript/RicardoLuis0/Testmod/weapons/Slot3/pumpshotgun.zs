@@ -210,8 +210,8 @@ class PumpShotgun : MyWeapon {
 		A_AlertMonsters();
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
-		A_SetPitch(pitch+(random(-15,0)/5));
-		A_SetAngle(angle+(random(-30,30)/10));
+		A_SetPitch(pitch+(random(-15,0)/5),SPF_INTERPOLATE);
+		A_SetAngle(angle+(random(-30,30)/10),SPF_INTERPOLATE);
 		A_FireBullets (5,5,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_PlaySound ("SHOTFIRE",CHAN_AUTO);
 		return ResolveState(null);

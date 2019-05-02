@@ -15,6 +15,7 @@ class MyPlasmaRifle : MyWeapon {
 	int firemode;
 	int firemodemax;
 	State fireState;
+
 	Default{
 		Weapon.SlotNumber 6;
 		Weapon.AmmoType1 "Cell";
@@ -29,7 +30,7 @@ class MyPlasmaRifle : MyWeapon {
 	override void BeginPlay(){
 		super.BeginPlay();
 		firemode=0;
-		firemodemax=2;
+		firemodemax=3;
 		fireState=ResolveState("AutoFire");
 		crosshair=20;
 		heat=0;
@@ -47,6 +48,8 @@ class MyPlasmaRifle : MyWeapon {
 
 	action void updateFire(){
 		switch(invoker.firemode){
+		default:
+			invoker.firemode=0;
 		case 0://automatic
 			A_Print("Automatic");
 			invoker.heatdownoverheat=20;
@@ -68,11 +71,15 @@ class MyPlasmaRifle : MyWeapon {
 			invoker.fireState=ResolveState("LauncherFire");
 			invoker.ammouse1=15;
 			break;
-		default:
-			invoker.firemode=0;
-			return updateFire();
+		case 3:
+			A_Print("Railgun");
+			invoker.heatup=invoker.heatmax;
+			invoker.heatdownoverheat=30;
+			invoker.fireState=ResolveState("RailFire");
+			invoker.ammouse1=20;
 		}
 	}
+
 	override void ReadyTick(){
 		if(!firing&&heat>0)HeatMinus();
 		if(init)HeatOverlay();
@@ -220,17 +227,7 @@ class MyPlasmaRifle : MyWeapon {
 		DPGF D 0 {
 			return CheckFire("LauncherFireLoop1","LauncherFireStop",null);
 		}
-		DPGF C 0 {
-			A_SetBlend("LightSlateBlue",1,5);
-			invoker.firing=true;
-			A_AlertMonsters();
-			//TakeInventory("Cell",invoker.altuse);
-			A_FireProjectile("SuperPlasmaBall",0);
-			A_SetPitch(pitch+random(-10,0));
-			A_Recoil(10);
-			A_Overheat();
-			W_SetLayerSprite(LAYER,"PHOC");
-		}
+		DPGF C 0 A_FirePLauncher;
 		DPGG C 0 A_Bob();
 		DPGG C 5 A_WeaponOffset(0,52,WOF_INTERPOLATE);
 		DPGG C 0 {
@@ -238,6 +235,28 @@ class MyPlasmaRifle : MyWeapon {
 			invoker.altloop=20;
 		}
 	LauncherFireLoop2:
+		DPGG C 0 A_Bob();
+		DPGG C 1 {
+			A_WeaponOffset(0,32+invoker.altloop,WOF_INTERPOLATE);
+			if(invoker.altloop==0){
+				invoker.firing=false;
+				return ResolveState("OverheatUp");
+			}else{
+				invoker.altloop--;
+			}
+			return ResolveState(null);
+		}
+		Loop;
+	RailFire:
+		DPGF C 0 A_FirePRail;
+		DPGG C 0 A_Bob();
+		DPGG C 5 A_WeaponOffset(0,52,WOF_INTERPOLATE);
+		DPGG C 0 {
+			A_SetBlend("AliceBlue",.5,10);
+			invoker.altloop=20;
+		}
+		//A_RailAttack
+	RailFireLoop:
 		DPGG C 0 A_Bob();
 		DPGG C 1 {
 			A_WeaponOffset(0,32+invoker.altloop,WOF_INTERPOLATE);
@@ -354,6 +373,30 @@ class MyPlasmaRifle : MyWeapon {
 		}
 		return ResolveState(null);
 	}
+
+	action void A_FirePLauncher(){
+		A_SetBlend("LightSlateBlue",1,5);
+		invoker.firing=true;
+		A_AlertMonsters();
+		//TakeInventory("Cell",invoker.altuse);
+		A_FireProjectile("SuperPlasmaBall",0);
+		A_SetPitch(pitch+random(-10,0));
+		A_Recoil(10);
+		A_Overheat();
+		W_SetLayerSprite(LAYER,"PHOC");
+	}
+
+	action void A_FirePRail(){
+		A_SetBlend("LightSlateBlue",1,5);
+		invoker.firing=true;
+		A_AlertMonsters();
+		A_RailAttack(100,0,true,"Cyan","Blue",RGF_FULLBRIGHT,0,"",0,0,0,0,1,0,"PlasmaRailTrail");
+		A_SetPitch(pitch+random(-10,0));
+		A_Recoil(10);
+		A_Overheat();
+		W_SetLayerSprite(LAYER,"PHOC");
+	}
+
 	action State A_FireEnd(){
 		invoker.firing=false;
 		if(invoker.overheat){
@@ -365,6 +408,7 @@ class MyPlasmaRifle : MyWeapon {
 			return ResolveState("Ready");
 		}
 	}
+
 	action State A_ReloadEnd(){
 		if(invoker.heat==0){
 			invoker.reloading=false;
@@ -372,6 +416,7 @@ class MyPlasmaRifle : MyWeapon {
 		}
 		return ResolveState(null);
 	}
+
 	action State A_OverheatEnd(){
 		if(!invoker.overheat){
 			invoker.reloading=false;
@@ -379,4 +424,5 @@ class MyPlasmaRifle : MyWeapon {
 		}
 		return ResolveState(null);
 	}
+
 }

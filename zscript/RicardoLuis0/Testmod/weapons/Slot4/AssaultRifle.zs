@@ -26,7 +26,7 @@ class AssaultRifle : MyWeapon {
 		crosshair=35;
 		loaded=true;
 		firemode=1;
-		dmg=8;
+		dmg=10;
 	}
 	States{
 		ready:
@@ -160,8 +160,8 @@ class AssaultRifle : MyWeapon {
 		A_Recoil(0.5);
 		A_AlertMonsters();
 		A_PlaySound("weapons/gatlingfire");
-		A_SetPitch(pitch+(random(-10,0)/5));
-		A_SetAngle(angle+(random(-20,15)/10));
+		A_SetPitch(pitch+(random(-10,0)/5),SPF_INTERPOLATE);
+		A_SetAngle(angle+(random(-20,15)/10),SPF_INTERPOLATE);
 		return ResolveState(null);
 	}
 	action State A_PreReloadGun(){

@@ -116,6 +116,7 @@ class HeavyGatlingGun:MyWeapon{
 		player.refire=refire;
 		A_Recoil(1.5);
 		A_AlertMonsters();
+		A_SetPitch(pitch+(random(-10,0)/5),SPF_INTERPOLATE);
 		A_PlaySound("weapons/gatlingfire");
 		return ResolveState(null);
 	}

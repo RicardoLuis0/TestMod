@@ -1,4 +1,5 @@
 SERVER FLOAT guided_rocket_max_follow_angle = 45;
+SERVER BOOL ssg_from_shotgun = false;
 USER BOOL plasma_rifle_classic_mode = false;
 USER BOOL use_to_pickup = true;
 USER BOOL auto_pickup = true;

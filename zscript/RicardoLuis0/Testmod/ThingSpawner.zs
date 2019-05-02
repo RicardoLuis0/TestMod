@@ -7,9 +7,31 @@ Class Restricted Spawner only spawn items/enemies that are allowed by the classe
 */
 
 class ThingSpawnerBase:Actor{
-	Actor spawnactor(string act_name){
-		Actor actor_object=Spawn(act_name);
-		actor_object.SetOrigin(pos,false);
+	Actor spawnactor(string actor_name){
+		class<Actor> actor_class=actor_name;
+		if(actor_class==null){
+			console.printf("Class "..actor_name.." does not name an actor.");
+			return null;
+		}
+		Actor actor_object=Spawn(actor_class);
+		if(actor_object){
+			actor_object.SetOrigin(pos,false);
+			actor_object.bDropped = bDropped;
+			Float AmmoFactor=G_SkillPropertyFloat(SKILLP_DropAmmoFactor);
+			if(AmmoFactor==-1)AmmoFactor=0.5;
+			if(actor_object is "Ammo"){
+				Ammo ammo_object=Ammo(actor_object);
+				if (AmmoFactor > 0){
+					ammo_object.Amount=int(ammo_object.Amount * AmmoFactor);
+				}
+			}else if(actor_object is "Weapon"){
+				Weapon weapon_object=Weapon(actor_object);
+				if (AmmoFactor > 0){
+					weapon_object.AmmoGive1 = int(weapon_object.AmmoGive1 * AmmoFactor);
+					weapon_object.AmmoGive2 = int(weapon_object.AmmoGive2 * AmmoFactor);
+				}
+			}
+		}
 		return actor_object;
 	}
 }
@@ -65,8 +87,6 @@ class BasicThingSpawner:ThingSpawnerBase{
 						int i;
 						for(i=0;i<toSpawn.actor_amount;i++){
 							Actor a = spawnactor(toSpawn.actor_name);
-							a.bDropped=bDropped;
-							//A_SpawnItemEx(toSpawn.actor_name);
 						}
 					}
 				}
@@ -151,8 +171,6 @@ class ClassRestrictedThingSpawner:ThingSpawnerBase{
 						int i;
 						for(i=0;i<toSpawn.actor_amount;i++){
 							Actor a = spawnactor(toSpawn.actor_name);
-							a.bDropped=bDropped;
-							//A_SpawnItemEx(toSpawn.actor_name);
 						}
 					}
 				}

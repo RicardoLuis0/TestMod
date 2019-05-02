@@ -9,7 +9,7 @@ class MyEnemy:Actor{
 		super.BeginPlay();
 		maxresurrect=-1;
 	}
-	
+	/*
 	virtual void doRaise(bool friendly=false){
 		if(maxresurrect>0||maxresurrect==-1){
 			if(maxresurrect>0)maxresurrect--;
@@ -21,7 +21,7 @@ class MyEnemy:Actor{
 			Thing_Raise(0);
 		}
 	}
-
+	*/
 	action State A_StealthLook(){
 		return ResolveState(null);
 	}

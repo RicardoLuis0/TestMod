@@ -47,7 +47,8 @@ class PistolSpawner:Slot2Spawner replaces Pistol{
 
 class ShotgunSpawner:ClassRestrictedThingSpawner replaces Shotgun{
 	override void setDrops(){
-		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","PumpShotgun",1,1));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","PumpShotgun",1,2));
+		if(CVar.FindCVar("ssg_from_shotgun").GetInt())spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","SSG",1,1));
 	}
 }
 
@@ -59,7 +60,7 @@ class SuperShotgunSpawner:ClassRestrictedThingSpawner replaces SuperShotgun{
 
 class ChaingunSpawner:ClassRestrictedThingSpawner replaces Chaingun{
 	override void setDrops(){
-		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","GatlingGun",1,1));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","HeavyGatlingGun",1,1));
 	}
 }
 
