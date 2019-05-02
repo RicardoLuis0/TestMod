@@ -32,8 +32,8 @@ class MyWeapon:Weapon{
 								statelabel partialreload/*magazine is not zero, not enough ammo for full reload*/,
 								statelabel emptypartialreload/*magazine is zero, not enough ammo for full reload*/,
 								statelabel emptyreload /* magazine is zero, enough ammo for full reload */,
-								statelabel fullreload /* magazine is not zero, enough ammo for full reload */)
-	{
+								statelabel fullreload /* magazine is not zero, enough ammo for full reload */){
+		
 		int ammo=CountInv(ammotype);
 		if(ammo==0) return ResolveState(noammo);
 		int magazine=CountInv(magazinetype);
@@ -44,12 +44,13 @@ class MyWeapon:Weapon{
 	}
 	action state CheckAmmo(string ammotype,string magazinetype,int magazinecapacity,
 								statelabel noammo/* ammo is zero */,
-								statelabel magazinefull/* magazine is already full */)
-	{
+								statelabel magazinefull/* magazine is already full */){
+		
 		if(CountInv(ammotype)==0) return ResolveState(noammo);
 		if(CountInv(magazinetype)==magazinecapacity) return ResolveState(magazinefull);
 		return ResolveState(null);
 	}
+
 	action state CheckFire(statelabel fire=null,statelabel altFire=null,statelabel noFire=null){
 		int input=GetPlayerInput(INPUT_BUTTONS);
 		if(input&BT_ATTACK){
@@ -59,15 +60,58 @@ class MyWeapon:Weapon{
 		}
 		return ResolveState(noFire);
 	}
-	action void OnSelect(bool UseCrosshair,int id=0){
-		if(UseCrosshair){
-			invoker.crosshair=id;
-		}else{
-			invoker.crosshair=0;
+
+	virtual void ReadyTick() {
+	}
+
+	void SetLayerFrame(int layer, int frame) {
+		if(owner==null) return;
+		PlayerPawn pp=PlayerPawn(owner);
+		if(pp==null) return;
+		PlayerInfo pi=pp.player;
+		if(pi) {
+			PSprite psp = pi.GetPSprite(layer);
+			if(psp && psp.CurState) {
+				psp.frame = frame;
+			}
 		}
 	}
-	action void OnDeselect(){
+
+	void SetLayerState(int layer, state new) {
+		if(owner==null) return;
+		PlayerPawn pp=PlayerPawn(owner);
+		if(pp==null) return;
+		PlayerInfo pi=pp.player;
+		if(pi) {
+			PSprite psp = pi.GetPSprite(layer);
+			if(psp){
+				psp.setState(new,true);
+			}
+		}
 	}
-	virtual void ReadyTick(){
+
+	void SetLayerSprite(int layer,name sprite){
+		if(owner==null) return;
+		PlayerPawn pp=PlayerPawn(owner);
+		if(pp==null) return;
+		PlayerInfo pi=pp.player;
+		if(pi) {
+			PSprite psp = pi.GetPSprite(layer);
+			if(psp && psp.CurState) {
+				psp.sprite = GetSpriteIndex(sprite);
+			}
+		}
+	}
+
+	action void W_SetLayerFrame(int layer, int frame) {
+		invoker.SetLayerFrame(layer,frame);
+	}
+
+	action void W_SetLayerState(int layer, statelabel new) {
+		invoker.SetLayerState(layer,ResolveState(new));
+	}
+
+	action void W_SetLayerSprite(int layer, name sprite) {
+		invoker.SetLayerSprite(layer,sprite);
 	}
 }

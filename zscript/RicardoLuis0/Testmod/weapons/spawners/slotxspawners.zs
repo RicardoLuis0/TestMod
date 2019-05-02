@@ -32,3 +32,9 @@ class Slot5Spawner:ClassRestrictedThingSpawner replaces RocketLauncher{
 		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Explosives","GatlingRocketLauncher",1,1));
 	}
 }
+
+class Slot6Spawner:ClassRestrictedThingSpawner replaces PlasmaRifle{
+	override void setDrops(){
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Plasma","MyPlasmaRifle",1,1));
+	}
+}

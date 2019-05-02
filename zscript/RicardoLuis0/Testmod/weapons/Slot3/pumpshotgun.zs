@@ -54,7 +54,8 @@ class PumpShotgun : MyWeapon {
 			0SGF C 2;
 			0SGF D 1;
 			0SGF E 1;
-			0SGG BCD 3 A_PlaySound("SHOTPUMP");
+			0SGG A 0 A_PlaySound("SHOTPUMP",CHAN_AUTO);
+			0SGG BCD 3;
 			0SGG E 4;
 			0SGG DCB 3;
 			0SGG A 5;
@@ -81,7 +82,7 @@ class PumpShotgun : MyWeapon {
 		reloadloop:
 			0SGG A 0 A_ReloadMid;
 			0SGG A 4 A_WeaponOffset(28,66,WOF_INTERPOLATE);
-			0SGG A 0 A_PlaySound("weapons/sshotl");
+			0SGG A 0 A_PlaySound("weapons/sshotl",CHAN_AUTO);
 			0SGG A 4 A_WeaponOffset(28,77,WOF_INTERPOLATE);
 			0SGG A 2 A_WeaponOffset(28,66,WOF_INTERPOLATE);
 			0SGG A 0 A_ReloadEnd;
@@ -95,7 +96,8 @@ class PumpShotgun : MyWeapon {
 			goto ready;
 		pump:
 			0SGG A 5;
-			0SGG BCD 3 A_PlaySound("SHOTPUMP");
+			0SGG A 0 A_PlaySound("SHOTPUMP",CHAN_AUTO);
+			0SGG BCD 3;
 			0SGG E 4;
 			0SGG DCB 3;
 			0SGG A 5;
@@ -130,7 +132,7 @@ class PumpShotgun : MyWeapon {
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
 		A_FireBullets (3,3,invoker.pellets,invoker.dmg,"BulletPuff");
-		A_PlaySound ("SHOTFIRE",CHAN_WEAPON);
+		A_PlaySound ("SHOTFIRE",CHAN_AUTO);
 		return ResolveState(null);
 	}
 	
