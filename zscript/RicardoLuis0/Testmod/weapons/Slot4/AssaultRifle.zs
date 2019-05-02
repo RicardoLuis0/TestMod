@@ -8,6 +8,7 @@ class AssaultRifleLoadedAmmo : Ammo {
 class AssaultRifle : MyWeapon {
 	bool loaded;
 	int firemode;//0=single,1=auto
+	int dmg;
 	Default{
 		Weapon.SlotNumber 4;
 		Weapon.AmmoType1 "AssaultRifleLoadedAmmo";
@@ -25,6 +26,7 @@ class AssaultRifle : MyWeapon {
 		crosshair=35;
 		loaded=true;
 		firemode=1;
+		dmg=8;
 	}
 	States{
 		ready:
@@ -118,7 +120,11 @@ class AssaultRifle : MyWeapon {
 			return 0;
 		}else{
 			int ftimes=(spread_max+1)-min(refire,spread_max);
-			ftimes*=spread_scale;
+			if(ftimes>spread_scale){
+				ftimes/=spread_scale;
+			}else{
+				ftimes=1;
+			}
 			return spread_y/ftimes;
 		}
 	}
@@ -135,7 +141,7 @@ class AssaultRifle : MyWeapon {
 		}
 		A_AlertMonsters();
 		//A_FireBullets(10,4,1,7,"BulletPuff");
-		A_FireBullets(invoker.getSpreadX(player.refire),invoker.getSpreadY(player.refire),1,8,"BulletPuff");
+		A_FireBullets(invoker.getSpreadX(player.refire),invoker.getSpreadY(player.refire),1,invoker.dmg,"BulletPuff");
 		A_PlaySound("weapons/gatlingfire");
 		A_SetPitch(pitch+(random(-10,0)/5));
 		A_SetAngle(angle+(random(-20,15)/10));

@@ -45,16 +45,16 @@ class GuidedRocketLauncher:MyWeapon{
 		DRLF A 0 Bright A_GunFlash;
 		DRLF A 3 Bright MyFire;
 		DRLF BCDE 3;
-		DRLG BCA 5;
+		DRLG BC 5;
 		DRLG A 0 A_Refire;
 		Goto Ready;
 	AltFire:
-		DRLG A 5 A_WeaponOffset(5,40,WOF_INTERPOLATE);
+		DRLG A 3 A_WeaponOffset(5,40,WOF_INTERPOLATE);
 		DRLG A 0{
 			A_PlaySound("DSCLICKY");
 			invoker.laserenabled=!invoker.laserenabled;
 		}
-		DRLG A 5 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		DRLG A 3 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		Goto Ready;
 	Flash:
 		TNT1 A 2 A_Light1;

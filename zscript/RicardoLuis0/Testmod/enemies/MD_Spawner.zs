@@ -26,7 +26,7 @@ class MD_Component{
 	}
 }
 
-class MD_Spawner:WeaponGiver{
+class MD_Spawner:Actor{
 	Array<MD_Component> droplist;
 
 	virtual void setDrops(){}//override and push to droplist from here in child classes
@@ -67,6 +67,8 @@ class MD_Spawner:WeaponGiver{
 		return actor_object;
 	}
 	bool DoSpawn(){
+		Float AmmoFactor=G_SkillPropertyFloat(SKILLP_DropAmmoFactor);
+		if(AmmoFactor==-1)AmmoFactor=0.5;
 		MD_DropItem di = Get();
 		if (di==NULL) return false;
 		if(di.pname=="None")return true;

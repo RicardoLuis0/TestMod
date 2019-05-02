@@ -7,6 +7,8 @@ class PumpLoaded : Ammo{
 
 class PumpShotgun : MyWeapon {
 	bool first;
+	int pellets;
+	int dmg;
 	Default{
 		Weapon.SlotNumber 3;
 		Weapon.AmmoType1 "PumpLoaded";
@@ -23,13 +25,17 @@ class PumpShotgun : MyWeapon {
 		super.BeginPlay();
 		crosshair=23;
 		first=true;
+		pellets=12;
+		dmg=5;
 	}
 	States{
 		ready:
 			TNT1 A 0{
 				if(invoker.first){
 					invoker.first=false;
-					return P_Call("Pump","Ready");
+					if(CountInv("PumpLoaded")!=9){
+						return P_Call("Pump","Ready");
+					}
 				}
 				return ResolveState(null);
 			}
@@ -123,7 +129,7 @@ class PumpShotgun : MyWeapon {
 		A_AlertMonsters();
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
-		A_FireBullets (3,3,12,5,"BulletPuff");
+		A_FireBullets (3,3,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_PlaySound ("SHOTFIRE",CHAN_WEAPON);
 		return ResolveState(null);
 	}
@@ -136,11 +142,10 @@ class PumpShotgun : MyWeapon {
 		A_Recoil(2.0);
 		A_SetPitch(pitch+(random(-15,0)/5));
 		A_SetAngle(angle+(random(-30,30)/10));
-		A_FireBullets (5,5,12,5,"BulletPuff");
+		A_FireBullets (5,5,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_PlaySound ("SHOTFIRE",CHAN_WEAPON);
 		return ResolveState(null);
 	}
-	
 	action State A_ReloadStart(){
 		if(CountInv("PumpLoaded")>=9||CountInv("Shell")==0){
 			return ResolveState("ready");
