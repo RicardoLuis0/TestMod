@@ -143,11 +143,9 @@ class SSG : MyWeapon {
 					case 1:
 						return ResolveState("reloadsingle");
 					case 0:
-						if(CountInv("Shell")==1){
-							invoker.fireright=true;
-							return ResolveState("reloadsingle");
+						if(invoker.fireright){
+							return ResolveState("reloadright");
 						}else{
-							invoker.fireright=false;
 							return ResolveState("reloadboth");
 						}
 					default:
@@ -156,8 +154,7 @@ class SSG : MyWeapon {
 			}
 			goto ready;
 		reloadsingle:
-			DSSG B 2;
-			DSSG CD 2;
+			DSSG BCD 2;
 			DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
 			DXSS AB 2;
 			DSSG A 0 {
@@ -177,14 +174,21 @@ class SSG : MyWeapon {
 			DSSG UC 2;
 			goto ready;
 		reloadboth:
-			DSSG B 2;
-			DSSG CD 2;
+			DSSG BCD 2;
 			DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
 			DXSD AB 2;
+			DSSG H 2 {
+				if(CountInv("Shell")==1){
+					return ResolveState("reloadright2");
+				}else{
+					return ResolveState("reloadboth2");
+				}
+			}
+		reloadboth2:
 			DSSG A 0 {
 				A_SetInventory("Shell",CountInv("Shell")-2);
 			}
-			DSSG HIJK 2;
+			DSSG IJK 2;
 			DSSG L 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
 			DSSG A 0{
 				A_SetInventory("SSGLoaded",1);
@@ -197,6 +201,33 @@ class SSG : MyWeapon {
 			DSSG RS 2;
 			DSSG T 2 A_PlaySound("weapons/sshotc", CHAN_WEAPON);
 			DSSG UC 2;
+			goto ready;
+		reloadright:
+			DSSG BC 2;
+			DSSE D 2;
+			DSSE E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
+			DSSE FG 2;
+			DSSE H 2 {
+				if(CountInv("Shell")>1){
+					return ResolveState("reloadboth2");
+				}else{
+					return ResolveState("reloadright2");
+				}
+			}
+		reloadright2:
+			DSSG A 0 {
+				invoker.fireright=true;
+				A_SetInventory("Shell",CountInv("Shell")-1);
+			}
+			DSSE NOP 2;
+			DSSE Q 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
+			DSSE A 0{
+				A_SetInventory("SSGLoaded",1);
+			}
+			DSSE RS 2;
+			DSSE T 2 A_PlaySound("weapons/sshotc", CHAN_WEAPON);
+			DSSE U 2;
+			DSSG C 2;
 			goto ready;
 		flash:
 			TNT1 A 4 Bright A_Light1;

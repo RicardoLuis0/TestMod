@@ -358,8 +358,22 @@ class MyPlasmaRifle : MyWeapon {
 	}
 
 	void HeatOverlay(){
-		int overheatamt=7-int(ceil((double(heat)/heatmax)*7));
-		SetLayerFrame(LAYER,overheatamt);
+		/*
+		calculate the frame for the heat overlay.
+
+		if(overheat){
+			SetLayerFrame(LAYER,7-int(ceil((double(heat)/heatmax)*7)));
+		}else{
+			if(heat>0){
+				SetLayerFrame(LAYER,6-int(floor((double(heat)/heatmax)*6)));
+			}else{
+				SetLayerFrame(LAYER,7);
+			}
+		}
+		*/
+		SetLayerFrame(LAYER,overheat?7-int(ceil((double(heat)/heatmax)*7)):heat?6-int(floor((double(heat)/heatmax)*6)):7);
+		
+		
 	}
 
 	action State A_FireGun(){
