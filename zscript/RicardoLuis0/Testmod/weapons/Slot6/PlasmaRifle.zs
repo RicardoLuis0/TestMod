@@ -11,17 +11,20 @@ class MyPlasmaRifle : MyWeapon {
 	bool init;
 	int altloop;
 	int altuse;
+	int firemode;
 	Default{
 		Weapon.SlotNumber 6;
 		Weapon.AmmoType1 "Cell";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoGive1 40;
 		+WEAPON.NOALERT;
+		+WEAPON.AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Plasma Rifle!";
 	}
 
 	override void BeginPlay(){
 		super.BeginPlay();
+		firemode=0;
 		crosshair=20;
 		heat=0;
 		heatmax=500;
@@ -67,6 +70,16 @@ class MyPlasmaRifle : MyWeapon {
 	}
 
 	States{
+	NoAmmo:
+		DPGG A 0 {
+			A_Bob();
+			invoker.init=false;
+			W_SetLayerFrame(LAYER,0);
+		}
+		DPGG A 10 W_SetLayerSprite(LAYER,"PNAAA");
+		DPGG A 0 {
+			invoker.init=true;
+		}
 	Ready:
 		DPGG A 0 {
 			W_SetLayerSprite(LAYER,"PHNA");
@@ -85,42 +98,44 @@ class MyPlasmaRifle : MyWeapon {
 		DPGG A 1 A_Raise();
 		Wait;
 	Fire:
-		DPGG A 1{
-			W_SetLayerSprite(LAYER,"PHNA");
-			return A_FireGun();
-		}
+		DPGG A 0 A_Bob();
+		DPGG A 1 A_FireGun();
+		DPGG B 0 A_Bob();
 		DPGG B 1 W_SetLayerSprite(LAYER,"PHNB");
+		DPGG A 0 A_Bob();
 		DPGG A 1 W_SetLayerSprite(LAYER,"PHNA");
 		DPGG A 3 A_MyRefire();
 		DPGG A 0 A_FireEnd();
 		Goto Ready;
 	AltStop:
-		DPGF AC 5 Bright;
+		DPGG A 0 A_Bob();
+		DPGF C 5 Bright;
 		Goto Ready;
 	AltFire:
+		DPGG A 0 A_Bob();
 		DPGG A 0{
 			if(invoker.heat!=0){
 				return ResolveState("Reload");
 			}else if(CountInv("Cell")<invoker.altuse){
-				return ResolveState("Ready");
+				return ResolveState("NoAmmo");
 			}
 			return ResolveState(null);
 		}
-		DPGF AC 5 Bright;
+		DPGF AC 5 Bright A_Bob();
 		DPGF C 0 {
 			return CheckAFire(null,"Ready");
 		}
-		DPGF AC 5 Bright;
+		DPGF AC 5 Bright A_Bob();
 		DPGF C 0 {
 			return CheckAFire(null,"Ready");
 		}
-		DPGF AC 5 Bright;
+		DPGF AC 5 Bright A_Bob();
 		DPGF C 0 {
 			return CheckAFire(null,"Ready");
 		}
-		DPGF B 0 W_SetLayerSprite(LAYER,"PHOB");
+		DPGF B 0 W_SetLayerSprite(LAYER,"PHNB");
 	AltLoop1:
-		DPGF BD 3 Bright;
+		DPGF BD 3 Bright A_Bob();
 		DPGF D 0 {
 			return CheckFire("AltStop","AltLoop1",null);
 		}
@@ -135,12 +150,14 @@ class MyPlasmaRifle : MyWeapon {
 			A_Overheat();
 			W_SetLayerSprite(LAYER,"PHOC");
 		}
+		DPGG C 0 A_Bob();
 		DPGG C 5 A_WeaponOffset(0,52,WOF_INTERPOLATE);
 		DPGG C 0 {
 			A_SetBlend("AliceBlue",.5,10);
 			invoker.altloop=20;
 		}
 	AltLoop2:
+		DPGG C 0 A_Bob();
 		DPGG C 1 {
 			A_WeaponOffset(0,32+invoker.altloop,WOF_INTERPOLATE);
 			if(invoker.altloop==0){
@@ -185,6 +202,7 @@ class MyPlasmaRifle : MyWeapon {
 		DEPG A -1;
 		Loop;
 	OverheatStart:
+		DPGG A 0 A_Bob();
 		DPGG A 3 W_SetLayerSprite(LAYER,"PHOA");
 		DPGG C 6 W_SetLayerSprite(LAYER,"PHOC");
 	OverheatUp:
@@ -199,6 +217,7 @@ class MyPlasmaRifle : MyWeapon {
 		Loop;
 	OverheatStop:
 		DPGG C 6 W_SetLayerSprite(LAYER,"PHOC");
+		DPGG A 0 A_Bob();
 		DPGG A 3 W_SetLayerSprite(LAYER,"PHOA");
 		goto Ready;
 	WeaponOverlay:
@@ -211,6 +230,7 @@ class MyPlasmaRifle : MyWeapon {
 		PHOB A 1 Bright;
 		PHOC A 1 Bright;
 		PHOD A 1 Bright;
+		PNAA A 1 Bright;
 	}
 
 	action State A_FireGun(){
@@ -219,7 +239,7 @@ class MyPlasmaRifle : MyWeapon {
 			return ResolveState("OverheatStart");
 		}else if(CountInv("Cell")==0){
 			invoker.firing=false;
-			return ResolveState("Ready");
+			return ResolveState("NoAmmo");
 		}
 		invoker.firing=true;
 		invoker.HeatPlus();

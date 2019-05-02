@@ -3,3 +3,4 @@
 #include "zscript/ricardoluis0/testmod/inventory/include.zs"
 #include "zscript/ricardoluis0/testmod/enemies/include.zs"
 #include "zscript/ricardoluis0/testmod/ThingSpawner.zs"
+#include "zscript/ricardoluis0/testmod/SpawnerBase.zs"

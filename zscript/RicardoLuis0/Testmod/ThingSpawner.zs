@@ -18,7 +18,7 @@ class BasicThingSpawnerElement{
 	}
 }
 
-class BasicThingSpawner:Actor{
+class BasicThingSpawner:SpawnerBase{
 	Array<BasicThingSpawnerElement> spawnlist;
 	int max_weight;
 	int arrayMaxWeight(){
@@ -56,7 +56,9 @@ class BasicThingSpawner:Actor{
 					if(toSpawn.actor_name!="None"){
 						int i;
 						for(i=0;i<toSpawn.actor_amount;i++){
-							A_SpawnItemEx(toSpawn.actor_name);
+							Actor a = spawnactor(toSpawn.actor_name);
+							a.bDropped=bDropped;
+							//A_SpawnItemEx(toSpawn.actor_name);
 						}
 					}
 				}
@@ -79,7 +81,7 @@ class ClassRestrictedThingSpawnerElement{
 	}
 }
 
-class ClassRestrictedThingSpawner:Actor{
+class ClassRestrictedThingSpawner:SpawnerBase{
 	Array<ClassRestrictedThingSpawnerElement> spawnlist;
 	ClassRestrictedThingSpawnerElement getRandom(){
 		bool non_none=false;
@@ -140,7 +142,9 @@ class ClassRestrictedThingSpawner:Actor{
 					if(toSpawn.actor_name!="None"){
 						int i;
 						for(i=0;i<toSpawn.actor_amount;i++){
-							A_SpawnItemEx(toSpawn.actor_name);
+							Actor a = spawnactor(toSpawn.actor_name);
+							a.bDropped=bDropped;
+							//A_SpawnItemEx(toSpawn.actor_name);
 						}
 					}
 				}

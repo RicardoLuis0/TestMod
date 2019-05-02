@@ -16,7 +16,6 @@ class MyPistol : MyWeapon{
 		Weapon.AmmoGive2 12;
 		Inventory.Pickupmessage "You've got the Pistol";
 		+WEAPON.AMMO_OPTIONAL;
-		+WEAPON.NOAUTOFIRE;
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
@@ -32,6 +31,8 @@ class MyPistol : MyWeapon{
 	Deselect:
 		PISG A 1 A_Lower;
 		Loop;
+	SlowFire:
+		PISG B 3;
 	Fire:
 		PISG A 0 {
 			if(CountInv("MyPistolClip")==0){
@@ -46,10 +47,9 @@ class MyPistol : MyWeapon{
 		PISG B 6 Fire;
 		PISG C 2;
 		PISG B 3;
+		PISG A 0 A_ReFire("SlowFire");
 		Goto Ready;
 	Flash:
-		PISF A 7 Bright A_Light1;
-		Goto LightDone;
 		PISF A 7 Bright A_Light1;
 		Goto LightDone;
  	Spawn:
@@ -100,6 +100,7 @@ class MyPistol : MyWeapon{
 		Goto Ready;
 	}
 	action void fire(){
+		if(player.refire==0)player.refire=1;
 		A_PlaySound("weapons/pistol", CHAN_WEAPON);
 		A_FireBullets(4,4,1,5,"BulletPuff");
 		A_TakeInventory("MyPistolClip",1);

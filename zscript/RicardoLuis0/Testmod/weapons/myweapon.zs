@@ -128,4 +128,7 @@ class MyWeapon:Weapon{
 	action void W_SetLayerSprite(int layer, name sprite) {
 		invoker.SetLayerSprite(layer,sprite);
 	}
+	action void A_Bob(){
+		A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	}
 }

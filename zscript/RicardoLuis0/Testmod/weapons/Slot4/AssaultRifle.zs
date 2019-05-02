@@ -39,16 +39,18 @@ class AssaultRifle : MyWeapon {
 			CHGG A 1 A_Lower;
 			loop;
 		fire:
+			CHGG A 0 A_Bob();
 			CHGG A 0 A_FireGun;
 			CHGF A 1 BRIGHT A_Light1;
-			CHGG A 2 Offset(0,35);
-			CHGG A 2;
+			CHGG A 2 Offset(0,35) A_Bob();
+			CHGG A 2 A_Bob();
 			CHGG A 0{
 				if(invoker.firemode==0){
 					return ResolveState("ready");
 				}
 				return ResolveState(null);
 			}
+			CHGG A 0 A_Bob();
 			CHGG A 1 A_ReFire;
 			goto ready;
 		reload:
@@ -64,12 +66,13 @@ class AssaultRifle : MyWeapon {
 			CHGG A 0 A_PostReloadGun;
 			goto ready;
 		bolt:
-			CGCK A 2;
-			CGCK B 2;
-			CGCK C 5;
+			CGCK A 2 A_Bob();
+			CGCK B 2 A_Bob();
+			CGCK C 5 A_Bob();
+			CGCK D 0 A_Bob();
 			CGCK D 20 A_PlaySound("ARBOLT");
-			CGCK C 10;
-			CGCK B 5;
+			CGCK C 10 A_Bob();
+			CGCK B 5 A_Bob();
 			CGCK A 0{
 				invoker.loaded=true;
 			}
@@ -87,11 +90,11 @@ class AssaultRifle : MyWeapon {
 			CHGG A 0{
 				A_PlaySound("DSCLICKY");
 				if(invoker.firemode==0){
-					console.printf("Assault Rifle: Automatic");
+					A_Print("Full Auto");
 					invoker.firemode=1;
 					invoker.crosshair=35;
 				}else if(invoker.firemode==1){
-					console.printf("Assault Rifle: Single Shot");
+					A_Print("Semi-Automatic");
 					invoker.firemode=0;
 					invoker.crosshair=43;
 				}
@@ -101,31 +104,35 @@ class AssaultRifle : MyWeapon {
 	const spread_max=10;
 	const spread_x=5;
 	const spread_y=5;
+	const velspread_x=5;
+	const velspread_y=5;
 	const spread_scale=2;
-	float getSpreadX(int refire){
+	float getSpreadX(int refire,double vel_len){
+		double velspread=max(log10(vel_len)*velspread_x,0);
 		if(refire<=0){
-			return 0;
+			return velspread;
 		}else{
-			int ftimes=(spread_max+1)-min(refire,spread_max);
+			double ftimes=(spread_max+1)-min(refire,spread_max);
 			if(ftimes>spread_scale){
 				ftimes/=spread_scale;
 			}else{
 				ftimes=1;
 			}
-			return spread_x/ftimes;
+			return int((spread_x/ftimes)+velspread);
 		}
 	}
-	float getSpreadY(int refire){
+	float getSpreadY(int refire,double vel_len){
+		double velspread=max(log10(vel_len)*velspread_y,0);
 		if(refire<=0){
-			return 0;
+			return velspread;
 		}else{
-			int ftimes=(spread_max+1)-min(refire,spread_max);
+			double ftimes=(spread_max+1)-min(refire,spread_max);
 			if(ftimes>spread_scale){
 				ftimes/=spread_scale;
 			}else{
 				ftimes=1;
 			}
-			return spread_y/ftimes;
+			return int((spread_y/ftimes)+velspread);
 		}
 	}
 	action State A_FireGun(){
@@ -139,10 +146,10 @@ class AssaultRifle : MyWeapon {
 		if(!invoker.loaded){
 			return P_Call("bolt","ready");
 		}
+		int refire=player.refire;
+		if(refire<=0)player.refire=1;
 		A_AlertMonsters();
-		//A_FireBullets(10,4,1,7,"BulletPuff");
-		console.printf(": "..player.vel.length());
-		A_FireBullets(invoker.getSpreadX(player.refire),invoker.getSpreadY(player.refire),1,invoker.dmg,"BulletPuff");
+		A_FireBullets(invoker.getSpreadX(refire,player.vel.length()),invoker.getSpreadY(refire,player.vel.length()),1,invoker.dmg,"BulletPuff");
 		A_PlaySound("weapons/gatlingfire");
 		A_SetPitch(pitch+(random(-10,0)/5));
 		A_SetAngle(angle+(random(-20,15)/10));
