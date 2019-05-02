@@ -25,12 +25,11 @@ class GuidedRocket:Rocket{
 	}
 
 	override void Tick(){
-		class<Object> weaponclass="GuidedRocketLauncher";
 		super.Tick();
 		if(alive){
 			MyPlayer p=MyPlayer(GetPointer(AAPTR_TARGET));
 			if(p){
-				if(p.player!=null&&p.player.ReadyWeapon.getClass()==weaponclass){
+				if(p.player!=null&&p.player.ReadyWeapon.getClass()=="GuidedRocketLauncher"&&GuidedRocketLauncher(p.player.ReadyWeapon).laserenabled){
 					Vector3 lpos=p.getLookAtPos();
 					double dx=lpos.x-pos.x;
 					double dy=lpos.y-pos.y;

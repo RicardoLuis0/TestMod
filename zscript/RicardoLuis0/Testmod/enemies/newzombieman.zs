@@ -1,14 +1,11 @@
-class NewZombieMan : MyEnemy replaces ZombieMan{
-	override int rank(){
-		return 1;
-	}
+class NewZombieManDrop1 : MD_Spawner{
 	override void setDrops(){
-		//drops.Push(new("MyEnemy_Drop_Single").Init("Clip",1,255,5));
-		MyEnemy_Drop_Multi multidrop=new("MyEnemy_Drop_Multi").Init(255);
-		multidrop.Push(new("MyEnemy_Drop_Multi_Component").Init("AssaultRifle",1,1,5));
-		multidrop.Push(new("MyEnemy_Drop_Multi_Component").Init("Clip",1,9,5));
-		drops.Push(multidrop);
+		droplist.Push(new("MD_Component").Init("AssaultRifle",1,1));
+		droplist.Push(new("MD_Component").Init("Clip",1,4));
 	}
+}
+
+class NewZombieMan : MyEnemy replaces ZombieMan{
 	Default{
 		Health 20;
 		Radius 20;
@@ -23,7 +20,7 @@ class NewZombieMan : MyEnemy replaces ZombieMan{
 		DeathSound "grunt/death";
 		ActiveSound "grunt/active";
 		Obituary "$OB_ZOMBIE";
-		DropItem "None";
+		DropItem "NewZombieManDrop1";
 	}
 	States{
 	Spawn:
@@ -42,14 +39,14 @@ class NewZombieMan : MyEnemy replaces ZombieMan{
 		POSS G 3 A_Pain;
 		Goto See;
 	Death:
-		POSS H 5 resolveDrops;
+		POSS H 5;
 		POSS I 5 A_Scream;
 		POSS J 5 A_NoBlocking;
 		POSS K 5;
 		POSS L -1;
 		Stop;
 	XDeath:
-		POSS M 5 resolveDrops;
+		POSS M 5;
 		POSS N 5 A_XScream;
 		POSS O 5 A_NoBlocking;
 		POSS PQRST 5;

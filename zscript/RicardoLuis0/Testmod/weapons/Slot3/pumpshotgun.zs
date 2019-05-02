@@ -152,7 +152,7 @@ class PumpShotgun : MyWeapon {
 	}
 	action State A_ReloadMid(){
 		if(CountInv("PumpLoaded")>=9||CountInv("Shell")==0){
-			return ResolveState("ReloadStop");
+			return P_Call("reloadstop","ready");
 		}
 		if(CountInv("PumpLoaded")>0){
 			return CheckFire("fire","afl");

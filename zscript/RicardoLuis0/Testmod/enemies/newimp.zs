@@ -1,8 +1,4 @@
 class NewDoomImp : MyEnemy replaces DoomImp{
-	override int rank(){
-		return 2;
-	}
-
 	Default{
 		Health 60;
 		Radius 20;

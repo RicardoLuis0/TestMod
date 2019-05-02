@@ -6,6 +6,7 @@ class LaserDot:VisTracer{
 	}
 }
 class GuidedRocketLauncher:MyWeapon{
+	bool laserenabled;
 	Default{
 		Weapon.AmmoUse 0;
 		Weapon.AmmoGive 5;
@@ -17,9 +18,12 @@ class GuidedRocketLauncher:MyWeapon{
 	override void BeginPlay(){
 		super.BeginPlay();
 		crosshair=48;
+		laserenabled=true;
 	}
 	override void ReadyTick(){
-		MyPlayer(owner).P_LineAttack("LaserDot",0);
+		if(laserenabled){
+			MyPlayer(owner).P_LineAttack("LaserDot",0);
+		}
 	}
 	States{
 	Ready:
@@ -43,6 +47,14 @@ class GuidedRocketLauncher:MyWeapon{
 		DRLF BCDE 3;
 		DRLG BCA 5;
 		DRLG A 0 A_Refire;
+		Goto Ready;
+	AltFire:
+		DRLG A 5 A_WeaponOffset(5,40,WOF_INTERPOLATE);
+		DRLG A 0{
+			A_PlaySound("DSCLICKY");
+			invoker.laserenabled=!invoker.laserenabled;
+		}
+		DRLG A 5 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		Goto Ready;
 	Flash:
 		TNT1 A 2 A_Light1;
