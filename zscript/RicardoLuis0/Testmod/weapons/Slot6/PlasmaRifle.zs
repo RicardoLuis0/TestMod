@@ -10,6 +10,7 @@ class MyPlasmaRifle : MyWeapon {
 	bool init;
 	int spriteindex_prev;
 	int overheat_prev;
+	name cur_sprite;
 	Default{
 		Weapon.SlotNumber 6;
 		Weapon.AmmoType1 "Cell";
@@ -33,6 +34,7 @@ class MyPlasmaRifle : MyWeapon {
 		spriteindex_prev=0;
 		reloading=false;
 		init=false;
+		cur_sprite="PHNA";
 	}
 
 	override void ReadyTick(){
@@ -58,13 +60,18 @@ class MyPlasmaRifle : MyWeapon {
 
 	void HeatOverlay(){
 		int overheatamt=7-int(ceil((double(heat)/heatmax)*7));
-		SetLayerFrame(9999,overheatamt);
+		SetLayerFrame(2,overheatamt);
+		SetLayerSprite(2,cur_sprite);
+	}
+	
+	action void A_SetOSprite(name newspr){
+		invoker.cur_sprite=newspr;
 	}
 
 	States{
 	Ready:
 		DPGG A 0 {
-			A_Overlay(9999,"OverlayReady");
+			W_SetLayerSprite(2,"PHNA");
 		}
 	ReadyLoop:
 		DPGG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
@@ -74,30 +81,38 @@ class MyPlasmaRifle : MyWeapon {
 		Loop;
 	Select:
 		DPGG A 0 {
-			A_Overlay(9999,"OverlayReady");
+			A_Overlay(2,"WeaponOverlay");
 			invoker.init=true;
 		}
 		DPGG A 1 A_Raise();
 		Wait;
 	Fire:
-		DPGG A 1 A_FireGun();
-		DPGG BA 1;
-		DPGG A 3 A_ReFire();
+		DPGG A 1{
+			A_FireGun();
+			W_SetLayerSprite(2,"PHNA");
+		}
+		DPGG B 1 W_SetLayerSprite(2,"PHNB");
+		DPGG A 1 W_SetLayerSprite(2,"PHNA");
+		DPGG A 3 A_MyRefire();
+		DPGG C 10 W_SetLayerSprite(2,"PHNC");
+		DPGG A 3 W_SetLayerSprite(2,"PHNA");
 		DPGG A 0 A_FireEnd();
 		Goto Ready;
 	Reload:
-		DPGG A 1 {
-			A_Overlay(9999,"OverlayReload");
-			invoker.reloading=true;
-			return ResolveState("ReloadStart");
-		}
+		DPGG A 1 W_SetLayerSprite(2,"PHNA");
 	ReloadStart:
-		DPGG C 6;
+		DPGG C 6 W_SetLayerSprite(2,"PHNC");
+		DPGG C 0 {
+			invoker.reloading=true;
+		}
 	HeatReload:
-		DPGG D 4 A_ReloadEnd();
+		DPGG D 4{
+			W_SetLayerSprite(2,"PHNA");
+			return A_ReloadEnd();
+		}
 		Loop;
 	HeatReloadStop:
-		DPGG C 6;
+		DPGG C 6 W_SetLayerSprite(2,"PHNC");
 		Goto Ready;
 	Flash1:
 		DPGF A 1 Bright A_Light(2);
@@ -111,50 +126,36 @@ class MyPlasmaRifle : MyWeapon {
 		DEPG A -1;
 		Loop;
 	OverheatStart:
-		DPGG A 3;
-		DPGG C 6;
+		DPGG A 3 W_SetLayerSprite(2,"PHNA");
+		DPGG C 6 W_SetLayerSprite(2,"PHNC");
 		DPGG C 0{
-			invoker.reloading=true;		
+			invoker.reloading=true;
 		}
 	OverheatLoop:
-		DPGG D 4 A_OverheatEnd();
+		DPGG D 4 {
+			W_SetLayerSprite(2,"PHND");
+			return A_OverheatEnd();
+		}
 		Loop;
 	OverheatStop:
-		DPGG C 6;
-		DPGG A 3;
+		DPGG C 6 W_SetLayerSprite(2,"PHNC");
+		DPGG A 3 W_SetLayerSprite(2,"PHNA");
 		goto Ready;
-	OverlayReady:
-		PHNA A 1;
-		Loop;
-	OverlayFire:
-		PHNA A 1;
-		PHNB A 1;
-		PHNA A 4;
-		Goto OverlayReady;
-	OverlayReload:
-		PHNC A 6;
-	OverlayReloadLoop:
-		PHND A 4;
-		Loop;
-	OverlayReloadStop:
-		PHNC A 6;
-		Goto OverlayReady;
-	OverlayOverheat:
-		PHOA A 3;
-		PHOC A 6;
-	OverlayOverheatLoop:
-		PHOD A 4;
-		Loop;
-	OverlayOverheatStop:
-		PHOC A 6;
-		PHOA A 3;
-		goto OverlayReady;
+	WeaponOverlay:
+		PHNA A -1;
+		PHNB A -1;
+		PHNC A -1;
+		PHND A -1;
+		PHOA A -1;
+		PHOB A -1;
+		PHOC A -1;
+		PHOD A -1;
+		Stop;
 	}
 
 	action State A_FireGun(){
 		if(invoker.overheat){
 			invoker.firing=false;
-			A_Overlay(9999,"OverlayOverheat");
 			return ResolveState("OverheatStart");
 		}else if(CountInv("Cell")==0){
 			invoker.firing=false;
@@ -171,11 +172,19 @@ class MyPlasmaRifle : MyWeapon {
 		}
 		return ResolveState(null);
 	}
-
+	action State A_MyRefire(){
+		int input=GetPlayerInput(INPUT_BUTTONS);
+		if(input&BT_ATTACK){
+			player.refire++;
+			return ResolveState("Fire");
+		}else{
+			player.refire=0;
+			return ResolveState(null);
+		}
+	}
 	action State A_FireEnd(){
 		invoker.firing=false;
 		if(invoker.overheat){
-			A_Overlay(9999,"OverlayOverheat");
 			return ResolveState("OverheatStart");
 		}else{
 			return ResolveState("Ready");
@@ -184,7 +193,6 @@ class MyPlasmaRifle : MyWeapon {
 	action State A_ReloadEnd(){
 		if(invoker.heat==0){
 			invoker.reloading=false;
-			A_Overlay(9999,"OverlayReloadStop");
 			return ResolveState("HeatReloadStop");
 		}
 		return ResolveState(null);
@@ -192,7 +200,6 @@ class MyPlasmaRifle : MyWeapon {
 	action State A_OverheatEnd(){
 		if(!invoker.overheat){
 			invoker.reloading=false;
-			A_Overlay(9999,"OverlayOverheatStop");
 			return ResolveState("OverHeatStop");
 		}
 		return ResolveState(null);

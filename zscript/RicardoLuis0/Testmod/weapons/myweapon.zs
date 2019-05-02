@@ -98,7 +98,8 @@ class MyWeapon:Weapon{
 		if(pi) {
 			PSprite psp = pi.GetPSprite(layer);
 			if(psp && psp.CurState) {
-				psp.sprite = GetSpriteIndex(sprite);
+				int index=GetSpriteIndex(sprite);
+				psp.sprite = index;
 			}
 		}
 	}
