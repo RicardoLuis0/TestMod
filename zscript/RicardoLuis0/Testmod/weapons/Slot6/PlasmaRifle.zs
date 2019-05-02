@@ -9,8 +9,6 @@ class MyPlasmaRifle : MyWeapon {
 	bool overheat;
 	bool reloading;
 	bool init;
-	int spriteindex_prev;
-	int overheat_prev;
 	int altloop;
 	int altuse;
 	Default{
@@ -24,17 +22,15 @@ class MyPlasmaRifle : MyWeapon {
 
 	override void BeginPlay(){
 		super.BeginPlay();
-		crosshair=35;
+		crosshair=20;
 		heat=0;
-		heatmax=1000;
-		heatup=20;
-		heatdown=1;
+		heatmax=500;
+		heatup=10;
 		heatdownreload=20;
+		heatdown=1;
 		altuse=10;
 		firing=false;
 		overheat=false;
-		overheat_prev=false;
-		spriteindex_prev=0;
 		reloading=false;
 		init=false;
 	}
@@ -100,9 +96,6 @@ class MyPlasmaRifle : MyWeapon {
 		Goto Ready;
 	AltStop:
 		DPGF AC 5 Bright;
-		DPGF C 0 {
-			return CheckAFire("AltLoop1","Ready");
-		}
 		Goto Ready;
 	AltFire:
 		DPGG A 0{
@@ -125,18 +118,20 @@ class MyPlasmaRifle : MyWeapon {
 		DPGF C 0 {
 			return CheckAFire(null,"Ready");
 		}
+		DPGF B 0 W_SetLayerSprite(LAYER,"PHOB");
 	AltLoop1:
 		DPGF BD 3 Bright;
 		DPGF D 0 {
-			return CheckFire(null,"AltLoop1","AltStop");
+			return CheckFire("AltStop","AltLoop1",null);
 		}
 		DPGF C 0 {
 			A_SetBlend("LightSlateBlue",1,5);
 			invoker.firing=true;
 			A_AlertMonsters();
 			TakeInventory("Cell",invoker.altuse);
-			A_Recoil(10);
 			A_FireProjectile("SuperPlasmaBall",0,false);
+			A_SetPitch(pitch+random(-10,0));
+			A_Recoil(10);
 			A_Overheat();
 			W_SetLayerSprite(LAYER,"PHOC");
 		}
