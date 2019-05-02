@@ -30,64 +30,65 @@ class AssaultRifle : MyWeapon {
 	}
 	States{
 		ready:
-			CHGG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+			ASRG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
 		select:
-			CHGG A 1 A_Raise;
+			ASRG A 1 A_Raise;
 			loop;
 		deselect:
-			CHGG A 1 A_Lower;
+			ASRG A 1 A_Lower;
 			loop;
 		fire:
-			CHGG A 0 A_Bob();
-			CHGG A 0 A_FireGun;
-			CHGF A 1 BRIGHT A_Light1;
-			CHGG A 2 Offset(0,35) A_Bob();
-			CHGG A 2 A_Bob();
-			CHGG A 0{
+			ASRG A 0 A_Bob();
+			ASRG A 0 A_FireGun;
+			ASRF A 1 BRIGHT A_Light1;
+			ASRG A 2 Offset(0,35) A_Bob();
+			ASRG A 2 A_Bob();
+			ASRG A 0{
 				if(invoker.firemode==0){
 					return ResolveState("ready");
 				}
 				return ResolveState(null);
 			}
-			CHGG A 0 A_Bob();
-			CHGG A 1 A_ReFire;
+			ASRG A 0 A_Bob();
+			ASRG A 1 A_ReFire;
 			goto ready;
 		reload:
-			CHGG A 0 A_PreReloadGun;
+			ASRG A 0 A_PreReloadGun;
 			
-			CHGR ABCDEF 1;
+			ASRR ABCDEF 1;
 			
-			CHGR G 4 A_PlaySound("ARCLICK");
-			CHGR HIJK 2;
-			CHGR L 2 A_PlaySound("ARRELOAD");
-			CHGR L 0 A_ReloadGun;
-			CHGR MNOPQRS 1;
-			CHGG A 0 A_PostReloadGun;
+			ASRR G 4 A_PlaySound("ARCLICK");
+			ASRR HIJK 2;
+			ASRR L 2 A_PlaySound("ARRELOAD");
+			ASRR L 0 A_ReloadGun;
+			ASRR MNOPQRS 1;
+			ASRG A 0 A_PostReloadGun;
 			goto ready;
 		bolt:
-			CGCK A 2 A_Bob();
-			CGCK B 2 A_Bob();
-			CGCK C 5 A_Bob();
-			CGCK D 0 A_Bob();
-			CGCK D 20 A_PlaySound("ARBOLT");
-			CGCK C 10 A_Bob();
-			CGCK B 5 A_Bob();
-			CGCK A 0{
+			ASRK A 2 A_Bob();
+			ASRK B 2 A_Bob();
+			ASRK C 5 A_Bob();
+			ASRK D 0 A_Bob();
+			ASRK D 20 A_PlaySound("ARBOLT");
+			ASRK C 10 A_Bob();
+			ASRK B 5 A_Bob();
+			ASRK A 0{
 				invoker.loaded=true;
 			}
 			
-			CHGG A 0 P_Return;
+			ASRG A 0 P_Return;
 			goto ready;
 		noammo:
-			CHGG A 3 A_PlaySound("weapons/sshoto");
+			ASRG A 3 A_PlaySound("weapons/sshoto");
 			goto ready;
 		spawn:
 			MGUN A -1;
 			stop;
 		altfire:
-			CHGG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
-			CHGG A 0{
+			ASRG A 0 A_Bob();
+			ASRG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
+			ASRG A 0{
 				A_PlaySound("DSCLICKY");
 				if(invoker.firemode==0){
 					A_Print("Full Auto");
@@ -99,7 +100,8 @@ class AssaultRifle : MyWeapon {
 					invoker.crosshair=43;
 				}
 			}
-			CHGG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+			ASRG A 0 A_Bob();
+			ASRG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 	}
 	const spread_max=10;
 	const spread_x=5;

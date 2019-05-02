@@ -1,1 +1,2 @@
 SERVER FLOAT guided_rocket_max_follow_angle = 45;
+USER BOOL plasma_rifle_classic_mode = false;

@@ -5,6 +5,7 @@ class MyPlasmaRifle : MyWeapon {
 	int heatup;
 	int heatdown;
 	int heatdownreload;
+	int heatdownoverheat;
 	bool firing;
 	bool overheat;
 	bool reloading;
@@ -12,10 +13,14 @@ class MyPlasmaRifle : MyWeapon {
 	int altloop;
 	int altuse;
 	int firemode;
+	int firemodemax;
+	State fireState;
 	Default{
 		Weapon.SlotNumber 6;
 		Weapon.AmmoType1 "Cell";
+		Weapon.AmmoType2 "Cell";
 		Weapon.AmmoUse1 1;
+		Weapon.AmmoUse2 10;
 		Weapon.AmmoGive1 40;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
@@ -25,11 +30,14 @@ class MyPlasmaRifle : MyWeapon {
 	override void BeginPlay(){
 		super.BeginPlay();
 		firemode=0;
+		firemodemax=1;
+		fireState=ResolveState("AutoFire");
 		crosshair=20;
 		heat=0;
 		heatmax=500;
 		heatup=10;
 		heatdownreload=20;
+		heatdownoverheat=20;
 		heatdown=1;
 		altuse=10;
 		firing=false;
@@ -38,6 +46,25 @@ class MyPlasmaRifle : MyWeapon {
 		init=false;
 	}
 
+	void updateFire(){
+		switch(firemode){
+		case 0://automatic fire
+			heatdownoverheat=20;
+			heatup=10;
+			fireState=ResolveState("AutoFire");
+			ammouse1=1;
+			break;
+		case 1://plasma launcher
+			heatup=heatmax;
+			heatdownoverheat=10;
+			fireState=ResolveState("LauncherFire");
+			ammouse1=10;
+			break;
+		default:
+			firemode=0;
+			return updateFire();
+		}
+	}
 	override void ReadyTick(){
 		if(!firing&&heat>0)HeatMinus();
 		if(init)HeatOverlay();
@@ -57,7 +84,7 @@ class MyPlasmaRifle : MyWeapon {
 	}
 
 	void HeatMinus(){
-		heat-=reloading?heatdownreload:heatdown;
+		heat-=reloading?(overheat?heatdownoverheat:heatdownreload):heatdown;
 		if(heat<=0){
 			heat=0;
 			overheat=false;
@@ -97,21 +124,41 @@ class MyPlasmaRifle : MyWeapon {
 		}
 		DPGG A 1 A_Raise();
 		Wait;
+	AltFire:
+		DPGG A 0 A_Bob();
+		DPGG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
+		DPGG A 0{
+			A_PlaySound("DSCLICKY");
+			if(invoker.firemode<invoker.firemodemax){
+				invoker.firemode++;
+			}else{
+				invoker.firemode=0;
+			}
+			invoker.updateFire();
+		}
+		DPGG A 0 A_Bob();
+		DPGG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		Goto Ready;
 	Fire:
+		DPGG A 0 {
+			return invoker.fireState;
+		}
+		Goto Ready;
+	AutoFire:
 		DPGG A 0 A_Bob();
 		DPGG A 1 A_FireGun();
 		DPGG B 0 A_Bob();
 		DPGG B 1 W_SetLayerSprite(LAYER,"PHNB");
 		DPGG A 0 A_Bob();
 		DPGG A 1 W_SetLayerSprite(LAYER,"PHNA");
-		DPGG A 3 A_MyRefire();
+		DPGG A 3 A_Refire("AutoFire");
 		DPGG A 0 A_FireEnd();
 		Goto Ready;
-	AltStop:
+	LauncherFireStop:
 		DPGG A 0 A_Bob();
 		DPGF C 5 Bright;
 		Goto Ready;
-	AltFire:
+	LauncherFire:
 		DPGG A 0 A_Bob();
 		DPGG A 0{
 			if(invoker.heat!=0){
@@ -123,28 +170,28 @@ class MyPlasmaRifle : MyWeapon {
 		}
 		DPGF AC 5 Bright A_Bob();
 		DPGF C 0 {
-			return CheckAFire(null,"Ready");
+			return CheckFire(null,"Ready");
 		}
 		DPGF AC 5 Bright A_Bob();
 		DPGF C 0 {
-			return CheckAFire(null,"Ready");
+			return CheckFire(null,"Ready");
 		}
 		DPGF AC 5 Bright A_Bob();
 		DPGF C 0 {
-			return CheckAFire(null,"Ready");
+			return CheckFire(null,"Ready");
 		}
 		DPGF B 0 W_SetLayerSprite(LAYER,"PHNB");
-	AltLoop1:
+	LauncherFireLoop1:
 		DPGF BD 3 Bright A_Bob();
 		DPGF D 0 {
-			return CheckFire("AltStop","AltLoop1",null);
+			return CheckFire("LauncherFireLoop1","LauncherFireStop",null);
 		}
 		DPGF C 0 {
 			A_SetBlend("LightSlateBlue",1,5);
 			invoker.firing=true;
 			A_AlertMonsters();
-			TakeInventory("Cell",invoker.altuse);
-			A_FireProjectile("SuperPlasmaBall",0,false);
+			//TakeInventory("Cell",invoker.altuse);
+			A_FireProjectile("SuperPlasmaBall",0);
 			A_SetPitch(pitch+random(-10,0));
 			A_Recoil(10);
 			A_Overheat();
@@ -156,7 +203,7 @@ class MyPlasmaRifle : MyWeapon {
 			A_SetBlend("AliceBlue",.5,10);
 			invoker.altloop=20;
 		}
-	AltLoop2:
+	LauncherFireLoop2:
 		DPGG C 0 A_Bob();
 		DPGG C 1 {
 			A_WeaponOffset(0,32+invoker.altloop,WOF_INTERPOLATE);
@@ -252,21 +299,14 @@ class MyPlasmaRifle : MyWeapon {
 		}
 		return ResolveState(null);
 	}
-	action State A_MyRefire(){
-		int input=GetPlayerInput(INPUT_BUTTONS);
-		if(input&BT_ATTACK){
-			player.refire++;
-			return ResolveState("Fire");
-		}else{
-			player.refire=0;
-			return ResolveState(null);
-		}
-	}
 	action State A_FireEnd(){
 		invoker.firing=false;
 		if(invoker.overheat){
 			return ResolveState("OverheatStart");
 		}else{
+			if(CVar.GetCVar("plasma_rifle_classic_mode",player).getInt()!=0){
+				return ResolveState("Reload");
+			}
 			return ResolveState("Ready");
 		}
 	}

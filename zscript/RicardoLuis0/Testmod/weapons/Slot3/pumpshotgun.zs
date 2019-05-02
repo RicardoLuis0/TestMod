@@ -58,7 +58,11 @@ class PumpShotgun : MyWeapon {
 			0SGG BCD 3;
 			0SGG E 4;
 			0SGG DCB 3;
-			0SGG A 5;
+			0SGG A 5 A_Refire;
+			0SGG A 0 {
+				if(CountInv("PumpLoaded")==0) return ResolveState("Reload");
+				return ResolveState(null);
+			}
 			goto ready;
 		altfire:
 			0SGG A 0 A_CheckAmmo(true);
