@@ -1,6 +1,6 @@
 $pitchshiftrange 0
 
-//source: unknown (sorry, forgot where i got these, probably a from wads and/or edits of freesound.org stuff)
+//source: unknown (sorry, forgot where i got these, probably from wads, freesound.org, or edits from either of those)
 
 weapons/ar_fire "sounds/ARFIRE"
 weapons/shotgun_fire "sounds/shotgunfire.wav"
@@ -52,3 +52,9 @@ weapons/minigun_fire_01 "sounds/MINIFIRE.wav"
 //source: https://freesound.org/people/Marregheriti/sounds/266102/
 
 weapons/overheat "sounds/overheat.wav"
+
+//ssg sounds from doom2, to make ssg work correctly in doom 1
+
+weapons/sshoto			dsdbopn
+weapons/sshotc			dsdbcls
+weapons/sshotl			dsdbload

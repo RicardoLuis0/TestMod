@@ -35,7 +35,7 @@ class MyPlayer : PlayerPawn{
 
 		Player.StartItem "MyPistol";
 		Player.StartItem "Clip", 36;
-		Player.StartItem "MyPistolClip", 12;
+		Player.StartItem "MyPistolClip", 13;
 		Player.StartItem "AssaultRifleLoadedAmmo", 20;
 		Player.StartItem "PumpLoaded", 8;
 		Player.StartItem "SSGLoaded", 2;

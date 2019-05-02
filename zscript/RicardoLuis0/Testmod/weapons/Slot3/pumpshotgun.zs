@@ -202,6 +202,8 @@ class PumpShotgun : MyWeapon {
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
 		A_FireBullets (3,3,invoker.pellets,invoker.dmg,"BulletPuff");
+		A_SetPitch(pitch+frandom(-5,0),SPF_INTERPOLATE);
+		A_SetAngle(angle+frandom(-2,2),SPF_INTERPOLATE);
 		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO);
 		return ResolveState(null);
 	}
@@ -213,9 +215,9 @@ class PumpShotgun : MyWeapon {
 		A_AlertMonsters();
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
-		A_SetPitch(pitch+(random(-15,0)/5),SPF_INTERPOLATE);
-		A_SetAngle(angle+(random(-30,30)/10),SPF_INTERPOLATE);
-		A_FireBullets (5,5,invoker.pellets,invoker.dmg,"BulletPuff");
+		A_FireBullets (6,6,invoker.pellets,invoker.dmg,"BulletPuff");
+		A_SetPitch(pitch+frandom(-3,0),SPF_INTERPOLATE);
+		A_SetAngle(angle+frandom(-3,3),SPF_INTERPOLATE);
 		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO);
 		return ResolveState(null);
 	}

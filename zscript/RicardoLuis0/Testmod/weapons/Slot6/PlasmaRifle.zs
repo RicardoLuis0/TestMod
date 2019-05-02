@@ -49,6 +49,9 @@ class MyPlasmaRifle : MyWeapon {
 	Deselect:
 		DPGG A 1 A_Lower();
 		Loop;
+	DeadLowered:
+		DPGG A 0 A_ClearOverlays(LAYER,LAYER);
+		Stop;
 	Select:
 		DPGG A 0 {
 			A_UpdateBob();
@@ -333,7 +336,7 @@ class MyPlasmaRifle : MyWeapon {
 
 	override void ReadyTick(){
 		if(!firing&&heat>0)HeatMinus();
-		if(init)HeatOverlay();
+		if(init&&owner.health>0)HeatOverlay();
 	}
 
 	action void A_Overheat(){
@@ -372,8 +375,6 @@ class MyPlasmaRifle : MyWeapon {
 		}
 		*/
 		SetLayerFrame(LAYER,overheat?7-int(ceil((double(heat)/heatmax)*7)):heat?6-int(floor((double(heat)/heatmax)*6)):7);
-		
-		
 	}
 
 	action State A_FireGun(){
@@ -409,13 +410,7 @@ class MyPlasmaRifle : MyWeapon {
 		invoker.HeatPlus();
 		A_AlertMonsters();
 		A_FireProjectile("PlasmaShot01",frandom(-3,3),true,pitch:frandom(-3,3));
-		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
+		for(int i=0;i<7;i++) A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
 		A_Recoil(5);
 		if(random(0,1)) {
 			A_GunFlash("Flash1");
@@ -429,7 +424,6 @@ class MyPlasmaRifle : MyWeapon {
 		A_SetBlend("LightSlateBlue",1,5);
 		invoker.firing=true;
 		A_AlertMonsters();
-		//TakeInventory("Cell",invoker.altuse);
 		A_FireProjectile("SuperPlasmaBall",0);
 		A_SetPitch(pitch+random(-10,0));
 		A_Recoil(10);
