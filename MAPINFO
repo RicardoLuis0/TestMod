@@ -1,4 +1,3 @@
-GameInfo
-{
-   PlayerClasses = "MyMarine"
+GameInfo {
+   PlayerClasses = "MyMarine","MyPlayer"
 }

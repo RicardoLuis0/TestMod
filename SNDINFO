@@ -5,8 +5,17 @@ AKRELOAD3 "sounds/ak_bolt.mp3"
 SHOTFIRE "sounds/shotgunfire.wav"
 SHOTPUMP "sounds/shotgunpump.wav"
 TUBERELOAD "sounds/tube_reloadv2.wav"
+ARBOLT "sounds/dsarmou.wav"
+ARRELOAD "sounds/reload.wav"
+ARCLICK "sounds/dsclk5.ogg"
+
 weapons/cryobowfire     DSBOWFIR
 weapons/cryobowshot     DSBOWSHT
 weapons/cryobowreload   DSBOWREL
 weapons/cryobowhit      DSBOWHIT
 weapons/cryobowflyby    DSBOWFLY
+
+weapons/gatlingfire1    dsgtfir1
+weapons/gatlingfire2    dsgtfir2
+weapons/gatlingfire3    dsgtfir3
+$random weapons/gatlingfire { weapons/gatlingfire1 weapons/gatlingfire2 weapons/gatlingfire3 }

@@ -1,0 +1,6 @@
+#include "zscript/ricardoluis0/weapons/include.zs"
+#include "zscript/ricardoluis0/playerclasses/include.zs"
+#include "zscript/ricardoluis0/inventory/include.zs"
+#include "zscript/ricardoluis0/enemies/include.zs"
+#include "zscript/ricardoluis0/MyGlobals.zs"
+#include "zscript/ricardoluis0/ThingSpawner.zs"

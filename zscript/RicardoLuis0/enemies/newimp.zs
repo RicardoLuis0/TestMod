@@ -1,4 +1,4 @@
-class NewDoomImp : Resurrectable_Actor replaces DoomImp{
+class NewDoomImp : MyEnemy replaces DoomImp{
 	override int rank(){
 		return 2;
 	}

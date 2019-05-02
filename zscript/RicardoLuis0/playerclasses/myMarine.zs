@@ -1,13 +1,6 @@
 class myMarine:myPlayer{
 	override void initClasses(){
-		allowed_spawn_classes.Push("Melee1");
-		allowed_spawn_classes.Push("Shotguns");
-		allowed_spawn_classes.Push("Rifles");
-		allowed_spawn_classes.Push("Heavy");
-		allowed_spawn_classes.Push("Explosives");
-	}
-	override bool allowMana(){
-		return false;
+		super.initClasses();
 	}
 	Default{
 		Speed 1;
@@ -16,20 +9,17 @@ class myMarine:myPlayer{
 		Height 56;
 		Mass 100;
 		PainChance 255;
-		Player.DisplayName "...";
+		Player.DisplayName "Marine";
 		Player.CrouchSprite "PLYC";
-		
-		Player.StartItem "Pistol";
-		//Player.StartItem "AK";
+
+		//Player.StartItem "Pistol";
+		Player.StartItem "AssaultRifle";
 		Player.StartItem "Fist";
-		/*
-		Player.StartItem "ManaRegenHandler";
-		Player.StartItem "ManaCapacity",100;
-		Player.StartItem "ManaRegenAmt",1;
-		*/
+		Player.StartItem "MyPistol";
 		Player.StartItem "Clip", 90;
-		//Player.StartItem "AKAMMO",31;
-		
+		Player.StartItem "AssaultRifleLoadedAmmo", 30;
+		Player.StartItem "MyPistolClip", 12;
+
 		Player.WeaponSlot 1, "Fist","Chainsaw";
 		Player.WeaponSlot 2, "Pistol";
 		Player.WeaponSlot 3, "Shotgun","SuperShotgun";
@@ -37,7 +27,7 @@ class myMarine:myPlayer{
 		Player.WeaponSlot 5, "RocketLauncher";
 		Player.WeaponSlot 6, "PlasmaRifle";
 		Player.WeaponSlot 7, "BFG9000";
-		
+
 		Player.ColorRange 112, 127;
 		Player.Colorset 0, "Green",			0x70, 0x7F,  0x72;
 		Player.Colorset 1, "Gray",			0x60, 0x6F,  0x62;

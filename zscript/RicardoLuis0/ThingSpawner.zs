@@ -17,6 +17,7 @@ class BasicThingSpawnerElement{
 		return self;
 	}
 }
+
 class BasicThingSpawner:Actor{
 	Array<BasicThingSpawnerElement> spawnlist;
 	int max_weight;
@@ -84,6 +85,7 @@ class ClassRestrictedThingSpawnerElement{
 		return self;
 	}
 }
+
 class ClassRestrictedThingSpawner:Actor{
 	Array<ClassRestrictedThingSpawnerElement> spawnlist;
 	ClassRestrictedThingSpawnerElement getRandom(){

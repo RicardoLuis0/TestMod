@@ -1,9 +1,10 @@
-class NewZombieMan : Resurrectable_Actor replaces ZombieMan{
+class NewZombieMan : MyEnemy replaces ZombieMan{
 	override int rank(){
 		return 1;
 	}
 	override void setDrops(){
-		drops.Push(new("Resurrectable_Drop").Init("Clip",1,255,5));
+		//drops.Push(new("MyEnemy_Drop_Single").Init("Clip",1,255,5));
+		drops.Push(new("MyEnemy_Drop_Single").Init("AssaultRifle",1,255,5));
 	}
 	Default{
 		Health 20;

@@ -1,10 +1,10 @@
-class NewShotgunGuy : Resurrectable_Actor replaces ShotgunGuy{
+class NewShotgunGuy : MyEnemy replaces ShotgunGuy{
 	override int rank(){
 		return 2;
 	}
 
 	override void setDrops(){
-		drops.Push(new("Resurrectable_Drop").Init("Shotgun",1,255,5));
+		drops.Push(new("MyEnemy_Drop_Single").Init("Shotgun",1,255,5));
 	}
 
 	Default{

@@ -1,4 +1,7 @@
 class MyWeapon:Weapon{
+	Default{
+		Decal "BulletChip";
+	}
 	Array<State> call_stack;
 
 	action State P_Call(StateLabel go_to,StateLabel return_to){
