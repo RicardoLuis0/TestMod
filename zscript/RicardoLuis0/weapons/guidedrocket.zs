@@ -1,11 +1,11 @@
-class HomingRocketLauncher:Weapon{
+class GuidedRocketLauncher:Weapon{
 	Default{
 		Weapon.AmmoUse 0;
 		Weapon.AmmoGive 2;
 		Weapon.AmmoType "RocketAmmo";
 		Weapon.SlotNumber 5;
 		+WEAPON.NOALERT;
-		Inventory.PickupMessage "Got Basic Rocket Launcher";
+		Inventory.PickupMessage "Got Laser Guided Rocket Launcher";
 	}
 	States{
 	Ready:
@@ -45,27 +45,20 @@ class HomingRocketLauncher:Weapon{
 		A_TakeInventory("RocketAmmo",1);
 		A_GunFlash();
 		A_AlertMonsters();
-		A_FireProjectile("HomingRocket");
+		A_FireProjectile("GuidedRocket");
 	}
 }
 
-class HomingRocket:Rocket{
+class GuidedRocket:Rocket{
 	bool alive;
 	double rotspeed;
-	double maxrot;
-	double sanitizeangle(double a){
-		if(a>360) return sanitizeangle(a%360);
-		if(a>180){
-			return 360-a;
-		}else if(a<0){
-			while(a<0)a+=360;
-			return sanitizeangle(a);
-		}
-		return a;
+	double follow_limit;
+	double mod(double a,int n){
+		return a-(floor(a/n)*n);
 	}
 	double anglediff(double a1,double a2){
-		if(a1>a2)return -sanitizeangle(a1-a2);
-		return sanitizeangle(a2-a1);
+		//thanks https://stackoverflow.com/a/7869457
+		return mod((a2-a1)+180,360)-180;
 	}
 	void recalculateVelocity(int speed){
 		A_ChangeVelocity(cos(angle)*cos(pitch)*speed,sin(angle)*cos(pitch)*speed,sin(pitch)*speed,CVF_REPLACE);
@@ -74,7 +67,7 @@ class HomingRocket:Rocket{
 		super.BeginPlay();
 		alive=true;
 		rotspeed=5;
-		maxrot=90;
+		follow_limit=45;
 	}
 	override void Tick(){
 		super.Tick();
@@ -92,7 +85,7 @@ class HomingRocket:Rocket{
 				double adiff=anglediff(angle,targetangle);
 				double pdiff=anglediff(pitch,targetpitch);
 				console.printf("angle:%f,targetangle:%f,pitch:%f,targetpitch:%f,adiff: %f,pdiff: %f",angle,targetangle,pitch,targetpitch,adiff,pdiff);
-				if(abs(adiff)<=maxrot&&abs(pdiff)<=maxrot){
+				if(abs(adiff)<=follow_limit&&abs(pdiff)<=follow_limit){
 					if(abs(adiff)>rotspeed){
 						angle+=(adiff>0)?rotspeed:-rotspeed;
 					}else{

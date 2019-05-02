@@ -14,7 +14,7 @@
 #include "zscript/ricardoluis0/weapons/resurrector.zs"
 #include "zscript/ricardoluis0/weapons/rocketlauncher.zs"
 #include "zscript/ricardoluis0/weapons/gatlingrocket.zs"
-//#include "zscript/ricardoluis0/weapons/homingrocket.zs"
+#include "zscript/ricardoluis0/weapons/guidedrocket.zs"
 #include "zscript/ricardoluis0/weapons/heavygatlinggun.zs"
 #include "zscript/ricardoluis0/weapons/spawners/slotxspawners.zs"
 #include "zscript/ricardoluis0/enemies/resurrectable_actor.zs"

@@ -44,9 +44,7 @@ class MyPlayer : PlayerPawn{
 	}
 
 	Vector3 getLookAtPos(){
-		LineAttack(angle,4096,pitch,0,"None","VisTracer");
-		ThinkerIterator it = ThinkerIterator.Create("VisTracer");
-		VisTracer p=VisTracer(it.Next());
+		Vistracer p=Vistracer(LineAttack(angle,4096,pitch,0,"None","VisTracer"));
 		if(p){
 			Vector3 ret=p.pos;
 			p.destroy();

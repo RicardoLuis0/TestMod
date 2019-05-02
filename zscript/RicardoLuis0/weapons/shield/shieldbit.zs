@@ -6,17 +6,12 @@ class ShieldBit : Actor{
 	int max_health;
 	override void BeginPlay(){
 		super.BeginPlay();
-		//A_SetRenderStyle(1,STYLE_AddStencil);
-		//SetShade(0x00FF00);
-		//internal variables
 		max_health=255;
 		ticks_since_damage=0;
 		ticks_till_regen=5;
 		regen_cooldown=20;
 		regen_amount=1;
-		//flags/properties
 		health=max_health;
-		//other
 		retint();
 	}
 	Default{
@@ -26,7 +21,6 @@ class ShieldBit : Actor{
 		+DONTRIP
 		+DONTTHRUST
 		+NOBLOODDECALS
-		//+WALLSPRITE
 		BloodType "None";
 	}
 	override void Tick(){
@@ -46,7 +40,7 @@ class ShieldBit : Actor{
 	override int DamageMobj(Actor inflictor,Actor source,int damage,Name mod,int flags,double angle){
 		int ret=super.DamageMobj(inflictor,source,damage,mod,flags,angle);
 		ticks_since_damage=0;
-		ShieldBitHit(Spawn("ShieldBitHit",inflictor.pos)).SetColor((double(health)/max_health)*255);
+		ShieldBitHit(Spawn("ShieldBitHit",inflictor.pos)).setColor((double(health)/max_health)*255);
 		retint();
 		return ret;
 	}
@@ -73,19 +67,11 @@ class ShieldBitHit:Actor{
 		+NOTELEPORT
 		+NOINTERACTION
 	}
-	/*
 	override void BeginPlay(){
 		super.BeginPlay();
-		ShieldBit p=ShieldBit(target);
-		if(p){
-			int damagefactor=(double(p.health)/p.max_health)*255;
-			A_SetTranslation("SHIELDBIT_TRANS_"..damagefactor);
-		}else{
-			console.printf("Cast Fail");
-		}
+		setColor(0);
 	}
-	*/
-	void SetColor(int index){
+	void setColor(int index){
 		A_SetTranslation("SHIELDBIT_TRANS_"..index);
 	}
 	States{
