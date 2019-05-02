@@ -1,4 +1,4 @@
-#include "zscript/ricardoluis0/include.zs"
+#include "zscript/ricardoluis0/testmod/include.zs"
 
 /*
 #include "zscript/ricardoluis0/weapons/shield/shieldbit.zs"
