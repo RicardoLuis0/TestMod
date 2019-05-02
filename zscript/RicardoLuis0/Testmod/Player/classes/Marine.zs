@@ -1,6 +1,6 @@
-class myMarine:myPlayer{
+class MarineClass:myPlayer{
 	override void initClasses(){
-		super.initClasses();
+		allowed_spawn_classes.Push("Marine");
 	}
 	Default{
 		Speed 1;
@@ -21,8 +21,9 @@ class myMarine:myPlayer{
 		Player.StartItem "MyPistolClip", 12;
 		Player.StartItem "AssaultRifleLoadedAmmo", 20;
 		Player.StartItem "PumpLoaded", 8;
+		Player.StartItem "SSGLoaded", 2;
 
-		Player.WeaponSlot 1, "Fist","MyChainsaw";
+		Player.WeaponSlot 1, "Fist","Chainsaw";
 		Player.WeaponSlot 2, "Pistol";
 		Player.WeaponSlot 3, "Shotgun","SuperShotgun";
 		Player.WeaponSlot 4, "Chaingun";

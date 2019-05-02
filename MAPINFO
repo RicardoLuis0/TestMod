@@ -1,9 +1,11 @@
 GameInfo {
    PlayerClasses = "MyMarine","MyPlayer"
 }
-GameDefaults {
-   OldFallingDamage
-   KeepFullInventory
-}
 DoomEdNums{
+	15000=MyPistol
+	15001=PumpShotgun
+	15002=SSG
+	15003=AssaultRifle
+	//15004=Minigun
+	//15005=GatlingGun
 }

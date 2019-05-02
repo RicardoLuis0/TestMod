@@ -13,7 +13,7 @@ class GuidedRocketLauncher:MyWeapon{
 		Weapon.AmmoType "RocketAmmo";
 		Weapon.SlotNumber 5;
 		+WEAPON.NOALERT;
-		Inventory.PickupMessage "Got Laser Guided Rocket Launcher";
+		Inventory.PickupMessage "You've got the Laser Guided Rocket Launcher!";
 	}
 	override void BeginPlay(){
 		super.BeginPlay();

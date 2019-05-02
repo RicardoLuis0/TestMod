@@ -19,7 +19,7 @@ class SSG : MyWeapon {
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;
-		Inventory.PickupMessage "You've got the Super Shotgun";
+		Inventory.PickupMessage "You've got the Super Shotgun!";
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
@@ -38,25 +38,7 @@ class SSG : MyWeapon {
 		deselect:
 			DSSG A 1 A_Lower;
 			loop;
-		
 		fire:
-			DSSG A 0{
-				switch(CountInv("SSGLoaded")){
-				case 0:
-					if(CountInv("Shell")==0){
-						return ResolveState("noammo");
-					}else{
-						return ResolveState("reload");
-					}
-				case 1:
-					return ResolveState("fire");
-				default:
-					A_FireBoth();
-					return ResolveState("fireboth");
-				}
-			}
-			goto ready;
-		altfire:
 			DSSG A 0 {
 				switch(CountInv("SSGLoaded")){
 				case 0:
@@ -74,6 +56,23 @@ class SSG : MyWeapon {
 					return ResolveState("fireright");
 				default:
 					return ResolveState("ready");
+				}
+			}
+			goto ready;
+		altfire:
+			DSSG A 0{
+				switch(CountInv("SSGLoaded")){
+				case 0:
+					if(CountInv("Shell")==0){
+						return ResolveState("noammo");
+					}else{
+						return ResolveState("reload");
+					}
+				case 1:
+					return ResolveState("fire");
+				default:
+					A_FireBoth();
+					return ResolveState("fireboth");
 				}
 			}
 			goto ready;

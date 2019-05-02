@@ -16,6 +16,8 @@ class VisTracer:BulletPuff{
 }
 
 class MyPlayer : PlayerPawn{
+	double fmove1temp,fmove2temp,smove1temp,smove2temp,vbobtemp;
+	bool movemod;
 	Default{
 		Speed 1;
 		Health 100;
@@ -35,8 +37,13 @@ class MyPlayer : PlayerPawn{
 		Player.StartItem "MyPistolClip", 12;
 		Player.StartItem "AssaultRifleLoadedAmmo", 20;
 		Player.StartItem "PumpLoaded", 8;
+		Player.StartItem "SSGLoaded", 2;
 
-		Player.WeaponSlot 1, "Fist","MyChainsaw";
+		Player.WeaponSlot 1, "Fist","Chainsaw";
+		Player.WeaponSlot 2, "Pistol";
+		Player.WeaponSlot 3, "Shotgun","SuperShotgun";
+		Player.WeaponSlot 4, "Chaingun";
+		Player.WeaponSlot 5, "RocketLauncher";
 		Player.WeaponSlot 6, "PlasmaRifle";
 		Player.WeaponSlot 7, "BFG9000";
 
@@ -50,6 +57,40 @@ class MyPlayer : PlayerPawn{
 		Player.Colorset 5, "Light Brown",	0x38, 0x47,  0x3A;
 		Player.Colorset 6, "Light Red",		0xB0, 0xBF,  0xB2;
 		Player.Colorset 7, "Light Blue",	0xC0, 0xCF,  0xC2;
+	}
+
+	void ChangeMove(float newmove,bool allow_sprint=true){
+		if(!movemod){
+			movemod=true;
+			fmove1temp=forwardmove1;
+			fmove2temp=forwardmove2;
+			smove1temp=sidemove1;
+			smove2temp=sidemove2;
+			vbobtemp=viewbob;
+		}
+		forwardmove1=newmove*(forwardmove1);
+		sidemove1=newmove*(sidemove1);
+		if(allow_sprint){
+			forwardmove2=newmove*(forwardmove2);
+			sidemove2=newmove*(sidemove2);
+		}else{
+			forwardmove2=newmove/2;
+			sidemove2=newmove/2;
+		}
+		console.printf("Oldbob: "..viewbob);
+		viewbob=viewbob*(((forwardmove1/fmove1temp)+(sidemove1/smove1temp))/2);
+		console.printf("Newbob: "..viewbob);
+	}
+
+	void RevertMove(){
+		if(movemod){
+			movemod=false;
+			forwardmove1=fmove1temp;
+			forwardmove2=fmove2temp;
+			sidemove1=smove1temp;
+			sidemove2=smove2temp;
+			viewbob=vbobtemp;
+		}
 	}
 
 	int ipow(int a,int e){

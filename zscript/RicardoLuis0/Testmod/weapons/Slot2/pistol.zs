@@ -14,7 +14,7 @@ class MyPistol : MyWeapon{
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive1 0;
 		Weapon.AmmoGive2 12;
-		Inventory.Pickupmessage "You've got the Pistol";
+		Inventory.Pickupmessage "You've got the Pistol!";
 		+WEAPON.AMMO_OPTIONAL;
 	}
 	override void BeginPlay(){

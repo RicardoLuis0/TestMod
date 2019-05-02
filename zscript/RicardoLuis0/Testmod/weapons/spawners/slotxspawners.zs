@@ -6,39 +6,72 @@ class Slot1Spawner:ClassRestrictedThingSpawner replaces Chainsaw{
 }
 */
 
-class Slot2Spawner:ClassRestrictedThingSpawner replaces Pistol{
+class Slot2Spawner:ClassRestrictedThingSpawner{
 	override void setDrops(){
-		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Pistols","MyPistol",1,1));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","MyPistol",1,1));
 	}
 }
 
-class Slot3Spawner:ClassRestrictedThingSpawner replaces Shotgun{
+class Slot3Spawner:ClassRestrictedThingSpawner{
 	override void setDrops(){
-		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Shotguns","PumpShotgun",1,1));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","PumpShotgun",1,1));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","SSG",1,1));
 	}
 }
 
-class Slot3SpawnerX1:ClassRestrictedThingSpawner replaces SuperShotgun{
+class Slot4Spawner:ClassRestrictedThingSpawner{
 	override void setDrops(){
-		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Shotguns","SSG",1,1));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","AssaultRifle",1,1));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","GatlingGun",1,1));
 	}
 }
 
-class Slot4Spawner:ClassRestrictedThingSpawner replaces Chaingun{
+class Slot5Spawner:ClassRestrictedThingSpawner{
 	override void setDrops(){
-		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Assault","AssaultRifle",1,1));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","GuidedRocketLauncher",1,1));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","GatlingRocketLauncher",1,1));
 	}
 }
 
-class Slot5Spawner:ClassRestrictedThingSpawner replaces RocketLauncher{
+class Slot6Spawner:ClassRestrictedThingSpawner{
 	override void setDrops(){
-		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Explosives","GuidedRocketLauncher",1,1));
-		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Explosives","GatlingRocketLauncher",1,1));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","MyPlasmaRifle",1,1));
 	}
 }
 
-class Slot6Spawner:ClassRestrictedThingSpawner replaces PlasmaRifle{
+class PistolSpawner:Slot2Spawner replaces Pistol{
 	override void setDrops(){
-		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Plasma","MyPlasmaRifle",1,1));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","MyPistol",1,1));
+	}
+}
+
+class ShotgunSpawner:ClassRestrictedThingSpawner replaces Shotgun{
+	override void setDrops(){
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","PumpShotgun",1,1));
+	}
+}
+
+class SuperShotgunSpawner:ClassRestrictedThingSpawner replaces SuperShotgun{
+	override void setDrops(){
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","SSG",1,1));
+	}
+}
+
+class ChaingunSpawner:ClassRestrictedThingSpawner replaces Chaingun{
+	override void setDrops(){
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","GatlingGun",1,1));
+	}
+}
+
+class RocketLauncherSpawner:ClassRestrictedThingSpawner replaces RocketLauncher{
+	override void setDrops(){
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","GuidedRocketLauncher",1,2));
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","GatlingRocketLauncher",1,1));
+	}
+}
+
+class PlasmaRifleSpawner:ClassRestrictedThingSpawner replaces PlasmaRifle{
+	override void setDrops(){
+		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","MyPlasmaRifle",1,1));
 	}
 }

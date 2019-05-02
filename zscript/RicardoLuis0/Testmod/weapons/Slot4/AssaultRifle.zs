@@ -19,7 +19,7 @@ class AssaultRifle : MyWeapon {
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;
 		+WEAPON.NOAUTOFIRE;
-		Inventory.PickupMessage "You've got the Assault Rifle";
+		Inventory.PickupMessage "You've got the Assault Rifle!";
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
@@ -105,6 +105,7 @@ class AssaultRifle : MyWeapon {
 			}
 			ASRG A 0 A_Bob();
 			ASRG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+			Goto Ready;
 	}
 	const spread_max=10;
 	const spread_x=5;
@@ -154,9 +155,10 @@ class AssaultRifle : MyWeapon {
 		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
+		A_FireBullets(invoker.getSpreadX(refire,player.vel.length()),invoker.getSpreadY(refire,player.vel.length()),1,invoker.dmg,"BulletPuff");
+		player.refire=refire;
 		A_Recoil(0.5);
 		A_AlertMonsters();
-		A_FireBullets(invoker.getSpreadX(refire,player.vel.length()),invoker.getSpreadY(refire,player.vel.length()),1,invoker.dmg,"BulletPuff");
 		A_PlaySound("weapons/gatlingfire");
 		A_SetPitch(pitch+(random(-10,0)/5));
 		A_SetAngle(angle+(random(-20,15)/10));
