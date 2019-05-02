@@ -8,6 +8,7 @@ class HeavyGatlingGun:MyWeapon{
 		Weapon.AmmoUse2 1;
 		Weapon.AmmoGive1 50;
 		+WEAPON.NOALERT;
+		+WEAPON.AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Heavy Gatling Gun!";
 	}
 	override void BeginPlay(){
@@ -21,6 +22,7 @@ class HeavyGatlingGun:MyWeapon{
 			loop;
 		select:
 			TNT1 A 0 {
+				A_UpdateBob();
 				MyPlayer cast=MyPlayer(invoker.owner);
 				if(cast){
 					cast.ChangeMove(.75,false);
@@ -39,15 +41,9 @@ class HeavyGatlingGun:MyWeapon{
 		deselectloop:
 			DGTG A 1 A_Lower;
 			loop;
-		fire:
-			TNT1 A 0 {
-				if(CountInv("Clip")==0)return ResolveState("Ready");
-				return ResolveState(null);
-			}
-			goto spin2up;
 		firespin:
 			TNT1 A 0 {
-				if(CountInv("Clip")==0)return ResolveState("Ready");
+				if(CountInv("Clip")==0)return ResolveState("idlespin");
 				return ResolveState(null);
 			}
 			DGTG A 0 A_Bob;
@@ -55,12 +51,6 @@ class HeavyGatlingGun:MyWeapon{
 			DGTG A 0 A_Bob;
 			DGTF B 1 Bright;
 			goto idlespin2;
-		altfire:
-			TNT1 A 0 {
-				if(CountInv("Clip")==0)return ResolveState("Ready");
-				return ResolveState(null);
-			}
-			goto spin2up;
 		idlespin:
 			DGTG A 0 A_Bob;
 			DGTG A 2;
@@ -93,7 +83,13 @@ class HeavyGatlingGun:MyWeapon{
 			DGTG A 0 A_Bob;
 			DGTG D 4;
 			DGTG A 0 CheckFire("firespin","idlespin","spin2down");
+		fire:
+		altfire:
 		spin2up:
+			TNT1 A 0 {
+				A_PlaySound("weapons/gatlingspin",CHAN_7,3,true);
+				A_PlaySound("weapons/gatlingwindup",CHAN_6,4);
+			}
 			DGTG A 0 A_Bob;
 			DGTG A 7;
 			DGTG A 0 A_Bob;
@@ -104,6 +100,8 @@ class HeavyGatlingGun:MyWeapon{
 			DGTG D 4;
 			DGTG A 0 CheckFire("spin1up","spin1up","spin2down");
 		spin2down:
+			DGTG A 0 A_StopSound(CHAN_7);
+			DGTG A 0 A_PlaySound("weapons/gatlingwinddown",CHAN_6,3);
 			DGTG A 0 A_Bob;
 			DGTG A 4;
 			DGTG A 0 A_Bob;

@@ -68,7 +68,7 @@ class ChaingunSpawner:ClassRestrictedThingSpawner replaces Chaingun{
 class RocketLauncherSpawner:ClassRestrictedThingSpawner replaces RocketLauncher{
 	override void setDrops(){
 		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","GuidedRocketLauncher",1,2));
-		spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","GatlingRocketLauncher",1,1));
+		if(CVar.FindCVar("gatling_rocket_launcher").GetInt())spawnlist.Push(new("ClassRestrictedThingSpawnerElement").Init("Marine","GatlingRocketLauncher",1,1));
 	}
 }
 

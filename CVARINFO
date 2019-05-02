@@ -1,8 +1,11 @@
 SERVER FLOAT guided_rocket_max_follow_angle = 45;
 SERVER BOOL ssg_from_shotgun = false;
-USER BOOL plasma_rifle_classic_mode = false;
-USER BOOL use_to_pickup = true;
+SERVER BOOL plasmagun_extrafire = false;
+SERVER BOOL zombiemen_drop_rifle = true;
+USER BOOL plasma_rifle_classic_mode = true;
+USER BOOL use_to_pickup = false;
 USER BOOL auto_pickup = true;
 USER BOOL hold_to_pickup = false;
-USER BOOL smart_pickup = true;
-USER BOOL expanded_bob = true;
+USER BOOL extra_weapon_bob = true;
+USER BOOL gatling_rocket_launcher = true;
+USER BOOL ssg_autoreload = true;

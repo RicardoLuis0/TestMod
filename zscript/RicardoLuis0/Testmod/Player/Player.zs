@@ -34,14 +34,12 @@ class MyPlayer : PlayerPawn{
 		Player.CrouchSprite "PLYC";
 
 		Player.StartItem "MyPistol";
-		Player.StartItem "Fist";
-
 		Player.StartItem "Clip", 36;
-
 		Player.StartItem "MyPistolClip", 12;
 		Player.StartItem "AssaultRifleLoadedAmmo", 20;
 		Player.StartItem "PumpLoaded", 8;
 		Player.StartItem "SSGLoaded", 2;
+		Player.StartItem "Fist";
 
 		Player.WeaponSlot 1, "Fist","Chainsaw";
 		Player.WeaponSlot 2, "Pistol";

@@ -37,6 +37,7 @@ class MyPistol : MyWeapon{
 		Loop;
 	Select:
 		TNT1 A 0 {
+			A_UpdateBob();
 			if(CountInv("MyPistolClip")==0){
 				return ResolveState("SelectEmpty");
 			}else{
@@ -79,6 +80,7 @@ class MyPistol : MyWeapon{
 		}
 		TNT1 A 0 A_Bob();
 		DPIF A 3 Fire;
+		TNT1 A 0 A_Bob();
 		DPIG C 3;
 		TNT1 A 0 {
 			if(CountInv("MyPistolClip")==0){
@@ -87,6 +89,7 @@ class MyPistol : MyWeapon{
 				return ResolveState(null);
 			}
 		}
+		TNT1 A 0 A_Bob();
 		DPIG B 3;
 		TNT1 A 0 A_ReFire;
 		Goto Ready;
@@ -124,9 +127,12 @@ class MyPistol : MyWeapon{
 		}
 		Goto ReloadEmptyAnim;
 	ReloadAnim:
-		DPIR ABC 3;
+		DPIR A 3 A_PlaySound("weapons/pistolclipout",CHAN_5);
+		DPIR BC 3;
 		DPIR D 6;
-		DPIR EFGHIJ 3;
+		DPIR EF 3;
+		DPIR G 3 A_PlaySound("weapons/pistolclipin",CHAN_5);
+		DPIR HIJ 3;
 		TNT1 A 0 {
 			if(invoker.partial){
 				A_GiveInventory("MyPistolClip",CountInv("Clip"));
@@ -138,11 +144,13 @@ class MyPistol : MyWeapon{
 		}
 		Goto Ready;
 	ReloadEmptyAnim:
-		DPIE ABC 3;
+		DPIE A 3 A_PlaySound("weapons/pistolclipout",CHAN_5);
+		DPIE BC 3;
 		DPIE D 6;
-		DPIE EFG 3;
+		DPIE EF 3;
+		DPIE G 3 A_PlaySound("weapons/pistolclipin",CHAN_5);
 		DPIE H 5;
-		DPIR I 4;
+		DPIR I 4 A_PlaySound("weapons/pistolclose",CHAN_5);
 		DPIR J 3;
 		TNT1 A 0 {
 			if(invoker.partial){
@@ -155,8 +163,10 @@ class MyPistol : MyWeapon{
 		}
 		Goto Ready;
 	}
+	bool i;
 	action void fire(){
-		A_PlaySound("weapons/pistol", CHAN_WEAPON);
+		A_PlaySound("weapons/pistol_fire",invoker.i?CHAN_6:CHAN_7);
+		invoker.i=!invoker.i;
 		if(player.refire==0){
 			player.refire=1;
 			A_FireBullets(1,1,1,5,"BulletPuff");

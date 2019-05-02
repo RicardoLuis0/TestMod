@@ -43,7 +43,9 @@ class PumpShotgun : MyWeapon {
 			}
 			0SGG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
-		select:
+		Select:
+			TNT1 A 0 A_UpdateBob();
+		SelectLoop:
 			0SGG A 1 A_Raise;
 			loop;
 		deselect:
@@ -73,11 +75,12 @@ class PumpShotgun : MyWeapon {
 			0SGF D 1;
 			0SGG A 0 A_Bob();
 			0SGF E 1;
-			0SGG A 0 A_PlaySound("SHOTPUMP",CHAN_AUTO);
+			0SGG A 0 A_PlaySound("weapons/shotgun_pump",CHAN_AUTO);
 			0SGG BCD 3;
 			0SGG E 4;
 			0SGG DCB 3;
 			0SGG A 0 A_Bob();
+			0SGG A 5;
 			0SGG A 5 A_Refire;
 			0SGG A 0 {
 				if(CountInv("PumpLoaded")==0) return ResolveState("Reload");
@@ -107,7 +110,7 @@ class PumpShotgun : MyWeapon {
 			0SGG A 0 A_Bob();
 			0SGG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
 			0SGG A 0{
-				A_PlaySound("DSCLICKY");
+				A_PlaySound("weapons/click02");
 				if(invoker.firemode==0){
 					A_Print("Auto Fire");
 					invoker.firemode=1;
@@ -162,7 +165,7 @@ class PumpShotgun : MyWeapon {
 		pump:
 			0SGG A 0 A_Bob();
 			0SGG A 5;
-			0SGG A 0 A_PlaySound("SHOTPUMP",CHAN_AUTO);
+			0SGG A 0 A_PlaySound("weapons/shotgun_pump",CHAN_AUTO);
 			0SGG BCD 3;
 			0SGG E 4;
 			0SGG DCB 3;
@@ -199,7 +202,7 @@ class PumpShotgun : MyWeapon {
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
 		A_FireBullets (3,3,invoker.pellets,invoker.dmg,"BulletPuff");
-		A_PlaySound ("SHOTFIRE",CHAN_AUTO);
+		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO);
 		return ResolveState(null);
 	}
 	
@@ -213,7 +216,7 @@ class PumpShotgun : MyWeapon {
 		A_SetPitch(pitch+(random(-15,0)/5),SPF_INTERPOLATE);
 		A_SetAngle(angle+(random(-30,30)/10),SPF_INTERPOLATE);
 		A_FireBullets (5,5,invoker.pellets,invoker.dmg,"BulletPuff");
-		A_PlaySound ("SHOTFIRE",CHAN_AUTO);
+		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO);
 		return ResolveState(null);
 	}
 	action State A_ReloadStart(){

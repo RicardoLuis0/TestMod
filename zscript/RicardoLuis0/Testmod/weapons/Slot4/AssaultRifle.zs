@@ -32,7 +32,9 @@ class AssaultRifle : MyWeapon {
 		ready:
 			ASRG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
-		select:
+		Select:
+			TNT1 A 0 A_UpdateBob();
+		SelectLoop:
 			ASRG A 1 A_Raise;
 			loop;
 		deselect:
@@ -61,9 +63,9 @@ class AssaultRifle : MyWeapon {
 			
 			ASRR ABCDEF 1;
 			
-			ASRR G 4 A_PlaySound("ARCLICK");
+			ASRR G 4 A_PlaySound("weapons/click01");
 			ASRR HIJK 2;
-			ASRR L 2 A_PlaySound("ARRELOAD");
+			ASRR L 2 A_PlaySound("weapons/rifle_reload");
 			ASRR L 0 A_ReloadGun;
 			ASRR MNOPQRS 1;
 			ASRG A 0 A_PostReloadGun;
@@ -73,7 +75,7 @@ class AssaultRifle : MyWeapon {
 			ASRK B 2 A_Bob();
 			ASRK C 5 A_Bob();
 			ASRK D 0 A_Bob();
-			ASRK D 20 A_PlaySound("ARBOLT");
+			ASRK D 20 A_PlaySound("weapons/rifle_bolt");
 			ASRK C 10 A_Bob();
 			ASRK B 5 A_Bob();
 			ASRK A 0{
@@ -92,15 +94,15 @@ class AssaultRifle : MyWeapon {
 			ASRG A 0 A_Bob();
 			ASRG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
 			ASRG A 0{
-				A_PlaySound("DSCLICKY");
+				A_PlaySound("weapons/click02");
 				if(invoker.firemode==0){
 					A_Print("Full Auto");
 					invoker.firemode=1;
-					invoker.crosshair=35;
+					//invoker.crosshair=35;
 				}else if(invoker.firemode==1){
 					A_Print("Semi-Automatic");
 					invoker.firemode=0;
-					invoker.crosshair=43;
+					//invoker.crosshair=43;
 				}
 			}
 			ASRG A 0 A_Bob();
@@ -159,7 +161,7 @@ class AssaultRifle : MyWeapon {
 		player.refire=refire;
 		A_Recoil(0.5);
 		A_AlertMonsters();
-		A_PlaySound("weapons/gatlingfire");
+		A_PlaySound("weapons/ar_fire");
 		A_SetPitch(pitch+frandom(-2,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-2,1.5),SPF_INTERPOLATE);
 		return ResolveState(null);

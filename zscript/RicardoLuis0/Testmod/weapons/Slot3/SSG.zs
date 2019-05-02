@@ -32,7 +32,9 @@ class SSG : MyWeapon {
 		ready:
 			DSSG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
-		select:
+		Select:
+			TNT1 A 0 A_UpdateBob();
+		SelectLoop:
 			DSSG A 1 A_Raise;
 			loop;
 		deselect:
@@ -85,7 +87,14 @@ class SSG : MyWeapon {
 			DSSF C 2;
 			DSSG A 0 A_Bob();
 			DSSF J 2;
-			goto reload;
+			DSGG A 0 {
+				if(CVar.GetCVar("ssg_autoreload",player).getInt()!=0){
+					return ResolveState("Reload");
+				}
+				return ResolveState(null);
+			}
+			DSSF A 0 A_ReFire("reload");
+			goto ready;
 		fireright:
 			DSSG A 0 A_Bob();
 			DSSF D 2 Bright;
@@ -97,11 +106,18 @@ class SSG : MyWeapon {
 			DSSF J 2;
 			DSSG A 0 {
 				if(invoker.fireright){
-					return ResolveState("reload");
-				}else{
 					return ResolveState(null);
+				}else{
+					return ResolveState("ready");
 				}
 			}
+			DSGG A 0 {
+				if(CVar.GetCVar("ssg_autoreload",player).getInt()!=0){
+					return ResolveState("Reload");
+				}
+				return ResolveState(null);
+			}
+			DSGG A 0 A_ReFire("reload");
 			goto ready;
 		fireleft:
 			DSSG A 0 A_Bob();
@@ -112,7 +128,14 @@ class SSG : MyWeapon {
 			DSSF I 2;
 			DSSG A 0 A_Bob();
 			DSSF J 2;
-			goto reload;
+			DSGG A 0 {
+				if(CVar.GetCVar("ssg_autoreload",player).getInt()!=0){
+					return ResolveState("Reload");
+				}
+				return ResolveState(null);
+			}
+			DSGG A 0 A_ReFire("reload");
+			goto ready;
 		reload:
 			DSSG A 0{
 				if(CountInv("SSGLoaded")==2||CountInv("Shell")==0)return ResolveState("ready");
@@ -206,16 +229,17 @@ class SSG : MyWeapon {
 		A_Recoil(2.0);
 		A_SetPitch(pitch+frandom(-5,-2),SPF_INTERPOLATE);
 		A_SetAngle(angle+(CountInv("SSGLoaded")==1?frandom(-5,-2):frandom(2,5)),SPF_INTERPOLATE);
-		A_PlaySound ("SHOTFIRE",CHAN_AUTO);
+		A_PlaySound("weapons/ssg_fire1",CHAN_AUTO);
 	}
 
 	action void A_FireBoth(){
 		A_GunFlash();
 		A_AlertMonsters();
 		A_TakeInventory("SSGLoaded",2);
-		A_FireBullets(8,8,invoker.pellets*2,invoker.dmg,"BulletPuff");
+		A_FireBullets(10,6,int(invoker.pellets*2.2),invoker.dmg,"BulletPuff");
 		A_Recoil(5.0);
 		A_SetPitch(pitch+frandom(-10,-5),SPF_INTERPOLATE);
-		A_PlaySound ("SHOTFIRE",CHAN_AUTO);
+		A_PlaySound("weapons/ssg_fire2_01",CHAN_AUTO);
+		A_PlaySound("weapons/ssg_fire2_02",CHAN_AUTO,500);
 	}
 }

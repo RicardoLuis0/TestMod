@@ -1,6 +1,6 @@
 class NewZombieManDrop1 : MD_Spawner{
 	override void setDrops(){
-		droplist.Push(new("MD_Component").Init("AssaultRifle",1,1));
+		if(CVar.FindCVar("zombiemen_drop_rifle").GetInt())droplist.Push(new("MD_Component").Init("AssaultRifle",1,1));
 		droplist.Push(new("MD_Component").Init("Clip",1,4));
 	}
 }

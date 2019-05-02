@@ -15,7 +15,7 @@ class PlasmaShot01:FastProjectile{
 	}
 	States{
 	Spawn:
-		BSHT A 0 Bright A_PlaySound("weapons/cryobowflyby", CHAN_BODY, 1.0, 1);
+		BSHT A 0 Bright A_PlaySound("weapons/plasmaflyby", CHAN_BODY, 1.0, 1);
 		BSHT A 1 Bright;
 		Loop;
 	Death:

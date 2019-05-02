@@ -1,4 +1,5 @@
 class MyWeapon:Weapon{
+	bool extra_weapon_bob;
 	string glow;
 	string noglow;
 	bool lastbright;
@@ -9,7 +10,6 @@ class MyWeapon:Weapon{
 		MyWeapon.glow "HoverGlow";
 		MyWeapon.noglow "None";
 	}
-	
 	virtual void GlowStart(){
 		A_SetTranslation(glow);
 		lastbright=bBright;
@@ -148,6 +148,9 @@ class MyWeapon:Weapon{
 		invoker.SetLayerSprite(layer,sprite);
 	}
 	action void A_Bob(){
-		A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		if(invoker.extra_weapon_bob)A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	}
+	action void A_UpdateBob(){
+		invoker.extra_weapon_bob=CVar.FindCVar("extra_weapon_bob").GetInt();
 	}
 }

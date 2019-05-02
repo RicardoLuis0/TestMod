@@ -25,6 +25,7 @@ class MyPlasmaRifle : MyWeapon {
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Plasma Rifle!";
+		Decal "PlasmaScorchLower";
 	}
 
 	States{
@@ -50,6 +51,7 @@ class MyPlasmaRifle : MyWeapon {
 		Loop;
 	Select:
 		DPGG A 0 {
+			A_UpdateBob();
 			A_Overlay(LAYER,"WeaponOverlay");
 			invoker.init=true;
 		}
@@ -57,10 +59,20 @@ class MyPlasmaRifle : MyWeapon {
 		DPGG A 1 A_Raise();
 		Wait;
 	AltFire:
+		DPGG A 0 {
+			if(!CVar.FindCVar("plasmagun_extrafire").getInt()){
+				if(invoker.firemode!=0){
+					invoker.firemode=0;
+					updateFire(false);
+				}
+				return ResolveState("Ready");
+			}
+			return ResolveState(null);
+		}
 		DPGG A 0 A_Bob();
 		DPGG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
 		DPGG A 0{
-			A_PlaySound("DSCLICKY");
+			A_PlaySound("weapons/click02");
 			if(invoker.firemode<invoker.firemodemax){
 				invoker.firemode++;
 			}else{
@@ -71,8 +83,14 @@ class MyPlasmaRifle : MyWeapon {
 		DPGG A 0 A_Bob();
 		DPGG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		Goto Ready;
+	ResetFire:
+		TNT1 A 0 {
+			invoker.firemode=0;
+			updateFire(false);
+		}
 	Fire:
 		DPGG A 0 {
+			if(invoker.firemode!=0&&!CVar.FindCVar("plasmagun_extrafire").getInt())return ResolveState("ResetFire");
 			return invoker.fireState;
 		}
 		Goto Ready;
@@ -170,6 +188,9 @@ class MyPlasmaRifle : MyWeapon {
 				invoker.firing=false;
 				return ResolveState("OverheatUp");
 			}else{
+				if(invoker.altloop==9){
+					A_PlaySound("weapons/overheat",CHAN_AUTO);
+				}
 				invoker.altloop--;
 			}
 			return ResolveState(null);
@@ -192,6 +213,9 @@ class MyPlasmaRifle : MyWeapon {
 				invoker.firing=false;
 				return ResolveState("OverheatUp");
 			}else{
+				if(invoker.altloop==9){
+					A_PlaySound("weapons/overheat",CHAN_AUTO);
+				}
 				invoker.altloop--;
 			}
 			return ResolveState(null);
@@ -222,6 +246,7 @@ class MyPlasmaRifle : MyWeapon {
 		DEPG A -1;
 		Loop;
 	OverheatStart:
+		DPGG A 0 A_PlaySound("weapons/overheat",CHAN_AUTO);
 		DPGG A 0 A_Bob();
 		DPGG A 3 W_SetLayerSprite(LAYER,"PHOA");
 		DPGG C 6 W_SetLayerSprite(LAYER,"PHOC");
@@ -272,33 +297,33 @@ class MyPlasmaRifle : MyWeapon {
 		init=false;
 	}
 
-	action void updateFire(){
+	action void updateFire(bool showmessage=true){
 		switch(invoker.firemode){
 		default:
 			invoker.firemode=0;
-		case 0://automatic
-			A_Print("Automatic");
+		case 0://automatic mode
+			if(showmessage)A_Print("Automatic Mode");
 			invoker.heatdownoverheat=20;
 			invoker.heatup=10;
 			invoker.fireState=ResolveState("AutoFire");
 			invoker.ammouse1=1;
 			break;
-		case 1://shotgun
-			A_Print("Shotgun");
+		case 1://shotgun mode
+			if(showmessage)A_Print("Shotgun Mode");
 			invoker.heatdownoverheat=20;
 			invoker.heatup=50;
 			invoker.fireState=ResolveState("ShotgunFire");
 			invoker.ammouse1=5;
 			break;
-		case 2://plasma launcher
-			A_Print("Plasma Launcher");
+		case 2://launcher mode
+			if(showmessage)A_Print("Launcher Mode");
 			invoker.heatup=invoker.heatmax;
 			invoker.heatdownoverheat=10;
 			invoker.fireState=ResolveState("LauncherFire");
 			invoker.ammouse1=15;
 			break;
-		case 3:
-			A_Print("Railgun");
+		case 3://railgun mode
+			if(showmessage)A_Print("Railgun Mode");
 			invoker.heatup=invoker.heatmax;
 			invoker.heatdownoverheat=30;
 			invoker.fireState=ResolveState("RailFire");
@@ -369,14 +394,14 @@ class MyPlasmaRifle : MyWeapon {
 		invoker.firing=true;
 		invoker.HeatPlus();
 		A_AlertMonsters();
-		A_FireProjectile((random(0,1)?"PlasmaShot01":"PlasmaShot01Silent"),frandom(-3,3),true,pitch:frandom(-3,3));
-		A_FireProjectile((random(0,1)?"PlasmaShot01":"PlasmaShot01Silent"),frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile((random(0,1)?"PlasmaShot01":"PlasmaShot01Silent"),frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile((random(0,1)?"PlasmaShot01":"PlasmaShot01Silent"),frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile((random(0,1)?"PlasmaShot01":"PlasmaShot01Silent"),frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile((random(0,1)?"PlasmaShot01":"PlasmaShot01Silent"),frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile((random(0,1)?"PlasmaShot01":"PlasmaShot01Silent"),frandom(-3,3),false,pitch:frandom(-3,3));
-		A_FireProjectile((random(0,1)?"PlasmaShot01":"PlasmaShot01Silent"),frandom(-3,3),false,pitch:frandom(-3,3));
+		A_FireProjectile("PlasmaShot01",frandom(-3,3),true,pitch:frandom(-3,3));
+		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
+		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
+		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
+		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
+		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
+		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
+		A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
 		A_Recoil(5);
 		if(random(0,1)) {
 			A_GunFlash("Flash1");

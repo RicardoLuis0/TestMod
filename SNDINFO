@@ -1,25 +1,54 @@
-AKFIRE "AK47FIR"
-AKRELOAD1 "sounds/ak_clip_1.mp3"
-AKRELOAD2 "sounds/ak_clip_2.mp3"
-AKRELOAD3 "sounds/ak_bolt.mp3"
-SHOTFIRE "sounds/shotgunfire.wav"
-SHOTPUMP "sounds/shotgunpump.wav"
-TUBERELOAD "sounds/tube_reloadv2.wav"
-ARBOLT "sounds/dsarmou.wav"
-ARRELOAD "sounds/reload.wav"
-ARCLICK "sounds/dsclk5.ogg"
-DSCLICKY "sounds/DSCLICKY"
+$pitchshiftrange 0
 
-weapons/cryobowfire     DSBOWFIR
-weapons/cryobowshot     DSBOWSHT
-weapons/cryobowreload   DSBOWREL
-weapons/cryobowhit      DSBOWHIT
-weapons/cryobowflyby    DSBOWFLY
+//source: unknown (sorry, forgot where i got these)
 
-weapons/plasmaf			dsplasma
-weapons/plasmax			dsfirxpl
+weapons/ar_fire "sounds/ARFIRE"
+weapons/shotgun_fire "sounds/shotgunfire.wav"
+weapons/shotgun_pump "sounds/shotgunpump.wav"
+weapons/rifle_bolt "sounds/dsarmou.wav"
+weapons/rifle_reload "sounds/reload.wav"
+weapons/click01 "sounds/dsclk5.ogg"
+weapons/click02 "sounds/DSCLICKY"
+weapons/pistol_fire "sounds/pistolfire.wav"
+
+//source: cryobow
+
+weapons/plasmaflyby    DSBOWFLY
+
+//source: eriguns
+
+weapons/gatlingwindup   "sounds/dsgtwndu.wav"
+weapons/gatlingspin     "sounds/dsgtspin.wav"
+weapons/gatlingwinddown "sounds/dsgtwndd.wav"
+weapons/pistolclipout   "dsdbcls.wav"
+weapons/pistolclipin    "dsdbload.wav"
+
+weapons/plasmaf			"sounds/dsplasma.wav"
+//weapons/plasmax			dsfirxpl
+
+weapons/pistolclipin    "sounds/pistolclipin.wav"
+weapons/pistolclipout   "sounds/pistolclipout.wav"
+weapons/pistolclose "sounds/closeclick.wav"
+
+weapons/ssg_fire1 "sounds/DSDSHT1B.wav"
+weapons/ssg_fire2_01 "sounds/DSDSHTGN.wav"
+weapons/ssg_fire2_02 "sounds/DSGXPLOD.ogg"
 
 weapons/gatlingfire1    dsgtfir1
 weapons/gatlingfire2    dsgtfir2
 weapons/gatlingfire3    dsgtfir3
 $random weapons/gatlingfire { weapons/gatlingfire1 weapons/gatlingfire2 weapons/gatlingfire3 }
+
+//source: gamebanana.com/sounds/27991
+weapons/minigunwindup "sounds/minigunwindup.wav"
+weapons/minigunspin "sounds/minigunspinloop.wav"
+weapons/minigunwinddown "sounds/minigunwinddown.wav"
+
+//source: forum.zdoom.org/viewtopic.php?f=37&t=50207
+
+weapons/minigun_fire_01 "sounds/MINIFIRE.wav"
+//weapons/pistol_fire "sounds/PISTOL11.wav" //edited by me
+
+//source: https://freesound.org/people/Marregheriti/sounds/266102/
+
+weapons/overheat "sounds/overheat.wav"

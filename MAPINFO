@@ -1,5 +1,5 @@
 GameInfo {
-   PlayerClasses = "MyMarine","MyPlayer"
+   PlayerClasses = "MyPlayer"
 }
 DoomEdNums{
 	15000=MyPistol

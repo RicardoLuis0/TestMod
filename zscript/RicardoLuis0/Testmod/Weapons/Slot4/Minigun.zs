@@ -8,12 +8,13 @@ class Minigun:MyWeapon{
 		Weapon.AmmoUse2 1;
 		Weapon.AmmoGive1 50;
 		+WEAPON.NOALERT;
+		+WEAPON.AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Minigun!";
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
 		crosshair=35;
-		dmg=10;
+		dmg=8;
 	}
 	States{
 		ready:
@@ -21,6 +22,7 @@ class Minigun:MyWeapon{
 			loop;
 		select:
 			TNT1 A 0 {
+				A_UpdateBob();
 				MyPlayer cast=MyPlayer(invoker.owner);
 				if(cast){
 					cast.ChangeMove(1,false);
@@ -39,37 +41,34 @@ class Minigun:MyWeapon{
 		deselectloop:
 			PKCG A 1 A_Lower;
 			loop;
-		fire:
-			TNT1 A 0 {
-				if(CountInv("Clip")==0)return ResolveState("Ready");
-				return ResolveState(null);
-			}
-			goto spin2up;
 		firespin:
 			TNT1 A 0 {
-				if(CountInv("Clip")==0)return ResolveState("Ready");
+				A_StopSound(CHAN_6);
+				A_PlaySound("weapons/minigunspin",CHAN_7|CHAN_NOSTOP|CHAN_LOOP,0.5);
+				if(CountInv("Clip")==0)return ResolveState("idlespin");
 				return ResolveState(null);
 			}
 			PKCG A 0 A_Jump(128,"firespin2");
 			PKCG A 0 A_Bob;
 			PKCF A 1 Bright A_FireGun;
-			goto idlespin2;
+			goto idlespin2fire;
 		firespin2:
 			PKCG A 0 A_Bob;
 			PKCF B 1 Bright A_FireGun;
-			goto idlespin2;
-		altfire:
-			TNT1 A 0 {
-				if(CountInv("Clip")==0)return ResolveState("Ready");
-				return ResolveState(null);
-			}
-			goto spin2up;
+			goto idlespin2fire;
 		idlespin:
+			TNT1 A 0 A_StopSound(CHAN_6);
+			TNT1 A 0 A_PlaySound("weapons/minigunspin",CHAN_7|CHAN_NOSTOP|CHAN_LOOP,0.5);
 			PKCG A 0 A_Bob;
 			PKCG A 1;
 		idlespin2:
 			PKCG A 0 A_Bob;
 			PKCG C 1;
+			PKCG A 0 CheckFire("firespin","idlespin","spin1down");
+			goto ready;
+		idlespin2fire:
+			PKCG A 0 A_Bob;
+			PKCG C 1 Bright;
 			PKCG A 0 CheckFire("firespin","idlespin","spin1down");
 			goto ready;
 		spin1up:
@@ -83,6 +82,8 @@ class Minigun:MyWeapon{
 			PKCG D 1;
 			PKCG A 0 CheckFire("firespin","idlespin","spin1down");
 		spin1down:
+			TNT1 A 0 A_StopSound(CHAN_7);
+			TNT1 A 0 A_PlaySound("weapons/minigunwinddown",CHAN_6,0.5);
 			PKCG A 0 A_Bob;
 			PKCG A 1;
 			PKCG A 0 A_Bob;
@@ -92,7 +93,10 @@ class Minigun:MyWeapon{
 			PKCG A 0 A_Bob;
 			PKCG D 2;
 			PKCG A 0 CheckFire("firespin","idlespin","spin2down");
+		altfire:
+		fire:
 		spin2up:
+			TNT1 A 0 A_PlaySound("weapons/minigunwindup",CHAN_6,0.5);
 			PKCG A 0 A_Bob;
 			PKCG A 6;
 			PKCG A 0 A_Bob;
@@ -101,6 +105,7 @@ class Minigun:MyWeapon{
 			PKCG C 4;
 			PKCG A 0 A_Bob;
 			PKCG D 3;
+			TNT1 A 0 A_PlaySound("weapons/minigunspin",CHAN_7|CHAN_LOOP,0.5);
 			PKCG A 0 CheckFire("spin1up","spin1up","spin2down");
 		spin2down:
 			PKCG A 0 A_Bob;
@@ -125,10 +130,10 @@ class Minigun:MyWeapon{
 		if(refire<=0)player.refire=1;
 		A_FireBullets(8,5,1,invoker.dmg,"BulletPuff");
 		player.refire=refire;
-		A_Recoil(0.5);
+		A_Recoil(1);
 		A_AlertMonsters();
 		A_SetPitch(pitch+frandom(-1,0),SPF_INTERPOLATE);
-		A_PlaySound("weapons/gatlingfire");
+		A_PlaySound("weapons/minigun_fire_01",CHAN_WEAPON);
 		return ResolveState(null);
 	}
 }
