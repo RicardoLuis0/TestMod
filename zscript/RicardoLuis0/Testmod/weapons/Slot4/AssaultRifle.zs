@@ -154,6 +154,7 @@ class AssaultRifle : MyWeapon {
 		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
+		A_Recoil(0.5);
 		A_AlertMonsters();
 		A_FireBullets(invoker.getSpreadX(refire,player.vel.length()),invoker.getSpreadY(refire,player.vel.length()),1,invoker.dmg,"BulletPuff");
 		A_PlaySound("weapons/gatlingfire");

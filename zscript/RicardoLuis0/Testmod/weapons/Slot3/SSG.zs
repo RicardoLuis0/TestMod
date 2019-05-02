@@ -1,11 +1,12 @@
 class SSGLoaded : Ammo{
 	Default{
-		Inventory.MaxAmount 9;
+		Inventory.MaxAmount 2;
 		+INVENTORY.IGNORESKILL;
 	}
 }
 
-class MySSG : MyWeapon {
+class SSG : MyWeapon {
+	bool fireright;
 	int pellets;
 	int dmg;
 	Default{
@@ -22,95 +23,157 @@ class MySSG : MyWeapon {
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
-		crosshair=23;
-		first=true;
+		crosshair=25;
 		pellets=15;
-		dmg=5;
+		dmg=6;
+		fireright=false;
 	}
 	States{
 		ready:
-			TNT1 A 0{
-				if(invoker.first){
-					invoker.first=false;
-					if(CountInv("PumpLoaded")!=9){
-						return P_Call("Pump","Ready");
-					}
-				}
-				return ResolveState(null);
-			}
-			0SGG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+			DSSG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
 		select:
-			0SGG A 1 A_Raise;
+			DSSG A 1 A_Raise;
 			loop;
 		deselect:
-			0SGG A 1 A_Lower;
+			DSSG A 1 A_Lower;
 			loop;
+		
 		fire:
-			0SGG A 0 A_FirePump();
-			0SGF A 2 A_GunFlash;
-			0SGF B 2;
-			0SGF C 2;
-			0SGF D 1;
-			0SGF E 1;
-			0SGG A 0 A_PlaySound("SHOTPUMP",CHAN_AUTO);
-			0SGG BCD 3;
-			0SGG E 4;
-			0SGG DCB 3;
-			0SGG A 5 A_Refire;
-			0SGG A 0 {
-				if(CountInv("PumpLoaded")==0) return ResolveState("Reload");
-				return ResolveState(null);
+			DSSG A 0{
+				switch(CountInv("SSGLoaded")){
+				case 0:
+					if(CountInv("Shell")==0){
+						return ResolveState("noammo");
+					}else{
+						return ResolveState("reload");
+					}
+				case 1:
+					return ResolveState("fire");
+				default:
+					A_FireBoth();
+					return ResolveState("fireboth");
+				}
 			}
 			goto ready;
 		altfire:
-			0SGG A 0 A_CheckAmmo(true);
-		afl:
-			0SGF A 0 A_FirePumpQuick();
-			0SGF AB 1 A_GunFlash;
-			0SGF C 2 A_ReFire;
-			0SGF DE 2;
+			DSSG A 0 {
+				switch(CountInv("SSGLoaded")){
+				case 0:
+					if(CountInv("Shell")==0){
+						return ResolveState("noammo");
+					}else{
+						return ResolveState("reload");
+					}
+				case 1:
+					A_FireSingle();
+					if(invoker.fireright)return ResolveState("fireright");
+					return ResolveState("fireleft");
+				case 2:
+					A_FireSingle();
+					return ResolveState("fireright");
+				default:
+					return ResolveState("ready");
+				}
+			}
+			goto ready;
+		fireboth:
+			DSSG A 0 A_Bob();
+			DSSF AB 2 Bright;
+			DSSG A 0 A_Bob();
+			DSSF CJ 2;
+			goto reload;
+		fireright:
+			DSSG A 0 A_Bob();
+			DSSF DE 2;
+			DSSG A 0 A_Bob();
+			DSSF FJ 2;
+			DSSG A 0 {
+				if(invoker.fireright){
+					return ResolveState("reload");
+				}else{
+					return ResolveState(null);
+				}
+			}
+			goto ready;
+		fireleft:
+			DSSG A 0 A_Bob();
+			DSSF GH 2 Bright;
+			DSSG A 0 A_Bob();
+			DSSF IJ 2;
+			goto reload;
+		reload:
+			DSSG A 0{
+				if(CountInv("SSGLoaded")==2||CountInv("Shell")==0)return ResolveState("ready");
+				switch(CountInv("SSGLoaded")){
+					case 1:
+						return ResolveState("reloadsingle");
+					case 0:
+						if(CountInv("Shell")==1){
+							invoker.fireright=true;
+							return ResolveState("reloadsingle");
+						}else{
+							invoker.fireright=false;
+							return ResolveState("reloadboth");
+						}
+					default:
+						return ResolveState("ready");
+				}
+			}
+			goto ready;
+		reloadsingle:
+			DSSG B 2;
+			DSSG CD 2;
+			DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
+			DXSS AB 2;
+			DSSG A 0 {
+				A_SetInventory("Shell",CountInv("Shell")-2);
+			}
+			DSSG VWOP 2;
+			DSSG Q 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
+			DSSG A 0{
+				if(invoker.fireright){
+					A_SetInventory("SSGLoaded",1);
+				}else{
+					A_SetInventory("SSGLoaded",2);
+				}
+			}
+			DSSG RS 2;
+			DSSG T 2 A_PlaySound("weapons/sshotc", CHAN_WEAPON);
+			DSSG UC 2;
+			goto ready;
+		reloadboth:
+			DSSG B 2;
+			DSSG CD 2;
+			DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
+			DXSD AB 2;
+			DSSG A 0 {
+				A_SetInventory("Shell",CountInv("Shell")-2);
+			}
+			DSSG HIJK 2;
+			DSSG L 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
+			DSSG A 0{
+				A_SetInventory("SSGLoaded",1);
+			}
+			DSSG MNOP 2;
+			DSSG Q 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
+			DSSG A 0{
+				A_SetInventory("SSGLoaded",2);
+			}
+			DSSG RS 2;
+			DSSG T 2 A_PlaySound("weapons/sshotc", CHAN_WEAPON);
+			DSSG UC 2;
 			goto ready;
 		flash:
 			TNT1 A 4 Bright A_Light1;
 			TNT1 A 4 Bright A_Light2;
 			goto lightdone;
-		reload:
-			0SGG A 0 A_ReloadStart;
-			goto reloadm;
-		reloadm:
-			0SGG A 2 A_WeaponOffset(7,43,WOF_INTERPOLATE);
-			0SGG A 2 A_WeaponOffset(14,54,WOF_INTERPOLATE);
-			goto reloadloop;
-		reloadloop:
-			0SGG A 0 A_ReloadMid;
-			0SGG A 4 A_WeaponOffset(28,66,WOF_INTERPOLATE);
-			0SGG A 0 A_PlaySound("weapons/sshotl",CHAN_AUTO);
-			0SGG A 4 A_WeaponOffset(28,77,WOF_INTERPOLATE);
-			0SGG A 2 A_WeaponOffset(28,66,WOF_INTERPOLATE);
-			0SGG A 0 A_ReloadEnd;
-			0SGG A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
-			loop;
-		reloadstop:
-			0SGG A 2 A_WeaponOffset(14,54,WOF_INTERPOLATE);
-			0SGG A 2 A_WeaponOffset(7,43,WOF_INTERPOLATE);
-			0SGG A 2 A_WeaponOffset(0,32,WOF_INTERPOLATE);
-			0SGG A 0 P_Return;
-			goto ready;
-		pump:
-			0SGG A 5;
-			0SGG A 0 A_PlaySound("SHOTPUMP",CHAN_AUTO);
-			0SGG BCD 3;
-			0SGG E 4;
-			0SGG DCB 3;
-			0SGG A 5;
-			0SGG A 0 P_Return;
-			goto ready;
 		noammo:
-			0SGG A 3 A_PlaySound("weapons/sshoto");
+			DSSG A 0 A_Bob();
+			DSSG A 3 A_PlaySound("weapons/sshoto");
 			goto ready;
 		spawn:
-			0ESG A -1;
+			DESS A -1;
 			stop;
 	}
 	action State A_CheckAmmo(bool doreload){
@@ -123,56 +186,25 @@ class MySSG : MyWeapon {
 		}
 		return ResolveState(null);
 	}
-	action State A_FirePump(){
-		if(CountInv("PumpLoaded")==0){
-			if(CountInv("Shell")==0){
-				return ResolveState("noammo");
-			}else{
-				return ResolveState("reload");
-			}
-		}
+
+	action void A_FireSingle(){
+		A_GunFlash();
 		A_AlertMonsters();
-		A_TakeInventory("PumpLoaded",1);
+		A_TakeInventory("SSGLoaded",1);
+		A_FireBullets(5,5,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_Recoil(2.0);
-		A_FireBullets (3,3,invoker.pellets,invoker.dmg,"BulletPuff");
+		A_SetPitch(pitch+frandom(-5,-2));
+		A_SetAngle(angle+(CountInv("SSGLoaded")==1?frandom(-5,-2):frandom(2,5)));
 		A_PlaySound ("SHOTFIRE",CHAN_AUTO);
-		return ResolveState(null);
 	}
-	
-	action State A_FirePumpQuick(){
-		if(CountInv("PumpLoaded")==0){
-			return ResolveState("noammo");
-		}
-		A_TakeInventory("PumpLoaded",1);
-		A_Recoil(2.0);
-		A_SetPitch(pitch+(random(-15,0)/5));
-		A_SetAngle(angle+(random(-30,30)/10));
-		A_FireBullets (5,5,invoker.pellets,invoker.dmg,"BulletPuff");
-		A_PlaySound ("SHOTFIRE",CHAN_WEAPON);
-		return ResolveState(null);
-	}
-	action State A_ReloadStart(){
-		if(CountInv("PumpLoaded")>=9||CountInv("Shell")==0){
-			return ResolveState("ready");
-		}
-		if(CountInv("PumpLoaded")>0){
-			return CheckFire("fire","afl");
-		}
-		return ResolveState(null);
-	}
-	action State A_ReloadMid(){
-		if(CountInv("PumpLoaded")>=9||CountInv("Shell")==0){
-			return P_Call("reloadstop","ready");
-		}
-		if(CountInv("PumpLoaded")>0){
-			return CheckFire("fire","afl");
-		}
-		return ResolveState(null);
-	}
-	action State A_ReloadEnd(){
-		A_TakeInventory("Shell",1);
-		A_GiveInventory("PumpLoaded",1);
-		if(CountInv("PumpLoaded")==1) return P_Call("reloadstop",P_CallSL("pump","reload"));
-		return ResolveState(null);
+
+	action void A_FireBoth(){
+		A_GunFlash();
+		A_AlertMonsters();
+		A_TakeInventory("SSGLoaded",2);
+		A_FireBullets(8,8,invoker.pellets*2,invoker.dmg,"BulletPuff");
+		A_Recoil(5.0);
+		A_SetPitch(pitch+frandom(-10,-5));
+		A_PlaySound ("SHOTFIRE",CHAN_AUTO);
 	}
 }

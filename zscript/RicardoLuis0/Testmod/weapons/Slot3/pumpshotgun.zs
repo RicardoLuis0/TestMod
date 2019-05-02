@@ -49,15 +49,21 @@ class PumpShotgun : MyWeapon {
 			loop;
 		fire:
 			0SGG A 0 A_FirePump();
+			0SGG A 0 A_Bob();
 			0SGF A 2 A_GunFlash;
+			0SGG A 0 A_Bob();
 			0SGF B 2;
+			0SGG A 0 A_Bob();
 			0SGF C 2;
+			0SGG A 0 A_Bob();
 			0SGF D 1;
+			0SGG A 0 A_Bob();
 			0SGF E 1;
 			0SGG A 0 A_PlaySound("SHOTPUMP",CHAN_AUTO);
 			0SGG BCD 3;
 			0SGG E 4;
 			0SGG DCB 3;
+			0SGG A 0 A_Bob();
 			0SGG A 5 A_Refire;
 			0SGG A 0 {
 				if(CountInv("PumpLoaded")==0) return ResolveState("Reload");
@@ -68,8 +74,11 @@ class PumpShotgun : MyWeapon {
 			0SGG A 0 A_CheckAmmo(true);
 		afl:
 			0SGF A 0 A_FirePumpQuick();
+			0SGG A 0 A_Bob();
 			0SGF AB 1 A_GunFlash;
+			0SGG A 0 A_Bob();
 			0SGF C 2 A_ReFire;
+			0SGG A 0 A_Bob();
 			0SGF DE 2;
 			goto ready;
 		flash:
@@ -99,6 +108,7 @@ class PumpShotgun : MyWeapon {
 			0SGG A 0 P_Return;
 			goto ready;
 		pump:
+			0SGG A 0 A_Bob();
 			0SGG A 5;
 			0SGG A 0 A_PlaySound("SHOTPUMP",CHAN_AUTO);
 			0SGG BCD 3;

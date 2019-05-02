@@ -318,6 +318,7 @@ class MyPlasmaRifle : MyWeapon {
 		invoker.HeatPlus();
 		A_AlertMonsters();
 		A_FireProjectile("PlasmaShot01",frandom(-1,1),pitch:frandom(-1,1));
+		A_Recoil(1);
 		if(random(0,1)) {
 			A_GunFlash("Flash1");
 		} else {
@@ -345,6 +346,7 @@ class MyPlasmaRifle : MyWeapon {
 		A_FireProjectile((random(0,1)?"PlasmaShot01":"PlasmaShot01Silent"),frandom(-3,3),false,pitch:frandom(-3,3));
 		A_FireProjectile((random(0,1)?"PlasmaShot01":"PlasmaShot01Silent"),frandom(-3,3),false,pitch:frandom(-3,3));
 		A_FireProjectile((random(0,1)?"PlasmaShot01":"PlasmaShot01Silent"),frandom(-3,3),false,pitch:frandom(-3,3));
+		A_Recoil(5);
 		if(random(0,1)) {
 			A_GunFlash("Flash1");
 		} else {
