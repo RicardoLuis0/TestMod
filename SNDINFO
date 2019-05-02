@@ -1,3 +1,8 @@
 AKFIRE "AK47FIR"
 SHOTFIRE "sounds/shotgunfire.wav"
 SHOTPUMP "sounds/shotgunpump.wav"
+weapons/cryobowfire     DSBOWFIR
+weapons/cryobowshot     DSBOWSHT
+weapons/cryobowreload   DSBOWREL
+weapons/cryobowhit      DSBOWHIT
+weapons/cryobowflyby    DSBOWFLY

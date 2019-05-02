@@ -1,0 +1,6 @@
+#include "zscript/inventory/mana.zs"
+#include "zscript/weapons/ak.zs"
+#include "zscript/weapons/pump.zs"
+#include "zscript/weapons/pistol.zs"
+#include "zscript/weapons/mcrossbow.zs"
+#include "zscript/playerclasses/myplayer.zs"
