@@ -1,38 +1,39 @@
-/*
-
-Basic Spawner ignores allowed classes, "None" item is no drops.
-
-Class Restricted Spawner only spawn items/enemies that are allowed by the classes of the ingame players, "None" class is allowed to all, "Else" class is only allowed when no other allowed classes are present in the game
-
-*/
-
 class ThingSpawnerBase:Actor{
-	Actor spawnactor(string actor_name){
-		class<Actor> actor_class=actor_name;
-		if(actor_class==null){
-			console.printf("Class "..actor_name.." does not name an actor.");
-			return null;
+	bool spawnactor(string a_name){
+		/*
+		if(bDropped){
+			A_DropItem(actor_name);
+			return true;
+		}else{
+			return A_SpawnItemEx(actor_name);
 		}
-		Actor actor_object=Spawn(actor_class);
-		if(actor_object){
-			actor_object.SetOrigin(pos,false);
-			actor_object.bDropped = bDropped;
-			Float AmmoFactor=G_SkillPropertyFloat(SKILLP_DropAmmoFactor);
-			if(AmmoFactor==-1)AmmoFactor=0.5;
-			if(actor_object is "Ammo"){
-				Ammo ammo_object=Ammo(actor_object);
-				if (AmmoFactor > 0){
-					ammo_object.Amount=int(ammo_object.Amount * AmmoFactor);
+		*/
+		class<Actor> a_class=a_name;
+		if(a_class==null){
+			console.printf("Invalid Actor \""..a_name.."\"");
+			return false;
+		}
+		Actor obj=Spawn(a_class,pos,NO_REPLACE);
+		if(obj){
+			obj.vel=vel;
+			obj.bDropped = bDropped;
+			Float ammoFactor=G_SkillPropertyFloat(SKILLP_DropAmmoFactor);
+			if(ammoFactor==-1)ammoFactor=0.5;
+			if(obj is "Ammo"){
+				Ammo a_obj=Ammo(obj);
+				if (ammoFactor > 0){
+					a_obj.amount=int(a_obj.amount*ammoFactor);
 				}
-			}else if(actor_object is "Weapon"){
-				Weapon weapon_object=Weapon(actor_object);
-				if (AmmoFactor > 0){
-					weapon_object.AmmoGive1 = int(weapon_object.AmmoGive1 * AmmoFactor);
-					weapon_object.AmmoGive2 = int(weapon_object.AmmoGive2 * AmmoFactor);
+			}else if(obj is "Weapon"){
+				Weapon w_obj=Weapon(obj);
+				if (ammoFactor > 0){
+					w_obj.ammoGive1=int(w_obj.ammoGive1*ammoFactor);
+					w_obj.ammoGive2=int(w_obj.ammoGive2*ammoFactor);
 				}
 			}
+			return true;
 		}
-		return actor_object;
+		return false;
 	}
 }
 
@@ -86,91 +87,7 @@ class BasicThingSpawner:ThingSpawnerBase{
 					if(toSpawn.actor_name!="None"){
 						int i;
 						for(i=0;i<toSpawn.actor_amount;i++){
-							Actor a = spawnactor(toSpawn.actor_name);
-						}
-					}
-				}
-				Thing_Remove(0);
-			}
-	}
-}
-
-class ClassRestrictedThingSpawnerElement{
-	string actor_class_required;
-	string actor_name;
-	int actor_amount;
-	int actor_weight;
-	ClassRestrictedThingSpawnerElement Init(string class_required="None",string name="None",int amount=0,int weight=0){
-		actor_class_required=class_required;
-		actor_name=name;
-		actor_amount=amount;
-		actor_weight=weight;
-		return self;
-	}
-}
-
-class ClassRestrictedThingSpawner:ThingSpawnerBase{
-	Array<ClassRestrictedThingSpawnerElement> spawnlist;
-	ClassRestrictedThingSpawnerElement getRandom(){
-		bool non_none=false;
-		Array<ClassRestrictedThingSpawnerElement> allowed_drops;
-		int i;
-		for(i=0;i<spawnlist.Size();i++){
-			if(spawnlist[i].actor_class_required=="None"){
-				allowed_drops.Push(spawnlist[i]);
-			}else{
-				ThinkerIterator it = ThinkerIterator.Create("MyPlayer");
-				MyPlayer p=null;
-				for(p=MyPlayer(it.Next());p!=null;p=MyPlayer(it.Next())){
-					int class_count=p.allowed_spawn_classes.Size();
-					int i2;
-					for(i2=0;i2<class_count;i2++){
-						if(p.allowed_spawn_classes[i2]==spawnlist[i].actor_class_required||p.allowed_spawn_classes[i2]=="All"){
-							non_none=true;
-							allowed_drops.Push(spawnlist[i]);
-							break;
-						}
-					}
-				}
-			}
-		}
-		if(non_none==false){
-			for(i=0;i<spawnlist.Size();i++){
-				if(spawnlist[i].actor_class_required=="Else"){
-					allowed_drops.Push(spawnlist[i]);
-				}
-			}
-		}
-		if(allowed_drops.Size()==0) return null;
-		int total=0;
-		for(i=0;i<allowed_drops.Size();i++){
-			total+=allowed_drops[i].actor_weight;
-		}
-		int weight=random(0,total-1);
-		total=0;
-		for(i=0;i<allowed_drops.Size();i++){
-			total+=allowed_drops[i].actor_weight;
-			if(total>weight) break;
-		}
-		if(i>=allowed_drops.Size()){
-			return null;
-		}
-		return allowed_drops[i];
-	}
-	override void BeginPlay(){
-		super.BeginPlay();
-		setDrops();
-	}
-	virtual void setDrops(){}
-	States{
-		Spawn:
-			TNT1 A 0{
-				ClassRestrictedThingSpawnerElement toSpawn=getRandom();
-				if(toSpawn!=null){
-					if(toSpawn.actor_name!="None"){
-						int i;
-						for(i=0;i<toSpawn.actor_amount;i++){
-							Actor a = spawnactor(toSpawn.actor_name);
+							spawnactor(toSpawn.actor_name);
 						}
 					}
 				}

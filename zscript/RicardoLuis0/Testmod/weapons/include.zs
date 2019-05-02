@@ -1,4 +1,5 @@
 #include "zscript/ricardoluis0/testmod/weapons/weaponbase.zs"
+#include "zscript/ricardoluis0/testmod/weapons/puffbase.zs"
 #include "zscript/ricardoluis0/testmod/weapons/spawners/slotxspawners.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot1/resurrector.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot2/pistol.zs"

@@ -15,7 +15,7 @@ class VisTracer:BulletPuff{
 	}
 }
 
-class MyPlayer : PlayerPawn{
+class TestModPlayer : PlayerPawn{
 	double fmove1temp,fmove2temp,smove1temp,smove2temp,vbobtemp;
 	bool movemod;
 	bool look_calc;
@@ -80,7 +80,6 @@ class MyPlayer : PlayerPawn{
 		}
 		viewbob=viewbob*(((forwardmove1/fmove1temp)+(sidemove1/smove1temp))/2);
 	}
-
 	void RevertMove(){
 		if(movemod){
 			movemod=false;
@@ -89,6 +88,22 @@ class MyPlayer : PlayerPawn{
 			sidemove1=smove1temp;
 			sidemove2=smove2temp;
 			viewbob=vbobtemp;
+		}
+	}
+
+	bool jump_disabled;
+	double oldJumpZ;
+	void DisableJump(){
+		if(!jump_disabled){
+			jump_disabled=true;
+			oldJumpZ=JumpZ;
+			JumpZ=0;
+		}
+	}
+	void RevertJump(){
+		if(jump_disabled){
+			jump_disabled=false;
+			JumpZ=oldJumpZ;
 		}
 	}
 

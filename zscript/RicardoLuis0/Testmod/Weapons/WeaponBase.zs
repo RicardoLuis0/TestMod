@@ -11,7 +11,6 @@ class MyWeapon:Weapon{
 		MyWeapon.noglow "None";
 	}
 
-
 	static Vector3 angleToVec3(double a_yaw,double a_pitch,double length=1){
 		Vector3 o;
 		o.x=cos(a_pitch)*cos(a_yaw);
@@ -20,16 +19,16 @@ class MyWeapon:Weapon{
 		return o*length;
 	}
 
-	static void DoParticleExplosion(actor origin,name color,int count,double size){
-		for(int i=0;i<particles;i++){
+	static void DoParticleExplosion(actor origin,string x_color,int count,double strength,double size,int lifetime=20){
+		for(int i=0;i<count;i++){
 			double r_yaw=random(0,360);
 			double r_pitch=random(0,360);
-			vector3 vel=invoker.angleToVec3(r_yaw,r_pitch,strength);
-			A_SpawnParticle(color,SPF_FULLBRIGHT,20,size,0,0,0,0,vel.x,vel.y,vel.z);
+			vector3 vel=angleToVec3(r_yaw,r_pitch,strength);
+			origin.A_SpawnParticle(x_color,SPF_FULLBRIGHT,lifetime,size,0,0,0,0,vel.x,vel.y,vel.z);
 		}
 	}
 
-	action void W_FireBullets(double spread_horiz, double spread_vert, int count, int dmg, class<Actor> puff = "BulletPuff", int flags = 1, double range = 0, class<Actor> missile = null, double vert_offset = 32, double horiz_offset = 0){
+	action void W_FireBullets(double spread_horiz, double spread_vert, int count, int dmg, class<Actor> puff = "PuffBase", int flags = 1, double range = 0, class<Actor> missile = null, double vert_offset = 32, double horiz_offset = 0){
 		if(flags&FBF_NORANDOM){
 			A_FireBullets(spread_horiz,spread_vert,count,dmg,puff,flags,range,missile,vert_offset,horiz_offset);
 		}else{

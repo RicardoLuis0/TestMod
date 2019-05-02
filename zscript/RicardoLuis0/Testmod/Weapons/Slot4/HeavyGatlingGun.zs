@@ -23,9 +23,10 @@ class HeavyGatlingGun:MyWeapon{
 		select:
 			TNT1 A 0 {
 				A_UpdateBob();
-				MyPlayer cast=MyPlayer(invoker.owner);
+				TestModPlayer cast=TestModPlayer(invoker.owner);
 				if(cast){
 					cast.ChangeMove(.75,false);
+					cast.DisableJump();
 				}
 			}
 		selectloop:
@@ -33,9 +34,10 @@ class HeavyGatlingGun:MyWeapon{
 			loop;
 		deselect:
 			TNT1 A 0 {
-				MyPlayer cast=MyPlayer(invoker.owner);
+				TestModPlayer cast=TestModPlayer(invoker.owner);
 				if(cast){
 					cast.RevertMove();
+					cast.RevertJump();
 				}
 			}
 		deselectloop:

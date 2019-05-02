@@ -67,7 +67,6 @@ class MD_Spawner:ThingSpawnerBase{
 		if(di.pname=="None")return true;
 		Class<Actor> actor_class=di.pname;
 		if(actor_class==NULL) return false;
-		Actor actor_object=spawnactor(di.pname);
-		return (actor_object);
+		return spawnactor(di.pname);
 	}
 }

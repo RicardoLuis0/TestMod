@@ -1,5 +1,5 @@
 GameInfo {
-   PlayerClasses = "MyPlayer"
+   PlayerClasses = "TestModPlayer"
 }
 DoomEdNums{
 	15000=MyPistol

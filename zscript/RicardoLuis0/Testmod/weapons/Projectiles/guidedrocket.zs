@@ -1,63 +1,99 @@
-class GuidedRocket:Rocket{
+class MyRocket:Rocket replaces Rocket{
+	CVAR particle_density_modifier;
+	override void BeginPlay(){
+		particle_density_modifier=CVar.FindCVar("particle_density_modifier");
+	}
+	action void A_RocketExplode(){
+		A_Explode();
+
+		//MyWeapon.DoParticleExplosion(invoker,"#FFFF00",100,2,10);
+		float mod=invoker.particle_density_modifier.getFloat();
+		int count1=int(5*mod);
+		int count2=int(10*mod);
+		//color1
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,1,15,15);
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,1.25,14.2,15);
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,1.75,13.25,16);
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,2,12.5,17);//--
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,2.25,11.65,18);
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,2.75,10.8,19);
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count1,3,10,20);
+
+		//color2
+		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count1,1,15,15);
+		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count1,1.5,13.75,16);
+		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count1,2,12.5,17);//--
+		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count1,2.5,11.75,18);
+		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count1,3,10,20);
+
+		//color3
+		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count1,1,15,15);
+		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count1,2,12.5,17);//--
+		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count1,3,10,20);
+
+		//color2
+		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count1,1,15,15);
+		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count1,2,12.5,17);//--
+		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count1,3,10,20);
+
+		//color1
+		MyWeapon.DoParticleExplosion(invoker,"#FF1000",count1,2,12.5,17);//--
+
+		//MyWeapon.DoParticleExplosion(invoker,"#FF8000",350,5,5);
+
+		//color1
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,4,10,25);
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,4.25,9.2,26);
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,4.75,8.25,27);
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,5,7.5,27);//--
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,5.25,6.65,28);
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,5.75,5.8,29);
+		MyWeapon.DoParticleExplosion(invoker,"#FF8000",count2,6,5,30);
+
+		//color2
+		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count2,4,10,25);
+		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count2,5.5,8.75,26);
+		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count2,5,7.5,27);//--
+		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count2,5.5,6.25,28);
+		MyWeapon.DoParticleExplosion(invoker,"#FFFF00",count2,6,5,30);
+
+		//color3
+		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count2,6,10,25);
+		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count2,5,7.5,27);//--
+		MyWeapon.DoParticleExplosion(invoker,"#FF4000",count2,6,5,30);
+
+		//color4
+		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count2,6,10,25);
+		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count2,5,7.5,27);//--
+		MyWeapon.DoParticleExplosion(invoker,"#FF2000",count2,4,5,30);
+
+		//color5
+		MyWeapon.DoParticleExplosion(invoker,"#FF1000",count2,5,7.5,27);//--
+	}
+
+	Default{
+		Decal "Scorch";
+	}
+	States{
+	Spawn:
+		MISL A 1 Bright;
+		Loop;
+	Death:
+		TNT1 A 0 A_RocketExplode();
+		MISL B 8 Bright;
+		MISL C 6 Bright;
+		MISL D 4 Bright;
+		Stop;
+	}
+}
+class GuidedRocket:MyRocket{
 	bool alive;
 	double rotspeed;
 	double follow_limit;
 
-	static const String colors[]={
-		"#FF8000",
-		"#FF8000",
-		"#FF8000",
-		"#FF8000",
-		"#FFFF00",
-		"#FFFF00",
-		"#FFFF00",
-		"#FF4000",
-		"#FF4000",
-		"#FF2000",
-		"#FF1000"
-	};
-
-	static const String colors_smoke[]={
-		"#808080",
-		"#404040",
-		"#404040"
-	};
-
-	action void A_ExplosionParticle(int particles,double strength,double size,double yaw_max=360,double pitch_max=360,double pitch_offset=0,double yaw_offset=0){
-		for(int i=0;i<particles;i++){
-			double r_yaw=yaw_offset+frandom(0,yaw_max);
-			double r_pitch=pitch_offset+frandom(0,pitch_max);
-			vector3 vel=invoker.angleToVec3(r_yaw,r_pitch,strength*frandom(0.75,1.5));
-			A_SpawnParticle(invoker.colors[random(0,invoker.colors.Size()-1)],SPF_FULLBRIGHT,random(5,15),size*frandom(0.75,1.5),0,0,0,0,vel.x,vel.y,vel.z);
-		}
-	}
-
-	action void A_ExplosionParticleFast(String color,int particles,double strength,double size,double yaw_max=360,double pitch_max=360,double pitch_offset=0,double yaw_offset=0){
-		for(int i=0;i<particles;i++){
-			double r_yaw=yaw_offset+frandom(0,yaw_max);
-			double r_pitch=pitch_offset+frandom(0,pitch_max);
-			vector3 vel=invoker.angleToVec3(r_yaw,r_pitch,strength);
-			A_SpawnParticle(color,SPF_FULLBRIGHT,20,size,0,0,0,0,vel.x,vel.y,vel.z);
-		}
-	}
-
-	action void A_SmokeParticle(int particles,double strength,double size,double yaw_max=360,double pitch_max=360,double pitch_offset=0,double yaw_offset=0){
-		for(int i=0;i<particles;i++){
-			double r_yaw=yaw_offset+frandom(0,yaw_max);
-			double r_pitch=pitch_offset+frandom(0,pitch_max);
-			vector3 vel=invoker.angleToVec3(r_yaw,r_pitch,strength*frandom(0.75,1.5));
-			A_SpawnParticle(invoker.colors_smoke[random(0,invoker.colors_smoke.Size()-1)],SPF_FULLBRIGHT,random(5,15),size*frandom(0.75,1.5),0,0,0,0,vel.x,vel.y,vel.z,0,0,0.5);
-		}
-	}
 	void recalculateVelocity(int speed){
 		A_ChangeVelocity(cos(angle)*cos(pitch)*speed,sin(angle)*cos(pitch)*speed,sin(pitch)*speed,CVF_REPLACE);
 	}
-	/*
-	default{
-		-ROCKETTRAIL
-		-GRENADETRAIL
-	}
-	*/
 	override void BeginPlay(){
 		super.BeginPlay();
 		alive=true;
@@ -69,9 +105,9 @@ class GuidedRocket:Rocket{
 	override void Tick(){
 		super.Tick();
 		if(alive){
-			MyPlayer p=MyPlayer(GetPointer(AAPTR_TARGET));
+			TestModPlayer p=TestModPlayer(target);
 			if(p){
-				if(p.player!=null&&p.player.ReadyWeapon.getClass()=="GuidedRocketLauncher"&&GuidedRocketLauncher(p.player.ReadyWeapon).laserenabled){
+				if(p.player.ReadyWeapon.getClass()=="GuidedRocketLauncher"&&GuidedRocketLauncher(p.player.ReadyWeapon).laserenabled){
 					Vector3 lpos=p.getLookAtPos();
 					double dx=lpos.x-pos.x;
 					double dy=lpos.y-pos.y;
@@ -107,32 +143,12 @@ class GuidedRocket:Rocket{
 	Death:
 		TNT1 A 0{
 			alive=false;
-			A_Explode();
-			A_ExplosionParticleFast("#FF4000",50,1,15);
-			A_ExplosionParticleFast("#FFFF00",100,2,10);
-			A_ExplosionParticleFast("#FF8000",350,5,5);
-			/*
-			A_ExplosionParticle(50,1,15);
-			A_ExplosionParticle(100,2,10);
-			A_ExplosionParticle(350,5,5);
-			*/
+			A_RocketExplode();
 			
 		}
-		/*
-		MISL B 1 Bright A_ParticleExplode(10,2,10);
-		MISL BB 1 Bright A_ParticleExplode(100,5,5);
-		MISL B 1 Bright A_ParticleExplode(10,2,10);
-		MISL BBBB 1 Bright A_ParticleExplode(100,5,5);
-		*/
 		MISL B 8 Bright;
 		MISL C 6 Bright;
 		MISL D 4 Bright;
 		Stop;
-	/*
-	BrainExplode:
-		MISL BC 10 Bright;
-		MISL D 10 A_BrainExplode;
-		Stop;
-	*/
 	}
 }

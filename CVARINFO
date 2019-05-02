@@ -10,3 +10,4 @@ USER BOOL hold_to_pickup = false;
 USER BOOL extra_weapon_bob = true;
 USER BOOL gatling_rocket_launcher = true;
 USER BOOL ssg_autoreload = true;
+USER FLOAT particle_density_modifier=1;

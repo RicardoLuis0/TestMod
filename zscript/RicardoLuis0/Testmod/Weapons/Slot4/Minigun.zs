@@ -23,7 +23,7 @@ class Minigun:MyWeapon{
 		select:
 			TNT1 A 0 {
 				A_UpdateBob();
-				MyPlayer cast=MyPlayer(invoker.owner);
+				TestModPlayer cast=TestModPlayer(invoker.owner);
 				if(cast){
 					cast.ChangeMove(1,false);
 				}
@@ -33,7 +33,7 @@ class Minigun:MyWeapon{
 			loop;
 		deselect:
 			TNT1 A 0 {
-				MyPlayer cast=MyPlayer(invoker.owner);
+				TestModPlayer cast=TestModPlayer(invoker.owner);
 				if(cast){
 					cast.RevertMove();
 				}
