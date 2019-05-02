@@ -9,6 +9,11 @@ class MyWeapon:Weapon{
 		return ResolveState(go_to);
 	}
 
+	action StateLabel P_CallSL(StateLabel go_to,StateLabel return_to){
+		invoker.call_stack.push(ResolveState(return_to));
+		return go_to;
+	}
+
 	action State P_Return(){
 		int size=invoker.call_stack.size();
 		if(size>0){
@@ -16,6 +21,7 @@ class MyWeapon:Weapon{
 			invoker.call_stack.Pop();
 			return returnval;
 		}else{
+			console.printf("Trying to return from empty stack");
 			return ResolveState(null);
 		}
 	}

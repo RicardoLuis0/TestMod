@@ -1,7 +1,4 @@
 class LaserDot:VisTracer{
-	default{
-		
-	}
 	states{
 	Spawn:
 		RDOT A 2 BRIGHT;

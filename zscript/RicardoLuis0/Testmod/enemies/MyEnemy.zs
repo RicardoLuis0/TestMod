@@ -63,7 +63,6 @@ class MyEnemy_Drop_Multi : MyEnemy_Drop{
 		return self;
 	}
 	void Push(MyEnemy_Drop_Multi_Component comp){
-		console.printf("push "..comp.item_name);
 		droplist.Push(comp);
 	}
 	MyEnemy_Drop_Multi_Component getFromWeight(int wt){
@@ -79,7 +78,6 @@ class MyEnemy_Drop_Multi : MyEnemy_Drop{
 		return droplist[i];
 	}
 	override MyEnemy_Drop_Item Get(){
-		console.printf("Multi");
 		if(droplist.Size()==0) return null;
 		int sum=0;
 		for(int i=0;i<droplist.Size();i++){
@@ -87,7 +85,6 @@ class MyEnemy_Drop_Multi : MyEnemy_Drop{
 		}
 		int randnum=random(0,sum<=0?0:sum-1);
 		MyEnemy_Drop_Multi_Component comp=getFromWeight(randnum);
-		console.printf(comp.item_name);
 		return comp==null?null:comp.Get();
 	}
 	MyEnemy_Drop Reduce(){

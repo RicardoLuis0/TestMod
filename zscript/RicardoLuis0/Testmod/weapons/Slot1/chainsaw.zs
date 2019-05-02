@@ -1,3 +1,0 @@
-class MyChainsaw:Chainsaw{
-	
-}

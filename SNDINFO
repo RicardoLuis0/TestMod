@@ -8,6 +8,7 @@ TUBERELOAD "sounds/tube_reloadv2.wav"
 ARBOLT "sounds/dsarmou.wav"
 ARRELOAD "sounds/reload.wav"
 ARCLICK "sounds/dsclk5.ogg"
+DSCLICKY "sounds/DSCLICKY"
 
 weapons/cryobowfire     DSBOWFIR
 weapons/cryobowshot     DSBOWSHT

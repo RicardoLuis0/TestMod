@@ -1,12 +1,13 @@
 class AssaultRifleLoadedAmmo : Ammo {
 	Default{
 		Inventory.MaxAmount 21;
-		//Inventory.Icon "Clip";
+		+Inventory.IgnoreSkill;
 	}
 }
 
 class AssaultRifle : MyWeapon {
 	bool loaded;
+	int firemode;//0=single,1=auto
 	Default{
 		Weapon.SlotNumber 4;
 		Weapon.AmmoType1 "AssaultRifleLoadedAmmo";
@@ -16,12 +17,14 @@ class AssaultRifle : MyWeapon {
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;
+		+WEAPON.NOAUTOFIRE;
 		Inventory.PickupMessage "You've got the Assault Rifle";
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
 		crosshair=35;
 		loaded=true;
+		firemode=1;
 	}
 	States{
 		ready:
@@ -38,6 +41,12 @@ class AssaultRifle : MyWeapon {
 			CHGF A 1 BRIGHT A_Light1;
 			CHGG A 2 Offset(0,35);
 			CHGG A 2;
+			CHGG A 0{
+				if(invoker.firemode==0){
+					return ResolveState("ready");
+				}
+				return ResolveState(null);
+			}
 			CHGG A 1 A_ReFire;
 			goto ready;
 		reload:
@@ -71,6 +80,21 @@ class AssaultRifle : MyWeapon {
 		spawn:
 			MGUN A -1;
 			stop;
+		altfire:
+			CHGG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
+			CHGG A 0{
+				A_PlaySound("DSCLICKY");
+				if(invoker.firemode==0){
+					console.printf("Assault Rifle: Automatic");
+					invoker.firemode=1;
+					invoker.crosshair=35;
+				}else if(invoker.firemode==1){
+					console.printf("Assault Rifle: Single Shot");
+					invoker.firemode=0;
+					invoker.crosshair=43;
+				}
+			}
+			CHGG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 	}
 	const spread_max=10;
 	const spread_x=5;

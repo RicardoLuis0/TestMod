@@ -1,7 +1,6 @@
 class PumpLoaded : Ammo{
 	Default{
 		Inventory.MaxAmount 9;
-		Inventory.Icon "SHOTA0";
 		+INVENTORY.IGNORESKILL;
 	}
 }
@@ -68,8 +67,10 @@ class PumpShotgun : MyWeapon {
 			goto lightdone;
 		reload:
 			0SGG A 0 A_ReloadStart;
-			0SGG A 4 A_WeaponOffset(7,43,WOF_INTERPOLATE);
-			0SGG A 4 A_WeaponOffset(14,54,WOF_INTERPOLATE);
+			goto reloadm;
+		reloadm:
+			0SGG A 2 A_WeaponOffset(7,43,WOF_INTERPOLATE);
+			0SGG A 2 A_WeaponOffset(14,54,WOF_INTERPOLATE);
 			goto reloadloop;
 		reloadloop:
 			0SGG A 0 A_ReloadMid;
@@ -80,24 +81,12 @@ class PumpShotgun : MyWeapon {
 			0SGG A 0 A_ReloadEnd;
 			0SGG A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			loop;
-			/*
-			0SGR A 4 A_ReloadStart;
-			0SGR B 4 A_PlaySound ("weapons/sshotl");
-			0SGR A 2 ;
-			0SGR A 0 A_ReloadEnd;
-			loop;
-			*/
 		reloadstop:
-			0SGG A 4 A_WeaponOffset(14,54,WOF_INTERPOLATE);
-			0SGG A 4 A_WeaponOffset(7,43,WOF_INTERPOLATE);
-			0SGG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
-			0SGG A 0 CheckFire("fire","afl");
+			0SGG A 2 A_WeaponOffset(14,54,WOF_INTERPOLATE);
+			0SGG A 2 A_WeaponOffset(7,43,WOF_INTERPOLATE);
+			0SGG A 2 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+			0SGG A 0 P_Return;
 			goto ready;
-		reloadpump:
-			0SGG A 4 A_WeaponOffset(14,54,WOF_INTERPOLATE);
-			0SGG A 4 A_WeaponOffset(7,43,WOF_INTERPOLATE);
-			0SGG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
-			goto pump;
 		pump:
 			0SGG A 5;
 			0SGG BCD 3 A_PlaySound("SHOTPUMP");
@@ -173,7 +162,7 @@ class PumpShotgun : MyWeapon {
 	action State A_ReloadEnd(){
 		A_TakeInventory("Shell",1);
 		A_GiveInventory("PumpLoaded",1);
-		if(CountInv("PumpLoaded")==1) return P_Call("reloadpump","reload");
+		if(CountInv("PumpLoaded")==1) return P_Call("reloadstop",P_CallSL("pump","reload"));
 		return ResolveState(null);
 	}
 }

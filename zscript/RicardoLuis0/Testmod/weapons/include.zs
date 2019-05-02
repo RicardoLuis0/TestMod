@@ -1,6 +1,5 @@
 #include "zscript/ricardoluis0/testmod/weapons/myweapon.zs"
 #include "zscript/ricardoluis0/testmod/weapons/spawners/slotxspawners.zs"
-#include "zscript/ricardoluis0/testmod/weapons/slot1/chainsaw.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot2/pistol.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot3/pumpshotgun.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot4/assaultrifle.zs"

@@ -16,6 +16,7 @@ class MyPistol : MyWeapon{
 		Weapon.AmmoGive2 12;
 		Inventory.Pickupmessage "You've got the Pistol";
 		+WEAPON.AMMO_OPTIONAL;
+		+WEAPON.NOAUTOFIRE;
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
@@ -43,8 +44,8 @@ class MyPistol : MyWeapon{
 			return ResolveState(null);
 		}
 		PISG B 6 Fire;
-		PISG C 4;
-		PISG B 5 A_ReFire;
+		PISG C 2;
+		PISG B 3;
 		Goto Ready;
 	Flash:
 		PISF A 7 Bright A_Light1;

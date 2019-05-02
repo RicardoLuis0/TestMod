@@ -55,12 +55,6 @@ class GuidedRocket:Rocket{
 						}
 						recalculateVelocity(20);
 					}
-				}else{
-					if(p.player==null){
-						console.printf("player is null");
-					}else{
-						console.printf("player weapon class: "..p.player.ReadyWeapon.getClass());
-					}
 				}
 			}
 		}
