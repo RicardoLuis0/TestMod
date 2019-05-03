@@ -35,5 +35,5 @@ OptionMenu "TestmodOptionsMenuWeaponInertia"{
 	Slider "Min Y Position","cl_weaponinertia_movescale_y",-25,25,1
 	StaticText "Minimum Y position for weapon","DarkRed"
 	StaticText ""
-	Command "Update All Settings (Ingame)","netevent weaponinertia_UpdateCVars"
+	Command "Update Weapon Inertia Settings (Ingame)","netevent weaponinertia_UpdateCVars"
 }
