@@ -1,4 +1,34 @@
-extend class TestModPlayer{
+class TeleportCheckerFogSrc : TeleportFog{
+	override void PostBeginPlay(){
+		if(target is "TestModPlayer"){
+			TestModPlayer p=TestModPlayer(target);
+			p.weaponinertia_is_teleporting=true;
+			p.pre_teleport_xy=pos.xy;
+		}
+	}
+}
+
+class TeleportCheckerFogDest : TeleportFog{
+	override void PostBeginPlay(){
+		if(target is "TestModPlayer"){
+			TestModPlayer p=TestModPlayer(target);
+			p.weaponinertia_has_teleported=true;
+			p.post_teleport_xy=pos.xy;
+		}
+	}
+}
+
+extend class TestModPlayer {
+	Default{
+		TeleFogSourceType "TeleportCheckerFogSrc";
+		TeleFogDestType "TeleportCheckerFogDest";
+	}
+	
+	bool weaponinertia_is_teleporting;
+	bool weaponinertia_has_teleported;
+	Vector2 pre_teleport_xy;
+	Vector2 post_teleport_xy;
+	
 	bool weaponinertia_look_impulse;
 	bool weaponinertia_move_impulse;
 	bool weaponinertia_old_movebob;
@@ -10,7 +40,9 @@ extend class TestModPlayer{
 	double weaponinertia_scale;
 	double weaponinertia_y_offset;
 	double weaponinertia_min_y;
-	double weaponinertia_zbob_amount;
+	double weaponinertia_zbob_scale;
+	double weaponinertia_oldbob_scale_x;
+	double weaponinertia_oldbob_scale_y;
 	Array<double> weaponinertia_prevAP_angle;
 	Array<double> weaponinertia_prevAP_pitch;
 	Array<double> weaponinertia_prevMV_x;
@@ -20,6 +52,44 @@ extend class TestModPlayer{
 	Vector2 weaponinertia_prevmove;
 	Vector2 weaponinertia_nextmove;
 	int weaponinertia_prevtic;
+
+	void updateTeleport(){
+		int i;
+		vector2 temp;
+		double temp2;
+		temp2=angle-weaponinertia_prevAP_angle[weaponinertia_prevAP_angle.size()-1];
+		for(i=0;i<weaponinertia_prevAP_angle.size();i++){
+			weaponinertia_prevAP_angle[i]+=temp2;
+		}
+		temp2=pitch-weaponinertia_prevAP_pitch[weaponinertia_prevAP_pitch.size()-1];
+		for(i=0;i<weaponinertia_prevAP_pitch.size();i++){
+			weaponinertia_prevAP_pitch[i]+=temp2;
+		}
+		temp=(post_teleport_xy-pre_teleport_xy);
+		for(i=0;i<weaponinertia_prevMV_x.size();i++){
+			weaponinertia_prevMV_x[i]+=temp.x;
+		}
+		for(i=0;i<weaponinertia_prevMV_y.size();i++){
+			weaponinertia_prevMV_y[i]+=temp.y;
+		}
+		weaponinertia_has_teleported=false;
+		weaponinertia_is_teleporting=false;
+	}
+
+	void initInertia(){
+		weaponinertia_prevAP_angle.resize(5);
+		weaponinertia_prevAP_pitch.resize(5);
+		weaponinertia_prevMV_x.resize(5);
+		weaponinertia_prevMV_y.resize(5);
+		weaponinertia_prevbob=(0,0);
+		weaponinertia_nextbob=(0,0);
+		weaponinertia_prevtic=-1;
+		weaponinertia_has_teleported=false;
+		weaponinertia_is_teleporting=false;
+		pre_teleport_xy=(0,0);
+		post_teleport_xy=(0,0);
+		weaponinertia_UpdateCVars();
+	}
 
 	vector2 weaponinertia_prevAP_average(){
 		double acc_angle;
@@ -65,36 +135,29 @@ extend class TestModPlayer{
 		weaponinertia_prevMV_y.insert(0,add.y);
 	}
 
-	void initInertia(){
-		weaponinertia_prevAP_angle.resize(5);
-		weaponinertia_prevAP_pitch.resize(5);
-		weaponinertia_prevMV_x.resize(5);
-		weaponinertia_prevMV_y.resize(5);
-		weaponinertia_prevbob=(0,0);
-		weaponinertia_nextbob=(0,0);
-		weaponinertia_prevtic=-1;
-		weaponinertia_UpdateCVars();
-	}
-
 	vector2 vec2lerp(vector2 v1,vector2 v2,double f){
 		return v1+f*(v2-v1);
 	}
 
-	override vector2 BobWeapon (double ticfrac){
+	override vector2 BobWeapon(double ticfrac){
 		double zbob=Player.ViewZ-ViewHeight-Pos.Z;
-		bool extra_weapon_bob=CVar.GetCVar("cl_extra_weapon_bob",player).getBool();
+		if(weaponinertia_has_teleported&&weaponinertia_is_teleporting){
+			updateTeleport();
+		}
 		if(gametic>weaponinertia_prevtic){
 			weaponinertia_prevbob=weaponinertia_nextbob;
-			weaponinertia_nextbob=(weaponinertia_prevAP_average()-(angle,pitch))*weaponinertia_scale;
-			weaponinertia_prevAP_add((angle,pitch));
-			weaponinertia_prevtic=gametic;
-			if(weaponinertia_move_impulse){
-				weaponinertia_prevmove=weaponinertia_nextmove;
-				weaponinertia_prevMV_add((vel.y,vel.x));
-				weaponinertia_nextmove=RotateVector(weaponinertia_prevMV_average(),angle);
-				weaponinertia_nextmove.x*=weaponinertia_movescale_x;
-				weaponinertia_nextmove.y*=weaponinertia_movescale_y;
-				if(!weaponinertia_move_forward_back_bidirectional)weaponinertia_nextmove.y=abs(weaponinertia_nextmove.y);
+			if(!weaponinertia_has_teleported&&!weaponinertia_is_teleporting){
+				weaponinertia_nextbob=(weaponinertia_prevAP_average()-(angle,pitch))*weaponinertia_scale;
+				weaponinertia_prevAP_add((angle,pitch));
+				weaponinertia_prevtic=gametic;
+				if(weaponinertia_move_impulse){
+					weaponinertia_prevmove=weaponinertia_nextmove;
+					weaponinertia_prevMV_add((vel.y,vel.x));
+					weaponinertia_nextmove=RotateVector(weaponinertia_prevMV_average(),angle);
+					weaponinertia_nextmove.x*=weaponinertia_movescale_x;
+					weaponinertia_nextmove.y*=weaponinertia_movescale_y;
+					if(!weaponinertia_move_forward_back_bidirectional)weaponinertia_nextmove.y=abs(weaponinertia_nextmove.y);
+				}
 			}
 		}
 		vector2 sway=vec2lerp(weaponinertia_prevbob,weaponinertia_nextbob,ticfrac); //vec2lerp(weaponinertia_prevbob,weaponinertia_nextbob,ticfrac);
@@ -106,12 +169,12 @@ extend class TestModPlayer{
 			sway.y=-sway.y;
 		}
 		if(weaponinertia_move_impulse){
-			sway.y+=zbob*weaponinertia_zbob_amount;
+			sway.y+=zbob*weaponinertia_zbob_scale;
 			sway+=vec2lerp(weaponinertia_prevmove,weaponinertia_nextmove,ticfrac);
 		}
 		if(weaponinertia_old_movebob){
-			if(extra_weapon_bob)player.WeaponState|=WF_WEAPONBOBBING;
-			sway+=super.BobWeapon(ticfrac);
+			Vector2 oldbob=super.BobWeapon(ticfrac);
+			sway+=(oldbob.x*weaponinertia_oldbob_scale_x,oldbob.y*weaponinertia_oldbob_scale_y);
 		}
 		if(sway.y<weaponinertia_min_y)sway.y=weaponinertia_min_y;
 		return sway;
@@ -127,6 +190,8 @@ extend class TestModPlayer{
 		weaponinertia_movescale_y=CVar.GetCVar("cl_weaponinertia_movescale_y",player).getFloat();
 		weaponinertia_y_offset=CVar.GetCVar("cl_weaponinertia_y_offset",player).getFloat();
 		weaponinertia_min_y=CVar.GetCVar("cl_weaponinertia_min_y",player).getFloat();
-		weaponinertia_zbob_amount=CVar.GetCVar("cl_weaponinertia_zbob_amount",player).getFloat();
+		weaponinertia_zbob_scale=CVar.GetCVar("cl_weaponinertia_zbob_scale",player).getFloat();
+		weaponinertia_oldbob_scale_x=CVar.GetCVar("cl_weaponinertia_oldbob_scale_x",player).getFloat();
+		weaponinertia_oldbob_scale_y=CVar.GetCVar("cl_weaponinertia_oldbob_scale_y",player).getFloat();
 	}
 }
