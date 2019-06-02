@@ -35,10 +35,10 @@ OptionMenu "TestmodOptionsMenuWeaponInertia"{
 	Slider "Camera Bob Scale","cl_weaponinertia_zbob_scale",-5,5,0.05
 	StaticText "How much camera bob affects inertia","DarkRed"
 	StaticText ""
-	Slider "Y Offset","cl_weaponinertia_movescale_y",-25,25,1
+	Slider "Y Offset","cl_weaponinertia_y_offset",-25,25,1
 	StaticText "Y Offset for the weapon by default","DarkRed"
 	StaticText ""
-	Slider "Min Y Position","cl_weaponinertia_movescale_y",-25,25,1
+	Slider "Min Y Position","cl_weaponinertia_min_y",-25,25,1
 	StaticText "Minimum Y position for weapon","DarkRed"
 	StaticText ""
 	Command "Update Weapon Inertia Settings (Ingame)","netevent weaponinertia_UpdateCVars"

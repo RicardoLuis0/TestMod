@@ -92,18 +92,22 @@ extend class TestModPlayer {
 	}
 
 	vector2 weaponinertia_prevAP_average(){
-		double acc_angle;
-		double acc_pitch;
+		double avg_angle;
+		double avg_pitch;
+		double sum_sin;
+		double sum_cos;
 		int i;
-		for(i=0;i<weaponinertia_prevAP_angle.size();i++){
-			acc_angle+=weaponinertia_prevAP_angle[i];
+		for(i=0,sum_sin=0,sum_cos=0;i<weaponinertia_prevAP_angle.size();i++){
+			sum_sin+=sin(weaponinertia_prevAP_angle[i]);
+			sum_cos+=cos(weaponinertia_prevAP_angle[i]);
 		}
-		for(i=0;i<weaponinertia_prevAP_pitch.size();i++){
-			acc_pitch+=weaponinertia_prevAP_pitch[i];
+		avg_angle=atan2(sum_sin/weaponinertia_prevAP_angle.size(),sum_cos/weaponinertia_prevAP_angle.size());
+		for(i=0,sum_sin=0,sum_cos=0;i<weaponinertia_prevAP_pitch.size();i++){
+			sum_sin+=sin(weaponinertia_prevAP_pitch[i]);
+			sum_cos+=cos(weaponinertia_prevAP_pitch[i]);
 		}
-		acc_angle/=weaponinertia_prevAP_angle.size();
-		acc_pitch/=weaponinertia_prevAP_pitch.size();
-		return (acc_angle,acc_pitch);
+		avg_pitch=atan2(sum_sin/weaponinertia_prevAP_pitch.size(),sum_cos/weaponinertia_prevAP_pitch.size());
+		return (avg_angle,avg_pitch);
 	}
 
 	vector2 weaponinertia_prevMV_average(){
@@ -139,16 +143,32 @@ extend class TestModPlayer {
 		return v1+f*(v2-v1);
 	}
 
+	vector2 getAnglePitch(){
+		return (DeltaAngle(angle,0),DeltaAngle(pitch,0));
+	}
+
+	vector2 subRot(vector2 rot1,vector2 rot2){
+		vector2 sub=(DeltaAngle(rot1.x,rot2.x),DeltaAngle(rot1.y,rot2.y));
+		console.printf("subtracting angles: "..rot1..","..rot2.." = "..sub);
+		return sub;
+	}
+
+	vector2 getNextBob(){
+		return subRot(weaponinertia_prevAP_average(),getAnglePitch())*weaponinertia_scale;
+	}
+
 	override vector2 BobWeapon(double ticfrac){
 		double zbob=Player.ViewZ-ViewHeight-Pos.Z;
 		if(weaponinertia_has_teleported&&weaponinertia_is_teleporting){
+			console.printf("update teleport");
 			updateTeleport();
 		}
 		if(gametic>weaponinertia_prevtic){
+			console.printf("update inertia dir:"..getAnglePitch().." pos:"..pos.xy);
 			weaponinertia_prevbob=weaponinertia_nextbob;
 			if(!weaponinertia_has_teleported&&!weaponinertia_is_teleporting){
-				weaponinertia_nextbob=(weaponinertia_prevAP_average()-(angle,pitch))*weaponinertia_scale;
-				weaponinertia_prevAP_add((angle,pitch));
+				weaponinertia_nextbob=getNextBob();
+				weaponinertia_prevAP_add(getAnglePitch());
 				weaponinertia_prevtic=gametic;
 				if(weaponinertia_move_impulse){
 					weaponinertia_prevmove=weaponinertia_nextmove;
@@ -160,7 +180,7 @@ extend class TestModPlayer {
 				}
 			}
 		}
-		vector2 sway=vec2lerp(weaponinertia_prevbob,weaponinertia_nextbob,ticfrac); //vec2lerp(weaponinertia_prevbob,weaponinertia_nextbob,ticfrac);
+		vector2 sway=vec2lerp(weaponinertia_prevbob,weaponinertia_nextbob,ticfrac);
 		sway.y+=weaponinertia_y_offset;
 		if(weaponinertia_invert_x_look){
 			sway.x=-sway.x;
@@ -179,6 +199,7 @@ extend class TestModPlayer {
 		if(sway.y<weaponinertia_min_y)sway.y=weaponinertia_min_y;
 		return sway;
 	}
+
 	void weaponinertia_UpdateCVars(){
 		weaponinertia_move_impulse=CVar.GetCVar("cl_weaponinertia_move_impulse",player).getBool();
 		weaponinertia_old_movebob=CVar.GetCVar("cl_weaponinertia_old_movebob",player).getBool();
