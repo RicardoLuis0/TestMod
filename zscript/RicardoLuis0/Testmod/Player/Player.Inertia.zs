@@ -8,7 +8,7 @@ class TeleportCheckerFogSrc : TeleportFog{
 	}
 }
 
-class TeleportCheckerFogDest : TeleportFog{
+class TeleportCheckerFogDest : TeleportDest{
 	override void PostBeginPlay(){
 		if(target is "TestModPlayer"){
 			TestModPlayer p=TestModPlayer(target);
