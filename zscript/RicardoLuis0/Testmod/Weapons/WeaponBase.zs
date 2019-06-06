@@ -46,17 +46,18 @@ class MyWeapon:Weapon{
 			}
 		}
 	}
+
 	virtual void GlowStart(){
 		A_SetTranslation(glow);
 		lastbright=bBright;
 		bBright=true;
 	}
-	
+
 	virtual void GlowEnd(){
 		A_SetTranslation(noglow);
 		bBright=lastbright;
 	}
-	
+
 	Array<State> call_stack;
 
 	action State P_Call(StateLabel go_to,int layer=PSP_WEAPON){
@@ -68,7 +69,7 @@ class MyWeapon:Weapon{
 			return null;
 		}
 	}
-	
+
 	action State P_Call2(StateLabel go_to,StateLabel return_to){
 		invoker.call_stack.push(ResolveState(return_to));
 		return ResolveState(go_to);
@@ -117,6 +118,7 @@ class MyWeapon:Weapon{
 		if(toreload>ammo) return ResolveState((magazine==0)?emptypartialreload:partialreload);
 		return ResolveState((magazine==0)?emptyreload:fullreload);
 	}
+
 	action state CheckAmmo(string ammotype,string magazinetype,int magazinecapacity,
 								statelabel noammo/* if ammo is zero */,
 								statelabel magazinefull/* if magazine is full */){
@@ -145,6 +147,7 @@ class MyWeapon:Weapon{
 		}
 		return ResolveState(noFire);
 	}
+
 	action state CheckPFire(statelabel fire=null,statelabel noFire=null){
 		int input=GetPlayerInput(INPUT_BUTTONS);
 		if(input&BT_ATTACK){
@@ -152,6 +155,7 @@ class MyWeapon:Weapon{
 		}
 		return ResolveState(noFire);
 	}
+
 	action state CheckAFire(statelabel altFire=null,statelabel noFire=null){
 		int input=GetPlayerInput(INPUT_BUTTONS);
 		if(input&BT_ALTATTACK){
@@ -162,6 +166,7 @@ class MyWeapon:Weapon{
 
 	virtual void ReadyTick() {
 	}
+
 	PSPrite PSP_Get(int layer=PSP_WEAPON){
 		if(owner){
 			PlayerPawn pp=PlayerPawn(owner);
@@ -216,4 +221,5 @@ class MyWeapon:Weapon{
 	action void W_SetLayerSprite(int layer, name sprite) {
 		invoker.SetLayerSprite(layer,sprite);
 	}
+
 }
