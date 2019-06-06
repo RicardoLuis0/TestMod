@@ -148,9 +148,7 @@ extend class TestModPlayer {
 	}
 
 	vector2 subRot(vector2 rot1,vector2 rot2){
-		vector2 sub=(DeltaAngle(rot1.x,rot2.x),DeltaAngle(rot1.y,rot2.y));
-		console.printf("subtracting angles: "..rot1..","..rot2.." = "..sub);
-		return sub;
+		return (DeltaAngle(rot1.x,rot2.x),DeltaAngle(rot1.y,rot2.y));
 	}
 
 	vector2 getNextBob(){
@@ -160,11 +158,9 @@ extend class TestModPlayer {
 	override vector2 BobWeapon(double ticfrac){
 		double zbob=Player.ViewZ-ViewHeight-Pos.Z;
 		if(weaponinertia_has_teleported&&weaponinertia_is_teleporting){
-			console.printf("update teleport");
 			updateTeleport();
 		}
 		if(gametic>weaponinertia_prevtic){
-			console.printf("update inertia dir:"..getAnglePitch().." pos:"..pos.xy);
 			weaponinertia_prevbob=weaponinertia_nextbob;
 			if(!weaponinertia_has_teleported&&!weaponinertia_is_teleporting){
 				weaponinertia_nextbob=getNextBob();
