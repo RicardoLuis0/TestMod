@@ -40,17 +40,31 @@ class AssaultRifle : MyWeapon {
 			ASRG A 1 A_Lower;
 			loop;
 		fire:
-			ASRG A 0 A_FireGun;
-			ASRF A 1 BRIGHT;
-			ASRG A 2 Offset(0,35);
-			ASRG A 2;
-			ASRG A 0{
+			ASRG A 0 {
 				if(invoker.firemode==0){
-					return ResolveState("ready");
+					return ResolveState("fireburst");
 				}
 				return ResolveState(null);
 			}
+			ASRG A 0 A_FireGun;
+			ASRF A 1 BRIGHT;
+			ASRG A 2 A_WeaponOffset(0,35,WOF_INTERPOLATE );
+			ASRG A 2;
 			ASRG A 1 A_ReFire;
+			goto ready;
+		fireburst:
+			ASRG A 0 A_FireGun;
+			ASRF A 1 BRIGHT;
+			ASRG A 1 A_WeaponOffset(0,35,WOF_INTERPOLATE);
+			ASRG A 0 A_FireGun;
+			ASRF A 1 BRIGHT;
+			ASRG A 1 A_WeaponOffset(0,38,WOF_INTERPOLATE);
+			ASRG A 0 A_FireGun;
+			ASRF A 1 BRIGHT;
+			ASRG A 1 A_WeaponOffset(0,41,WOF_INTERPOLATE);
+			ASRG A 2 A_WeaponOffset(0,38,WOF_INTERPOLATE);
+			ASRG A 2 A_WeaponOffset(0,35,WOF_INTERPOLATE);
+			ASRG A 2 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			goto ready;
 		flash:
 			TNT1 A 1 A_Light1;
@@ -95,7 +109,7 @@ class AssaultRifle : MyWeapon {
 					invoker.firemode=1;
 					//invoker.crosshair=35;
 				}else if(invoker.firemode==1){
-					A_Print("Semi-Automatic");
+					A_Print("Burst");
 					invoker.firemode=0;
 					//invoker.crosshair=43;
 				}
