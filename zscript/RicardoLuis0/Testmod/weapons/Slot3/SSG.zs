@@ -6,6 +6,7 @@ class SSGLoaded : Ammo{
 }
 
 class SSG : MyWeapon {
+	int firemode;
 	bool fireright;
 	int pellets;
 	int dmg;
@@ -28,6 +29,7 @@ class SSG : MyWeapon {
 		pellets=15;
 		dmg=6;
 		fireright=false;
+		firemode=0;
 	}
 	States{
 		ready:
@@ -41,42 +43,63 @@ class SSG : MyWeapon {
 			loop;
 		fire:
 			DSSG A 0 {
-				switch(CountInv("SSGLoaded")){
-				case 0:
-					if(CountInv("Shell")==0){
-						return ResolveState("noammo");
-					}else{
-						return ResolveState("reload");
-					}
-				case 1:
-					A_FireSingle();
-					if(invoker.fireright)return ResolveState("fireright");
-					return ResolveState("fireleft");
-				case 2:
-					A_FireSingle();
-					return ResolveState("fireright");
+				switch(invoker.firemode){
 				default:
-					return ResolveState("ready");
+					invoker.firemode=0;
+				case 0:
+					switch(CountInv("SSGLoaded")){
+					case 0:
+						if(CountInv("Shell")==0){
+							return ResolveState("noammo");
+						}else{
+							return ResolveState("reload");
+						}
+					case 1:
+						return ResolveState("fire");
+					default:
+						A_FireBoth();
+						return ResolveState("fireboth");
+					}
+					break;
+				case 1:
+					switch(CountInv("SSGLoaded")){
+					case 0:
+						if(CountInv("Shell")==0){
+							return ResolveState("noammo");
+						}else{
+							return ResolveState("reload");
+						}
+					case 1:
+						A_FireSingle();
+						if(invoker.fireright)return ResolveState("fireright");
+						return ResolveState("fireleft");
+					case 2:
+						A_FireSingle();
+						return ResolveState("fireright");
+					default:
+						return ResolveState("ready");
+					}
+					break;
 				}
+				return ResolveState(null);//unreachable
 			}
 			goto ready;
 		altfire:
+			DSSG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
 			DSSG A 0{
-				switch(CountInv("SSGLoaded")){
-				case 0:
-					if(CountInv("Shell")==0){
-						return ResolveState("noammo");
-					}else{
-						return ResolveState("reload");
-					}
-				case 1:
-					return ResolveState("fire");
-				default:
-					A_FireBoth();
-					return ResolveState("fireboth");
+				A_PlaySound("weapons/click02");
+				if(invoker.firemode==0){
+					A_Print("Single Fire");
+					invoker.firemode=1;
+				}else if(invoker.firemode==1){
+					A_Print("Double Fire");
+					invoker.firemode=0;
 				}
 			}
-			goto ready;
+			DSSG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		altloop:
+			DSSG A 1 A_ReFire("altloop");
+			Goto Ready;
 		fireboth:
 			DSSF A 2 Bright;
 			DSSF B 2 Bright;
