@@ -107,6 +107,8 @@ class PumpShotgun : MyWeapon {
 				}
 			}
 			0SGG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		altloop:
+			0SGG A 1 A_ReFire("altloop");
 			Goto Ready;
 		flash:
 			TNT1 A 4 Bright A_Light1;

@@ -81,6 +81,8 @@ class MyPlasmaRifle : MyWeapon {
 			updateFire();
 		}
 		DPGG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+	altloop:
+		DPGG A 1 A_ReFire("altloop");
 		Goto Ready;
 	ResetFire:
 		TNT1 A 0 {
