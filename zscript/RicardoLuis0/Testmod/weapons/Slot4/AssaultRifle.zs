@@ -102,7 +102,8 @@ class AssaultRifle : MyWeapon {
 			}
 			ASRG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		altloop:
-			ASRG A 1 A_ReFire("altloop");
+			ASRG A 1;
+			ASRG A 0 A_ReFire("altloop");
 			Goto Ready;
 	}
 	const spread_max=10;

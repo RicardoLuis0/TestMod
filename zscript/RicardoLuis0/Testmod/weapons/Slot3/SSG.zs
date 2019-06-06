@@ -98,7 +98,8 @@ class SSG : MyWeapon {
 			}
 			DSSG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		altloop:
-			DSSG A 1 A_ReFire("altloop");
+			DSSG A 1;
+			DSSG A 0 A_ReFire("altloop");
 			Goto Ready;
 		fireboth:
 			DSSF A 2 Bright;

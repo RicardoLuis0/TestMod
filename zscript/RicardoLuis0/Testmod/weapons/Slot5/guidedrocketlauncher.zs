@@ -62,7 +62,8 @@ class GuidedRocketLauncher:MyWeapon{
 			}
 			DRLG A 3 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		altloop:
-			DRLG A 1 A_ReFire("altloop");
+			DRLG A 1;
+			DRLG A 0 A_ReFire("altloop");
 			Goto Ready;
 		Flash:
 			TNT1 A 2 A_Light1;
