@@ -2,10 +2,10 @@ TestModPlayer
 {
 	exclude "GatlingRocketLauncher";
 	rename "MyPistol","Pistol";
-	rename "PumpShotgun","Pump Action Shotgun";
+	rename "PumpShotgun","Pump-Action Shotgun";
 	rename "SSG","Super Shotgun";
 	rename "AssaultRifle","Assault Rifle";
-	rename "Minigun","Light Minigun";
+	rename "Minigun","Minigun";
 	rename "HeavyGatlingGun","Heavy Gatling Gun";
 	rename "GuidedRocketLauncher","Laser-Guided Rocket Launcher";
 }
