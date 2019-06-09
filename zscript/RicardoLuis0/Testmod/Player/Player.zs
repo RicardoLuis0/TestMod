@@ -61,54 +61,6 @@ class TestModPlayer : PlayerPawn{
 		Player.Colorset 7, "Light Blue",	0xC0, 0xCF,  0xC2;
 	}
 
-	void ChangeMove(float newmove,bool allow_sprint=true){
-		if(!movemod){
-			movemod=true;
-			fmove1temp=forwardmove1;
-			fmove2temp=forwardmove2;
-			smove1temp=sidemove1;
-			smove2temp=sidemove2;
-			vbobtemp=viewbob;
-		}
-		forwardmove1=newmove*(forwardmove1);
-		sidemove1=newmove*(sidemove1);
-		if(allow_sprint){
-			forwardmove2=newmove*(forwardmove2);
-			sidemove2=newmove*(sidemove2);
-		}else{
-			forwardmove2=newmove/2;
-			sidemove2=newmove/2;
-		}
-		viewbob=viewbob*(((forwardmove1/fmove1temp)+(sidemove1/smove1temp))/2);
-	}
-
-	void RevertMove(){
-		if(movemod){
-			movemod=false;
-			forwardmove1=fmove1temp;
-			forwardmove2=fmove2temp;
-			sidemove1=smove1temp;
-			sidemove2=smove2temp;
-			viewbob=vbobtemp;
-		}
-	}
-
-	bool jump_disabled;
-	double oldJumpZ;
-	void DisableJump(){
-		if(!jump_disabled){
-			jump_disabled=true;
-			oldJumpZ=JumpZ;
-			JumpZ=0;
-		}
-	}
-	void RevertJump(){
-		if(jump_disabled){
-			jump_disabled=false;
-			JumpZ=oldJumpZ;
-		}
-	}
-
 	int ipow(int a,int e){
 		int r=1;
 		for(;e>0;e--){

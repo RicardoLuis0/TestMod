@@ -1,4 +1,5 @@
 class Minigun:HeavyGatlingGun{
+	bool tammo;
 	Default{
 		Inventory.PickupMessage "You've got the Minigun!";
 		Weapon.SlotPriority 0;
@@ -11,22 +12,11 @@ class Minigun:HeavyGatlingGun{
 			}
 			loop;
 		select:
-			TNT1 A 0 {
-				TestModPlayer cast=TestModPlayer(invoker.owner);
-				if(cast){
-					cast.ChangeMove(1,false);
-				}
-			}
-		selectloop:
 			PKCG A 1 A_Raise;
 			loop;
 		deselect:
 			TNT1 A 0 {
 				invoker.spinning=false;
-				TestModPlayer cast=TestModPlayer(invoker.owner);
-				if(cast){
-					cast.RevertMove();
-				}
 			}
 		deselectloop:
 			PKCG A 1 A_Lower;
@@ -104,7 +94,8 @@ class Minigun:HeavyGatlingGun{
 		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
-		W_FireBullets(8,5,1,8,"BulletPuff");
+		W_FireBullets(8,5,1,8,"BulletPuff",invoker.tammo?0:FBF_USEAMMO);
+		invoker.tammo=!invoker.tammo;
 		player.refire=refire;
 		A_Recoil(1);
 		A_AlertMonsters();

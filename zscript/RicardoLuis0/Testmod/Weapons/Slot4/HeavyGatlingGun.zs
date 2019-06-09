@@ -33,24 +33,11 @@ class HeavyGatlingGun:MyWeapon{
 			}
 			loop;
 		select:
-			TNT1 A 0 {
-				TestModPlayer cast=TestModPlayer(invoker.owner);
-				if(cast){
-					cast.ChangeMove(.75,false);
-					cast.DisableJump();
-				}
-			}
-		selectloop:
 			DGTG A 1 A_Raise;
 			loop;
 		deselect:
 			TNT1 A 0 {
 				invoker.spinning=false;
-				TestModPlayer cast=TestModPlayer(invoker.owner);
-				if(cast){
-					cast.RevertMove();
-					cast.RevertJump();
-				}
 			}
 		deselectloop:
 			DGTG A 1 A_Lower;

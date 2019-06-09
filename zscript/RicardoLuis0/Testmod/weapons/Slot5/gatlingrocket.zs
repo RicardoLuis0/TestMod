@@ -16,23 +16,9 @@ class GatlingRocketLauncher : MyWeapon{
 			REPG A 1 A_WeaponReady;
 			Loop;
 		Select:
-			TNT1 A 0 {
-				TestModPlayer cast=TestModPlayer(invoker.owner);
-				if(cast){
-					cast.ChangeMove(1,false);
-				}
-			}
-		SelectLoop:
 			REPG A 1 A_Raise;
 			loop;
 		Deselect:
-			TNT1 A 0 {
-				TestModPlayer cast=TestModPlayer(invoker.owner);
-				if(cast){
-					cast.RevertMove();
-				}
-			}
-		DeselectLoop:
 			REPG A 1 A_Lower;
 			loop;
 		Fire:
