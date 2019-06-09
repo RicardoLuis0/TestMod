@@ -81,6 +81,12 @@ extend class TestModPlayer {
 		weaponinertia_prevAP_pitch.resize(5);
 		weaponinertia_prevMV_x.resize(5);
 		weaponinertia_prevMV_y.resize(5);
+		for(int i=0;i<5;i++){
+			weaponinertia_prevAP_angle[i]=angle;
+			weaponinertia_prevAP_pitch[i]=pitch;
+			weaponinertia_prevMV_x[i]=pos.x;
+			weaponinertia_prevMV_y[i]=pos.y;
+		}
 		weaponinertia_prevbob=(0,0);
 		weaponinertia_nextbob=(0,0);
 		weaponinertia_prevtic=-1;
