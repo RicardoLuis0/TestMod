@@ -55,7 +55,9 @@ class SSG : MyWeapon {
 							return ResolveState("reload");
 						}
 					case 1:
-						return ResolveState("fire");
+						A_FireSingle();
+						if(invoker.fireright)return ResolveState("fireright");
+						return ResolveState("fireleft");
 					default:
 						A_FireBoth();
 						return ResolveState("fireboth");
