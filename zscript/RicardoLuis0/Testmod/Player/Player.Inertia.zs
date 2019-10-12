@@ -1,34 +1,16 @@
-class TeleportCheckerFogSrc : TeleportFog{
-	override void PostBeginPlay(){
-		if(target is "TestModPlayer"){
-			TestModPlayer p=TestModPlayer(target);
-			p.weaponinertia_is_teleporting=true;
-			p.pre_teleport_xy=pos.xy;
-		}
+class InertiaInterpolationData{
+	static InertiaInterpolationData make(Vector2 bob,Vector2 move){
+		InertiaInterpolationData temp= new("InertiaInterpolationData");
+		temp.bob=bob;
+		temp.move=move;
+		return temp;
 	}
-}
-
-class TeleportCheckerFogDest : TeleportDest{
-	override void PostBeginPlay(){
-		if(target is "TestModPlayer"){
-			TestModPlayer p=TestModPlayer(target);
-			p.weaponinertia_has_teleported=true;
-			p.post_teleport_xy=pos.xy;
-		}
-	}
+	Vector2 bob;
+	Vector2 move;
 }
 
 extend class TestModPlayer {
-	Default{
-		TeleFogSourceType "TeleportCheckerFogSrc";
-		TeleFogDestType "TeleportCheckerFogDest";
-	}
-	
-	bool weaponinertia_is_teleporting;
-	bool weaponinertia_has_teleported;
-	Vector2 pre_teleport_xy;
-	Vector2 post_teleport_xy;
-	
+	//config
 	bool weaponinertia_look_impulse;
 	bool weaponinertia_move_impulse;
 	bool weaponinertia_old_movebob;
@@ -43,147 +25,90 @@ extend class TestModPlayer {
 	double weaponinertia_zbob_scale;
 	double weaponinertia_oldbob_scale_x;
 	double weaponinertia_oldbob_scale_y;
-	Array<double> weaponinertia_prevAP_angle;
-	Array<double> weaponinertia_prevAP_pitch;
-	Array<double> weaponinertia_prevMV_x;
-	Array<double> weaponinertia_prevMV_y;
+	int weaponinertia_max_memory;
+	//data
 	Vector2 weaponinertia_prevbob;
 	Vector2 weaponinertia_nextbob;
 	Vector2 weaponinertia_prevmove;
 	Vector2 weaponinertia_nextmove;
-	int weaponinertia_prevtic;
+	Array<InertiaInterpolationData> weaponinertia_memory;
 
-	void updateTeleport(){
-		int i;
-		vector2 temp;
-		double temp2;
-		temp2=angle-weaponinertia_prevAP_angle[weaponinertia_prevAP_angle.size()-1];
-		for(i=0;i<weaponinertia_prevAP_angle.size();i++){
-			weaponinertia_prevAP_angle[i]+=temp2;
+	const LOOKSCALE = 0.1;
+	const MOVESCALE_Y = 0.5;
+	void inertiaTick(){
+		UserCmd cmd=player.cmd;
+		Vector2 temp=weaponinertia_nextbob;
+		weaponinertia_nextbob=(-(cmd.yaw/16),(cmd.pitch/16));
+		weaponinertia_nextbob*=LOOKSCALE;
+		weaponinertia_nextbob*=weaponinertia_scale;
+		weaponinertia_prevbob=temp;
+		temp=weaponinertia_nextmove;
+		Vector2 mvec=RotateVector((vel.y,vel.x),angle);
+		weaponinertia_nextmove.x=mvec.x*weaponinertia_movescale_x;//x
+		weaponinertia_nextmove.y=mvec.y*weaponinertia_movescale_y;//y
+		weaponinertia_nextmove.y+=vel.z*weaponinertia_movescale_y;//z
+		weaponinertia_nextmove.y*=MOVESCALE_Y;
+		weaponinertia_prevmove=temp;
+		InertiaInterpolationData avg=weaponinertia_memory_average();
+		weaponinertia_memory_add(InertiaInterpolationData.make(weaponinertia_nextbob,weaponinertia_nextmove));
+		weaponinertia_nextbob+=avg.bob;
+		if(!weaponinertia_move_forward_back_bidirectional){
+			weaponinertia_nextmove.y=abs(weaponinertia_nextmove.y);
 		}
-		temp2=pitch-weaponinertia_prevAP_pitch[weaponinertia_prevAP_pitch.size()-1];
-		for(i=0;i<weaponinertia_prevAP_pitch.size();i++){
-			weaponinertia_prevAP_pitch[i]+=temp2;
+		weaponinertia_nextmove+=avg.move;
+	}
+
+	InertiaInterpolationData weaponinertia_memory_average(){
+		InertiaInterpolationData acc=InertiaInterpolationData.make((0,0),(0,0));
+		if(weaponinertia_move_forward_back_bidirectional){
+			for(int i=0;i<weaponinertia_memory.size();i++){
+				acc.bob+=weaponinertia_memory[i].bob;
+				acc.move+=weaponinertia_memory[i].move;
+			}
+		}else{
+			for(int i=0;i<weaponinertia_memory.size();i++){
+				acc.bob+=weaponinertia_memory[i].bob;
+				acc.move.x+=weaponinertia_memory[i].move.x;
+				acc.move.y+=abs(weaponinertia_memory[i].move.y);
+			}
 		}
-		temp=(post_teleport_xy-pre_teleport_xy);
-		for(i=0;i<weaponinertia_prevMV_x.size();i++){
-			weaponinertia_prevMV_x[i]+=temp.x;
+		
+		acc.bob/=weaponinertia_memory.size();
+		acc.move/=weaponinertia_memory.size();
+		return acc;
+	}
+
+	void weaponinertia_memory_add(InertiaInterpolationData data){
+		while(weaponinertia_memory.size()>weaponinertia_max_memory){
+			weaponinertia_memory.pop();
 		}
-		for(i=0;i<weaponinertia_prevMV_y.size();i++){
-			weaponinertia_prevMV_y[i]+=temp.y;
-		}
-		weaponinertia_has_teleported=false;
-		weaponinertia_is_teleporting=false;
+		weaponinertia_memory.insert(0,data);
 	}
 
 	void initInertia(){
-		weaponinertia_prevAP_angle.resize(5);
-		weaponinertia_prevAP_pitch.resize(5);
-		weaponinertia_prevMV_x.resize(5);
-		weaponinertia_prevMV_y.resize(5);
-		for(int i=0;i<5;i++){
-			weaponinertia_prevAP_angle[i]=angle;
-			weaponinertia_prevAP_pitch[i]=pitch;
-			weaponinertia_prevMV_x[i]=pos.x;
-			weaponinertia_prevMV_y[i]=pos.y;
-		}
-		weaponinertia_prevbob=(0,0);
-		weaponinertia_nextbob=(0,0);
-		weaponinertia_prevtic=-1;
-		weaponinertia_has_teleported=false;
-		weaponinertia_is_teleporting=false;
-		pre_teleport_xy=(0,0);
-		post_teleport_xy=(0,0);
 		weaponinertia_UpdateCVars();
 	}
 
-	vector2 weaponinertia_prevAP_average(){
-		double avg_angle;
-		double avg_pitch;
-		double sum_sin;
-		double sum_cos;
-		int i;
-		for(i=0,sum_sin=0,sum_cos=0;i<weaponinertia_prevAP_angle.size();i++){
-			sum_sin+=sin(weaponinertia_prevAP_angle[i]);
-			sum_cos+=cos(weaponinertia_prevAP_angle[i]);
-		}
-		avg_angle=atan2(sum_sin/weaponinertia_prevAP_angle.size(),sum_cos/weaponinertia_prevAP_angle.size());
-		for(i=0,sum_sin=0,sum_cos=0;i<weaponinertia_prevAP_pitch.size();i++){
-			sum_sin+=sin(weaponinertia_prevAP_pitch[i]);
-			sum_cos+=cos(weaponinertia_prevAP_pitch[i]);
-		}
-		avg_pitch=atan2(sum_sin/weaponinertia_prevAP_pitch.size(),sum_cos/weaponinertia_prevAP_pitch.size());
-		return (avg_angle,avg_pitch);
+	void weaponinertia_ClearInertia(){
+		weaponinertia_prevbob=(0,0);
+		weaponinertia_nextbob=(0,0);
+		weaponinertia_prevmove=(0,0);
+		weaponinertia_nextmove=(0,0);
+		weaponinertia_memory.clear();
 	}
 
-	vector2 weaponinertia_prevMV_average(){
-		double acc_x;
-		double acc_y;
-		int i;
-		for(i=0;i<weaponinertia_prevMV_x.size();i++){
-			acc_x+=weaponinertia_prevMV_x[i];
-		}
-		for(i=0;i<weaponinertia_prevMV_y.size();i++){
-			acc_y+=weaponinertia_prevMV_y[i];
-		}
-		acc_x/=weaponinertia_prevMV_x.size();
-		acc_y/=weaponinertia_prevMV_y.size();
-		return (acc_x,acc_y);
-	}
-
-	void weaponinertia_prevAP_add(vector2 add){
-		weaponinertia_prevAP_angle.pop();
-		weaponinertia_prevAP_pitch.pop();
-		weaponinertia_prevAP_angle.insert(0,add.x);
-		weaponinertia_prevAP_pitch.insert(0,add.y);
-	}
-
-	void weaponinertia_prevMV_add(vector2 add){
-		weaponinertia_prevMV_x.pop();
-		weaponinertia_prevMV_y.pop();
-		weaponinertia_prevMV_x.insert(0,add.x);
-		weaponinertia_prevMV_y.insert(0,add.y);
-	}
-
-	vector2 vec2lerp(vector2 v1,vector2 v2,double f){
+	Vector2 vec2lerp(Vector2 v1,Vector2 v2,double f){
 		return v1+f*(v2-v1);
 	}
 
-	vector2 getAnglePitch(){
+	Vector2 getAnglePitch(){
 		return (DeltaAngle(angle,0),DeltaAngle(pitch,0));
 	}
 
-	vector2 subRot(vector2 rot1,vector2 rot2){
-		return (DeltaAngle(rot1.x,rot2.x),DeltaAngle(rot1.y,rot2.y));
-	}
-
-	vector2 getNextBob(){
-		return subRot(weaponinertia_prevAP_average(),getAnglePitch())*weaponinertia_scale;
-	}
-
-	override vector2 BobWeapon(double ticfrac){
-		double zbob=Player.ViewZ-ViewHeight-Pos.Z;
-		if(weaponinertia_has_teleported&&weaponinertia_is_teleporting){
-			updateTeleport();
-		}
-		if(gametic>weaponinertia_prevtic){
-			weaponinertia_prevbob=weaponinertia_nextbob;
-			if(!weaponinertia_has_teleported&&!weaponinertia_is_teleporting){
-				weaponinertia_nextbob=getNextBob();
-				weaponinertia_prevAP_add(getAnglePitch());
-				weaponinertia_prevtic=gametic;
-				if(weaponinertia_move_impulse){
-					weaponinertia_prevmove=weaponinertia_nextmove;
-					weaponinertia_prevMV_add((vel.y,vel.x));
-					weaponinertia_nextmove=RotateVector(weaponinertia_prevMV_average(),angle);
-					weaponinertia_nextmove.x*=weaponinertia_movescale_x;
-					weaponinertia_nextmove.y*=weaponinertia_movescale_y;
-					if(!weaponinertia_move_forward_back_bidirectional)weaponinertia_nextmove.y=abs(weaponinertia_nextmove.y);
-				}
-			}
-		}
-		vector2 sway=vec2lerp(weaponinertia_prevbob,weaponinertia_nextbob,ticfrac);
-		sway.y+=weaponinertia_y_offset;
+	override Vector2 BobWeapon(double ticfrac){
+		double zbob=0;//Player.ViewZ-ViewHeight-Pos.Z;
+		Vector2 sway=vec2lerp(weaponinertia_prevbob,weaponinertia_nextbob,ticfrac);
+		sway.y-=weaponinertia_y_offset;
 		if(weaponinertia_invert_x_look){
 			sway.x=-sway.x;
 		}
@@ -216,5 +141,7 @@ extend class TestModPlayer {
 		weaponinertia_zbob_scale=CVar.GetCVar("cl_weaponinertia_zbob_scale",player).getFloat();
 		weaponinertia_oldbob_scale_x=CVar.GetCVar("cl_weaponinertia_oldbob_scale_x",player).getFloat();
 		weaponinertia_oldbob_scale_y=CVar.GetCVar("cl_weaponinertia_oldbob_scale_y",player).getFloat();
+		weaponinertia_max_memory=5;
+		weaponinertia_ClearInertia();
 	}
 }

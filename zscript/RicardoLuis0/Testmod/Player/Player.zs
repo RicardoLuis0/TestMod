@@ -122,6 +122,7 @@ class TestModPlayer : PlayerPawn{
 		if (!player || !player.mo || player.mo != self){
 			return;
 		}else{
+			InertiaTick();
 			look_calc=false;
 			if(player.ReadyWeapon is "MyWeapon"){
 				MyWeapon(player.ReadyWeapon).ReadyTick();
