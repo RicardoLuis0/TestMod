@@ -22,13 +22,13 @@ class PumpShotgun : MyWeapon {
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;
 		+WEAPON.NOAUTOFIRE;
-		Inventory.PickupMessage "You've got the Pump Shotgun!";
+		Inventory.PickupMessage "You've got the Shotgun!";
 	}
 	
 	override void BeginPlay(){
 		super.BeginPlay();
 		crosshair=23;
-		first=true;
+		first=false;//don't pump on pickup
 		pellets=12;
 		dmg=5;
 		firemode=0;
@@ -80,17 +80,14 @@ class PumpShotgun : MyWeapon {
 			}
 			goto ready;
 		autofire:
-			0SGG A 0 A_CheckAmmo(true);
-		autofireloop:
 			0SGF A 0 A_FirePumpQuick();
-			0SGF A 1 Bright A_GunFlash;
-			0SGF B 1 Bright;
-			0SGF C 1 Bright;
+			0SGF A 2 Bright A_GunFlash;
+			0SGF B 2 Bright;
+			0SGF C 2 Bright;
 			0SGF D 1;
 			0SGF E 1;
-			0SGF C 2 A_ReFire;
-			0SGF D 2;
-			0SGF E 2;
+			0SGF A 2;
+			0SGG A 5 A_Refire;
 			goto ready;
 		altfire:
 			0SGG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
@@ -183,7 +180,7 @@ class PumpShotgun : MyWeapon {
 		A_AlertMonsters();
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
-		W_FireBullets(2,2,invoker.pellets,invoker.dmg,"BulletPuff");
+		W_FireBullets(1.5,1.5,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_SetPitch(pitch+frandom(-5,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-2,2),SPF_INTERPOLATE);
 		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO,0.5);
@@ -192,12 +189,16 @@ class PumpShotgun : MyWeapon {
 
 	action State A_FirePumpQuick(){
 		if(CountInv("PumpLoaded")==0){
-			return ResolveState("noammo");
+			if(CountInv("Shell")==0){
+				return ResolveState("noammo");
+			}else{
+				return ResolveState("reload");
+			}
 		}
 		A_AlertMonsters();
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
-		W_FireBullets(6,6,invoker.pellets,invoker.dmg,"BulletPuff");
+		W_FireBullets(8,8,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_SetPitch(pitch+frandom(-3,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-3,3),SPF_INTERPOLATE);
 		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO,0.5);
