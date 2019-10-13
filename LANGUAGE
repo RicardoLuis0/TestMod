@@ -1,0 +1,5 @@
+[en]
+GOTLIGHTCLIP = "Picked up a clip of light bullets." ;
+GOTLIGHTCLIPBOX = "Picked up a box of light bullets." ;
+GOTHEAVYCLIP = "Picked up a clip of heavy bullets." ;
+GOTHEAVYCLIPBOX = "Picked up a box of heavy bullets." ;
