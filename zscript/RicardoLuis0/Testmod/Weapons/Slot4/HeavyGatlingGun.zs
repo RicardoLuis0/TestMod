@@ -3,8 +3,8 @@ class HeavyGatlingGun:MyWeapon{
 	Default{
 		Weapon.SlotNumber 4;
 		Weapon.SlotPriority 0.5;
-		Weapon.AmmoType1 "Clip";
-		Weapon.AmmoType2 "Clip";
+		Weapon.AmmoType1 "HeavyClip";
+		Weapon.AmmoType2 "HeavyClip";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 1;
 		Weapon.AmmoGive1 50;
@@ -45,7 +45,7 @@ class HeavyGatlingGun:MyWeapon{
 		firespin:
 			TNT1 A 0 {
 				invoker.spinning=true;
-				if(CountInv("Clip")==0)return ResolveState("idlespin");
+				if(CountInv("HeavyClip")==0)return ResolveState("idlespin");
 				return ResolveState(null);
 			}
 			DGTF A 1 Bright A_FireGun;
@@ -99,7 +99,7 @@ class HeavyGatlingGun:MyWeapon{
 			stop;
 	}
 	action State A_FireGun(){
-		if(CountInv("Clip")==0){
+		if(CountInv("HeavyClip")==0){
 			return ResolveState("noammo");
 		}
 		A_GunFlash();

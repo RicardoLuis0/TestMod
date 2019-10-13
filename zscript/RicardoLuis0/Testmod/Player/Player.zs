@@ -31,7 +31,7 @@ class TestModPlayer : PlayerPawn{
 		Player.CrouchSprite "PLYC";
 
 		Player.StartItem "MyPistol";
-		Player.StartItem "Clip", 51;//3 pistol clips
+		Player.StartItem "LightClip", 51;//3 pistol clips
 		Player.StartItem "MyPistolClip", 18;//17+1
 		Player.StartItem "AssaultRifleLoadedAmmo", 20;
 		Player.StartItem "PumpLoaded", 8;

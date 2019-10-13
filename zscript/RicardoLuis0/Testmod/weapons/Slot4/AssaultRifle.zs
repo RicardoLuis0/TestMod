@@ -13,7 +13,7 @@ class AssaultRifle : MyWeapon {
 		Weapon.SlotNumber 4;
 		Weapon.SlotPriority 1;
 		Weapon.AmmoType1 "AssaultRifleLoadedAmmo";
-		Weapon.AmmoType2 "Clip";
+		Weapon.AmmoType2 "HeavyClip";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoGive2 20;
 		+WEAPON.NOALERT;
@@ -156,7 +156,7 @@ class AssaultRifle : MyWeapon {
 	}
 	action State A_FireGun(){
 		if(CountInv("AssaultRifleLoadedAmmo")==0){
-			if(CountInv("Clip")==0){
+			if(CountInv("HeavyClip")==0){
 				return ResolveState("noammo");
 			}else{
 				return ResolveState("reload");
@@ -178,7 +178,7 @@ class AssaultRifle : MyWeapon {
 		return ResolveState(null);
 	}
 	action State A_PreReloadGun(){
-		if(CountInv("AssaultRifleLoadedAmmo")==21||CountInv("Clip")==0){
+		if(CountInv("AssaultRifleLoadedAmmo")==21||CountInv("HeavyClip")==0){
 			return ResolveState("ready");
 		}
 		return ResolveState(null);
@@ -186,24 +186,24 @@ class AssaultRifle : MyWeapon {
 	action void A_ReloadGun(){
 		A_ClearReFire();
 		int cur = CountInv("AssaultRifleLoadedAmmo");
-		int reserve = CountInv("Clip");
+		int reserve = CountInv("HeavyClip");
 		if(cur==0){
 			invoker.loaded=false;
 			if(reserve>20){
 				A_SetInventory("AssaultRifleLoadedAmmo",20);
-				A_SetInventory("Clip",reserve-20);
+				A_SetInventory("HeavyClip",reserve-20);
 			}else{
-				A_SetInventory("AssaultRifleLoadedAmmo",CountInv("Clip"));
-				A_SetInventory("Clip",0);
+				A_SetInventory("AssaultRifleLoadedAmmo",CountInv("HeavyClip"));
+				A_SetInventory("HeavyClip",0);
 			}
 		}else{
 			int reloadamt=21-cur;
 			if(reserve>reloadamt){
-				A_SetInventory("Clip",reserve-reloadamt);
+				A_SetInventory("HeavyClip",reserve-reloadamt);
 				A_SetInventory("AssaultRifleLoadedAmmo",21);
 			}else{
 				A_SetInventory("AssaultRifleLoadedAmmo",cur+reserve);
-				A_SetInventory("Clip",0);
+				A_SetInventory("HeavyClip",0);
 			}
 		}
 	}

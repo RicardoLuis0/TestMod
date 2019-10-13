@@ -1,5 +1,5 @@
 class ThingSpawnerBase:Actor{
-	bool spawnactor(string a_name){
+	bool spawnactor(string a_name,int replace,Vector3 v){
 		/*
 		if(bDropped){
 			A_DropItem(actor_name);
@@ -13,9 +13,9 @@ class ThingSpawnerBase:Actor{
 			console.printf("Invalid Actor \""..a_name.."\"");
 			return false;
 		}
-		Actor obj=Spawn(a_class,pos,NO_REPLACE);
+		Actor obj=Spawn(a_class,pos,replace);
 		if(obj){
-			obj.vel=vel;
+			obj.vel=v;
 			obj.bDropped = bDropped;
 			Float ammoFactor=G_SkillPropertyFloat(SKILLP_DropAmmoFactor);
 			if(ammoFactor==-1)ammoFactor=0.5;
@@ -41,17 +41,21 @@ class BasicThingSpawnerElement{
 	string actor_name;
 	int actor_amount;
 	int actor_weight;
-	BasicThingSpawnerElement Init(string name="None",int amount=0,int weight=0){
+	int areplace;
+	BasicThingSpawnerElement Init(string name="None",int amount=1,int weight=1,int replace=ALLOW_REPLACE){
 		actor_name=name;
 		actor_amount=amount;
 		actor_weight=weight;
+		replace=replace;
 		return self;
 	}
 }
 
 class BasicThingSpawner:ThingSpawnerBase{
+
 	Array<BasicThingSpawnerElement> spawnlist;
 	int max_weight;
+
 	int arrayMaxWeight(){
 		int total=0;
 		int i;
@@ -60,6 +64,7 @@ class BasicThingSpawner:ThingSpawnerBase{
 		}
 		return total-1;
 	}
+
 	BasicThingSpawnerElement getFromWeight(int weight){
 		int total=0;
 		int i;
@@ -72,26 +77,41 @@ class BasicThingSpawner:ThingSpawnerBase{
 		}
 		return spawnlist[i];
 	}
+
 	override void BeginPlay(){
 		super.BeginPlay();
 		setDrops();
 		max_weight=arrayMaxWeight();
 	}
+
 	virtual void setDrops(){}
-	States{
-		Spawn:
-			TNT1 A 0{
-				int weight=random(0,max_weight);
-				BasicThingSpawnerElement toSpawn=getFromWeight(weight);
-				if(toSpawn!=null){
-					if(toSpawn.actor_name!="None"){
-						int i;
-						for(i=0;i<toSpawn.actor_amount;i++){
-							spawnactor(toSpawn.actor_name);
-						}
-					}
+
+	bool DoSpawn(){
+		int weight=random(0,max_weight);
+		BasicThingSpawnerElement toSpawn=getFromWeight(weight);
+
+		if(toSpawn==null) return false;
+
+		if(toSpawn.actor_name!="None"){
+			int i;
+			if(toSpawn.actor_amount==1){
+				return spawnactor(toSpawn.actor_name,toSpawn.areplace,vel);
+			}else{
+				for(i=0;i<toSpawn.actor_amount;i++){
+					Vector3 Spawnvel=vel+(frandom(-1,1),frandom(-1,1),frandom(1,2));
+					if(!spawnactor(toSpawn.actor_name,toSpawn.areplace,Spawnvel))return false;
 				}
-				Thing_Remove(0);
+				return true;
 			}
+		}
+		return false;
 	}
+
+	override void PostBeginPlay(){
+		super.PostBeginPlay();
+		setDrops();
+		if(!DoSpawn()) console.printf("\c[Red] Error Spawning Drop");
+		Destroy();
+	}
+
 }

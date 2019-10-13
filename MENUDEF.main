@@ -6,7 +6,7 @@ OptionValue "DamageModes" {
 
 OptionMenu "TestmodOptionsMenu" {
 	Title "Testmod Options"
-	Submenu "Use to Pickup","TestmodOptionsMenuUseToPickup"
+	//Submenu "Use to Pickup","TestmodOptionsMenuUseToPickup"
 	Submenu "Weapon Inertia","TestmodOptionsMenuWeaponInertia"
 	Submenu "Configure Server CVars","TestmodOptionsMenuServerCVars"
 	Submenu "Configure User CVars","TestmodOptionsMenuUserCVars"

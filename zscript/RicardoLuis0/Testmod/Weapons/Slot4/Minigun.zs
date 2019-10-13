@@ -1,9 +1,13 @@
 class Minigun:HeavyGatlingGun{
 	bool tammo;
+
 	Default{
+		Weapon.AmmoType1 "LightClip";
+		Weapon.AmmoType2 "LightClip";
 		Inventory.PickupMessage "You've got the Minigun!";
 		Weapon.SlotPriority 0;
 	}
+
 	States{
 		ready:
 			PKCG A 1 {
@@ -26,7 +30,7 @@ class Minigun:HeavyGatlingGun{
 				invoker.spinning=true;
 				A_StopSound(CHAN_6);
 				A_PlaySound("weapons/minigunspin",CHAN_7|CHAN_NOSTOP|CHAN_LOOP,0.2);
-				if(CountInv("Clip")==0)return ResolveState("idlespin");
+				if(CountInv("LightClip")==0)return ResolveState("idlespin");
 				return ResolveState(null);
 			}
 			PKCG A 0 A_Jump(128,"firespin2");
@@ -88,7 +92,7 @@ class Minigun:HeavyGatlingGun{
 			stop;
 	}
 	action State A_FireGun(){
-		if(CountInv("Clip")==0){
+		if(CountInv("LightClip")==0){
 			return ResolveState("noammo");
 		}
 		A_GunFlash();

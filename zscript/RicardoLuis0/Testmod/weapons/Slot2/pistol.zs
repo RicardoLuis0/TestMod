@@ -10,7 +10,7 @@ class MyPistol : MyWeapon{
 	Default{
 		Weapon.SlotNumber 2;
 		Weapon.AmmoType1 "MyPistolClip";
-		Weapon.AmmoType2 "Clip";
+		Weapon.AmmoType2 "LightClip";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive1 0;
@@ -69,7 +69,7 @@ class MyPistol : MyWeapon{
 	Fire:
 		DPIG A 0 {
 			if(CountInv("MyPistolClip")==0){
-				if(CountInv("Clip")==0){
+				if(CountInv("LightClip")==0){
 					return ResolveState("Ready");
 				}else{
 					return ResolveState("Reload");
@@ -99,7 +99,7 @@ class MyPistol : MyWeapon{
 		DEPI A -1;
 		Stop;
 	Reload:
-		TNT1 A 0 CheckReload("Clip","MyPistolClip",18,"Ready","Ready","ReloadPartial","ReloadPartialEmpty","ReloadEmpty","ReloadFull");
+		TNT1 A 0 CheckReload("LightClip","MyPistolClip",18,"Ready","Ready","ReloadPartial","ReloadPartialEmpty","ReloadEmpty","ReloadFull");
 		Goto Ready;
 	ReloadPartial:
 		TNT1 A 0 {
@@ -134,8 +134,8 @@ class MyPistol : MyWeapon{
 		DPIR J 3;
 		TNT1 A 0 {
 			if(invoker.partial){
-				A_GiveInventory("MyPistolClip",CountInv("Clip"));
-				A_SetInventory("Clip",0);
+				A_GiveInventory("MyPistolClip",CountInv("LightClip"));
+				A_SetInventory("LightClip",0);
 			}else{
 				A_TakeInventory("Clip",18-CountInv("MyPistolClip"));
 				A_SetInventory("MyPistolClip",18);
@@ -155,8 +155,8 @@ class MyPistol : MyWeapon{
 		DPIR J 3;
 		TNT1 A 0 {
 			if(invoker.partial){
-				A_GiveInventory("MyPistolClip",CountInv("Clip"));
-				A_SetInventory("Clip",0);
+				A_GiveInventory("MyPistolClip",CountInv("LightClip"));
+				A_SetInventory("LightClip",0);
 			}else{
 				A_TakeInventory("Clip",17);
 				A_SetInventory("MyPistolClip",17);
