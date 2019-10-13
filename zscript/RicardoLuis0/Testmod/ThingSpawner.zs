@@ -104,13 +104,13 @@ class BasicThingSpawner:ThingSpawnerBase{
 				return true;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	override void PostBeginPlay(){
 		super.PostBeginPlay();
 		setDrops();
-		if(!DoSpawn()) console.printf("\c[Red] Error Spawning Drop");
+		if(!DoSpawn()) console.printf("\c[Red] Error Spawning Drops");
 		Destroy();
 	}
 
