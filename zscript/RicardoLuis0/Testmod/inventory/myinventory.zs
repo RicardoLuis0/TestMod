@@ -100,7 +100,7 @@ class MyHealth:Health{
 	}
 }
 
-class MyArmor:Armor{
+class MyArmorPickup:BasicArmorPickup{
 	bool glowing;
 	string glow;
 	string noglow;
@@ -108,8 +108,38 @@ class MyArmor:Armor{
 	property glow:glow;
 	property noglow:noglow;
 	Default{
-		MyArmor.glow "HoverGlow";
-		MyArmor.noglow "None";
+		MyArmorPickup.glow "HoverGlow";
+		MyArmorPickup.noglow "None";
+	}
+	
+	virtual void GlowStart(){
+		if(!glowing){
+			A_SetTranslation(glow);
+			lastbright=bBright;
+			bBright=true;
+			glowing=true;
+		}
+	}
+	
+	virtual void GlowEnd(){
+		if(glowing){
+			A_SetTranslation(noglow);
+			bBright=lastbright;
+			glowing=false;
+		}
+	}
+}
+
+class MyArmorBonus:BasicArmorBonus{
+	bool glowing;
+	string glow;
+	string noglow;
+	bool lastbright;
+	property glow:glow;
+	property noglow:noglow;
+	Default{
+		MyArmorBonus.glow "HoverGlow";
+		MyArmorBonus.noglow "None";
 	}
 	
 	virtual void GlowStart(){

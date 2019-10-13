@@ -35,7 +35,7 @@ extend class TestModPlayer {
 
 	const LOOKSCALE = 0.1;
 	const MOVESCALE_Y = 0.5;
-	void inertiaTick(){
+	void InertiaTick(){
 		UserCmd cmd=player.cmd;
 		Vector2 temp=weaponinertia_nextbob;
 		weaponinertia_nextbob=(-(cmd.yaw/16),(cmd.pitch/16));
@@ -56,6 +56,10 @@ extend class TestModPlayer {
 			weaponinertia_nextmove.y=abs(weaponinertia_nextmove.y);
 		}
 		weaponinertia_nextmove+=avg.move;
+	}
+
+	void InertiaInit(){
+		weaponinertia_UpdateCVars();
 	}
 
 	InertiaInterpolationData weaponinertia_memory_average(){
@@ -83,10 +87,6 @@ extend class TestModPlayer {
 			weaponinertia_memory.pop();
 		}
 		weaponinertia_memory.insert(0,data);
-	}
-
-	void initInertia(){
-		weaponinertia_UpdateCVars();
 	}
 
 	void weaponinertia_ClearInertia(){
