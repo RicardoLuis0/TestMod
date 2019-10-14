@@ -35,17 +35,16 @@ class RifleZombieMan : ZombieMan{
 	Default{
 		DropItem "RifleZombieManClipDrop";
 		DropItem "AssaultRifle";
+		AttackSound "weapons/ar_fire";
 		Health 60;//has more health
 		PainChance 64;//less stun
 	}
 
 	action void A_RPosAttack1(){//attack 1 for possessed riflemen, more accurate
-		A_PlaySound ("grunt/attack");
 		A_CustomBulletAttack (15, 0, 1, random(1,3) * 3, "BulletPuff", 0, CBAF_NORANDOM);
 	}
 
 	action void A_RPosAttack2(){//attack 2 for possessed riflemen, less accurate
-		A_PlaySound ("grunt/attack");
 		A_CustomBulletAttack (30, 0, 1, random(1,3) * 3, "BulletPuff", 0, CBAF_NORANDOM);
 	}
 
