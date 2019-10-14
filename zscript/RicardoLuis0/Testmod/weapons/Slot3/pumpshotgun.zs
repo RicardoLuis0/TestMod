@@ -87,7 +87,7 @@ class PumpShotgun : MyWeapon {
 			0SGF D 1;
 			0SGF E 1;
 			0SGF A 2;
-			0SGG A 5 A_Refire;
+			0SGG A 5;
 			goto ready;
 		altfire:
 			0SGG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
