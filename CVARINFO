@@ -24,3 +24,4 @@ USER FLOAT cl_weaponinertia_min_y = 0;
 USER FLOAT cl_weaponinertia_zbob_scale = 0.25;
 USER FLOAT cl_weaponinertia_oldbob_scale_x = 1.0;
 USER FLOAT cl_weaponinertia_oldbob_scale_y = 1.0;
+USER INT cl_weaponinertia_max_memory = 5;

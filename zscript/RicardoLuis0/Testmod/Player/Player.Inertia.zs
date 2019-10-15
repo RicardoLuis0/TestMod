@@ -26,6 +26,7 @@ extend class TestModPlayer {
 	double weaponinertia_oldbob_scale_x;
 	double weaponinertia_oldbob_scale_y;
 	int weaponinertia_max_memory;
+	double weaponinertia_zbob;
 	//data
 	Vector2 weaponinertia_prevbob;
 	Vector2 weaponinertia_nextbob;
@@ -36,6 +37,7 @@ extend class TestModPlayer {
 	const LOOKSCALE = 0.1;
 	const MOVESCALE_Y = 0.5;
 	void InertiaTick(){
+		weaponinertia_zbob = player.bob * sin(Level.maptime / (20 * TICRATE / 35.) * 360.) * (waterlevel > 1 ? 0.25f : 0.5f);//from PlayerPawn::CalcHeight
 		UserCmd cmd=player.cmd;
 		Vector2 temp=weaponinertia_nextbob;
 		weaponinertia_nextbob=(-(cmd.yaw/16),(cmd.pitch/16));
@@ -106,7 +108,6 @@ extend class TestModPlayer {
 	}
 
 	override Vector2 BobWeapon(double ticfrac){
-		double zbob=Player.ViewZ-ViewHeight-Pos.Z;
 		Vector2 sway=vec2lerp(weaponinertia_prevbob,weaponinertia_nextbob,ticfrac);
 		sway.y-=weaponinertia_y_offset;
 		if(weaponinertia_invert_x_look){
@@ -116,7 +117,7 @@ extend class TestModPlayer {
 			sway.y=-sway.y;
 		}
 		if(weaponinertia_move_impulse){
-			sway.y+=zbob*weaponinertia_zbob_scale;
+			sway.y+=weaponinertia_zbob*weaponinertia_zbob_scale;
 			sway+=vec2lerp(weaponinertia_prevmove,weaponinertia_nextmove,ticfrac);
 		}
 		if(weaponinertia_old_movebob){
@@ -141,7 +142,7 @@ extend class TestModPlayer {
 		weaponinertia_zbob_scale=CVar.GetCVar("cl_weaponinertia_zbob_scale",player).getFloat();
 		weaponinertia_oldbob_scale_x=CVar.GetCVar("cl_weaponinertia_oldbob_scale_x",player).getFloat();
 		weaponinertia_oldbob_scale_y=CVar.GetCVar("cl_weaponinertia_oldbob_scale_y",player).getFloat();
-		weaponinertia_max_memory=5;
+		weaponinertia_max_memory=CVar.GetCVar("cl_weaponinertia_max_memory",player).getFloat();
 		weaponinertia_ClearInertia();
 	}
 }
