@@ -1,34 +1,32 @@
 class ThingSpawnerBase:Actor{
 	bool spawnactor(string a_name,int replace,Vector3 v){
-		/*
-		if(bDropped){
-			A_DropItem(actor_name);
-			return true;
-		}else{
-			return A_SpawnItemEx(actor_name);
-		}
-		*/
 		class<Actor> a_class=a_name;
 		if(a_class==null){
-			console.printf("Invalid Actor \""..a_name.."\"");
+			console.printf("\c[red] Invalid Actor \""..a_name.."\"");
 			return false;
 		}
 		Actor obj=Spawn(a_class,pos,replace);
 		if(obj){
 			obj.vel=v;
 			obj.bDropped = bDropped;
-			Float ammoFactor=G_SkillPropertyFloat(SKILLP_DropAmmoFactor);
-			if(ammoFactor==-1)ammoFactor=0.5;
+			Float ammoFactor;
+			if(bDropped){
+				ammoFactor=G_SkillPropertyFloat(SKILLP_AmmoFactor);
+				if(ammoFactor==-1)ammoFactor=0.5;
+			}else{
+				ammoFactor=G_SkillPropertyFloat(SKILLP_DropAmmoFactor);
+				if(ammoFactor==-1)ammoFactor=1;
+			}
 			if(obj is "Ammo"){
 				Ammo a_obj=Ammo(obj);
 				if (ammoFactor > 0){
-					a_obj.amount=int(a_obj.amount*ammoFactor);
+					a_obj.amount=int(a_obj.default.amount*ammoFactor);
 				}
 			}else if(obj is "Weapon"){
 				Weapon w_obj=Weapon(obj);
 				if (ammoFactor > 0){
-					w_obj.ammoGive1=int(w_obj.ammoGive1*ammoFactor);
-					w_obj.ammoGive2=int(w_obj.ammoGive2*ammoFactor);
+					w_obj.ammoGive1=int(w_obj.default.ammoGive1*ammoFactor);
+					w_obj.ammoGive2=int(w_obj.default.ammoGive2*ammoFactor);
 				}
 			}
 			return true;
