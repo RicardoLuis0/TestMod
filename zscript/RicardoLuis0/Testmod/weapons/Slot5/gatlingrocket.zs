@@ -153,7 +153,7 @@ class GatlingRocketLauncher : MyWeapon{
 		A_TakeInventory("RocketAmmo",1);
 		A_GunFlash();
 		A_AlertMonsters();
-		A_FireProjectile("Rocket");
+		A_FireProjectile("MyRocket");
 	}
 }
 
