@@ -1,4 +1,7 @@
-class LaserDot:VisTracer{
+class LaserDot:Actor{
+	Default{
+		+NOINTERACTION;
+	}
 	states{
 	Spawn:
 		RDOT A 2 BRIGHT;
@@ -17,13 +20,22 @@ class GuidedRocketLauncher:MyWeapon{
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
-		crosshair=48;
 		laserenabled=true;
 	}
 	override void ReadyTick(){
 		super.ReadyTick();
 		if(laserenabled){
-			if(owner is "TestModPlayer")TestModPlayer(owner).LineAttack_Straight("LaserDot",0,true);
+			crosshair=0;
+			if(owner is "TestModPlayer"){
+				TestModPlayer p=TestModPlayer(owner);
+				//Spawn("LaserDot",p.getLookAtPos());
+				let a=p.LineAttack_Straight();
+				a.A_SpawnParticle("#FF0000",SPF_FULLBRIGHT,2,10);
+				a.destroy();
+			}
+			//TestModPlayer(owner).LineAttack_Straight("LaserDot");
+		}else{
+			crosshair=48;
 		}
 	}
 	States{

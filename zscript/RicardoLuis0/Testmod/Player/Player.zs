@@ -1,21 +1,3 @@
-class VisTracer:BulletPuff{
-	Default{
-		+ALWAYSPUFF;
-		+PUFFONACTORS;
-		+BLOODLESSIMPACT;
-		+DONTSPLASH;
-		+NODECAL;
-		-ALLOWPARTICLES;
-		-RANDOMIZE;
-		VSpeed 0;
-	}
-	States{
-	Spawn:
-		TNT1 A 0;
-		Stop;
-	}
-}
-
 class TestModPlayer : PlayerPawn{
 	Default{
 		Speed 1;
