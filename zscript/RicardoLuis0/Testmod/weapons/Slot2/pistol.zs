@@ -137,7 +137,7 @@ class MyPistol : MyWeapon{
 				A_GiveInventory("MyPistolClip",CountInv("LightClip"));
 				A_SetInventory("LightClip",0);
 			}else{
-				A_TakeInventory("Clip",18-CountInv("MyPistolClip"));
+				A_TakeInventory("LightClip",18-CountInv("MyPistolClip"));
 				A_SetInventory("MyPistolClip",18);
 			}
 		}
@@ -158,7 +158,7 @@ class MyPistol : MyWeapon{
 				A_GiveInventory("MyPistolClip",CountInv("LightClip"));
 				A_SetInventory("LightClip",0);
 			}else{
-				A_TakeInventory("Clip",17);
+				A_TakeInventory("LightClip",17);
 				A_SetInventory("MyPistolClip",17);
 			}
 		}
