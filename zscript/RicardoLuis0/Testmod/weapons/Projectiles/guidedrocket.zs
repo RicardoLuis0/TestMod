@@ -82,18 +82,44 @@ class MyRocket:Rocket{
 		Stop;
 	}
 }
-class GuidedRocket:MyRocket{
+
+class SteerRocket:MyRocket {
+
+	void recalculateVelocity(int speed){
+		A_ChangeVelocity(cos(angle)*cos(pitch)*speed,sin(angle)*cos(pitch)*speed,sin(pitch)*speed,CVF_REPLACE);
+	}
+
+	void Steer(Vector3 tpos,double maxangle,double rotspeed){//should be called in "Tick" or comparable function; maxangle=max angle to steer,else keep straight; rotspeed=rotation speed
+		double dx=tpos.x-pos.x;
+		double dy=tpos.y-pos.y;
+		double dz=tpos.z-pos.z;
+		double targetangle=atan2(dy,dx);
+		double targetpitch=-(atan2(sqrt(dy*dy+dx*dx),dz)-90);
+		double adiff=DeltaAngle(angle,targetangle);
+		double pdiff=DeltaAngle(pitch,targetpitch);
+		if(abs(adiff)<=maxangle&&abs(pdiff)<=maxangle){
+			if(abs(adiff)>rotspeed){
+				angle+=(adiff>0)?rotspeed:-rotspeed;
+			}else{
+				angle+=adiff;
+			}
+			if(abs(pdiff)>rotspeed){
+				pitch+=(pdiff>0)?rotspeed:-rotspeed;
+			}else{
+				pitch+=pdiff;
+			}
+			recalculateVelocity(20);
+		}
+	}
+}
+
+class GuidedRocket:SteerRocket{
 	bool alive;
 	double rotspeed;
-	double follow_limit;
 
 	override void RocketExplode(){
 		alive=false;
 		super.RocketExplode();
-	}
-
-	void recalculateVelocity(int speed){
-		A_ChangeVelocity(cos(angle)*cos(pitch)*speed,sin(angle)*cos(pitch)*speed,sin(pitch)*speed,CVF_REPLACE);
 	}
 
 	override void BeginPlay(){
@@ -108,27 +134,7 @@ class GuidedRocket:MyRocket{
 			TestModPlayer p=TestModPlayer(target);
 			if(p){
 				if(p.player.ReadyWeapon.getClass()=="GuidedRocketLauncher"&&GuidedRocketLauncher(p.player.ReadyWeapon).laserenabled){
-					Vector3 lpos=p.getLookAtPos();
-					double dx=lpos.x-pos.x;
-					double dy=lpos.y-pos.y;
-					double dz=lpos.z-pos.z;
-					double targetangle=atan2(dy,dx);
-					double targetpitch=-(atan2(sqrt(dy*dy+dx*dx),dz)-90);
-					double adiff=DeltaAngle(angle,targetangle);
-					double pdiff=DeltaAngle(pitch,targetpitch);
-					if(abs(adiff)<=sv_guided_rocket_max_follow_angle&&abs(pdiff)<=sv_guided_rocket_max_follow_angle){
-						if(abs(adiff)>rotspeed){
-							angle+=(adiff>0)?rotspeed:-rotspeed;
-						}else{
-							angle+=adiff;
-						}
-						if(abs(pdiff)>rotspeed){
-							pitch+=(pdiff>0)?rotspeed:-rotspeed;
-						}else{
-							pitch+=pdiff;
-						}
-						recalculateVelocity(20);
-					}
+					Steer(p.getLookAtPos(),sv_guided_rocket_max_follow_angle,rotspeed);
 				}
 			}
 		}

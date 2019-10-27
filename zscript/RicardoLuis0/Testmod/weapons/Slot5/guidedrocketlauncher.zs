@@ -22,6 +22,9 @@ class GuidedRocketLauncher:MyWeapon{
 		super.BeginPlay();
 		laserenabled=true;
 	}
+	double clamp(double min,double val,double max){
+		return max(min,min(val,max));
+	}
 	override void ReadyTick(){
 		super.ReadyTick();
 		if(laserenabled){
@@ -30,7 +33,8 @@ class GuidedRocketLauncher:MyWeapon{
 				TestModPlayer p=TestModPlayer(owner);
 				//Spawn("LaserDot",p.getLookAtPos());
 				let a=p.LineAttack_Straight();
-				a.A_SpawnParticle("#FF0000",SPF_FULLBRIGHT,2,10);
+				double dist=level.Vec3Diff((players[consoleplayer].mo.pos.x,players[consoleplayer].mo.pos.y,players[consoleplayer].ViewZ),a.pos).length();
+				a.A_SpawnParticle("#FF0000",SPF_FULLBRIGHT,2,clamp(5,dist/50,50));
 				a.destroy();
 			}
 			//TestModPlayer(owner).LineAttack_Straight("LaserDot");

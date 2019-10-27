@@ -8,9 +8,17 @@ class PistolZombieManClipDrop : BasicThingSpawner{
 
 class RifleZombieManClipDrop : BasicThingSpawner{
 	override void setDrops(){
-		spawnlist.Push(new("BasicThingSpawnerElement").Init("HeavyClip",1,4,ALLOW_REPLACE));
-		spawnlist.Push(new("BasicThingSpawnerElement").Init("HeavyClip",2,2,ALLOW_REPLACE));
-		spawnlist.Push(new("BasicThingSpawnerElement").Init("HeavyClip",4,1,ALLOW_REPLACE));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("None",1,4,ALLOW_REPLACE));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("HeavyClip",1,2,ALLOW_REPLACE));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("HeavyClip",2,1,ALLOW_REPLACE));
+	}
+}
+
+class ZombieManArmorDrop : BasicThingSpawner{
+	override void setDrops(){
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("None",1,4,ALLOW_REPLACE));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("ArmorBonus",1,2,ALLOW_REPLACE));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("ArmorBonus",2,1,ALLOW_REPLACE));
 	}
 }
 
@@ -19,9 +27,15 @@ class ZombieManSpawner : RandomSpawner replaces ZombieMan {
 		DropItem "PistolZombieMan";
 		DropItem "PistolZombieMan";
 		DropItem "PistolZombieMan";
-		DropItem "RifleZombieMan";
-		DropItem "RifleZombieMan";
+		//DropItem "SMGZombieMan";
+		//DropItem "SMGZombieMan";
+		DropItem "ArmoredRifleZombieMan";
+		DropItem "ArmoredRifleZombieMan";
 	}
+}
+
+class SMGZombieMan : ZombieMan{
+	//TODO
 }
 
 class PistolZombieMan : ZombieMan{
@@ -29,12 +43,48 @@ class PistolZombieMan : ZombieMan{
 		DropItem "PistolZombieManClipDrop";
 		DropItem "MyPistol";
 	}
+	States{
+	Spawn:
+		PPSS AB 10 A_Look;
+		Loop;
+	See:
+		PPSS AABBCCDD 4 A_Chase;
+		Loop;
+	Missile:
+		PPSS E 10 A_FaceTarget;
+		PPSS F 8 A_PosAttack;
+		PPSS E 8;
+		Goto See;
+	Pain:
+		PPSS G 3;
+		PPSS G 3 A_Pain;
+		Goto See;
+	Death:
+		PPSS H 5;
+		POSS I 5 A_Scream;
+		POSS J 5 A_NoBlocking;
+		POSS K 5;
+		POSS L -1;
+		Stop;
+	XDeath:
+		POSS M 5;
+		POSS N 5 A_XScream;
+		POSS O 5 A_NoBlocking;
+		POSS PQRST 5;
+		POSS U -1;
+		Stop;
+	Raise:
+		POSS K 5;
+		POSS JIH 5;
+		Goto See;
+	}
 }
 
-class RifleZombieMan : ZombieMan{
+class ArmoredRifleZombieMan : ZombieMan{
 	Default{
 		DropItem "RifleZombieManClipDrop";
 		DropItem "AssaultRifle";
+		DropItem "ZombieManArmorDrop";
 		AttackSound "weapons/ar_fire";
 		Health 60;//has more health
 		PainChance 64;//less stun
