@@ -8,6 +8,7 @@ class SMGAmmo : Ammo{
 class SMG : MyWeapon {
 	Default {
 		Weapon.SlotNumber 2;
+		Weapon.SlotPriority 1;
 		Weapon.AmmoType1 "SMGAmmo";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoGive1 0;
@@ -20,7 +21,9 @@ class SMG : MyWeapon {
 		+WEAPON.NOAUTOAIM;
 		+WEAPON.NOALERT;
 		+WEAPON.NOAUTOFIRE;
+		+WEAPON.AMMO_OPTIONAL;
 	}
+	bool tick;
 	States {
 		Spawn:
 			RIFL A -1;
@@ -42,14 +45,24 @@ class SMG : MyWeapon {
 					return ResolveState(null);
 				}
 			}
-			TNT1 A 0 A_PlaySound("weapons/pistol");
-			RIFF A 1 BRIGHT A_AlertMonsters;
-			RIFF B 1 BRIGHT W_FireBullets(2,2,-1,10,"BulletPuff");
-			TNT1 A 0 A_SetPitch(-1.3 + pitch);
-			TNT1 A 0 A_SetPitch(+0.4 + pitch);
-			RIFG AA 1 A_SetPitch(+0.4 + pitch);
+			TNT1 A 0 {
+				if(invoker.tick){
+					A_PlaySound("weapons/pistol_fire",CHAN_5);
+					invoker.tick=false;
+				}else{
+					A_PlaySound("weapons/pistol_fire",CHAN_6);
+					invoker.tick=true;
+				}
+			}
+			RIFF A 1 BRIGHT {
+				A_AlertMonsters();
+				W_FireBullets(8,8,1,3,"BulletPuff");
+			}
+			RIFF A 1 BRIGHT A_WeaponOffset(0,36,WOF_INTERPOLATE);
+			RIFF B 1 A_WeaponOffset(0,34,WOF_INTERPOLATE);
+			RIFG A 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			RIFG A 1 A_Refire;
-			RIFG A 7;
+			RIFG A 6;
 			Goto Ready;
 		NoAmmo:
 			RIFG A 1 A_PlaySound("weapons/empty");
