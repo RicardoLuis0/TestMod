@@ -6,6 +6,14 @@ class PistolZombieManClipDrop : BasicThingSpawner{
 	}
 }
 
+class SMGZombieManClipDrop : BasicThingSpawner{
+	override void setDrops(){
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("LightClip",1,4,ALLOW_REPLACE));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("LightClip",2,2,ALLOW_REPLACE));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("LightClip",3,1,ALLOW_REPLACE));
+	}
+}
+
 class RifleZombieManClipDrop : BasicThingSpawner{
 	override void setDrops(){
 		spawnlist.Push(new("BasicThingSpawnerElement").Init("None",1,4,ALLOW_REPLACE));
@@ -27,17 +35,61 @@ class ZombieManSpawner : RandomSpawner replaces ZombieMan {
 		DropItem "PistolZombieMan";
 		DropItem "PistolZombieMan";
 		DropItem "PistolZombieMan";
-		//DropItem "SMGZombieMan";
-		//DropItem "SMGZombieMan";
-		DropItem "ArmoredRifleZombieMan";
+		DropItem "SMGZombieMan";
+		DropItem "SMGZombieMan";
 		DropItem "ArmoredRifleZombieMan";
 	}
 }
 
 class SMGZombieMan : ZombieMan{
-	//TODO
+	Default {
+		Health 40;
+		Speed 8;
+		PainChance 150;
+		DropItem "SMG";
+		DropItem "SMGZombieManClipDrop";
+	}
+	States {
+	Spawn:
+		MGPO AB 10 A_Look;
+		Loop;
+	SeeStun:
+		MGPO A 16;
+	See:
+		MGPO AABBCCDD 4 A_Chase;
+		Loop;
+	Missile:
+		MGPO E 8 A_FaceTarget;
+	MissileLoop:
+		MGPO E 0 A_FaceTarget;
+		MGPO F 0 A_playsound("weapons/pistol_fire");
+		MGPO F 2 BRIGHT A_CustomBulletAttack(12,0,1,random(1,5),"BulletPuff",0,CBAF_NORANDOM);
+		MGPO E 2 A_MonsterRefire(192,"SeeStun");
+		Loop;
+	Pain:
+		MGPO G 3;
+		MGPO G 3 A_Pain;
+		Goto See;
+	Death:
+		MGPO H 5;
+		MGPO I 5 A_Scream;
+		MGPO J 5 A_NoBlocking;
+		MGPO K 5;
+		MGPO L -1;
+		Stop;
+	XDeath:
+		MGPO M 5;
+		MGPO N 5 A_XScream;
+		MGPO O 5 A_NoBlocking;
+		MGPO PQRST 5;
+		MGPO U -1;
+		Stop;
+	Raise:
+		MGPO K 5;
+		MGPO JIH 5;
+		Goto See;
+	}
 }
-
 class PistolZombieMan : ZombieMan{
 	Default{
 		DropItem "PistolZombieManClipDrop";
@@ -128,6 +180,7 @@ class ArmoredRifleZombieMan : ZombieMan{
 	FireMany:
 		RFTR E 10 A_FaceTarget;
 	FireManyLoop:
+		RFTR E 0 A_FaceTarget;
 		RFTR F 3 Bright A_RPosAttack2;
 		RFTR E 1;
 		RFTR F 3 Bright A_RPosAttack2;
