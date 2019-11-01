@@ -17,8 +17,8 @@ class RifleZombieManClipDrop : BasicThingSpawner{
 class ZombieManArmorDrop : BasicThingSpawner{
 	override void setDrops(){
 		spawnlist.Push(new("BasicThingSpawnerElement").Init("None",1,4,ALLOW_REPLACE));
-		spawnlist.Push(new("BasicThingSpawnerElement").Init("ArmorBonus",1,2,ALLOW_REPLACE));
-		spawnlist.Push(new("BasicThingSpawnerElement").Init("ArmorBonus",2,1,ALLOW_REPLACE));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("ArmorShard",1,2,ALLOW_REPLACE));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("ArmorShard",2,1,ALLOW_REPLACE));
 	}
 }
 
