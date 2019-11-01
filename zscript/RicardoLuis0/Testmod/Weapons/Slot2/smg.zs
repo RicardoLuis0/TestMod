@@ -7,20 +7,19 @@ class SMGAmmo : Ammo{
 
 class SMG : MyWeapon {
 	Default {
-		Weapon.AmmoUse1 0;
-		Weapon.AmmoGive1 20;
-		Weapon.AmmoUse2 1;
-		Weapon.AmmoGive2 0;
 		Weapon.SlotNumber 2;
-		Weapon.AmmoType1 "LightClip";
-		Weapon.AmmoType2 "SMGAmmo";
+		Weapon.AmmoType1 "SMGAmmo";
+		Weapon.AmmoUse1 1;
+		Weapon.AmmoGive1 0;
+		Weapon.AmmoType2 "LightClip";
+		Weapon.AmmoUse2 0;
+		Weapon.AmmoGive2 20;
 		Obituary "%o was shot down by %k's SMG.";
 		Inventory.PickupSound "CLIPIN";
 		Inventory.Pickupmessage "You got the SMG!";
 		+WEAPON.NOAUTOAIM;
 		+WEAPON.NOALERT;
 		+WEAPON.NOAUTOFIRE;
-		+FORCEXYBILLBOARD;
 	}
 	States {
 		Spawn:
@@ -65,16 +64,10 @@ class SMG : MyWeapon {
 					return ResolveState(null);
 				}
 			}
-			TNT1 A 0 A_SetAngle(-1 + angle);
 			RIFR ABCDEF 1;
-			TNT1 A 0 A_SetAngle(+1 + angle);
 			RIFR GGGGGGGG 1;
 			RIFR HIKL 1;
-			TNT1 A 0 A_SetAngle(-4 + angle);
-			TNT1 A 0 A_SetPitch(-2 + pitch);
 			RIFR MMM 1;
-			TNT1 A 0 A_SetPitch(+2 + pitch);
-			TNT1 A 0 A_SetAngle(+4 + angle);
 			RIFR NOPQRST 1;
 			TNT1 A 0 {
 				int curammo=CountInv("SMGAmmo");
