@@ -8,7 +8,7 @@ class SMGAmmo : Ammo{
 class SMG : MyWeapon {
 	Default {
 		Weapon.SlotNumber 2;
-		Weapon.SlotPriority 1;
+		Weapon.SlotPriority 0;
 		Weapon.AmmoType1 "SMGAmmo";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoGive1 0;
