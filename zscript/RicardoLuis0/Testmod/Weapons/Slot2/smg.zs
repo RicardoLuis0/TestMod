@@ -45,7 +45,7 @@ class SMG : MyWeapon {
 			}
 			TNT1 A 0 A_PlaySound("weapons/pistol");
 			RIFF A 1 BRIGHT A_AlertMonsters;
-			RIFF B 1 BRIGHT A_FireBullets (2, 2, -1, 10, "HitPuff");
+			RIFF B 1 BRIGHT W_FireBullets(2,2,-1,10,"BulletPuff");
 			TNT1 A 0 A_SetPitch(-1.3 + pitch);
 			TNT1 A 0 A_SetPitch(+0.4 + pitch);
 			RIFG AA 1 A_SetPitch(+0.4 + pitch);
@@ -78,14 +78,14 @@ class SMG : MyWeapon {
 			RIFR NOPQRST 1;
 			TNT1 A 0 {
 				int curammo=CountInv("SMGAmmo");
-				int reload_ammount;
+				int reload_amount;
 				if(curammo==0){
 					reload_amount=min(CountInv("LightClip"),45);
 				}else{
 					reload_amount=min(CountInv("LightClip"),46-curammo);
 				}
 				A_TakeInventory("LightClip",reload_amount);
-				A_SetInventory("SMGAmmo",reload_ammount+curammo);
+				A_SetInventory("SMGAmmo",reload_amount+curammo);
 			}
 			Goto Ready;
 	}

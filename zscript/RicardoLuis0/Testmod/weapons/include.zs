@@ -3,6 +3,7 @@
 //#include "zscript/ricardoluis0/testmod/weapons/rotatingweapon.zs"
 #include "zscript/ricardoluis0/testmod/weapons/spawners/slotxspawners.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot2/pistol.zs"
+#include "zscript/ricardoluis0/testmod/weapons/slot2/smg.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot3/pumpshotgun.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot3/ssg.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot4/heavygatlinggun.zs"
