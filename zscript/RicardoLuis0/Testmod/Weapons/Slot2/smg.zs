@@ -27,7 +27,7 @@ class SMG : MyWeapon {
 			RIFL A -1;
 			Stop;
 		Ready:
-			RIFG A 1 A_WeaponReady;
+			RIFG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 			Loop;
 		Deselect:
 			RIFG A 1 A_Lower;
