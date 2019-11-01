@@ -14,7 +14,7 @@ class MyPistol : MyWeapon{
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive1 0;
-		Weapon.AmmoGive2 17;
+		Weapon.AmmoGive2 10;
 		Inventory.Pickupmessage "You've got the Pistol!";
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.NOAUTOFIRE;

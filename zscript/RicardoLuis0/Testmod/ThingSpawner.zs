@@ -11,23 +11,19 @@ class ThingSpawnerBase:Actor{
 			obj.bDropped = bDropped;
 			Float ammoFactor;
 			if(bDropped){
-				ammoFactor=G_SkillPropertyFloat(SKILLP_AmmoFactor);
+				ammoFactor=G_SkillPropertyFloat(SKILLP_DropAmmoFactor);
 				if(ammoFactor==-1)ammoFactor=0.5;
 			}else{
-				ammoFactor=G_SkillPropertyFloat(SKILLP_DropAmmoFactor);
+				ammoFactor=G_SkillPropertyFloat(SKILLP_AmmoFactor);
 				if(ammoFactor==-1)ammoFactor=1;
 			}
 			if(obj is "Ammo"){
 				Ammo a_obj=Ammo(obj);
-				if (ammoFactor > 0){
-					a_obj.amount=int(a_obj.default.amount*ammoFactor);
-				}
+				a_obj.amount=int(a_obj.amount*ammoFactor);
 			}else if(obj is "Weapon"){
 				Weapon w_obj=Weapon(obj);
-				if (ammoFactor > 0){
-					w_obj.ammoGive1=int(w_obj.default.ammoGive1*ammoFactor);
-					w_obj.ammoGive2=int(w_obj.default.ammoGive2*ammoFactor);
-				}
+				w_obj.ammoGive1=int(w_obj.ammoGive1*ammoFactor);
+				w_obj.ammoGive2=int(w_obj.ammoGive2*ammoFactor);
 			}
 			return true;
 		}
