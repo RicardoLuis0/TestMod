@@ -87,10 +87,13 @@ class SMG : MyWeapon {
 					return ResolveState(null);
 				}
 			}
-			RIFG A 1 A_WeaponOffset(-5,38,WOF_INTERPOLATE);
+			RIFG A 1 A_WeaponOffset(-5,45,WOF_INTERPOLATE);
+			RIFG A 3 A_WeaponOffset(-8,70,WOF_INTERPOLATE);
 			TNT1 A 0 A_PlaySound("weapons/click01");
-			RIFG A 1 A_WeaponOffset(-8,42,WOF_INTERPOLATE);
-			RIFR ABCDEF 1;
+			RIFG A 5 A_WeaponOffset(-5,70,WOF_INTERPOLATE);
+			RIFG A 3 A_WeaponOffset(0,70,WOF_INTERPOLATE);
+			RIFR A 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+			RIFR BCDEF 1;
 			RIFR GGGGGGGG 1;
 			RIFR HIKL 1;
 			TNT1 A 0 A_PlaySound("weapons/rifle_reload");
