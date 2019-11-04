@@ -14,7 +14,7 @@ class SMG : MyWeapon {
 		Weapon.AmmoGive1 0;
 		Weapon.AmmoType2 "LightClip";
 		Weapon.AmmoUse2 0;
-		Weapon.AmmoGive2 20;
+		Weapon.AmmoGive2 40;
 		Obituary "%o was shot down by %k's SMG.";
 		Inventory.PickupSound "CLIPIN";
 		Inventory.Pickupmessage "You got the SMG!";
@@ -22,6 +22,10 @@ class SMG : MyWeapon {
 		+WEAPON.NOALERT;
 		+WEAPON.NOAUTOFIRE;
 		+WEAPON.AMMO_OPTIONAL;
+	}
+	override void BeginPlay(){
+		super.BeginPlay();
+		crosshair=43;
 	}
 	bool tick;
 	States {
@@ -56,13 +60,19 @@ class SMG : MyWeapon {
 			}
 			RIFF A 1 BRIGHT {
 				A_AlertMonsters();
-				W_FireBullets(8,8,1,3,"BulletPuff");
+				if(player.refire==0){
+					player.refire=1;//refire 1 to enable spread
+					W_FireBullets(2,2,1,4,"BulletPuff");
+					player.refire=0;
+				}else{
+					int add=min(player.refire/4,5);
+					W_FireBullets(3+add,3+add,1,4,"BulletPuff");
+				}
 			}
 			RIFF A 1 BRIGHT A_WeaponOffset(0,36,WOF_INTERPOLATE);
 			RIFF B 1 A_WeaponOffset(0,34,WOF_INTERPOLATE);
 			RIFG A 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			RIFG A 1 A_Refire;
-			RIFG A 6;
 			Goto Ready;
 		NoAmmo:
 			RIFG A 1 A_PlaySound("weapons/empty");
