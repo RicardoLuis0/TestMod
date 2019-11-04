@@ -8,7 +8,7 @@ class SMGAmmo : Ammo{
 class SMG : MyWeapon {
 	Default {
 		Weapon.SlotNumber 2;
-		Weapon.SlotPriority 0;
+		Weapon.SlotPriority 1;
 		Weapon.AmmoType1 "SMGAmmo";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoGive1 0;
@@ -87,9 +87,13 @@ class SMG : MyWeapon {
 					return ResolveState(null);
 				}
 			}
+			RIFG A 1 A_WeaponOffset(-5,38,WOF_INTERPOLATE);
+			TNT1 A 0 A_PlaySound("weapons/click01");
+			RIFG A 1 A_WeaponOffset(-8,42,WOF_INTERPOLATE);
 			RIFR ABCDEF 1;
 			RIFR GGGGGGGG 1;
 			RIFR HIKL 1;
+			TNT1 A 0 A_PlaySound("weapons/rifle_reload");
 			RIFR MMM 1;
 			RIFR NOPQRST 1;
 			TNT1 A 0 {
