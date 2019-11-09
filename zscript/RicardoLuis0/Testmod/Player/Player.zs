@@ -16,8 +16,9 @@ class TestModPlayer : PlayerPawn{
 		Player.StartItem "MyPistol";
 		Player.StartItem "LightClip", 51;//3 pistol clips
 		Player.StartItem "MyPistolClip", 18;//17+1
-		Player.StartItem "AssaultRifleLoadedAmmo", 20;
-		Player.StartItem "PumpLoaded", 8;
+		Player.StartItem "SMGAmmo", 56;
+		Player.StartItem "AssaultRifleLoadedAmmo", 21;
+		Player.StartItem "PumpLoaded", 9;
 		Player.StartItem "SSGLoaded", 2;
 		Player.StartItem "Fist";
 

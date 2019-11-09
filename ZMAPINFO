@@ -1,5 +1,5 @@
 GameInfo {
-   PlayerClasses = "TestModPlayer","RifleStartTestModPlayer","ShotgunStartTestModPlayer","MinigunStartTestModPlayer","GatlingGunStartTestModPlayer","SSGStartTestModPlayer"
+   PlayerClasses = "TestModPlayer"
    AddEventHandlers = "ClientCVarUpdater"
 }
 

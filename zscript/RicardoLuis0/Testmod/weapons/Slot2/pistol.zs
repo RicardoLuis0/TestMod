@@ -9,6 +9,7 @@ class MyPistol : MyWeapon{
 	bool partial;
 	Default{
 		Weapon.SlotNumber 2;
+		Weapon.SlotPriority 0;
 		Weapon.AmmoType1 "MyPistolClip";
 		Weapon.AmmoType2 "LightClip";
 		Weapon.AmmoUse1 1;
