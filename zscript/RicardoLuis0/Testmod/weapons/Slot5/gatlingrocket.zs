@@ -67,8 +67,11 @@ class GatlingRocketLauncher : MyWeapon{
 				return ResolveState(null);
 			}
 			REPG A 0 A_WeaponOffset(0,40);
-			REPG E 4 MyFire;
-			REPG F 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+			REPG E 4 MyFire();
+			REPG F 4 {
+				A_WeaponOffset(0,32,WOF_INTERPOLATE);
+				MyFire2();
+			}
 			REPG A 0 CheckFire(null,"AltLoop2","Spindown2");
 			REPG A 0 A_ReFire("Shoot2");
 			Goto Shoot2;
@@ -80,8 +83,11 @@ class GatlingRocketLauncher : MyWeapon{
 				return ResolveState(null);
 			}
 			REPG A 0 A_WeaponOffset(0,40);
-			REPG G 4 MyFire;
-			REPG H 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+			REPG G 4 MyFire();
+			REPG H 4 {
+				A_WeaponOffset(0,32,WOF_INTERPOLATE);
+				MyFire2();
+			}
 			REPG A 0 CheckFire(null,"AltLoop1","Spindown1");
 			REPG A 0 A_ReFire("Shoot1");
 			Goto Shoot1;
@@ -149,11 +155,14 @@ class GatlingRocketLauncher : MyWeapon{
 			Stop;
 	}
 	action void MyFire(){
-		A_Recoil(4);
 		A_TakeInventory("RocketAmmo",1);
+		MyFire2();
+	}
+	action void MyFire2(){
+		A_Recoil(2);
 		A_GunFlash();
 		A_AlertMonsters();
-		A_FireProjectile("MyRocket");
+		A_FireProjectile("FastRocket",frandom(-4,4),pitch:frandom(-2,2));
 	}
 }
 

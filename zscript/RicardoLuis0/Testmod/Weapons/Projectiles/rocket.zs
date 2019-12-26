@@ -66,10 +66,27 @@ class MyRocket:Rocket{
 		//color5
 		MyWeapon.DoParticleExplosion(self,"#FF1000",count2,stren_mod*5,7.5,27);//--
 	}
-
 	Default{
 		Decal "Scorch";
 		-DEHEXPLOSION;
+	}
+	States {
+	Spawn:
+		MISL A 1 Bright;
+		Loop;
+	Death:
+		MISL B 8 Bright RocketExplode();
+		MISL C 6 Bright;
+		MISL D 4 Bright;
+		Stop;
+	}
+}
+class FastRocket:MyRocket {
+	Default {
+		Scale 0.75;
+		Speed 50;
+		Damage 15;
+		ExplosionDamage 96;
 	}
 	States{
 	Spawn:
@@ -138,9 +155,6 @@ class GuidedRocket:SteerRocket{
 				}
 			}
 		}
-	}
-	Default{
-		Decal "Scorch";
 	}
 	States{
 	Spawn:
