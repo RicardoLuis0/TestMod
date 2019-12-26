@@ -98,7 +98,7 @@ class Minigun:HeavyGatlingGun{
 		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
-		W_FireBullets(8,5,1,5,"BulletPuff",invoker.tammo?0:FBF_USEAMMO);
+		W_FireBullets(8,5,1,4,"BulletPuff",invoker.tammo?0:FBF_USEAMMO);
 		invoker.tammo=!invoker.tammo;
 		player.refire=refire;
 		A_Recoil(1);
