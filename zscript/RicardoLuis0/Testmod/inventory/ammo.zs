@@ -20,6 +20,7 @@ class LightClip : Ammo {
 
 class FreshLightClip : LightClip {
 	Default {
+		Inventory.PickupMessage "$GOTFULLLIGHTCLIP";
 		Inventory.Amount 30;
 	}
 }
@@ -61,6 +62,7 @@ class HeavyClip : Ammo {
 
 class FreshHeavyClip : HeavyClip {
 	Default {
+		Inventory.PickupMessage "$GOTFULLHEAVYCLIP";
 		Inventory.Amount 20;
 	}
 }

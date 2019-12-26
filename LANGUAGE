@@ -1,5 +1,9 @@
 [en]
-GOTLIGHTCLIP = "Picked up a clip of light bullets." ;
+GOTLIGHTCLIP = "Picked up some light bullets." ;
+GOTFULLLIGHTCLIP = "Picked up a full magazine of light bullets." ;
 GOTLIGHTCLIPBOX = "Picked up a box of light bullets." ;
-GOTHEAVYCLIP = "Picked up a clip of heavy bullets." ;
+GOTHEAVYCLIP = "Picked up some of heavy bullets." ;
+GOTFULLHEAVYCLIP = "Picked up a full magazine of heavy bullets." ;
 GOTHEAVYCLIPBOX = "Picked up a box of heavy bullets." ;
+FN_SMGZOMBIE = "SMG Zombieman" ;
+FN_RIFLEZOMBIE = "Zombie Rifleman" ;

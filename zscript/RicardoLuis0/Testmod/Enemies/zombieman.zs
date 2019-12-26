@@ -48,6 +48,7 @@ class SMGZombieMan : ZombieMan{
 		PainChance 150;
 		DropItem "SMG";
 		DropItem "SMGZombieManClipDrop";
+		Tag "$FN_SMGZOMBIE";
 	}
 	States {
 	Spawn:
@@ -140,6 +141,7 @@ class ArmoredRifleZombieMan : ZombieMan{
 		AttackSound "weapons/ar_fire";
 		Health 60;//has more health
 		PainChance 64;//less stun
+		Tag "$FN_RIFLEZOMBIE";
 	}
 
 	action void A_RPosAttack1(){//attack 1 for possessed riflemen, more accurate
