@@ -5,6 +5,12 @@ class AssaultRifleLoadedAmmo : Ammo {
 	}
 }
 
+class PiercingPuff : BulletPuff {
+	Default {
+		DamageType "Piercing";
+	}
+}
+
 class AssaultRifle : MyWeapon {
 	bool loaded;
 	int firemode;//0=single,1=auto
@@ -168,7 +174,7 @@ class AssaultRifle : MyWeapon {
 		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
-		W_FireBullets(invoker.getSpreadX(refire,player.vel.length()),invoker.getSpreadY(refire,player.vel.length()),1,invoker.dmg,"BulletPuff");
+		W_FireBullets(invoker.getSpreadX(refire,player.vel.length()),invoker.getSpreadY(refire,player.vel.length()),1,invoker.dmg,"PiercingPuff");
 		player.refire=refire;
 		A_Recoil(0.5);
 		A_AlertMonsters();

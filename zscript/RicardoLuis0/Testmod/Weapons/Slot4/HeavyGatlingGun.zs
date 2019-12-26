@@ -105,7 +105,7 @@ class HeavyGatlingGun:MyWeapon{
 		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
-		W_FireBullets(2,1,1,16,"BulletPuff");
+		W_FireBullets(2,1,1,16,"PiercingPuff");
 		player.refire=refire;
 		A_Recoil(1.5);
 		A_AlertMonsters();

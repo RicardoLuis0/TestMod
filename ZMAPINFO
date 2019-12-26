@@ -11,3 +11,6 @@ DoomEdNums{
 	//15004=Minigun
 	//15005=GatlingGun
 }
+
+DamageType Piercing {
+}
