@@ -18,11 +18,17 @@ class LightClip : Ammo {
 
 }
 
+class FreshLightClip : LightClip {
+	Default {
+		Inventory.Amount 30;
+	}
+}
+
 class LightClipBox : LightClip {
 
 	Default {
 		Inventory.PickupMessage "$GOTLIGHTCLIPBOX";
-		Inventory.Amount 50;
+		Inventory.Amount 150;
 	}
 
 	States {
@@ -51,6 +57,12 @@ class HeavyClip : Ammo {
 		Stop;
 	}
 
+}
+
+class FreshHeavyClip : HeavyClip {
+	Default {
+		Inventory.Amount 20;
+	}
 }
 
 class HeavyClipBox : HeavyClip {

@@ -1,8 +1,8 @@
 class ClipSpawner : BasicThingSpawner replaces Clip {
 
 	override void setDrops(){
-		spawnlist.Push(new("BasicThingSpawnerElement").Init("LightClip",1,1));
-		//spawnlist.Push(new("BasicThingSpawnerElement").Init("HeavyClip",1,2));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("FreshLightClip",1,4));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("FreshHeavyClip",1,1));
 	}
 
 }
