@@ -1,6 +1,6 @@
 GameInfo {
    PlayerClasses = "TestModPlayer"
-   AddEventHandlers = "ClientCVarUpdater","TiltPlusPlusHandler"
+   AddEventHandlers = "ClientCVarUpdater","TiltPlusPlusHandler","FlashLightHandler"
 }
 
 DoomEdNums{
