@@ -1,3 +1,20 @@
+class LightClipCasing : Casing {
+	Default {
+		Speed 2;
+		Scale 0.05;
+	}
+	States {
+	Spawn:
+		CAS1 A 10;
+	Bounce:
+	Stay:
+		CAS1 A 1 {
+			A_SetScale(0.1);
+		}
+		Loop;
+	}
+}
+
 class MyPistolClip : Ammo{
 	Default{
 		Inventory.MaxAmount 18;
@@ -168,6 +185,8 @@ class MyPistol : MyWeapon{
 	bool i;
 	action void fire(){
 		A_PlaySound("weapons/pistol_fire",invoker.i?CHAN_6:CHAN_7,0.25);
+		Actor c=A_FireProjectile("LightClipCasing",random(-80, -100),false,0,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,45));
+		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		invoker.i=!invoker.i;
 		if(player.refire==0){
 			player.refire=1;

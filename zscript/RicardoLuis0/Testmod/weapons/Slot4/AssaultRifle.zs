@@ -1,3 +1,19 @@
+class HeavyClipCasing : Casing {
+	Default {
+		Scale 0.10;
+	}
+	States {
+	Spawn:
+		CAS3 AB 3;
+	Bounce:
+	Stay:
+		CAS3 C 1 {
+			A_SetScale(0.15);
+		}
+		Loop;
+	}
+}
+
 class AssaultRifleLoadedAmmo : Ammo {
 	Default{
 		Inventory.MaxAmount 21;
@@ -174,6 +190,8 @@ class AssaultRifle : MyWeapon {
 		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
+		Actor c=A_FireProjectile("HeavyClipCasing",random(-80, -100),false,2,4-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
+		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		W_FireBullets(invoker.getSpreadX(refire,player.vel.length()),invoker.getSpreadY(refire,player.vel.length()),1,invoker.dmg,"PiercingPuff");
 		player.refire=refire;
 		A_Recoil(0.5);

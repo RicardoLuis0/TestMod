@@ -7,7 +7,6 @@ class Minigun:HeavyGatlingGun{
 		Inventory.PickupMessage "You've got the Minigun!";
 		Weapon.SlotPriority 0;
 	}
-
 	States{
 		ready:
 			PKCG A 1 {
@@ -95,6 +94,8 @@ class Minigun:HeavyGatlingGun{
 		if(CountInv("LightClip")==0){
 			return ResolveState("noammo");
 		}
+		Actor c=A_FireProjectile("LightClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
+		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_GunFlash();
 		int refire=player.refire;
 		if(refire<=0)player.refire=1;
@@ -104,7 +105,7 @@ class Minigun:HeavyGatlingGun{
 		A_Recoil(1);
 		A_AlertMonsters();
 		A_SetPitch(pitch+frandom(-1,0),SPF_INTERPOLATE);
-		A_PlaySound("weapons/minigun_fire_01",CHAN_WEAPON);
+		A_PlaySound("weapons/minigun_fire_01",invoker.tammo?CHAN_5:CHAN_6);
 		return ResolveState(null);
 	}
 }

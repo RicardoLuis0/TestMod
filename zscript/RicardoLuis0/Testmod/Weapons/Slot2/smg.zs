@@ -1,3 +1,9 @@
+class FastLightClipCasing : LightClipCasing {
+	Default {
+		Speed 4;
+	}
+}
+
 class SMGAmmo : Ammo{
 	Default{
 		Inventory.MaxAmount 46;
@@ -49,17 +55,12 @@ class SMG : MyWeapon {
 					return ResolveState(null);
 				}
 			}
-			TNT1 A 0 {
-				if(invoker.tick){
-					A_PlaySound("weapons/pistol_fire",CHAN_5);
-					invoker.tick=false;
-				}else{
-					A_PlaySound("weapons/pistol_fire",CHAN_6);
-					invoker.tick=true;
-				}
-			}
 			RIFF A 1 BRIGHT {
 				A_AlertMonsters();
+				A_PlaySound("weapons/pistol_fire",invoker.tick?CHAN_6:CHAN_7);
+				invoker.tick=!invoker.tick;
+				Actor c=A_FireProjectile("FastLightClipCasing",random(-80, -100),false,2,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
+				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 				if(player.refire==0){
 					player.refire=1;//refire 1 to enable spread
 					W_FireBullets(2,2,1,4,"BulletPuff");
