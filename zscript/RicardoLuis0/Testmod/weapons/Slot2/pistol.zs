@@ -95,8 +95,8 @@ class MyPistol : MyWeapon{
 			}
 			return ResolveState(null);
 		}
-		DPIF A 2 Fire;
-		DPIG C 2;
+		DPIF A 3 Fire;
+		DPIG C 3;
 		TNT1 A 0 {
 			if(CountInv("MyPistolClip")==0){
 				return ResolveState("FireEmpty");
