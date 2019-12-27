@@ -7,15 +7,12 @@ class TestModPlayer : PlayerPawn{
 		Mass 100;
 		PainChance 255;
 
-		//+THRUSPECIES;
-		//Species "ThruPlayer";
-
 		Player.DisplayName "Pistol Start (Harder)";
 		Player.CrouchSprite "PLYC";
 
 		Player.StartItem "MyPistol";
-		Player.StartItem "LightClip", 51;//3 pistol clips
-		Player.StartItem "MyPistolClip", 18;//17+1
+		Player.StartItem "LightClip", 50;
+		Player.StartItem "MyPistolClip", 18;
 		Player.StartItem "SMGAmmo", 56;
 		Player.StartItem "AssaultRifleLoadedAmmo", 21;
 		Player.StartItem "PumpLoaded", 9;
@@ -44,7 +41,6 @@ class TestModPlayer : PlayerPawn{
 	override void PostBeginPlay(){
 		super.PostBeginPlay();
 		InertiaInit();
-		UseToPickupInit();
 		LookPosInit();
 	}
 
@@ -54,7 +50,6 @@ class TestModPlayer : PlayerPawn{
 			return;
 		}else{
 			InertiaTick();
-			UseToPickupTick();
 			LookPosTick();
 			if(player.ReadyWeapon is "MyWeapon"){
 				MyWeapon(player.ReadyWeapon).ReadyTick();

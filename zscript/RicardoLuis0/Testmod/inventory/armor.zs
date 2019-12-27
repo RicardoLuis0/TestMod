@@ -1,4 +1,4 @@
-class ArmorShard : MyArmorBonus {
+class ArmorShard : ArmorBonus {
 
 	Default {
 		Inventory.Pickupmessage "Picked up an Armor Shard.";
