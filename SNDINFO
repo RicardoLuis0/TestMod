@@ -58,3 +58,10 @@ weapons/overheat "sounds/overheat.wav"
 weapons/sshoto			dsdbopn
 weapons/sshotc			dsdbcls
 weapons/sshotl			dsdbload
+
+//source: internet, tape recored, edited/recut by me
+
+
+weapons/gatlingrocketwindup   "sounds/grl_spinup.wav"
+weapons/gatlingrocketspin     "sounds/grl_loop.wav"
+weapons/gatlingrocketwinddown "sounds/grl_spindown.wav"
