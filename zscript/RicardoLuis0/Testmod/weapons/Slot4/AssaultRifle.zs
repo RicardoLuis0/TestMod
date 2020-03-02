@@ -70,8 +70,9 @@ class AssaultRifle : MyWeapon {
 			}
 			ASRG A 0 A_FireGun;
 			ASRF A 1 BRIGHT;
-			ASRG A 2 A_WeaponOffset(0,35,WOF_INTERPOLATE );
-			ASRG A 2;
+			ASRF A 1 A_WeaponOffset(0,35,WOF_INTERPOLATE );
+			ASRG A 1 A_WeaponOffset(0,35,WOF_INTERPOLATE );
+			ASRG A 1;
 			ASRG A 1 A_ReFire;
 			goto ready;
 		fireburst:
