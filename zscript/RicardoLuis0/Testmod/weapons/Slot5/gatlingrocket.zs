@@ -8,6 +8,7 @@ class GatlingRocketLauncher : MyWeapon{
 		Weapon.AmmoUse2 1;
 		Weapon.SlotNumber 5;
 		+WEAPON.NOALERT;
+		+WEAPON.AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Gatling Rocket Launcher!";
 	}
 	override void BeginPlay(){

@@ -17,6 +17,7 @@ class GuidedRocketLauncher:MyWeapon{
 		Weapon.AmmoGive 5;
 		Weapon.AmmoType "RocketAmmo";
 		+WEAPON.NOALERT;
+		+WEAPON.AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Laser Guided Rocket Launcher!";
 	}
 	override void BeginPlay(){
