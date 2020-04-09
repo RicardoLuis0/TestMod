@@ -1,3 +1,19 @@
+class ShellCasing : Casing {
+	Default {
+		Scale 0.10;
+	}
+	States {
+	Spawn:
+		CAS2 AB 3;
+	Bounce:
+	Stay:
+		CAS2 C 1 {
+			A_SetScale(0.15);
+		}
+		Loop;
+	}
+}
+
 class PumpLoaded : Ammo{
 	Default{
 		Inventory.MaxAmount 9;
@@ -10,6 +26,7 @@ class PumpShotgun : MyWeapon {
 	int firemode;//0=pump,1=auto
 	int pellets;
 	int dmg;
+	bool firecasing;
 	
 	Default{
 		Weapon.SlotNumber 3;
@@ -142,7 +159,7 @@ class PumpShotgun : MyWeapon {
 			0SGG A 0 A_PlaySound("weapons/shotgun_pump",CHAN_AUTO);
 			0SGG B 3;
 			0SGG C 3;
-			0SGG D 3;
+			0SGG D 3 A_PumpCasing;
 			0SGG E 4;
 			0SGG D 3;
 			0SGG C 3;
@@ -179,12 +196,21 @@ class PumpShotgun : MyWeapon {
 		}
 		A_AlertMonsters();
 		A_TakeInventory("PumpLoaded",1);
+		invoker.firecasing=true;
 		A_Recoil(2.0);
 		W_FireBullets(1.5,1.5,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_SetPitch(pitch+frandom(-5,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-2,2),SPF_INTERPOLATE);
 		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO,0.5);
 		return ResolveState(null);
+	}
+
+	action void A_PumpCasing(){
+		if(invoker.firecasing){
+			invoker.firecasing=false;
+			Actor c=A_FireProjectile("ShellCasing",random(-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
+			if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
+		}
 	}
 
 	action State A_FirePumpQuick(){
@@ -199,6 +225,8 @@ class PumpShotgun : MyWeapon {
 		A_TakeInventory("PumpLoaded",1);
 		A_Recoil(2.0);
 		W_FireBullets(8,8,invoker.pellets,invoker.dmg,"BulletPuff");
+		Actor c=A_FireProjectile("ShellCasing",random(-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
+		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_SetPitch(pitch+frandom(-3,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-3,3),SPF_INTERPOLATE);
 		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO,0.5);
