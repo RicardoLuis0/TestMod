@@ -22,9 +22,17 @@ class Casing : Actor {
 	States {
 	Death:
 		"####" "#" 100;
+		"####" "#" 0 A_DoDespawn;
+		Loop;
 	Fade:
 		"####" "#" 1 A_FadeOut;
 		Loop;
+	}
+	action State A_DoDespawn(){
+			if(sv_no_casing_despawn){
+				return null;
+			}
+			return ResolveState("Fade");
 	}
 }
 
