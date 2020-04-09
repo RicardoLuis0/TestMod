@@ -95,8 +95,9 @@ class MyPistol : MyWeapon{
 			}
 			return ResolveState(null);
 		}
-		DPIF A 3 Fire;
-		DPIG C 3;
+		DPIF A 1 Fire;
+		DPIF AA 1 UpdateRefire;
+		DPIG CCC 1 UpdateRefire;
 		TNT1 A 0 {
 			if(CountInv("MyPistolClip")==0){
 				return ResolveState("FireEmpty");
@@ -104,8 +105,10 @@ class MyPistol : MyWeapon{
 				return ResolveState(null);
 			}
 		}
-		DPIG B 2;
-		TNT1 A 0;// A_ReFire;
+		DPIG BB 1 TryRefire;
+		TNT1 A 0 {
+			player.refire=0;
+		}
 		Goto Ready;
 	FireEmpty:
 		DPIG C 9;
@@ -183,18 +186,40 @@ class MyPistol : MyWeapon{
 		Goto Ready;
 	}
 	bool i;
+	bool canrefire;
 	action void fire(){
+		console.printf("refire"..player.refire);
 		A_PlaySound("weapons/pistol_fire",invoker.i?CHAN_6:CHAN_7,0.25);
+		invoker.canrefire=false;
 		Actor c=A_FireProjectile("LightClipCasing",random(-80, -100),false,0,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,45));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		invoker.i=!invoker.i;
-		if(player.refire==0){
+		if(player.refire<3){
+			int old=player.refire;
 			player.refire=1;
 			W_FireBullets(1,1,1,5,"BulletPuff");
-			player.refire=0;
+			player.refire=old;
 		}else{
-			W_FireBullets(5,3,1,5,"BulletPuff");
+			W_FireBullets(2+(player.refire/2),1+(player.refire/3),1,5,"BulletPuff");
 		}
 		A_GunFlash();
+	}
+	action void UpdateRefire(){
+		int input=GetPlayerInput(INPUT_BUTTONS);
+		if(!(input&BT_ATTACK)){
+			invoker.canrefire=true;
+		}
+	}
+	action State TryRefire(){
+		int input=GetPlayerInput(INPUT_BUTTONS);
+		if(input&BT_ATTACK){
+			if(invoker.canrefire&&CountInv("MyPistolClip")>0){
+				player.refire++;
+				return ResolveState("Fire");
+			}
+		}else{
+			invoker.canrefire=true;
+		}
+		return null;
 	}
 }
