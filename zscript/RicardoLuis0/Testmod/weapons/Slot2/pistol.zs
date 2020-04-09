@@ -188,7 +188,6 @@ class MyPistol : MyWeapon{
 	bool i;
 	bool canrefire;
 	action void fire(){
-		console.printf("refire"..player.refire);
 		A_PlaySound("weapons/pistol_fire",invoker.i?CHAN_6:CHAN_7,0.25);
 		invoker.canrefire=false;
 		Actor c=A_FireProjectile("LightClipCasing",random(-80, -100),false,0,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,45));
