@@ -170,6 +170,10 @@ class SSG : MyWeapon {
 			DSSG BCD 2;
 			DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
 			DXSS AB 2;
+			TNT1 A 0 {
+				Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
+				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
+			}
 			DSSG A 0 {
 				A_SetInventory("Shell",CountInv("Shell")-1);
 			}
@@ -190,6 +194,12 @@ class SSG : MyWeapon {
 			DSSG BCD 2;
 			DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
 			DXSD AB 2;
+			TNT1 A 0 {
+				Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
+				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
+				c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
+				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
+			}
 			DSSG H 2 {
 				if(CountInv("Shell")==1){
 					return ResolveState("reloadright2");
@@ -220,6 +230,10 @@ class SSG : MyWeapon {
 			DSSE D 2;
 			DSSE E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
 			DSSE FG 2;
+			TNT1 A 0 {
+				Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
+				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
+			}
 			DSSE H 2 {
 				if(CountInv("Shell")>1){
 					return ResolveState("reloadboth2");
