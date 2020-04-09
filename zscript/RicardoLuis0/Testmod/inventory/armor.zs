@@ -8,6 +8,7 @@ class ArmorShard : ArmorBonus {
 		Armor.Saveamount 5;
 		Armor.MaxSaveAmount 200;
 		-INVENTORY.ALWAYSPICKUP;
+		-COUNTITEM;
 	}
 
 	States {
