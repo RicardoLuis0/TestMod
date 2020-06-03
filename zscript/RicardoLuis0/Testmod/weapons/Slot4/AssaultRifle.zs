@@ -79,7 +79,7 @@ class AssaultRifle : MyWeapon {
 			ASRG A 0 A_FireGun;
 			ASRF A 1 BRIGHT;
 			ASRG A 1 A_WeaponOffset(0,35,WOF_INTERPOLATE);
-			ASRG A 0 A_FireGun;
+			ASRG A 0 A_FireGun(true);
 			ASRF A 1 BRIGHT;
 			ASRG A 1 A_WeaponOffset(0,38,WOF_INTERPOLATE);
 			ASRG A 0 A_FireGun;
@@ -177,7 +177,7 @@ class AssaultRifle : MyWeapon {
 			return int((spread_y/ftimes)+velspread);
 		}
 	}
-	action State A_FireGun(){
+	action State A_FireGun(bool alternate_channel=false){
 		if(CountInv("AssaultRifleLoadedAmmo")==0){
 			if(CountInv("HeavyClip")==0){
 				return ResolveState("noammo");
@@ -197,7 +197,7 @@ class AssaultRifle : MyWeapon {
 		player.refire=refire;
 		A_Recoil(0.5);
 		A_AlertMonsters();
-		A_PlaySound("weapons/ar_fire");
+		A_PlaySound("weapons/ar_fire",alternate_channel?CHAN_6:CHAN_7);
 		A_SetPitch(pitch+frandom(-2,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-2,1.5),SPF_INTERPOLATE);
 		return ResolveState(null);
