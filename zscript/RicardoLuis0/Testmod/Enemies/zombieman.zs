@@ -1,6 +1,6 @@
 class PistolZombieManClipDrop : BasicThingSpawner{
 	override void setDrops(){
-		spawnlist.Push(new("BasicThingSpawnerElement").Init("None",1,4,ALLOW_REPLACE));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("None",1,8,ALLOW_REPLACE));
 		spawnlist.Push(new("BasicThingSpawnerElement").Init("LightClip",1,6,ALLOW_REPLACE));
 		spawnlist.Push(new("BasicThingSpawnerElement").Init("LightClip",2,1,ALLOW_REPLACE));
 	}
