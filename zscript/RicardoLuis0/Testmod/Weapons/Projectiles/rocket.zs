@@ -85,8 +85,6 @@ class FastRocket:MyRocket {
 	Default {
 		Scale 0.75;
 		Speed 50;
-		Damage 15;
-		ExplosionDamage 96;
 	}
 	States{
 	Spawn:

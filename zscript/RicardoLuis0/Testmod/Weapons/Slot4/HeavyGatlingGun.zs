@@ -10,6 +10,7 @@ class HeavyGatlingGun:MyWeapon{
 		Weapon.AmmoGive1 50;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
+		+WEAPON.ALT_AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Heavy Gatling Gun!";
 	}
 	override void BeginPlay(){

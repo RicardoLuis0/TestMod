@@ -8,6 +8,7 @@ class LaserDot:Actor{
 		Stop;
 	}
 }
+
 class GuidedRocketLauncher:MyWeapon{
 	bool laserenabled;
 	Default{
