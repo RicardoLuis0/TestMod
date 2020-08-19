@@ -22,8 +22,6 @@ class PumpLoaded : Ammo{
 }
 
 class PumpShotgun : MyWeapon {
-	bool first;
-	int firemode;//0=pump,1=auto
 	int pellets;
 	int dmg;
 	bool firecasing;
@@ -45,23 +43,13 @@ class PumpShotgun : MyWeapon {
 	override void BeginPlay(){
 		super.BeginPlay();
 		crosshair=23;
-		first=false;//don't pump on pickup
 		pellets=12;
 		dmg=5;
-		firemode=0;
+		firecasing=false;
 	}
 	
 	States{
 		ready:
-			TNT1 A 0{
-				if(invoker.first){
-					invoker.first=false;
-					if(CountInv("PumpLoaded")!=9){
-						return P_Call("Pump");
-					}
-				}
-				return ResolveState(null);
-			}
 			0SGG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
 		Select:
@@ -71,18 +59,6 @@ class PumpShotgun : MyWeapon {
 			0SGG A 1 A_Lower;
 			loop;
 		fire:
-			0SGG A 0 {
-				switch(invoker.firemode){
-					case 0:
-						return ResolveState("pumpfire");
-					case 1:
-						return ResolveState("autofire");
-					default:
-						return ResolveState(null);
-				}
-			}
-			Goto Ready;
-		pumpfire:
 			0SGG A 0 A_FirePump();
 			0SGF A 2 Bright A_GunFlash;
 			0SGF B 2 Bright;
@@ -96,31 +72,6 @@ class PumpShotgun : MyWeapon {
 				return ResolveState(null);
 			}
 			goto ready;
-		autofire:
-			0SGF A 0 A_FirePumpQuick();
-			0SGF A 2 Bright A_GunFlash;
-			0SGF B 2 Bright;
-			0SGF C 2 Bright;
-			0SGF D 1;
-			0SGF E 1;
-			0SGF A 2;
-			0SGG A 5;
-			goto ready;
-		altfire:
-			0SGG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
-			0SGG A 0{
-				A_PlaySound("weapons/click02");
-				if(invoker.firemode==0){
-					A_Print("Auto Fire");
-					invoker.firemode=1;
-					//invoker.crosshair=35;
-				}else if(invoker.firemode==1){
-					A_Print("Pump Fire");
-					invoker.firemode=0;
-					//invoker.crosshair=43;
-				}
-			}
-			0SGG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		altloop:
 			0SGG A 1;
 			0SGG A 0 A_ReFire("altloop");

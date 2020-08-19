@@ -29,7 +29,6 @@ class SSG : MyWeapon {
 		pellets=15;
 		dmg=6;
 		fireright=false;
-		firemode=0;
 	}
 	States{
 		ready:
@@ -43,62 +42,23 @@ class SSG : MyWeapon {
 			loop;
 		fire:
 			DSSG A 0 {
-				switch(invoker.firemode){
-				default:
-					invoker.firemode=0;
-				case 0:
-					switch(CountInv("SSGLoaded")){
-					case 0:
-						if(CountInv("Shell")==0){
-							return ResolveState("noammo");
-						}else{
-							return ResolveState("reload");
-						}
-					case 1:
-						A_FireSingle();
-						if(invoker.fireright)return ResolveState("fireright");
-						return ResolveState("fireleft");
-					default:
-						A_FireBoth();
-						return ResolveState("fireboth");
+				int loaded=CountInv("SSGLoaded");
+				if(loaded==0){//out of ammo
+					if(CountInv("Shell")==0){
+						return ResolveState("noammo");//no ammo to reload
+					}else{
+						return ResolveState("reload");//reload
 					}
-					break;
-				case 1:
-					switch(CountInv("SSGLoaded")){
-					case 0:
-						if(CountInv("Shell")==0){
-							return ResolveState("noammo");
-						}else{
-							return ResolveState("reload");
-						}
-					case 1:
-						A_FireSingle();
-						if(invoker.fireright)return ResolveState("fireright");
-						return ResolveState("fireleft");
-					case 2:
-						A_FireSingle();
-						return ResolveState("fireright");
-					default:
-						return ResolveState("ready");
-					}
-					break;
+				}else if(loaded==1){//only a single shot left
+					A_FireSingle();
+					if(invoker.fireright)return ResolveState("fireright");
+					return ResolveState("fireleft");
+				}else{
+					A_FireBoth();
+					return ResolveState("fireboth");
 				}
-				return ResolveState(null);//unreachable
 			}
 			goto ready;
-		altfire:
-			DSSG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
-			DSSG A 0{
-				A_PlaySound("weapons/click02");
-				if(invoker.firemode==0){
-					A_Print("Single Fire");
-					invoker.firemode=1;
-				}else if(invoker.firemode==1){
-					A_Print("Double Fire");
-					invoker.firemode=0;
-				}
-			}
-			DSSG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		altloop:
 			DSSG A 1;
 			DSSG A 0 A_ReFire("altloop");
