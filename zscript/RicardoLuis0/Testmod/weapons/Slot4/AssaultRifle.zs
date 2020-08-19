@@ -46,7 +46,7 @@ class AssaultRifle : MyWeapon {
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
-		crosshair=35;
+		crosshair=43;
 		loaded=true;
 		firemode=1;
 		dmg=10;
@@ -64,30 +64,23 @@ class AssaultRifle : MyWeapon {
 		fire:
 			ASRG A 0 {
 				if(invoker.firemode==0){
-					return ResolveState("fireburst");
+					return ResolveState("firesingle");
 				}
 				return ResolveState(null);
 			}
 			ASRG A 0 A_FireGun;
 			ASRF A 1 BRIGHT;
-			ASRF A 1 A_WeaponOffset(0,35,WOF_INTERPOLATE );
-			ASRG A 1 A_WeaponOffset(0,35,WOF_INTERPOLATE );
-			ASRG A 1;
+			ASRF A 1 BRIGHT A_WeaponOffset(0,35);
+			ASRG A 1 A_WeaponOffset(0,37, WOF_INTERPOLATE);
+			ASRG A 1 A_WeaponOffset(0,32, WOF_INTERPOLATE);
 			ASRG A 1 A_ReFire;
 			goto ready;
-		fireburst:
+		firesingle:
 			ASRG A 0 A_FireGun;
 			ASRF A 1 BRIGHT;
-			ASRG A 1 A_WeaponOffset(0,35,WOF_INTERPOLATE);
-			ASRG A 0 A_FireGun(true);
-			ASRF A 1 BRIGHT;
-			ASRG A 1 A_WeaponOffset(0,38,WOF_INTERPOLATE);
-			ASRG A 0 A_FireGun;
-			ASRF A 1 BRIGHT;
-			ASRG A 1 A_WeaponOffset(0,41,WOF_INTERPOLATE);
-			ASRG A 2 A_WeaponOffset(0,38,WOF_INTERPOLATE);
-			ASRG A 2 A_WeaponOffset(0,35,WOF_INTERPOLATE);
-			ASRG A 2 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+			ASRF A 1 BRIGHT A_WeaponOffset(0,35);
+			ASRG A 1 A_WeaponOffset(0,37, WOF_INTERPOLATE);
+			ASRG A 1 A_WeaponOffset(0,32, WOF_INTERPOLATE);
 			goto ready;
 		flash:
 			TNT1 A 1 A_Light1;
@@ -130,11 +123,9 @@ class AssaultRifle : MyWeapon {
 				if(invoker.firemode==0){
 					A_Print("Full Auto");
 					invoker.firemode=1;
-					//invoker.crosshair=35;
 				}else if(invoker.firemode==1){
-					A_Print("Burst");
+					A_Print("Single Shot");
 					invoker.firemode=0;
-					//invoker.crosshair=43;
 				}
 			}
 			ASRG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
