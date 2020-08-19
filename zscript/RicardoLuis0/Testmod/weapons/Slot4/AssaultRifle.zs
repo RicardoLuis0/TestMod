@@ -90,9 +90,9 @@ class AssaultRifle : MyWeapon {
 			
 			ASRR ABCDEF 1;
 			
-			ASRR G 4 A_PlaySound("weapons/click01");
+			ASRR G 4 A_StartSound("weapons/click01",CHAN_AUTO);
 			ASRR HIJK 2;
-			ASRR L 2 A_PlaySound("weapons/rifle_reload");
+			ASRR L 2 A_StartSound("weapons/rifle_reload",CHAN_AUTO);
 			ASRR L 0 A_ReloadGun;
 			ASRR MNOPQRS 1;
 			ASRG A 0 A_PostReloadGun;
@@ -101,7 +101,7 @@ class AssaultRifle : MyWeapon {
 			ASRK A 2;
 			ASRK B 2;
 			ASRK C 5;
-			ASRK D 20 A_PlaySound("weapons/rifle_bolt");
+			ASRK D 20 A_StartSound("weapons/rifle_bolt",CHAN_AUTO);
 			ASRK C 10;
 			ASRK B 5;
 			ASRK A 0{
@@ -111,7 +111,7 @@ class AssaultRifle : MyWeapon {
 			ASRG A 0 P_Return;
 			goto ready;
 		noammo:
-			ASRG A 3 A_PlaySound("weapons/sshoto");
+			ASRG A 3 A_StartSound("weapons/sshoto",CHAN_AUTO);
 			goto ready;
 		spawn:
 			MGUN A -1;
@@ -119,7 +119,7 @@ class AssaultRifle : MyWeapon {
 		altfire:
 			ASRG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
 			ASRG A 0{
-				A_PlaySound("weapons/click02");
+				A_StartSound("weapons/click02",CHAN_AUTO);
 				if(invoker.firemode==0){
 					A_Print("Full Auto");
 					invoker.firemode=1;
@@ -168,7 +168,7 @@ class AssaultRifle : MyWeapon {
 			return int((spread_y/ftimes)+velspread);
 		}
 	}
-	action State A_FireGun(bool alternate_channel=false){
+	action State A_FireGun(){
 		if(CountInv("AssaultRifleLoadedAmmo")==0){
 			if(CountInv("HeavyClip")==0){
 				return ResolveState("noammo");
@@ -188,7 +188,7 @@ class AssaultRifle : MyWeapon {
 		player.refire=refire;
 		A_Recoil(0.5);
 		A_AlertMonsters();
-		A_PlaySound("weapons/ar_fire",alternate_channel?CHAN_6:CHAN_7);
+		A_StartSound("weapons/ar_fire",CHAN_AUTO);
 		A_SetPitch(pitch+frandom(-2,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-2,1.5),SPF_INTERPOLATE);
 		return ResolveState(null);

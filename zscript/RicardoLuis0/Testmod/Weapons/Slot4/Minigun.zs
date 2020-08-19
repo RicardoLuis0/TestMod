@@ -28,7 +28,7 @@ class Minigun:HeavyGatlingGun{
 			TNT1 A 0 {
 				invoker.spinning=true;
 				A_StopSound(CHAN_6);
-				A_PlaySound("weapons/minigunspin",CHAN_7|CHAN_NOSTOP|CHAN_LOOP,0.2);
+				A_StartSound("weapons/minigunspin",CHAN_7,CHANF_LOOPING,0.2);
 				if(CountInv("LightClip")==0)return ResolveState("idlespin");
 				return ResolveState(null);
 			}
@@ -42,7 +42,7 @@ class Minigun:HeavyGatlingGun{
 			TNT1 A 0 {
 				invoker.spinning=true;
 				A_StopSound(CHAN_6);
-				A_PlaySound("weapons/minigunspin",CHAN_7|CHAN_NOSTOP|CHAN_LOOP,0.2);
+				A_StartSound("weapons/minigunspin",CHAN_7,CHANF_LOOPING,0.2);
 			}
 			PKCG A 1;
 		idlespin2:
@@ -54,8 +54,7 @@ class Minigun:HeavyGatlingGun{
 			PKCG A 0 CheckFire("firespin","idlespin","spin1down");
 			goto ready;
 		spin1up:
-			TNT1 A 0 A_PlaySound("weapons/minigunwindup",CHAN_6|CHAN_NOSTOP,0.2);
-			//TNT1 A 0 A_PlaySound("weapons/minigunspin",CHAN_7|CHAN_LOOP,0.5);
+			TNT1 A 0 A_StartSound("weapons/minigunwindup",CHAN_6,CHANF_NOSTOP,0.2);
 			PKCG A 2;
 			PKCG B 2;
 			PKCG C 1;
@@ -63,7 +62,7 @@ class Minigun:HeavyGatlingGun{
 			PKCG A 0 CheckFire("firespin","idlespin","spin1down");
 		spin1down:
 			TNT1 A 0 A_StopSound(CHAN_7);
-			TNT1 A 0 A_PlaySound("weapons/minigunwinddown",CHAN_6,0.25);
+			TNT1 A 0 A_StartSound("weapons/minigunwinddown",CHAN_6,CHANF_DEFAULT,0.25);
 			PKCG A 1;
 			PKCG B 1;
 			PKCG C 2;
@@ -72,7 +71,7 @@ class Minigun:HeavyGatlingGun{
 		altfire:
 		fire:
 		spin2up:
-			TNT1 A 0 A_PlaySound("weapons/minigunwindup",CHAN_6,0.2);
+			TNT1 A 0 A_StartSound("weapons/minigunwindup",CHAN_6,CHANF_DEFAULT,0.2);
 			PKCG A 6;
 			PKCG B 5;
 			PKCG C 4;
@@ -80,7 +79,7 @@ class Minigun:HeavyGatlingGun{
 			PKCG A 0 CheckFire("spin1up","spin1up","spin2down");
 		spin2down:
 			TNT1 A 0 A_StopSound(CHAN_7);
-			TNT1 A 0 A_PlaySound("weapons/minigunwinddown",CHAN_6|CHAN_NOSTOP,0.25);
+			TNT1 A 0 A_StartSound("weapons/minigunwinddown",CHAN_6,CHANF_NOSTOP,0.25);
 			PKCG A 3;
 			PKCG B 4;
 			PKCG C 5;
@@ -105,7 +104,7 @@ class Minigun:HeavyGatlingGun{
 		A_Recoil(1);
 		A_AlertMonsters();
 		A_SetPitch(pitch+frandom(-1,0),SPF_INTERPOLATE);
-		A_PlaySound("weapons/minigun_fire_01",invoker.tammo?CHAN_5:CHAN_6);
+		A_StartSound("weapons/minigun_fire_01",CHAN_AUTO);
 		return ResolveState(null);
 	}
 }

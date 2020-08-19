@@ -33,7 +33,6 @@ class SMG : MyWeapon {
 		super.BeginPlay();
 		crosshair=43;
 	}
-	bool tick;
 	States {
 		Spawn:
 			RIFL A -1;
@@ -57,8 +56,7 @@ class SMG : MyWeapon {
 			}
 			RIFF A 1 BRIGHT {
 				A_AlertMonsters();
-				A_PlaySound("weapons/pistol_fire",invoker.tick?CHAN_6:CHAN_7);
-				invoker.tick=!invoker.tick;
+				A_StartSound("weapons/pistol_fire",CHAN_AUTO);
 				Actor c=A_FireProjectile("FastLightClipCasing",random(-80, -100),false,2,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
 				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 				if(player.refire==0){
@@ -76,7 +74,7 @@ class SMG : MyWeapon {
 			RIFG A 1 A_Refire;
 			Goto Ready;
 		NoAmmo:
-			RIFG A 1 A_PlaySound("weapons/empty");
+			RIFG A 1 A_StartSound("weapons/empty",CHAN_AUTO);
 			Goto Ready;
 		Reload:
 			TNT1 A 0 {
@@ -90,14 +88,14 @@ class SMG : MyWeapon {
 			}
 			RIFG A 1 A_WeaponOffset(-5,45,WOF_INTERPOLATE);
 			RIFG A 3 A_WeaponOffset(-8,70,WOF_INTERPOLATE);
-			TNT1 A 0 A_PlaySound("weapons/click01");
+			TNT1 A 0 A_StartSound("weapons/click01",CHAN_AUTO);
 			RIFG A 5 A_WeaponOffset(-5,70,WOF_INTERPOLATE);
 			RIFG A 3 A_WeaponOffset(0,70,WOF_INTERPOLATE);
 			RIFR A 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			RIFR BCDEF 1;
 			RIFR GGGGGGGG 1;
 			RIFR HIKL 1;
-			TNT1 A 0 A_PlaySound("weapons/rifle_reload");
+			TNT1 A 0 A_StartSound("weapons/rifle_reload",CHAN_AUTO);
 			RIFR MMM 1;
 			RIFR NOPQRST 1;
 			TNT1 A 0 {

@@ -24,13 +24,11 @@ class GatlingRocketLauncher : MyWeapon{
 			REPG A 1 A_Raise;
 			loop;
 		Deselect:
-			TNT1 A 0 SpinDownSound();
-		DSLoop:
 			REPG A 1 A_Lower;
 			loop;
 		AltFire:
 		Fire:
-			TNT1 A 0 A_PlaySound("weapons/gatlingrocketwindup",CHAN_6);
+			TNT1 A 0 A_StartSound("weapons/gatlingrocketwindup",CHAN_6);
 			REPG A 12;
 			REPG A 0 CheckFire(noFire: "Unspin1");
 			REPG B 10;
@@ -180,11 +178,11 @@ class GatlingRocketLauncher : MyWeapon{
 	}
 	action void SpinSound(){
 		A_StopSound(CHAN_6);
-		A_PlaySound("weapons/gatlingrocketspin",CHAN_7|CHAN_NOSTOP|CHAN_LOOP,0.6);
+		A_StartSound("weapons/gatlingrocketspin",CHAN_7,CHANF_LOOPING,0.6);
 	}
 	action void SpinDownSound(){
 		A_StopSound(CHAN_7);
-		A_PlaySound("weapons/gatlingrocketwinddown",CHAN_6|CHAN_NOSTOP);
+		A_StartSound("weapons/gatlingrocketwinddown",CHAN_6,CHANF_NOSTOP);
 	}
 }
 

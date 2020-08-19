@@ -62,7 +62,7 @@ class SMGZombieMan : ZombieMan{
 		MGPO E 8 A_FaceTarget;
 	MissileLoop:
 		MGPO E 0 A_FaceTarget;
-		MGPO F 0 A_playsound("weapons/pistol_fire");
+		MGPO F 0 A_StartSound("weapons/pistol_fire",CHAN_AUTO);
 		MGPO F 2 BRIGHT A_CustomBulletAttack(12,0,1,random(1,5),"BulletPuff",0,CBAF_NORANDOM);
 		MGPO E 2 A_MonsterRefire(192,"SeeStun");
 		Loop;

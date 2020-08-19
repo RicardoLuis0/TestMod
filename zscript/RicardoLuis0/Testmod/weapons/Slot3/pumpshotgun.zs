@@ -93,7 +93,7 @@ class PumpShotgun : MyWeapon {
 			0SGG A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			0SGG A 0 A_ReloadMid;
 			0SGG A 4 A_WeaponOffset(28,66,WOF_INTERPOLATE);
-			0SGG A 0 A_PlaySound("weapons/sshotl",CHAN_AUTO);
+			0SGG A 0 A_StartSound("weapons/sshotl",CHAN_AUTO);
 			0SGG A 4 A_WeaponOffset(28,77,WOF_INTERPOLATE);
 			0SGG A 2 A_WeaponOffset(28,66,WOF_INTERPOLATE);
 			0SGG A 0 A_ReloadEnd;
@@ -107,7 +107,7 @@ class PumpShotgun : MyWeapon {
 			goto ready;
 		pump:
 			0SGG A 5;
-			0SGG A 0 A_PlaySound("weapons/shotgun_pump",CHAN_AUTO);
+			0SGG A 0 A_StartSound("weapons/shotgun_pump",CHAN_AUTO);
 			0SGG B 3;
 			0SGG C 3;
 			0SGG D 3 A_PumpCasing;
@@ -119,7 +119,7 @@ class PumpShotgun : MyWeapon {
 			0SGG A 0 P_Return;
 			goto ready;
 		noammo:
-			0SGG A 3 A_PlaySound("weapons/sshoto");
+			0SGG A 3 A_StartSound("weapons/sshoto",CHAN_AUTO);
 			goto ready;
 		spawn:
 			0ESG A -1;
@@ -152,7 +152,7 @@ class PumpShotgun : MyWeapon {
 		W_FireBullets(1.5,1.5,invoker.pellets,invoker.dmg,"BulletPuff");
 		A_SetPitch(pitch+frandom(-5,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-2,2),SPF_INTERPOLATE);
-		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO,0.5);
+		A_StartSound("weapons/shotgun_fire",CHAN_AUTO,CHANF_DEFAULT,0.5);
 		return ResolveState(null);
 	}
 
@@ -180,7 +180,7 @@ class PumpShotgun : MyWeapon {
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_SetPitch(pitch+frandom(-3,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-3,3),SPF_INTERPOLATE);
-		A_PlaySound ("weapons/shotgun_fire",CHAN_AUTO,0.5);
+		A_StartSound("weapons/shotgun_fire",CHAN_AUTO,CHANF_DEFAULT,0.5);
 		return ResolveState(null);
 	}
 

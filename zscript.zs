@@ -1,4 +1,4 @@
-version "4.1.3"
+version "4.4.2"
 
 #include "zscript/ricardoluis0/testmod/include.zs"
 #include "zscript/external/tiltplusplus/TiltPlusPlus.zc"

@@ -72,7 +72,7 @@ class MyPlasmaRifle : MyWeapon {
 		}
 		DPGG A 4 A_WeaponOffset(5,40,WOF_INTERPOLATE);
 		DPGG A 0{
-			A_PlaySound("weapons/click02");
+			A_StartSound("weapons/click02",CHAN_AUTO);
 			if(invoker.firemode<invoker.firemodemax){
 				invoker.firemode++;
 			}else{
@@ -174,7 +174,7 @@ class MyPlasmaRifle : MyWeapon {
 				return ResolveState("OverheatUp");
 			}else{
 				if(invoker.altloop==9){
-					A_PlaySound("weapons/overheat",CHAN_AUTO);
+					A_StartSound("weapons/overheat",CHAN_AUTO);
 				}
 				invoker.altloop--;
 			}
@@ -197,7 +197,7 @@ class MyPlasmaRifle : MyWeapon {
 				return ResolveState("OverheatUp");
 			}else{
 				if(invoker.altloop==9){
-					A_PlaySound("weapons/overheat",CHAN_AUTO);
+					A_StartSound("weapons/overheat",CHAN_AUTO);
 				}
 				invoker.altloop--;
 			}
@@ -229,7 +229,7 @@ class MyPlasmaRifle : MyWeapon {
 		DEPG A -1;
 		Loop;
 	OverheatStart:
-		DPGG A 0 A_PlaySound("weapons/overheat",CHAN_AUTO);
+		DPGG A 0 A_StartSound("weapons/overheat",CHAN_AUTO);
 		DPGG A 3 W_SetLayerSprite(LAYER,"PHOA");
 		DPGG C 6 W_SetLayerSprite(LAYER,"PHOC");
 	OverheatUp:
@@ -339,19 +339,6 @@ class MyPlasmaRifle : MyWeapon {
 	}
 
 	void HeatOverlay(){
-		/*
-		calculate the frame for the heat overlay.
-
-		if(overheat){
-			SetLayerFrame(LAYER,7-int(ceil((double(heat)/heatmax)*7)));
-		}else{
-			if(heat>0){
-				SetLayerFrame(LAYER,6-int(floor((double(heat)/heatmax)*6)));
-			}else{
-				SetLayerFrame(LAYER,7);
-			}
-		}
-		*/
 		SetLayerFrame(LAYER,overheat?7-int(ceil((double(heat)/heatmax)*7)):heat?6-int(floor((double(heat)/heatmax)*6)):7);
 	}
 

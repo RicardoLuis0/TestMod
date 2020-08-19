@@ -143,13 +143,13 @@ class MyPistol : MyWeapon{
 		}
 		Goto ReloadEmptyAnim;
 	ReloadAnim:
-		DPIR A 3 A_PlaySound("weapons/pistolclipout",CHAN_5);
+		DPIR A 3 A_StartSound("weapons/pistolclipout",CHAN_AUTO);
 		DPIR B 3;
 		DPIR C 3;
 		DPIR D 6;
 		DPIR E 3;
 		DPIR F 3;
-		DPIR G 3 A_PlaySound("weapons/pistolclipin",CHAN_5);
+		DPIR G 3 A_StartSound("weapons/pistolclipin",CHAN_AUTO);
 		DPIR H 3;
 		DPIR I 3;
 		DPIR J 3;
@@ -164,15 +164,15 @@ class MyPistol : MyWeapon{
 		}
 		Goto Ready;
 	ReloadEmptyAnim:
-		DPIE A 3 A_PlaySound("weapons/pistolclipout",CHAN_5);
+		DPIE A 3 A_StartSound("weapons/pistolclipout",CHAN_AUTO);
 		DPIE B 3;
 		DPIE C 3;
 		DPIE D 6;
 		DPIE E 3;
 		DPIE F 3;
-		DPIE G 3 A_PlaySound("weapons/pistolclipin",CHAN_5);
+		DPIE G 3 A_StartSound("weapons/pistolclipin",CHAN_AUTO);
 		DPIE H 5;
-		DPIR I 4 A_PlaySound("weapons/pistolclose",CHAN_5);
+		DPIR I 4 A_StartSound("weapons/pistolclose",CHAN_AUTO);
 		DPIR J 3;
 		TNT1 A 0 {
 			if(invoker.partial){
@@ -185,14 +185,12 @@ class MyPistol : MyWeapon{
 		}
 		Goto Ready;
 	}
-	bool i;
 	bool canrefire;
 	action void fire(){
-		A_PlaySound("weapons/pistol_fire",invoker.i?CHAN_6:CHAN_7,0.25);
+		A_StartSound("weapons/pistol_fire",CHAN_AUTO,CHANF_DEFAULT,0.25);
 		invoker.canrefire=false;
 		Actor c=A_FireProjectile("LightClipCasing",random(-80, -100),false,0,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,45));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-		invoker.i=!invoker.i;
 		if(player.refire<3){
 			int old=player.refire;
 			player.refire=1;

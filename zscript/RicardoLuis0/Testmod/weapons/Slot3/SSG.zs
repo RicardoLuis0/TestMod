@@ -128,7 +128,7 @@ class SSG : MyWeapon {
 			goto ready;
 		reloadsingle:
 			DSSG BCD 2;
-			DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
+			DSSG E 2 A_StartSound("weapons/sshoto",CHAN_AUTO);
 			DXSS AB 2;
 			TNT1 A 0 {
 				Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
@@ -138,7 +138,7 @@ class SSG : MyWeapon {
 				A_SetInventory("Shell",CountInv("Shell")-1);
 			}
 			DSSG VWOP 2;
-			DSSG Q 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
+			DSSG Q 2 A_StartSound("weapons/sshotl",CHAN_AUTO);
 			DSSG A 0{
 				if(invoker.fireright){
 					A_SetInventory("SSGLoaded",1);
@@ -147,12 +147,12 @@ class SSG : MyWeapon {
 				}
 			}
 			DSSG RS 2;
-			DSSG T 2 A_PlaySound("weapons/sshotc", CHAN_WEAPON);
+			DSSG T 2 A_StartSound("weapons/sshotc",CHAN_AUTO);
 			DSSG UC 2;
 			goto ready;
 		reloadboth:
 			DSSG BCD 2;
-			DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
+			DSSG E 2 A_StartSound("weapons/sshoto",CHAN_AUTO);
 			DXSD AB 2;
 			TNT1 A 0 {
 				Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
@@ -172,23 +172,23 @@ class SSG : MyWeapon {
 				A_SetInventory("Shell",CountInv("Shell")-2);
 			}
 			DSSG IJK 2;
-			DSSG L 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
+			DSSG L 2 A_StartSound("weapons/sshotl",CHAN_AUTO);
 			DSSG A 0{
 				A_SetInventory("SSGLoaded",1);
 			}
 			DSSG MNOP 2;
-			DSSG Q 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
+			DSSG Q 2 A_StartSound("weapons/sshotl",CHAN_AUTO);
 			DSSG A 0{
 				A_SetInventory("SSGLoaded",2);
 			}
 			DSSG RS 2;
-			DSSG T 2 A_PlaySound("weapons/sshotc", CHAN_WEAPON);
+			DSSG T 2 A_StartSound("weapons/sshotc",CHAN_AUTO);
 			DSSG UC 2;
 			goto ready;
 		reloadright:
 			DSSG BC 2;
 			DSSE D 2;
-			DSSE E 2 A_PlaySound("weapons/sshoto", CHAN_AUTO);
+			DSSE E 2 A_StartSound("weapons/sshoto",CHAN_AUTO);
 			DSSE FG 2;
 			TNT1 A 0 {
 				Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
@@ -207,12 +207,12 @@ class SSG : MyWeapon {
 				A_SetInventory("Shell",CountInv("Shell")-1);
 			}
 			DSSE NOP 2;
-			DSSE Q 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
+			DSSE Q 2 A_StartSound("weapons/sshotl",CHAN_AUTO);
 			DSSE A 0{
 				A_SetInventory("SSGLoaded",1);
 			}
 			DSSE RS 2;
-			DSSE T 2 A_PlaySound("weapons/sshotc", CHAN_WEAPON);
+			DSSE T 2 A_StartSound("weapons/sshotc",CHAN_AUTO);
 			DSSE U 2;
 			DSSG C 2;
 			goto ready;
@@ -221,7 +221,7 @@ class SSG : MyWeapon {
 			TNT1 A 4 Bright A_Light2;
 			goto lightdone;
 		noammo:
-			DSSG A 3 A_PlaySound("weapons/sshoto");
+			DSSG A 3 A_StartSound("weapons/sshoto",CHAN_AUTO);
 			goto ready;
 		spawn:
 			DESS A -1;
@@ -246,7 +246,7 @@ class SSG : MyWeapon {
 		A_Recoil(2.0);
 		A_SetPitch(pitch+frandom(-5,-2),SPF_INTERPOLATE);
 		A_SetAngle(angle+(CountInv("SSGLoaded")==1?frandom(-5,-2):frandom(2,5)),SPF_INTERPOLATE);
-		A_PlaySound("weapons/ssg_fire1",CHAN_AUTO);
+		A_StartSound("weapons/ssg_fire1",CHAN_AUTO);
 	}
 
 	action void A_FireBoth(){
@@ -256,7 +256,7 @@ class SSG : MyWeapon {
 		W_FireBullets(10,6,int(invoker.pellets*2.2),invoker.dmg,"BulletPuff");
 		A_Recoil(5.0);
 		A_SetPitch(pitch+frandom(-10,-5),SPF_INTERPOLATE);
-		A_PlaySound("weapons/ssg_fire2_01",CHAN_AUTO);
-		A_PlaySound("weapons/ssg_fire2_02",CHAN_AUTO,500);
+		A_StartSound("weapons/ssg_fire2_01",CHAN_AUTO);
+		A_StartSound("weapons/ssg_fire2_02",CHAN_AUTO,CHANF_DEFAULT,500);
 	}
 }

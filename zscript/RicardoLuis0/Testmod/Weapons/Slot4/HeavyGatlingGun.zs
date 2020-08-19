@@ -79,8 +79,8 @@ class HeavyGatlingGun:MyWeapon{
 		altfire:
 		spin2up:
 			TNT1 A 0 {
-				A_PlaySound("weapons/gatlingspin",CHAN_7,3,true);
-				A_PlaySound("weapons/gatlingwindup",CHAN_6,4);
+				A_StartSound("weapons/gatlingspin",CHAN_7,CHANF_LOOPING,3);
+				A_StartSound("weapons/gatlingwindup",CHAN_6,CHANF_DEFAULT,4);
 			}
 			DGTG A 7;
 			DGTG B 6;
@@ -89,7 +89,7 @@ class HeavyGatlingGun:MyWeapon{
 			DGTG A 0 CheckFire("spin1up","spin1up","spin2down");
 		spin2down:
 			DGTG A 0 A_StopSound(CHAN_7);
-			DGTG A 0 A_PlaySound("weapons/gatlingwinddown",CHAN_6,3);
+			DGTG A 0 A_StartSound("weapons/gatlingwinddown",CHAN_6,CHANF_DEFAULT,3);
 			DGTG A 4;
 			DGTG B 5;
 			DGTG C 6;
@@ -113,7 +113,7 @@ class HeavyGatlingGun:MyWeapon{
 		A_Recoil(1.5);
 		A_AlertMonsters();
 		A_SetPitch(pitch+frandom(-2,0),SPF_INTERPOLATE);
-		A_PlaySound("weapons/gatlingfire");
+		A_StartSound("weapons/gatlingfire",CHAN_AUTO);
 		return ResolveState(null);
 	}
 }

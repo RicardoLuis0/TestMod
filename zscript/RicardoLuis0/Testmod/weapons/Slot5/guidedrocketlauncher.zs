@@ -75,7 +75,7 @@ class GuidedRocketLauncher:MyWeapon{
 		AltFire:
 			DRLG A 3 A_WeaponOffset(5,40,WOF_INTERPOLATE);
 			DRLG A 0{
-				A_PlaySound("DSCLICKY");
+				A_StartSound("DSCLICKY",CHAN_AUTO);
 				A_Print(invoker.laserenabled?"Laser Guide Off":"Laser Guide On");
 				invoker.laserenabled=!invoker.laserenabled;
 			}
