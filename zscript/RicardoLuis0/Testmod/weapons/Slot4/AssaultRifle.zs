@@ -76,7 +76,7 @@ class AssaultRifle : MyWeapon {
 			ASRG A 1 A_ReFire;
 			goto ready;
 		firesingle:
-			ASRG A 0 A_FireGun;
+			ASRG A 0 A_FireGun(true);
 			ASRF A 1 BRIGHT;
 			ASRF A 1 BRIGHT A_WeaponOffset(0,35);
 			ASRG A 1 A_WeaponOffset(0,37, WOF_INTERPOLATE);
@@ -137,7 +137,7 @@ class AssaultRifle : MyWeapon {
 			Goto Ready;
 	}
 	
-	action State A_FireGun(){
+	action State A_FireGun(bool precise=false){
 		if(CountInv("AssaultRifleLoadedAmmo")==0){
 			if(CountInv("HeavyClip")==0){
 				return ResolveState("noammo");
@@ -151,8 +151,8 @@ class AssaultRifle : MyWeapon {
 		A_GunFlash();
 		Actor c=A_FireProjectile("HeavyClipCasing",random(-80, -100),false,2,4-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-		double sx=W_CalcSpread(0,15);
-		double sy=W_CalcSpread(0,15);
+		double sx=precise?W_CalcSpread(0,5,0.75,0.0):W_CalcSpread(0,15);
+		double sy=precise?W_CalcSpread(0,5,0.75,0.0):W_CalcSpread(0,15);
 		if(player.refire==0){
 			player.refire=1;
 			W_FireBullets(sx,sy,1,invoker.dmg,"PiercingPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
