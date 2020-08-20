@@ -60,8 +60,8 @@ class SuperShotgunSpawner:BasicThingSpawner replaces SuperShotgun{
 
 class ChaingunSpawner:BasicThingSpawner replaces Chaingun{
 	override void setDrops(){
-		//spawnlist.Push(new("BasicThingSpawnerElement").Init("Minigun",1,3));
-		spawnlist.Push(new("BasicThingSpawnerElement").Init("HeavyGatlingGun",1,1));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("Minigun",1,3));
+		//spawnlist.Push(new("BasicThingSpawnerElement").Init("HeavyGatlingGun",1,1));
 	}
 }
 
