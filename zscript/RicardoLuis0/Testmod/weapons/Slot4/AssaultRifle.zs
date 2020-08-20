@@ -33,7 +33,7 @@ class AssaultRifle : MyWeapon {
 	int dmg;
 	Default{
 		Weapon.SlotNumber 4;
-		Weapon.SlotPriority 1;
+		Weapon.SlotPriority 0.75;
 		Weapon.AmmoType1 "AssaultRifleLoadedAmmo";
 		Weapon.AmmoType2 "HeavyClip";
 		Weapon.AmmoUse1 1;
