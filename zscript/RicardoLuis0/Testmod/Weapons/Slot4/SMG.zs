@@ -59,13 +59,14 @@ class SMG : MyWeapon {
 				A_StartSound("weapons/pistol_fire",CHAN_AUTO);
 				Actor c=A_FireProjectile("FastLightClipCasing",random(-80, -100),false,2,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
 				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
+				double sx=W_CalcSpread(1,5,0.5,0.25,0.25,0.75);
+				double sy=W_CalcSpread(1,5,0.5,0.25,0.25,0.75);
 				if(player.refire==0){
-					player.refire=1;//refire 1 to enable spread
-					W_FireBullets(2,2,1,4,"BulletPuff");
-					player.refire=0;
+					player.refire=1;
+					W_FireBullets(sx,sy,1,4,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
+					player.refire=1;
 				}else{
-					int add=min(player.refire/4,5);
-					W_FireBullets(3+add,3+add,1,4,"BulletPuff");
+					W_FireBullets(sx,sy,1,4,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
 				}
 			}
 			RIFF A 1 BRIGHT A_WeaponOffset(0,36,WOF_INTERPOLATE);

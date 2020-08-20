@@ -136,40 +136,7 @@ class AssaultRifle : MyWeapon {
 			ASRG A 0 A_ReFire("altloop");
 			Goto Ready;
 	}
-	const spread_max=10;
-	const spread_x=5;
-	const spread_y=5;
-	const velspread_x=5;
-	const velspread_y=5;
-	const spread_scale=2;
-	float getSpreadX(int refire,double vel_len){
-		double velspread=max(log10(vel_len)*velspread_x,0);
-		if(refire<=0){
-			return velspread;
-		}else{
-			double ftimes=(spread_max+1)-min(refire,spread_max);
-			if(ftimes>spread_scale){
-				ftimes/=spread_scale;
-			}else{
-				ftimes=1;
-			}
-			return int((spread_x/ftimes)+velspread);
-		}
-	}
-	float getSpreadY(int refire,double vel_len){
-		double velspread=max(log10(vel_len)*velspread_y,0);
-		if(refire<=0){
-			return velspread;
-		}else{
-			double ftimes=(spread_max+1)-min(refire,spread_max);
-			if(ftimes>spread_scale){
-				ftimes/=spread_scale;
-			}else{
-				ftimes=1;
-			}
-			return int((spread_y/ftimes)+velspread);
-		}
-	}
+	
 	action State A_FireGun(){
 		if(CountInv("AssaultRifleLoadedAmmo")==0){
 			if(CountInv("HeavyClip")==0){
@@ -182,12 +149,17 @@ class AssaultRifle : MyWeapon {
 			return P_Call2("bolt","ready");
 		}
 		A_GunFlash();
-		int refire=player.refire;
-		if(refire<=0)player.refire=1;
 		Actor c=A_FireProjectile("HeavyClipCasing",random(-80, -100),false,2,4-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-		W_FireBullets(invoker.getSpreadX(refire,player.vel.length()),invoker.getSpreadY(refire,player.vel.length()),1,invoker.dmg,"PiercingPuff");
-		player.refire=refire;
+		double sx=W_CalcSpread(0,15);
+		double sy=W_CalcSpread(0,15);
+		if(player.refire==0){
+			player.refire=1;
+			W_FireBullets(sx,sy,1,invoker.dmg,"PiercingPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
+			player.refire=1;
+		}else{
+			W_FireBullets(sx,sy,1,invoker.dmg,"PiercingPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
+		}
 		A_Recoil(0.5);
 		A_AlertMonsters();
 		A_StartSound("weapons/ar_fire",CHAN_AUTO);

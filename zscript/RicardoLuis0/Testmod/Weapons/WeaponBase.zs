@@ -239,7 +239,7 @@ class MyWeapon:Weapon{
 			psp.setState(new,true);
 		}
 	}
-
+	
 	void SetLayerSprite(int layer,name sprite){
 		PSprite psp = PSP_Get(layer);
 		if(psp && psp.CurState) {
@@ -247,17 +247,40 @@ class MyWeapon:Weapon{
 			psp.sprite = index;
 		}
 	}
-
+	
 	action void W_SetLayerFrame(int layer, int frame) {
 		invoker.SetLayerFrame(layer,frame);
 	}
-
+	
 	action void W_SetLayerState(int layer, statelabel new) {
 		invoker.SetLayerState(layer,ResolveState(new));
 	}
-
+	
 	action void W_SetLayerSprite(int layer, name sprite) {
 		invoker.SetLayerSprite(layer,sprite);
 	}
-
+	
+	static double CalcSpreadRate(double movement,double refire,double movement_rate=1.0,double refire_rate=1.0,double movement_max=0.70,double refire_max=0.30){
+		return Clamp(Clamp(((movement*movement)/175.0)*movement_rate,0.0,movement_max)+Clamp((refire/6.0)*refire_rate,0.0,refire_max),0.0,1.0);
+	}
+	
+	action double W_CalcSpreadRange(double min,double max,double movement_rate=1.0,double refire_rate=1.0,double movement_max=0.75,double refire_max=0.25,double start=0.0){//min and max will be used to determine a range for recoil
+		double rate=CalcSpreadRate(player.vel.length(),player.refire,movement_rate,refire_rate,movement_max,refire_max);
+		if(rate>=start){
+			double range=min+(rate-start)*(max-min);
+			return range>0?range:0;
+		}else{
+			return min>0?min:0;
+		}
+	}
+	
+	action double W_CalcSpread(double min,double max,double movement_rate=1.0,double refire_rate=1.0,double movement_max=0.75,double refire_max=0.25,double start=0.0){//min and max will be used to determine a range for recoil, returning frandom(-range,range)
+		double rate=CalcSpreadRate(player.vel.length(),player.refire,movement_rate,refire_rate,movement_max,refire_max);
+		if(rate>=start){
+			double range=min+(rate-start)*(max-min);
+			return range>0?frandom(-range,range):0;
+		}else{
+			return min>0?frandom(-min,min):0;
+		}
+	}
 }

@@ -226,6 +226,7 @@ class SSG : MyWeapon {
 			DESS A -1;
 			stop;
 	}
+	
 	action State A_CheckAmmo(bool doreload){
 		if(CountInv("PumpLoaded")==0){
 			if(CountInv("Shell")==0||doreload==false){
@@ -236,7 +237,7 @@ class SSG : MyWeapon {
 		}
 		return ResolveState(null);
 	}
-
+	
 	action void A_FireSingle(){
 		A_GunFlash();
 		A_AlertMonsters();
@@ -247,7 +248,7 @@ class SSG : MyWeapon {
 		A_SetAngle(angle+(CountInv("SSGLoaded")==1?frandom(-5,-2):frandom(2,5)),SPF_INTERPOLATE);
 		A_StartSound("weapons/ssg_fire1",CHAN_AUTO);
 	}
-
+	
 	action void A_FireBoth(){
 		A_GunFlash();
 		A_AlertMonsters();
