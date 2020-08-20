@@ -31,7 +31,7 @@ class SMG : MyWeapon {
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
-		crosshair=43;
+		crosshair=20;
 	}
 	States {
 		Spawn:

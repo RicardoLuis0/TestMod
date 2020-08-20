@@ -46,9 +46,9 @@ class AssaultRifle : MyWeapon {
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
-		crosshair=43;
-		loaded=true;
 		firemode=1;
+		crosshair=20;
+		loaded=true;
 		dmg=10;
 	}
 	States{
@@ -123,9 +123,11 @@ class AssaultRifle : MyWeapon {
 				if(invoker.firemode==0){
 					A_Print("Full Auto");
 					invoker.firemode=1;
+					invoker.crosshair=20;
 				}else if(invoker.firemode==1){
 					A_Print("Single Shot");
 					invoker.firemode=0;
+					invoker.crosshair=43;
 				}
 			}
 			ASRG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
