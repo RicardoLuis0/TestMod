@@ -65,12 +65,11 @@ class PumpShotgun : MyWeapon {
 			0SGF C 2 Bright;
 			0SGF D 1;
 			0SGF E 1;
-			0SGG A 0 P_Call("Pump");
-			0SGG A 5 A_Refire;
 			0SGG A 0 {
 				if(CountInv("PumpLoaded")==0) return ResolveState("Reload");
-				return ResolveState(null);
+				return P_Call("Pump");
 			}
+			0SGG A 5 A_Refire;
 			goto ready;
 		altloop:
 			0SGG A 1;
