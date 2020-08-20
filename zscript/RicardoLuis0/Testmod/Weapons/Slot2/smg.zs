@@ -20,7 +20,7 @@ class SMG : MyWeapon {
 		Weapon.AmmoGive1 0;
 		Weapon.AmmoType2 "LightClip";
 		Weapon.AmmoUse2 0;
-		Weapon.AmmoGive2 40;
+		Weapon.AmmoGive2 20;
 		Obituary "%o was shot down by %k's SMG.";
 		Inventory.PickupSound "CLIPIN";
 		Inventory.Pickupmessage "You got the SMG!";

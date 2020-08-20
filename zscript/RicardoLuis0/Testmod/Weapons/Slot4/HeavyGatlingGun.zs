@@ -7,7 +7,7 @@ class HeavyGatlingGun:MyWeapon{
 		Weapon.AmmoType2 "HeavyClip";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 1;
-		Weapon.AmmoGive1 50;
+		Weapon.AmmoGive1 20;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;
