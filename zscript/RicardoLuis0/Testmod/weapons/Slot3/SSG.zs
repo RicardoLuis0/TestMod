@@ -6,7 +6,6 @@ class SSGLoaded : Ammo{
 }
 
 class SSG : MyWeapon {
-	int firemode;
 	bool fireright;
 	int pellets;
 	int dmg;
