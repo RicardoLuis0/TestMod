@@ -2,7 +2,6 @@ SERVER FLOAT sv_guided_rocket_max_follow_angle = 45;
 SERVER BOOL sv_ssg_from_shotgun = false;
 SERVER BOOL sv_plasmagun_extrafire = false;
 SERVER INT sv_random_damage_mode = 0;
-SERVER BOOL sv_gatling_rocket_launcher = true;
 SERVER BOOL sv_no_casing_despawn = false;
 USER BOOL cl_plasma_rifle_classic_mode = true;
 USER BOOL cl_extra_weapon_bob = true;

@@ -69,7 +69,7 @@ class ChaingunSpawner:BasicThingSpawner replaces Chaingun{
 class RocketLauncherSpawner:BasicThingSpawner replaces RocketLauncher{
 	override void setDrops(){
 		spawnlist.Push(new("BasicThingSpawnerElement").Init("GuidedRocketLauncher",1,2));
-		if(sv_gatling_rocket_launcher)spawnlist.Push(new("BasicThingSpawnerElement").Init("GatlingRocketLauncher",1,1));
+		spawnlist.Push(new("BasicThingSpawnerElement").Init("GatlingRocketLauncher",1,1));
 	}
 }
 
