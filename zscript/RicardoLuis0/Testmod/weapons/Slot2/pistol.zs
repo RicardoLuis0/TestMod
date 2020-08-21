@@ -95,8 +95,9 @@ class MyPistol : MyWeapon{
 			}
 			return ResolveState(null);
 		}
-		DPIF A 1 Fire;
-		DPIF AA 1 UpdateRefire;
+		DPIF A 1 BRIGHT Fire;
+		DPIF A 1 BRIGHT UpdateRefire;
+		DPIF A 1 BRIGHT UpdateRefire;
 		DPIG CCC 1 UpdateRefire;
 		TNT1 A 0 {
 			if(CountInv("MyPistolClip")==0){
@@ -191,13 +192,14 @@ class MyPistol : MyWeapon{
 		invoker.canrefire=false;
 		Actor c=A_FireProjectile("LightClipCasing",random(-80, -100),false,0,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,45));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-		if(player.refire<3){
-			int old=player.refire;
+		double sx=W_CalcSpread(0.5,5,0.5,0.25,0.25,0.75);
+		double sy=W_CalcSpread(0.5,5,0.5,0.25,0.25,0.75);
+		if(player.refire==0){
 			player.refire=1;
-			W_FireBullets(1,1,1,5,"BulletPuff");
-			player.refire=old;
+			W_FireBullets(sx,sy,1,5,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
+			player.refire=1;
 		}else{
-			W_FireBullets(2+(player.refire/2),1+(player.refire/3),1,5,"BulletPuff");
+			W_FireBullets(sx,sy,1,5,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
 		}
 		A_GunFlash();
 	}
