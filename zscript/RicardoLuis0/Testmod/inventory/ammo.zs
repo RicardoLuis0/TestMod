@@ -4,7 +4,7 @@ class LightClip : Ammo {
 		Inventory.PickupMessage "$GOTLIGHTCLIP";
 		Inventory.Amount 8;
 		Inventory.MaxAmount 300;
-		Ammo.BackpackAmount 25;
+		Ammo.BackpackAmount 15;
 		Ammo.BackpackMaxAmount 600;
 		Inventory.Icon "MBLKA0";
 		Tag "$AMMO_CLIP";
@@ -21,7 +21,7 @@ class LightClip : Ammo {
 class FreshLightClip : LightClip {
 	Default {
 		Inventory.PickupMessage "$GOTFULLLIGHTCLIP";
-		Inventory.Amount 30;
+		Inventory.Amount 15;
 	}
 }
 
@@ -29,7 +29,7 @@ class LightClipBox : LightClip {
 
 	Default {
 		Inventory.PickupMessage "$GOTLIGHTCLIPBOX";
-		Inventory.Amount 150;
+		Inventory.Amount 45;
 	}
 
 	States {
@@ -46,7 +46,7 @@ class HeavyClip : Ammo {
 		Inventory.PickupMessage "$GOTHEAVYCLIP";
 		Inventory.Amount 10;
 		Inventory.MaxAmount 200;
-		Ammo.BackpackAmount 50;
+		Ammo.BackpackAmount 20;
 		Ammo.BackpackMaxAmount 400;
 		Inventory.Icon "CLIPA0";
 		Tag "$AMMO_CLIP";
@@ -71,7 +71,7 @@ class HeavyClipBox : HeavyClip {
 
 	Default {
 		Inventory.PickupMessage "$GOTHEAVYCLIPBOX";
-		Inventory.Amount 100;
+		Inventory.Amount 40;
 	}
 
 	States {
