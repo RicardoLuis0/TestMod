@@ -65,3 +65,10 @@ weapons/sshotl			dsdbload
 weapons/gatlingrocketwindup   "sounds/grl_spinup.wav"
 weapons/gatlingrocketspin     "sounds/grl_loop.wav"
 weapons/gatlingrocketwinddown "sounds/grl_spindown.wav"
+
+//ssg zombie, from realm667
+
+SSGUNER/sight	DSGPOSIT
+SSGUNER/SSG 	DSSGGATK
+SSGUNER/death	DSGPODTH
+SSGUNER/idle	DSGPOACT

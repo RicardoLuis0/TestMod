@@ -15,7 +15,7 @@ class SSG : MyWeapon {
 		Weapon.AmmoType2 "Shell";
 		Weapon.AmmoUse1 0;
 		Weapon.AmmoUse2 0;
-		Weapon.AmmoGive2 8;
+		Weapon.AmmoGive2 4;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;
