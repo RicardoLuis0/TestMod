@@ -11,7 +11,6 @@ class MyPlasmaRifle : MyWeapon {
 	bool reloading;
 	bool init;
 	int altloop;
-	int altuse;
 	int firemode;
 	int firemodemax;
 	State fireState;
@@ -92,7 +91,9 @@ class MyPlasmaRifle : MyWeapon {
 		}
 	Fire:
 		DPGG A 0 {
-			if(invoker.firemode!=0&&!sv_plasmagun_extrafire)return ResolveState("ResetFire");
+			if(CountInv("Cell")<invoker.ammouse1){
+				return ResolveState("NoAmmo");
+			}else if(invoker.firemode!=0&&!sv_plasmagun_extrafire)return ResolveState("ResetFire");
 			return invoker.fireState;
 		}
 		Goto Ready;
@@ -133,8 +134,6 @@ class MyPlasmaRifle : MyWeapon {
 		DPGG A 0{
 			if(invoker.heat!=0){
 				return ResolveState("Reload");
-			}else if(CountInv("Cell")<invoker.altuse){
-				return ResolveState("NoAmmo");
 			}
 			return ResolveState(null);
 		}
@@ -263,15 +262,11 @@ class MyPlasmaRifle : MyWeapon {
 		super.BeginPlay();
 		firemode=0;
 		firemodemax=3;
-		fireState=ResolveState("AutoFire");
 		crosshair=20;
 		heat=0;
-		heatmax=500;
-		heatup=10;
-		heatdownreload=20;
-		heatdownoverheat=20;
 		heatdown=1;
-		altuse=10;
+		heatmax=500;
+		updateFire(false);
 		firing=false;
 		overheat=false;
 		reloading=false;
@@ -285,13 +280,15 @@ class MyPlasmaRifle : MyWeapon {
 		case 0://automatic mode
 			if(showmessage)A_Print("Automatic Mode");
 			invoker.heatdownoverheat=20;
-			invoker.heatup=10;
+			invoker.heatdownreload=30;
+			invoker.heatup=20;
 			invoker.fireState=ResolveState("AutoFire");
 			invoker.ammouse1=1;
 			break;
 		case 1://shotgun mode
 			if(showmessage)A_Print("Shotgun Mode");
 			invoker.heatdownoverheat=20;
+			invoker.heatdownreload=30;
 			invoker.heatup=50;
 			invoker.fireState=ResolveState("ShotgunFire");
 			invoker.ammouse1=5;
@@ -300,6 +297,7 @@ class MyPlasmaRifle : MyWeapon {
 			if(showmessage)A_Print("Launcher Mode");
 			invoker.heatup=invoker.heatmax;
 			invoker.heatdownoverheat=10;
+			invoker.heatdownreload=30;
 			invoker.fireState=ResolveState("LauncherFire");
 			invoker.ammouse1=15;
 			break;
@@ -307,8 +305,9 @@ class MyPlasmaRifle : MyWeapon {
 			if(showmessage)A_Print("Railgun Mode");
 			invoker.heatup=invoker.heatmax;
 			invoker.heatdownoverheat=30;
+			invoker.heatdownreload=30;
 			invoker.fireState=ResolveState("RailFire");
-			invoker.ammouse1=20;
+			invoker.ammouse1=15;
 		}
 	}
 
