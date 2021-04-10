@@ -69,6 +69,7 @@ class MyRocket:Rocket{
 	Default{
 		Decal "Scorch";
 		-DEHEXPLOSION;
+		+FORCEXYBILLBOARD;
 	}
 	States {
 	Spawn:

@@ -10,6 +10,7 @@ class SSG : MyWeapon {
 	int pellets;
 	int dmg;
 	Default{
+		Tag "Super Shotgun";
 		Weapon.SlotNumber 3;
 		Weapon.AmmoType1 "SSGLoaded";
 		Weapon.AmmoType2 "Shell";

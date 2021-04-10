@@ -2,6 +2,7 @@ class Minigun:HeavyGatlingGun{
 	bool tammo;
 
 	Default{
+		Tag "Minigun";
 		Weapon.AmmoType1 "LightClip";
 		Weapon.AmmoType2 "LightClip";
 		Inventory.PickupMessage "You've got the Minigun!";

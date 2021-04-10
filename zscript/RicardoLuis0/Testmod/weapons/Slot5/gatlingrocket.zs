@@ -1,5 +1,6 @@
 class GatlingRocketLauncher : MyWeapon{
 	Default{
+		Tag "Gatling Rocket Launcher";
 		Weapon.AmmoUse 0;
 		Weapon.AmmoGive 10;
 		Weapon.AmmoType1 "RocketAmmo";
@@ -71,30 +72,26 @@ class GatlingRocketLauncher : MyWeapon{
 			REPG D 12;
 			Goto Ready;
 		Shoot1:
-			TNT1 A 0 SpinSound();
+			REPG A 0 SpinSound();
 			REPG A 0 JumpNoRocketsOrFire("AltLoop1","Spindown1");
 			REPG A 0 A_WeaponOffset(0,40);
 			REPG E 4 MyFire();
 			REPG A 0 JumpNoRocketsOrFire("AltLoop1Half","Spindown1Half");
 		Shoot1Half:
-			REPG F 4 {
-				A_WeaponOffset(0,32,WOF_INTERPOLATE);
-				MyFire();
-			}
+			REPG A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+			REPG F 4 MyFire();
 			REPG A 0 CheckFire(null,"AltLoop2","Spindown2");
 			REPG A 0 A_ReFire("Shoot2");
 			Goto Shoot2;
 		Shoot2:
-			TNT1 A 0 SpinSound();
+			REPG A 0 SpinSound();
 			REPG A 0 JumpNoRocketsOrFire("AltLoop2","Spindown2");
 			REPG A 0 A_WeaponOffset(0,40);
 			REPG G 4 MyFire();
 			REPG A 0 JumpNoRocketsOrFire("AltLoop2Half","Spindown2Half");
 		Shoot2Half:
-			REPG H 4 {
-				A_WeaponOffset(0,32,WOF_INTERPOLATE);
-				MyFire();
-			}
+			REPG A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+			REPG H 4 MyFire();
 			REPG A 0 CheckFire(null,"AltLoop1","Spindown1");
 			REPG A 0 A_ReFire("Shoot1");
 			Goto Shoot1;
@@ -150,15 +147,15 @@ class GatlingRocketLauncher : MyWeapon{
 			Goto LightDone;
 		AltLoop1:
 			TNT1 A 0 SpinSound();
-			REPG A 4;
+			REPG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		AltLoop1Half:
-			REPG B 4;
+			REPG B 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			REPG A 0 CheckFire("Shoot2","AltLoop2","Spindown2");
 		AltLoop2:
 			TNT1 A 0 SpinSound();
-			REPG C 4;
+			REPG C 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		AltLoop2Half:
-			REPG D 4;
+			REPG D 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			REPG A 0 CheckFire("Shoot1","AltLoop1","Spindown1");
 		Spawn:
 			REPG I -1;

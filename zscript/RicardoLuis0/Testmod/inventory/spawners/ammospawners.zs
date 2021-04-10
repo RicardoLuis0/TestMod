@@ -1,4 +1,4 @@
-class ClipSpawner : BasicThingSpawner replaces Clip {
+class ClipSpawner : ThingSpawner replaces Clip {
 
 	override void setDrops(){
 		spawnlist.Push(new("BasicThingSpawnerElement").Init("FreshLightClip",1,4));
@@ -7,7 +7,7 @@ class ClipSpawner : BasicThingSpawner replaces Clip {
 
 }
 
-class ClipBoxSpawner : BasicThingSpawner replaces ClipBox {
+class ClipBoxSpawner : ThingSpawner replaces ClipBox {
 
 	override void setDrops(){
 		spawnlist.Push(new("BasicThingSpawnerElement").Init("LightClipBox",1,1));

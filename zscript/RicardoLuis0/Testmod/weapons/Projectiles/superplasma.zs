@@ -5,9 +5,10 @@ class superplasmaball : Actor {
 		Speed 25;
 		Damage 150;
 		Projectile;
-		+RANDOMIZE
-		+ZDOOMTRANS
-		-NOGRAVITY
+		+RANDOMIZE;
+		+ZDOOMTRANS;
+		+FORCEXYBILLBOARD;
+		-NOGRAVITY;
 		RenderStyle "Add";
 		Alpha 0.75;
 		Scale 0.75;

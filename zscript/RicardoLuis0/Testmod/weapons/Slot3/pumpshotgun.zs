@@ -27,6 +27,7 @@ class PumpShotgun : MyWeapon {
 	bool firecasing;
 	
 	Default{
+		Tag "Pump Shotgun";
 		Weapon.SlotNumber 3;
 		Weapon.AmmoType1 "PumpLoaded";
 		Weapon.AmmoType2 "Shell";
@@ -37,7 +38,7 @@ class PumpShotgun : MyWeapon {
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;
 		+WEAPON.NOAUTOFIRE;
-		Inventory.PickupMessage "You've got the Shotgun!";
+		Inventory.PickupMessage "You've got the Pump Shotgun!";
 	}
 	
 	override void BeginPlay(){

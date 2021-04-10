@@ -12,6 +12,7 @@ class PlasmaShot01:FastProjectile{
 		MissileType "PlasmaShot01Trail";
 		MissileHeight 8;
 		Decal "PlasmaScorchLower";
+		+FORCEXYBILLBOARD;
 	}
 	States{
 	Spawn:

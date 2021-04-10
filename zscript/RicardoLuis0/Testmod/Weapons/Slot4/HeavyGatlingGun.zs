@@ -1,6 +1,7 @@
 class HeavyGatlingGun:MyWeapon{
 	bool spinning;
 	Default{
+		Tag "Heavy Gatling Gun";
 		Weapon.SlotNumber 4;
 		Weapon.SlotPriority 0.5;
 		Weapon.AmmoType1 "HeavyClip";

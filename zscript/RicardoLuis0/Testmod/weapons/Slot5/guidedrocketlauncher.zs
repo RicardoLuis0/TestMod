@@ -12,6 +12,7 @@ class LaserDot:Actor{
 class GuidedRocketLauncher:MyWeapon{
 	bool laserenabled;
 	Default{
+		Tag "Laser-Guided Rocket Launcher";
 		Weapon.SlotNumber 5;
 		Weapon.SlotPriority 0;
 		Weapon.AmmoUse 0;
@@ -19,7 +20,7 @@ class GuidedRocketLauncher:MyWeapon{
 		Weapon.AmmoType "RocketAmmo";
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
-		Inventory.PickupMessage "You've got the Laser Guided Rocket Launcher!";
+		Inventory.PickupMessage "You've got the Laser-Guided Rocket Launcher!";
 	}
 	override void BeginPlay(){
 		super.BeginPlay();

@@ -32,6 +32,7 @@ class AssaultRifle : MyWeapon {
 	int firemode;//0=single,1=auto
 	int dmg;
 	Default{
+		Tag "Assault Rifle";
 		Weapon.SlotNumber 4;
 		Weapon.SlotPriority 0.75;
 		Weapon.AmmoType1 "AssaultRifleLoadedAmmo";
@@ -151,8 +152,13 @@ class AssaultRifle : MyWeapon {
 		A_GunFlash();
 		Actor c=A_FireProjectile("HeavyClipCasing",random(-80, -100),false,2,4-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-		double sx=precise?W_CalcSpread(0,5,0.75,0.0):W_CalcSpread(0,15);
-		double sy=precise?W_CalcSpread(0,5,0.75,0.0):W_CalcSpread(0,15);
+		double sx,sy;
+		if(precise){
+			[sx,sy]=W_CalcSpreadXY(0,5,0.0);
+		}else{
+			[sx,sy]=W_CalcSpreadXY(0,15);
+		}
+		
 		if(player.refire==0){
 			player.refire=1;
 			W_FireBullets(sx,sy,1,invoker.dmg,"PiercingPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);

@@ -25,6 +25,7 @@ class MyPistolClip : Ammo{
 class MyPistol : MyWeapon{
 	bool partial;
 	Default{
+		Tag "Pistol";
 		Weapon.SlotNumber 2;
 		Weapon.SlotPriority 0;
 		Weapon.AmmoType1 "MyPistolClip";
@@ -95,7 +96,7 @@ class MyPistol : MyWeapon{
 			}
 			return ResolveState(null);
 		}
-		DPIF A 1 BRIGHT Fire;
+		DPIF A 1 BRIGHT A_FireGun;
 		DPIF A 1 BRIGHT UpdateRefire;
 		DPIF A 1 BRIGHT UpdateRefire;
 		DPIG CCC 1 UpdateRefire;
@@ -187,13 +188,13 @@ class MyPistol : MyWeapon{
 		Goto Ready;
 	}
 	bool canrefire;
-	action void fire(){
+	action void A_FireGun(){
 		A_StartSound("weapons/pistol_fire",CHAN_AUTO,CHANF_DEFAULT,0.25);
 		invoker.canrefire=false;
 		Actor c=A_FireProjectile("LightClipCasing",random(-80, -100),false,0,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,45));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-		double sx=W_CalcSpread(0.5,5,0.5,0.25,0.25,0.75);
-		double sy=W_CalcSpread(0.5,5,0.5,0.25,0.25,0.75);
+		double sx,sy;
+		[sx,sy]=W_CalcSpreadXY(0.5,5,0.5,0.25);
 		if(player.refire==0){
 			player.refire=1;
 			W_FireBullets(sx,sy,1,5,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);

@@ -16,6 +16,7 @@ class MyPlasmaRifle : MyWeapon {
 	State fireState;
 
 	Default{
+		Tag "Plasma Rifle";
 		Weapon.SlotNumber 6;
 		Weapon.AmmoType1 "Cell";
 		Weapon.AmmoType2 "Cell";

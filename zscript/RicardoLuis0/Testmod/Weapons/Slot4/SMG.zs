@@ -13,6 +13,7 @@ class SMGAmmo : Ammo{
 
 class SMG : MyWeapon {
 	Default {
+		Tag "SMG";
 		Weapon.SlotNumber 4;
 		Weapon.SlotPriority 1;
 		Weapon.AmmoType1 "SMGAmmo";
@@ -54,21 +55,7 @@ class SMG : MyWeapon {
 					return ResolveState(null);
 				}
 			}
-			RIFF A 1 BRIGHT {
-				A_AlertMonsters();
-				A_StartSound("weapons/pistol_fire",CHAN_AUTO);
-				Actor c=A_FireProjectile("FastLightClipCasing",random(-80, -100),false,2,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
-				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-				double sx=W_CalcSpread(1,5,0.5,0.25,0.25,0.75);
-				double sy=W_CalcSpread(1,5,0.5,0.25,0.25,0.75);
-				if(player.refire==0){
-					player.refire=1;
-					W_FireBullets(sx,sy,1,4,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
-					player.refire=1;
-				}else{
-					W_FireBullets(sx,sy,1,4,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
-				}
-			}
+			RIFF A 1 BRIGHT A_FireGun;
 			RIFF A 1 BRIGHT A_WeaponOffset(0,36,WOF_INTERPOLATE);
 			RIFF B 1 A_WeaponOffset(0,34,WOF_INTERPOLATE);
 			RIFG A 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
@@ -111,5 +98,20 @@ class SMG : MyWeapon {
 				A_SetInventory("SMGAmmo",reload_amount+curammo);
 			}
 			Goto Ready;
+	}
+	action void A_FireGun(){
+		A_AlertMonsters();
+		A_StartSound("weapons/pistol_fire",CHAN_AUTO);
+		Actor c=A_FireProjectile("FastLightClipCasing",random(-80, -100),false,2,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
+		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
+		double sx,sy;
+		[sx,sy]=W_CalcSpreadXY(1,5,0.5,0.25);
+		if(player.refire==0){
+			player.refire=1;
+			W_FireBullets(sx,sy,1,4,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
+			player.refire=1;
+		}else{
+			W_FireBullets(sx,sy,1,4,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
+		}
 	}
 }
