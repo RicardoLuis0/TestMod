@@ -282,7 +282,7 @@ class MyPlasmaRifle : MyWeapon {
 			if(showmessage)A_Print("Automatic Mode");
 			invoker.heatdownoverheat=20;
 			invoker.heatdownreload=30;
-			invoker.heatup=20;
+			invoker.heatup=10;
 			invoker.fireState=ResolveState("AutoFire");
 			invoker.ammouse1=1;
 			break;
@@ -300,7 +300,7 @@ class MyPlasmaRifle : MyWeapon {
 			invoker.heatdownoverheat=10;
 			invoker.heatdownreload=30;
 			invoker.fireState=ResolveState("LauncherFire");
-			invoker.ammouse1=15;
+			invoker.ammouse1=25;
 			break;
 		case 3://railgun mode
 			if(showmessage)A_Print("Railgun Mode");
@@ -308,7 +308,7 @@ class MyPlasmaRifle : MyWeapon {
 			invoker.heatdownoverheat=30;
 			invoker.heatdownreload=30;
 			invoker.fireState=ResolveState("RailFire");
-			invoker.ammouse1=15;
+			invoker.ammouse1=50;
 		}
 	}
 
@@ -400,9 +400,9 @@ class MyPlasmaRifle : MyWeapon {
 		A_SetBlend("LightSlateBlue",1,5);
 		invoker.firing=true;
 		A_AlertMonsters();
-		A_RailAttack(100,0,true,"Cyan","Blue",RGF_FULLBRIGHT,0,"",0,0,0,0,1,0,"PlasmaRailTrail");
+		A_RailAttack(500,0,true,"Cyan","Blue",RGF_FULLBRIGHT,0,"",0,0,0,0,1,0,"PlasmaRailTrail");
 		A_SetPitch(pitch+random(-10,0));
-		A_Recoil(10);
+		A_Recoil(15);
 		A_Overheat();
 		W_SetLayerSprite(LAYER,"PHOC");
 	}
