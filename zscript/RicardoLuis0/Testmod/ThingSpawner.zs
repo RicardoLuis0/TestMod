@@ -15,10 +15,9 @@ class ThingSpawnerElement abstract {
 }
 
 class ThingSpawner : Actor abstract {
-	static bool spawnactor(string a_name,int replace,Vector3 pos,Vector3 vel,bool bDropped){
-		class<Actor> a_class=a_name;
+	static bool spawnactor(class<Actor> a_class,int replace,Vector3 pos,Vector3 vel,bool bDropped){
 		if(a_class==null){
-			console.printf("\c[red] Invalid Actor \""..a_name.."\"");
+			console.printf("\c[red] Unexpected Null 'a_class' in ThingSpawner::spawnactor");
 			return false;
 		}
 		Actor obj=Spawn(a_class,pos,replace);
@@ -113,25 +112,29 @@ class EmptyThingSpawnerElement : ThingSpawnerElement {
 }
 
 class BasicThingSpawnerElement : ThingSpawnerElement {
-	string actor_name;
+	class<Actor> actor_class;
 	int actor_amount;
 	int actor_replace;
 	
-	BasicThingSpawnerElement Init(string name="None",int amount=1,int weight=1,int replace=ALLOW_REPLACE,bool allow_dropped=true){
+	BasicThingSpawnerElement Init(class<Actor> a_class,int amount=1,int weight=1,int replace=ALLOW_REPLACE,bool allow_dropped=true){
 		super.Init(weight,allow_dropped);
-		actor_name=name;
+		actor_class=a_class;
 		actor_amount=amount;
 		actor_replace=replace;
 		return self;
 	}
 	
+	static BasicThingSpawnerElement Create(class<Actor> a_class,int amount=1,int weight=1,int replace=ALLOW_REPLACE,bool allow_dropped=true){
+		return new("BasicThingSpawnerElement").Init(a_class,amount,weight,replace,allow_dropped);
+	}
+	
 	override bool doSpawn(Vector3 pos,Vector3 vel,bool bDropped){
 		if(actor_amount==1){
-			return ThingSpawner.spawnactor(actor_name,actor_replace,pos,vel,bDropped);
+			return ThingSpawner.spawnactor(actor_class,actor_replace,pos,vel,bDropped);
 		}else{
 			for(int i=0;i<actor_amount;i++){
 				Vector3 spawn_vel=vel+(frandom(-1,1),frandom(-1,1),frandom(1,2));
-				if(!ThingSpawner.spawnactor(actor_name,actor_replace,pos,spawn_vel,bDropped))return false;
+				if(!ThingSpawner.spawnactor(actor_class,actor_replace,pos,spawn_vel,bDropped))return false;
 			}
 			return true;
 		}
