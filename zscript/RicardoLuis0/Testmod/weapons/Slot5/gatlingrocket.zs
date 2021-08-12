@@ -1,4 +1,4 @@
-class GatlingRocketLauncher : MyWeapon{
+class GatlingRocketLauncher : ModWeaponBase {
 	Default{
 		Tag "Gatling Rocket Launcher";
 		Weapon.AmmoUse 0;

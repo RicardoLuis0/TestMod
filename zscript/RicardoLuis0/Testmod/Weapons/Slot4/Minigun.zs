@@ -1,4 +1,4 @@
-class Minigun:HeavyGatlingGun{
+class Minigun : HeavyGatlingGun {
 	bool tammo;
 
 	Default{
@@ -97,11 +97,8 @@ class Minigun:HeavyGatlingGun{
 		Actor c=A_FireProjectile("LightClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_GunFlash();
-		int refire=player.refire;
-		if(refire<=0)player.refire=1;
 		W_FireBullets(8,5,1,4,"BulletPuff",invoker.tammo?0:FBF_USEAMMO);
 		invoker.tammo=!invoker.tammo;
-		player.refire=refire;
 		A_Recoil(1);
 		A_AlertMonsters();
 		A_SetPitch(pitch+frandom(-1,0),SPF_INTERPOLATE);

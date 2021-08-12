@@ -9,7 +9,7 @@ class LaserDot:Actor{
 	}
 }
 
-class GuidedRocketLauncher:MyWeapon{
+class GuidedRocketLauncher : ModWeaponBase {
 	bool laserenabled;
 	Default{
 		Tag "Laser-Guided Rocket Launcher";

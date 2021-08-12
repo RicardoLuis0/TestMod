@@ -1,4 +1,4 @@
-class HeavyClipCasing : Casing {
+class HeavyClipCasing : CasingBase {
 	Default {
 		Scale 0.10;
 	}
@@ -27,7 +27,7 @@ class PiercingPuff : BulletPuff {
 	}
 }
 
-class AssaultRifle : MyWeapon {
+class AssaultRifle : ModWeaponBase {
 	bool loaded;
 	int firemode;//0=single,1=auto
 	int dmg;
@@ -147,7 +147,7 @@ class AssaultRifle : MyWeapon {
 			}
 		}
 		if(!invoker.loaded){
-			return P_Call2("bolt","ready");
+			return P_CallJmp("bolt","ready");
 		}
 		A_GunFlash();
 		Actor c=A_FireProjectile("HeavyClipCasing",random(-80, -100),false,2,4-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
@@ -159,13 +159,7 @@ class AssaultRifle : MyWeapon {
 			[sx,sy]=W_CalcSpreadXY(0,15);
 		}
 		
-		if(player.refire==0){
-			player.refire=1;
-			W_FireBullets(sx,sy,1,invoker.dmg,"PiercingPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
-			player.refire=1;
-		}else{
-			W_FireBullets(sx,sy,1,invoker.dmg,"PiercingPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
-		}
+		W_FireBullets(sx,sy,1,invoker.dmg,"PiercingPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
 		A_Recoil(0.5);
 		A_AlertMonsters();
 		A_StartSound("weapons/ar_fire",CHAN_AUTO);
@@ -205,7 +199,7 @@ class AssaultRifle : MyWeapon {
 	}
 	action State A_PostReloadGun(){
 		if(!invoker.loaded){
-			return P_Call2("bolt","ready");
+			return P_CallJmp("bolt","ready");
 		}
 		return ResolveState("ready");
 	}

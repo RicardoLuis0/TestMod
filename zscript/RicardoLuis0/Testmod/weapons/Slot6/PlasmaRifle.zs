@@ -1,4 +1,4 @@
-class MyPlasmaRifle : MyWeapon {
+class MyPlasmaRifle : ModWeaponBase {
 	const LAYER = 9999;
 	int heat;
 	int heatmax;

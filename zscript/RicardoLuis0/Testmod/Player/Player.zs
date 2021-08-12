@@ -51,8 +51,8 @@ class TestModPlayer : PlayerPawn{
 		}else{
 			InertiaTick();
 			LookPosTick();
-			if(player.ReadyWeapon is "MyWeapon"){
-				MyWeapon(player.ReadyWeapon).ReadyTick();
+			if(player.ReadyWeapon is "ModWeaponBase"){
+				ModWeaponBase(player.ReadyWeapon).ReadyTick();
 			}
 		}
 	}

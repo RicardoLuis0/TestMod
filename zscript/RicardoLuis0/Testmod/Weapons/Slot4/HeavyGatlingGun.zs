@@ -1,4 +1,4 @@
-class HeavyGatlingGun:MyWeapon{
+class HeavyGatlingGun : ModWeaponBase {
 	bool spinning;
 	Default{
 		Tag "Heavy Gatling Gun";
@@ -105,12 +105,9 @@ class HeavyGatlingGun:MyWeapon{
 			return ResolveState("noammo");
 		}
 		A_GunFlash();
-		int refire=player.refire;
-		if(refire<=0)player.refire=1;
 		Actor c=A_FireProjectile("HeavyClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		W_FireBullets(2,1,1,16,"PiercingPuff");
-		player.refire=refire;
 		A_Recoil(1.5);
 		A_AlertMonsters();
 		A_SetPitch(pitch+frandom(-2,0),SPF_INTERPOLATE);

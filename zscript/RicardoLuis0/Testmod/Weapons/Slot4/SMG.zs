@@ -11,7 +11,7 @@ class SMGAmmo : Ammo{
 	}
 }
 
-class SMG : MyWeapon {
+class SMG : ModWeaponBase {
 	Default {
 		Tag "SMG";
 		Weapon.SlotNumber 4;
@@ -66,6 +66,7 @@ class SMG : MyWeapon {
 			Goto Ready;
 		Reload:
 			TNT1 A 0 {
+				player.refire=0;
 				if(CountInv("SMGAmmo")==46){
 					return ResolveState("NoAmmo");
 				}else if(CountInv("LightClip")==0){
@@ -105,13 +106,7 @@ class SMG : MyWeapon {
 		Actor c=A_FireProjectile("FastLightClipCasing",random(-80, -100),false,2,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		double sx,sy;
-		[sx,sy]=W_CalcSpreadXY(1,5,0.5,0.25);
-		if(player.refire==0){
-			player.refire=1;
-			W_FireBullets(sx,sy,1,4,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
-			player.refire=1;
-		}else{
-			W_FireBullets(sx,sy,1,4,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
-		}
+		[sx,sy]=W_CalcSpreadXY(0.25,8,0.25,0.75);
+		W_FireBullets(sx,sy,1,4,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
 	}
 }

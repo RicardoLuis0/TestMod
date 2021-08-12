@@ -1,4 +1,4 @@
-class ShellCasing : Casing {
+class ShellCasing : CasingBase {
 	Default {
 		Scale 0.10;
 	}
@@ -21,7 +21,7 @@ class PumpLoaded : Ammo{
 	}
 }
 
-class PumpShotgun : MyWeapon {
+class PumpShotgun : ModWeaponBase {
 	int pellets;
 	int dmg;
 	bool firecasing;
@@ -86,16 +86,29 @@ class PumpShotgun : MyWeapon {
 			goto lightdone;
 		reload:
 			0SGG A 0 A_ReloadStart;
-		reloadm:
-			0SGG A 2 A_WeaponOffset(7,43,WOF_INTERPOLATE);
-			0SGG A 2 A_WeaponOffset(14,54,WOF_INTERPOLATE);
+			0SGG A 0 PollInterruptReload;
+			0SGG A 1 A_WeaponOffset(7,43,WOF_INTERPOLATE);
+			0SGG A 1 PollInterruptReload;
+			0SGG A 0 PollInterruptReload;
+			0SGG A 1 A_WeaponOffset(14,54,WOF_INTERPOLATE);
+			0SGG A 1 PollInterruptReload;
 		reloadloop:
 			0SGG A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			0SGG A 0 A_ReloadMid;
-			0SGG A 4 A_WeaponOffset(28,66,WOF_INTERPOLATE);
+			0SGG A 0 PollInterruptReload;
+			0SGG A 1 A_WeaponOffset(28,66,WOF_INTERPOLATE);
+			0SGG A 1 PollInterruptReload;
+			0SGG A 1 PollInterruptReload;
+			0SGG A 1 PollInterruptReload;
 			0SGG A 0 A_StartSound("weapons/sshotl",CHAN_AUTO);
-			0SGG A 4 A_WeaponOffset(28,77,WOF_INTERPOLATE);
-			0SGG A 2 A_WeaponOffset(28,66,WOF_INTERPOLATE);
+			0SGG A 0 PollInterruptReload;
+			0SGG A 1 A_WeaponOffset(28,77,WOF_INTERPOLATE);
+			0SGG A 1 PollInterruptReload;
+			0SGG A 1 PollInterruptReload;
+			0SGG A 1 PollInterruptReload;
+			0SGG A 0 PollInterruptReload;
+			0SGG A 1 A_WeaponOffset(28,66,WOF_INTERPOLATE);
+			0SGG A 1 PollInterruptReload;
 			0SGG A 0 A_ReloadEnd;
 			0SGG A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			loop;
@@ -104,6 +117,9 @@ class PumpShotgun : MyWeapon {
 			0SGG A 2 A_WeaponOffset(7,43,WOF_INTERPOLATE);
 			0SGG A 2 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			0SGG A 0 P_Return;
+			goto ready;
+		firecheck:
+			0SGG A 0 CheckFire("fire");
 			goto ready;
 		pump:
 			0SGG A 5;
@@ -164,32 +180,13 @@ class PumpShotgun : MyWeapon {
 		}
 	}
 
-	action State A_FirePumpQuick(){
-		if(CountInv("PumpLoaded")==0){
-			if(CountInv("Shell")==0){
-				return ResolveState("noammo");
-			}else{
-				return ResolveState("reload");
-			}
-		}
-		A_AlertMonsters();
-		A_TakeInventory("PumpLoaded",1);
-		A_Recoil(2.0);
-		W_FireBullets(8,8,invoker.pellets,invoker.dmg,"BulletPuff");
-		Actor c=A_FireProjectile("ShellCasing",random(-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
-		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-		A_SetPitch(pitch+frandom(-3,0),SPF_INTERPOLATE);
-		A_SetAngle(angle+frandom(-3,3),SPF_INTERPOLATE);
-		A_StartSound("weapons/shotgun_fire",CHAN_AUTO,CHANF_DEFAULT,0.5);
-		return ResolveState(null);
-	}
-
 	action State A_ReloadStart(){
+		InitInterruptReload();
 		if(CountInv("PumpLoaded")>=9||CountInv("Shell")==0){
 			return ResolveState("ready");
 		}
 		if(CountInv("PumpLoaded")>0){
-			return checkfire("fire");
+			return CheckFire("fire");
 		}
 		return ResolveState(null);
 	}
@@ -200,10 +197,10 @@ class PumpShotgun : MyWeapon {
 			return ResolveState(null);
 		}
 		if(CountInv("PumpLoaded")>=9||CountInv("Shell")==0){
-			return P_Call2("reloadstop","ready");
+			return P_CallJmp("reloadstop","ready");
 		}
 		if(CountInv("PumpLoaded")>0){
-			return checkfire("fire");
+			return InterruptReload();
 		}
 		return ResolveState(null);
 	}
@@ -211,7 +208,27 @@ class PumpShotgun : MyWeapon {
 	action State A_ReloadEnd(){
 		A_TakeInventory("Shell",1);
 		A_GiveInventory("PumpLoaded",1);
-		if(CountInv("PumpLoaded")==1) return P_Call2("reloadstop",P_CallSL2("pump","reload"));
+		if(CountInv("PumpLoaded")==1) return P_CallJmp("reloadstop",P_CallSLJmp("pump","reload"));
+		return InterruptReload();
+	}
+	
+	bool do_interrupt;
+	
+	action void InitInterruptReload(){
+		invoker.do_interrupt=false;
+	}
+	
+	action void PollInterruptReload(){
+		if(iCheckFire()>0){
+			invoker.do_interrupt=true;
+		}
+	}
+	
+	action state InterruptReload(){
+		if(invoker.do_interrupt||iCheckFire()>0){
+			return P_CallJmp("reloadstop","firecheck");
+		}
 		return ResolveState(null);
 	}
+	
 }

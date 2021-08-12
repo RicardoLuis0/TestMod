@@ -5,7 +5,7 @@ class SSGLoaded : Ammo{
 	}
 }
 
-class SSG : MyWeapon {
+class SSG : ModWeaponBase {
 	bool fireright;
 	int pellets;
 	int dmg;

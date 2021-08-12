@@ -1,4 +1,4 @@
-class LightClipCasing : Casing {
+class LightClipCasing : CasingBase {
 	Default {
 		Speed 2;
 		Scale 0.05;
@@ -22,7 +22,7 @@ class MyPistolClip : Ammo{
 	}
 }
 
-class MyPistol : MyWeapon{
+class MyPistol : ModWeaponBase {
 	bool partial;
 	Default{
 		Tag "Pistol";
