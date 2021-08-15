@@ -6,8 +6,8 @@ class HeavyGatlingGun : ModWeaponBase {
 		Weapon.SlotPriority 0.5;
 		Weapon.AmmoType1 "HeavyClip";
 		Weapon.AmmoType2 "HeavyClip";
-		Weapon.AmmoUse1 1;
-		Weapon.AmmoUse2 1;
+		Weapon.AmmoUse1 2;
+		Weapon.AmmoUse2 2;
 		Weapon.AmmoGive1 20;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
@@ -47,12 +47,16 @@ class HeavyGatlingGun : ModWeaponBase {
 		firespin:
 			TNT1 A 0 {
 				invoker.spinning=true;
-				if(CountInv("HeavyClip")==0)return ResolveState("idlespin");
+				if(CountInv("HeavyClip")<2)return ResolveState("idlespin_clearrefire");
 				return ResolveState(null);
 			}
 			DGTF A 1 Bright A_FireGun;
 			DGTF B 1 Bright;
 			goto idlespin2;
+		idlespin_clearrefire:
+			TNT1 A 0 {
+				player.refire=0;
+			}
 		idlespin:
 			TNT1 A 0 {
 				invoker.spinning=true;
@@ -62,20 +66,23 @@ class HeavyGatlingGun : ModWeaponBase {
 			DGTG B 2;
 			DGTG C 2;
 			DGTG D 2;
-			DGTG A 0 CheckFire("firespin","idlespin","spin1down");
+			DGTG A 0 CheckFire("firespin","idlespin_clearrefire","spin1down");
 			goto ready;
 		spin1up:
 			DGTG A 4;
 			DGTG B 4;
 			DGTG C 3;
 			DGTG D 3;
-			DGTG A 0 CheckFire("firespin","idlespin","spin1down");
+			DGTG A 0 CheckFire("firespin","idlespin_clearrefire","spin1down");
 		spin1down:
+			TNT1 A 0 {
+				player.refire=0;
+			}
 			DGTG A 3;
 			DGTG B 3;
 			DGTG C 4;
 			DGTG D 4;
-			DGTG A 0 CheckFire("firespin","idlespin","spin2down");
+			DGTG A 0 CheckFire("firespin","idlespin_clearrefire","spin2down");
 		fire:
 		altfire:
 		spin2up:
@@ -89,6 +96,9 @@ class HeavyGatlingGun : ModWeaponBase {
 			DGTG D 4;
 			DGTG A 0 CheckFire("spin1up","spin1up","spin2down");
 		spin2down:
+			TNT1 A 0 {
+				player.refire=0;
+			}
 			DGTG A 0 A_StopSound(CHAN_7);
 			DGTG A 0 A_StartSound("weapons/gatlingwinddown",CHAN_6,CHANF_DEFAULT,3);
 			DGTG A 4;
@@ -107,8 +117,9 @@ class HeavyGatlingGun : ModWeaponBase {
 		A_GunFlash();
 		Actor c=A_FireProjectile("HeavyClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-		W_FireBullets(2,1,1,16,"PiercingPuff");
-		A_Recoil(1.5);
+		W_FireBulletsSpreadXY(0.5,8,1,20,"PiercingPuff",FBF_USEAMMO,refire_rate:0.5,refire_max:0.25);
+		player.refire++;
+		A_Recoil(2.5);
 		A_AlertMonsters();
 		A_SetPitch(pitch+frandom(-2,0),SPF_INTERPOLATE);
 		A_StartSound("weapons/gatlingfire",CHAN_AUTO);

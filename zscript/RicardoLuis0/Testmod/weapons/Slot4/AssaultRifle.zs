@@ -30,7 +30,6 @@ class PiercingPuff : BulletPuff {
 class AssaultRifle : ModWeaponBase {
 	bool loaded;
 	int firemode;//0=single,1=auto
-	int dmg;
 	Default{
 		Tag "Assault Rifle";
 		Weapon.SlotNumber 4;
@@ -50,7 +49,6 @@ class AssaultRifle : ModWeaponBase {
 		firemode=1;
 		crosshair=20;
 		loaded=true;
-		dmg=10;
 	}
 	States{
 		ready:
@@ -159,7 +157,7 @@ class AssaultRifle : ModWeaponBase {
 			[sx,sy]=W_CalcSpreadXY(0,15);
 		}
 		
-		W_FireBullets(sx,sy,1,invoker.dmg,"PiercingPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
+		W_FireBullets(sx,sy,1,12,"PiercingPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
 		A_Recoil(0.5);
 		A_AlertMonsters();
 		A_StartSound("weapons/ar_fire",CHAN_AUTO);

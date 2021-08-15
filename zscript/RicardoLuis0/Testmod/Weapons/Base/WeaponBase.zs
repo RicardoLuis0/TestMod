@@ -27,7 +27,7 @@ class ModWeaponBase : Weapon {
 		if(player.refire==0){
 			player.refire=1;
 			W_FireBullets(spread_horiz,spread_vert,count,dmg,puff,flags,range,missile,vert_offset,horiz_offset);
-			player.refire=1;
+			player.refire=0;
 		}else if(flags&FBF_NORANDOM){
 			A_FireBullets(spread_horiz,spread_vert,count,dmg,puff,flags,range,missile,vert_offset,horiz_offset);
 		}else{

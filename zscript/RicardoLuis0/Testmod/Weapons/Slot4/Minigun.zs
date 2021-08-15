@@ -12,6 +12,7 @@ class Minigun : HeavyGatlingGun {
 		ready:
 			PKCG A 1 {
 				invoker.spinning=false;
+				player.refire=0;
 				A_WeaponReady();
 			}
 			loop;
@@ -30,7 +31,7 @@ class Minigun : HeavyGatlingGun {
 				invoker.spinning=true;
 				A_StopSound(CHAN_6);
 				A_StartSound("weapons/minigunspin",CHAN_7,CHANF_LOOPING,0.2);
-				if(CountInv("LightClip")==0)return ResolveState("idlespin");
+				if(CountInv("LightClip")==0)return ResolveState("idlespin_clearrefire");
 				return ResolveState(null);
 			}
 			PKCG A 0 A_Jump(128,"firespin2");
@@ -39,6 +40,10 @@ class Minigun : HeavyGatlingGun {
 		firespin2:
 			PKCF B 1 Bright A_FireGun;
 			goto idlespin2fire;
+		idlespin_clearrefire:
+			TNT1 A 0 {
+				player.refire=0;
+			}
 		idlespin:
 			TNT1 A 0 {
 				invoker.spinning=true;
@@ -48,11 +53,11 @@ class Minigun : HeavyGatlingGun {
 			PKCG A 1;
 		idlespin2:
 			PKCG C 1;
-			PKCG A 0 CheckFire("firespin","idlespin","spin1down");
+			PKCG A 0 CheckFire("firespin","idlespin_clearrefire","spin1down");
 			goto ready;
 		idlespin2fire:
 			PKCG C 1 Bright;
-			PKCG A 0 CheckFire("firespin","idlespin","spin1down");
+			PKCG A 0 CheckFire("firespin","idlespin_clearrefire","spin1down");
 			goto ready;
 		spin1up:
 			TNT1 A 0 A_StartSound("weapons/minigunwindup",CHAN_6,CHANF_NOSTOP,0.2);
@@ -60,15 +65,18 @@ class Minigun : HeavyGatlingGun {
 			PKCG B 2;
 			PKCG C 1;
 			PKCG D 1;
-			PKCG A 0 CheckFire("firespin","idlespin","spin1down");
+			PKCG A 0 CheckFire("firespin","idlespin_clearrefire","spin1down");
 		spin1down:
+			TNT1 A 0 {
+				player.refire=0;
+			}
 			TNT1 A 0 A_StopSound(CHAN_7);
 			TNT1 A 0 A_StartSound("weapons/minigunwinddown",CHAN_6,CHANF_DEFAULT,0.25);
 			PKCG A 1;
 			PKCG B 1;
 			PKCG C 2;
 			PKCG D 2;
-			PKCG A 0 CheckFire("firespin","idlespin","spin2down");
+			PKCG A 0 CheckFire("firespin","idlespin_clearrefire","spin2down");
 		altfire:
 		fire:
 		spin2up:
@@ -79,6 +87,9 @@ class Minigun : HeavyGatlingGun {
 			PKCG D 3;
 			PKCG A 0 CheckFire("spin1up","spin1up","spin2down");
 		spin2down:
+			TNT1 A 0 {
+				player.refire=0;
+			}
 			TNT1 A 0 A_StopSound(CHAN_7);
 			TNT1 A 0 A_StartSound("weapons/minigunwinddown",CHAN_6,CHANF_NOSTOP,0.25);
 			PKCG A 3;
@@ -97,7 +108,9 @@ class Minigun : HeavyGatlingGun {
 		Actor c=A_FireProjectile("LightClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_GunFlash();
-		W_FireBullets(8,5,1,4,"BulletPuff",invoker.tammo?0:FBF_USEAMMO);
+		W_FireBulletsSpreadXY(1.5,20,1,4,"BulletPuff",FBF_USEAMMO,refire_rate:0.25,refire_max:0.5);
+		player.refire++;
+		
 		invoker.tammo=!invoker.tammo;
 		A_Recoil(1);
 		A_AlertMonsters();

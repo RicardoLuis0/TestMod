@@ -193,15 +193,7 @@ class MyPistol : ModWeaponBase {
 		invoker.canrefire=false;
 		Actor c=A_FireProjectile("LightClipCasing",random(-80, -100),false,0,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,45));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-		double sx,sy;
-		[sx,sy]=W_CalcSpreadXY(0.5,5,0.5,0.25);
-		if(player.refire==0){
-			player.refire=1;
-			W_FireBullets(sx,sy,1,5,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
-			player.refire=1;
-		}else{
-			W_FireBullets(sx,sy,1,5,"BulletPuff",FBF_USEAMMO|FBF_EXPLICITANGLE);
-		}
+		W_FireBulletsSpreadXY(0.5,5,1,5,"BulletPuff",FBF_USEAMMO,refire_rate:0.5,refire_max:0.25);
 		A_GunFlash();
 	}
 	action void UpdateRefire(){
