@@ -1,6 +1,5 @@
 #include "zscript/ricardoluis0/testmod/weapons/base/weaponbase.zs"
 #include "zscript/ricardoluis0/testmod/weapons/base/weaponchecks.zs"
-#include "zscript/ricardoluis0/testmod/weapons/base/weaponcalls.zs"
 #include "zscript/ricardoluis0/testmod/weapons/base/weaponpsp.zs"
 #include "zscript/ricardoluis0/testmod/weapons/base/weaponspread.zs"
 #include "zscript/ricardoluis0/testmod/weapons/base/puffbase.zs"

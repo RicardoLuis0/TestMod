@@ -1,4 +1,7 @@
 class TestModPlayer : PlayerPawn{
+	
+	mixin WeaponInertia;
+	
 	Default{
 		Speed 1;
 		Health 100;

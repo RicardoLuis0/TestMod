@@ -1,4 +1,4 @@
-extend class ModWeaponBase {
+mixin class StateCalls {
 	Array<State> call_stack;
 
 	action State P_Call(StateLabel go_to,int layer=PSP_WEAPON){

@@ -1,5 +1,7 @@
 class ModWeaponBase : Weapon {
 	
+	mixin StateCalls;
+	
 	Default{
 		Decal "BulletChip";
 	}

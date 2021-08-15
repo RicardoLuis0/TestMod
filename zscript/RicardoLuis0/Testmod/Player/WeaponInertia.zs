@@ -9,7 +9,7 @@ class InertiaInterpolationData{
 	Vector2 move;
 }
 
-extend class TestModPlayer {
+mixin class WeaponInertia {
 	//config
 	bool weaponinertia_look_impulse;
 	bool weaponinertia_move_impulse;
