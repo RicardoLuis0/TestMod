@@ -23,7 +23,6 @@ class SMG : ModWeaponBase {
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive2 20;
 		Obituary "%o was shot down by %k's SMG.";
-		Inventory.PickupSound "CLIPIN";
 		Inventory.Pickupmessage "You got the SMG!";
 		+WEAPON.NOAUTOAIM;
 		+WEAPON.NOALERT;

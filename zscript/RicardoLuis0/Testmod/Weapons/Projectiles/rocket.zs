@@ -1,7 +1,7 @@
 class MyRocket : Rocket {
 	virtual void RocketExplode(){
 		A_SetRenderStyle(0.75,STYLE_Add);
-		A_Explode();
+		A_Explode(ExplosionDamage,ExplosionRadius,flags:sv_rocket_selfdamage?XF_HURTSOURCE:0);
 		float mod=0.5;
 		int count1=int(5*mod);
 		int count2=int(10*mod);
