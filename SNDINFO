@@ -72,3 +72,7 @@ SSGUNER/sight	DSGPOSIT
 SSGUNER/SSG 	DSSGGATK
 SSGUNER/death	DSGPODTH
 SSGUNER/idle	DSGPOACT
+
+//bfg beep, source: Sonniss GDC Audio Bundle 2015
+
+weapons/bfg/beep "sounds/bfgbeep.wav"
