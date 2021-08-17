@@ -98,21 +98,6 @@ class MyPlasmaRifle : ModWeaponBase {
 			return invoker.fireState;
 		}
 		Goto Ready;
-	ShotgunFire:
-		DPGG A 2 A_FirePShotgun();
-		DPGG B 3 W_SetLayerSprite(LAYER,"PHNB");
-		DPGG A 6 W_SetLayerSprite(LAYER,"PHNA");
-		DPGG A 3 A_Refire("ShotgunFire");
-		DPGG A 0 A_FireEnd();
-		Goto Ready;
-	SFlash1:
-		DPGF A 2 Bright A_Light(2);
-		DPGF B 3 Bright A_Light(1);
-		Goto LightDone;
-	SFlash2:
-		DPGF C 2 Bright A_Light(2);
-		DPGF D 3 Bright A_Light(1);
-		Goto LightDone;
 	AutoFire:
 		DPGG A 1 A_FireGun();
 		DPGG B 1 W_SetLayerSprite(LAYER,"PHNB");
@@ -140,18 +125,12 @@ class MyPlasmaRifle : ModWeaponBase {
 		}
 		DPGF A 5 Bright;
 		DPGF C 5 Bright;
-		DPGF C 0 {
-			return CheckFire(null,"Ready");
-		}
+		DPGF A 5 Bright;
+		DPGF C 5 Bright;
 		DPGF A 5 Bright;
 		DPGF C 5 Bright;
 		DPGF C 0 {
-			return CheckFire(null,"Ready");
-		}
-		DPGF A 5 Bright;
-		DPGF C 5 Bright;
-		DPGF C 0 {
-			return CheckFire(null,"Ready");
+			return CheckFire(null,"LauncherFireStop","LauncherFireStop");
 		}
 		DPGF B 0 W_SetLayerSprite(LAYER,"PHNB");
 	LauncherFireLoop1:
@@ -167,29 +146,6 @@ class MyPlasmaRifle : ModWeaponBase {
 			invoker.altloop=20;
 		}
 	LauncherFireLoop2:
-		DPGG C 1 {
-			A_WeaponOffset(0,32+invoker.altloop,WOF_INTERPOLATE);
-			if(invoker.altloop==0){
-				invoker.firing=false;
-				return ResolveState("OverheatUp");
-			}else{
-				if(invoker.altloop==9){
-					A_StartSound("weapons/overheat",CHAN_AUTO);
-				}
-				invoker.altloop--;
-			}
-			return ResolveState(null);
-		}
-		Loop;
-	RailFire:
-		DPGF C 0 A_FirePRail;
-		DPGG C 5 A_WeaponOffset(0,52,WOF_INTERPOLATE);
-		DPGG C 0 {
-			A_SetBlend("AliceBlue",.5,10);
-			invoker.altloop=20;
-		}
-		//A_RailAttack
-	RailFireLoop:
 		DPGG C 1 {
 			A_WeaponOffset(0,32+invoker.altloop,WOF_INTERPOLATE);
 			if(invoker.altloop==0){
@@ -262,7 +218,7 @@ class MyPlasmaRifle : ModWeaponBase {
 	override void BeginPlay(){
 		super.BeginPlay();
 		firemode=0;
-		firemodemax=3;
+		firemodemax=1;
 		crosshair=20;
 		heat=0;
 		heatdown=1;
@@ -286,29 +242,14 @@ class MyPlasmaRifle : ModWeaponBase {
 			invoker.fireState=ResolveState("AutoFire");
 			invoker.ammouse1=1;
 			break;
-		case 1://shotgun mode
-			if(showmessage)A_Print("Shotgun Mode");
-			invoker.heatdownoverheat=20;
-			invoker.heatdownreload=30;
-			invoker.heatup=50;
-			invoker.fireState=ResolveState("ShotgunFire");
-			invoker.ammouse1=5;
-			break;
-		case 2://launcher mode
+		case 1://launcher mode
 			if(showmessage)A_Print("Launcher Mode");
 			invoker.heatup=invoker.heatmax;
 			invoker.heatdownoverheat=10;
 			invoker.heatdownreload=30;
 			invoker.fireState=ResolveState("LauncherFire");
-			invoker.ammouse1=25;
+			invoker.ammouse1=15;
 			break;
-		case 3://railgun mode
-			if(showmessage)A_Print("Railgun Mode");
-			invoker.heatup=invoker.heatmax;
-			invoker.heatdownoverheat=30;
-			invoker.heatdownreload=30;
-			invoker.fireState=ResolveState("RailFire");
-			invoker.ammouse1=50;
 		}
 	}
 
@@ -363,28 +304,6 @@ class MyPlasmaRifle : ModWeaponBase {
 		return ResolveState(null);
 	}
 
-	action State A_FirePShotgun(){
-		if(invoker.overheat){
-			invoker.firing=false;
-			return ResolveState("OverheatStart");
-		}else if(CountInv("Cell")<5){
-			invoker.firing=false;
-			return ResolveState("NoAmmo");
-		}
-		invoker.firing=true;
-		invoker.HeatPlus();
-		A_AlertMonsters();
-		A_FireProjectile("PlasmaShot01",frandom(-3,3),true,pitch:frandom(-3,3));
-		for(int i=0;i<7;i++) A_FireProjectile("PlasmaShot01Silent",frandom(-3,3),false,pitch:frandom(-3,3));
-		A_Recoil(5);
-		if(random(0,1)) {
-			A_GunFlash("Flash1");
-		} else {
-			A_GunFlash("Flash2");
-		}
-		return ResolveState(null);
-	}
-
 	action void A_FirePLauncher(){
 		A_SetBlend("LightSlateBlue",1,5);
 		invoker.firing=true;
@@ -392,17 +311,6 @@ class MyPlasmaRifle : ModWeaponBase {
 		A_FireProjectile("SuperPlasmaBall",0);
 		A_SetPitch(pitch+random(-10,0));
 		A_Recoil(10);
-		A_Overheat();
-		W_SetLayerSprite(LAYER,"PHOC");
-	}
-
-	action void A_FirePRail(){
-		A_SetBlend("LightSlateBlue",1,5);
-		invoker.firing=true;
-		A_AlertMonsters();
-		A_RailAttack(500,0,true,"Cyan","Blue",RGF_FULLBRIGHT,0,"",0,0,0,0,1,0,"PlasmaRailTrail");
-		A_SetPitch(pitch+random(-10,0));
-		A_Recoil(15);
 		A_Overheat();
 		W_SetLayerSprite(LAYER,"PHOC");
 	}

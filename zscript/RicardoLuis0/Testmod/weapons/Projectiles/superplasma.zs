@@ -3,7 +3,7 @@ class superplasmaball : Actor {
 		Radius 13;
 		Height 8;
 		Speed 25;
-		Damage 150;
+		Damage 50;
 		Projectile;
 		+RANDOMIZE;
 		+ZDOOMTRANS;
@@ -22,7 +22,7 @@ class superplasmaball : Actor {
 		Loop;
 	Death:
 		TNT1 A 0 A_NoGravity;
-		PED1 A 0 A_Explode(150,250,XF_HURTSOURCE,true,25);
+		PED1 A 0 A_Explode(100,250,sv_rocket_selfdamage?XF_HURTSOURCE:0,true,25);
 		PED1 AB 8 Bright;
 		PED1 C 8 Bright;
 		PED1 DEF 8 Bright;
