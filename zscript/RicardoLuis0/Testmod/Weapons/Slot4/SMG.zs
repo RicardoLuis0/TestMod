@@ -105,5 +105,6 @@ class SMG : ModWeaponBase {
 		Actor c=A_FireProjectile("FastLightClipCasing",random(-80, -100),false,2,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		W_FireBulletsSpreadXY(0.25,8,1,4,"BulletPuff",FBF_USEAMMO,refire_rate:0.25,refire_max:0.75);
+		A_Recoil(0.25);
 	}
 }
