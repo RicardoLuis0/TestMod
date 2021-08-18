@@ -1,10 +1,3 @@
-
-class BFGCharge : Ammo {
-	Default {
-		Inventory.MaxAmount 5;
-	}
-}
-
 class BFG : ModWeaponBase {
 	const LAYER_LIGHT_1_TIMER = 10001;
 	const LAYER_LIGHT_2_TIMER = 10000;
@@ -21,17 +14,21 @@ class BFG : ModWeaponBase {
 	Default {
 		Tag "BFG";
 		Weapon.SlotNumber 7;
-		Weapon.AmmoType1 "BFGCharge";
-		Weapon.AmmoType2 "Cell";
-		Weapon.AmmoUse1 1;
-		Weapon.AmmoGive2 150;
+		Weapon.AmmoType1 "Cell";
+		Weapon.AmmoUse1 40;
+		Weapon.AmmoGive1 120;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 	}
 	
 	override void ReadyTick(){
-		if(owner&&init&&owner.CountInv("BFGCharge")!=ammo_display){
-			ammo_display=owner.CountInv("BFGCharge");
+		int new_count=0;
+		let iammo=owner.FindInventory(ammotype1);
+		if(iammo&&iammo.amount>ammouse1){
+			new_count=ceil(iammo.amount/double(iammo.maxAmount)*5);
+		}
+		if(init&&new_count!=ammo_display){
+			ammo_display=new_count;
 			SetLayerFrame(LAYER_DISPLAY,ammo_display+(large?8:0));
 		}
 	}
@@ -48,8 +45,7 @@ class BFG : ModWeaponBase {
 		stop;
 	Select:
 		BFGS A 0 {
-			console.printf("bfg_select");
-			A_Overlay(LAYER_LIGHT_1_TIMER,"Light1Timer");
+			A_Overlay(LAYER_LIGHT_1_TIMER,"Light1TimerStart");
 			A_Overlay(LAYER_LIGHT_2_TIMER,"Light2Timer");
 			A_Overlay(LAYER_LIGHT_1,"Light1Overlay");
 			A_Overlay(LAYER_LIGHT_2,"Light2Overlay");
@@ -62,11 +58,13 @@ class BFG : ModWeaponBase {
 		}
 		BFGS A 1 A_Raise();
 		wait;
+	Light1TimerStart:
+		TNT1 A 2;
 	Light1Timer:
 		TNT1 A 0 {
-			if(CountInv("BFGCharge")==0){
+			if(invoker.ammo_display==0){
 				return ResolveState("Light1TimerCritical");
-			}else if(CountInv("BFGCharge")>1){
+			}else if(invoker.ammo_display>1){
 				return ResolveState("Light1TimerOff");
 			}else{
 				return ResolveState("Light1TimerOn");
@@ -75,19 +73,19 @@ class BFG : ModWeaponBase {
 	Light1TimerCritical:
 		TNT1 A 8 {
 			A_Light1On();
-			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.25,ATTN_NONE,1.0);
+			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.20,ATTN_NONE,1.0);
 		}
 		TNT1 A 4 A_Light1Off;
 		TNT1 A 8 {
 			A_Light1On();
-			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.25,ATTN_NONE,1.0);
+			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.20,ATTN_NONE,1.0);
 		}
 		TNT1 A 15 A_Light1Off;
 		goto Light1TimerOff;
 	Light1TimerOn:
 		TNT1 A 8 {
 			A_Light1On();
-			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.5,ATTN_NONE,1.0);
+			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.20,ATTN_NONE,1.0);
 		}
 		TNT1 A 15 A_Light1Off;
 	Light1TimerOff:
@@ -95,7 +93,7 @@ class BFG : ModWeaponBase {
 		goto Light1Timer;
 	Light2Timer:
 		TNT1 A 0 {
-			if(CountInv("BFGCharge")==0){
+			if(invoker.ammo_display==0){
 				return ResolveState("Light2TimerOff");
 			}else{
 				return ResolveState(null);
@@ -117,7 +115,7 @@ class BFG : ModWeaponBase {
 		stop;
 	Fire:
 		TNT1 A 0 {
-			if(CountInv("BFGCharge")==0){
+			if(CountInv(invoker.ammotype1)<invoker.ammouse1){
 				return ResolveState("ready");
 			}else{
 				return ResolveState(null);
@@ -125,17 +123,17 @@ class BFG : ModWeaponBase {
 		}
 		TNT1 A 0 A_GunFlash;
 	FireCharge:
-		BFGS A 8;
+		BFGS A 8 BRIGHT ;
 		TNT1 A 0 CheckFire(null,null,"FireUncharge");
 	FireLoop:
-		BFGS AAAAAA 4 CheckFire(null,null,"FireFire");
+		BFGS AAAAAA 4 BRIGHT CheckFire(null,null,"FireFire");
 		TNT1 A 0 CheckFire("FireLoop");
 	FireFire:
 		TNT1 A 0 {
 			A_WeaponOffset(0,52,WOF_INTERPOLATE);
 			A_BFGFire();
 		}
-		BFGL A 12 A_Large;
+		BFGL A 12 BRIGHT A_Large;
 		TNT1 A 0 A_Small;
 		BFGL A 1 A_WeaponOffset(0,48,WOF_INTERPOLATE);
 		BFGL A 1 A_WeaponOffset(0,44,WOF_INTERPOLATE);
@@ -144,21 +142,21 @@ class BFG : ModWeaponBase {
 		BFGL A 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 		goto ready;
 	FireUncharge:
-		BFGS A 8;
+		BFGS A 8 BRIGHT;
 		TNT1 A 0 CheckFire("FireCharge");
 		goto ready;
 	Flash:
-		BFGC ABCD 2;
+		BFGC ABCD 2 BRIGHT;
 		TNT1 A 0 CheckFire(null,null,"FlashUncharge");
 	FlashLoop:
-		BFGR ABCDEF 4 CheckFire(null,null,"FlashFire");
+		BFGR ABCDEF 4 BRIGHT CheckFire(null,null,"FlashFire");
 		TNT1 A 0 CheckFire("FlashLoop");
 	FlashFire:
-		BFGF AB 4;
+		BFGF AB 4 BRIGHT;
 		stop;
 		BFGO ABCDEFGHIJKLMNOP 0;
 	FlashUncharge:
-		BFGC DCBA 2;
+		BFGC DCBA 2 BRIGHT;
 		TNT1 A 0 CheckFire("Flash");
 		stop;
 	}
@@ -212,5 +210,7 @@ class BFG : ModWeaponBase {
 		A_SetBlend("GreenYellow",.75,10);
 		A_FireBFG();
 		A_Recoil(10);
+		A_AlertMonsters();
+		A_SetPitch(pitch+frandom(-10,-5));
 	}
 }
