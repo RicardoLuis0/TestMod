@@ -1,0 +1,5 @@
+improve smg/pistol sounds
+improve plasma gun sprites
+add sounds to plasma gun launcher mode
+add sounds to bfg
+???
