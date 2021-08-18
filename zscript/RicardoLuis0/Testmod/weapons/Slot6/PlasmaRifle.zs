@@ -295,7 +295,8 @@ class MyPlasmaRifle : ModWeaponBase {
 		invoker.HeatPlus();
 		A_AlertMonsters();
 		A_FireProjectile("PlasmaShot01",frandom(-1,1),pitch:frandom(-1,1));
-		A_Recoil(1);
+		A_SetPitch(pitch+frandom(-1,0));
+		A_Recoil(0.5);
 		if(random(0,1)) {
 			A_GunFlash("Flash1");
 		} else {
@@ -309,7 +310,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		invoker.firing=true;
 		A_AlertMonsters();
 		A_FireProjectile("SuperPlasmaBall",0);
-		A_SetPitch(pitch+random(-10,0));
+		A_SetPitch(pitch+frandom(-10,-5));
 		A_Recoil(10);
 		A_Overheat();
 		W_SetLayerSprite(LAYER,"PHOC");
