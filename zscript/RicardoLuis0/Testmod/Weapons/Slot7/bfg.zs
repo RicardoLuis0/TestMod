@@ -73,19 +73,19 @@ class BFG : ModWeaponBase {
 	Light1TimerCritical:
 		TNT1 A 8 {
 			A_Light1On();
-			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.30,ATTN_NONE,1.0);
+			A_StartSound("weapons/bfg/beep",CHAN_AUTO,CHANF_LOCAL,0.30,ATTN_NONE,1.0);
 		}
 		TNT1 A 4 A_Light1Off;
 		TNT1 A 8 {
 			A_Light1On();
-			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.30,ATTN_NONE,1.0);
+			A_StartSound("weapons/bfg/beep",CHAN_AUTO,CHANF_LOCAL,0.30,ATTN_NONE,1.0);
 		}
 		TNT1 A 15 A_Light1Off;
 		goto Light1TimerOff;
 	Light1TimerOn:
 		TNT1 A 8 {
 			A_Light1On();
-			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.30,ATTN_NONE,1.0);
+			A_StartSound("weapons/bfg/beep",CHAN_AUTO,CHANF_LOCAL,0.30,ATTN_NONE,1.0);
 		}
 		TNT1 A 15 A_Light1Off;
 	Light1TimerOff:
@@ -208,6 +208,7 @@ class BFG : ModWeaponBase {
 	
 	action void A_BFGFire(){
 		A_SetBlend("GreenYellow",.75,10);
+		A_StartSound("weapons/bfg/fire",CHAN_AUTO);
 		A_FireBFG();
 		A_Recoil(10);
 		A_AlertMonsters();

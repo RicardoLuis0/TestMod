@@ -76,3 +76,6 @@ SSGUNER/idle	DSGPOACT
 //bfg beep, source: Sonniss GDC Audio Bundle 2015
 
 weapons/bfg/beep "sounds/bfgbeep.wav"
+
+//bfg fire, source: Sonniss GDC Audio Bundle 2016
+weapons/bfg/fire "sounds/bfgfire.wav"
