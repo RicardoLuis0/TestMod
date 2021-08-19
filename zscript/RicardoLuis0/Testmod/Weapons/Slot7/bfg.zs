@@ -134,12 +134,12 @@ class BFG : ModWeaponBase {
 			A_BFGFire();
 		}
 		BFGL A 12 BRIGHT A_Large;
-		TNT1 A 0 A_Small;
 		BFGL A 1 A_WeaponOffset(0,48,WOF_INTERPOLATE);
 		BFGL A 1 A_WeaponOffset(0,44,WOF_INTERPOLATE);
 		BFGL A 1 A_WeaponOffset(0,40,WOF_INTERPOLATE);
 		BFGL A 1 A_WeaponOffset(0,36,WOF_INTERPOLATE);
 		BFGL A 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		TNT1 A 0 A_Small;
 		goto ready;
 	FireUncharge:
 		BFGS A 8 BRIGHT;
