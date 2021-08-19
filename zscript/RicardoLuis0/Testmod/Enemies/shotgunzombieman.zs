@@ -1,4 +1,8 @@
-
+class SSGZombieAmmoDrop : Shell {
+	Default {
+		Inventory.Amount 8;//double the value to account for drops halving ammo amount
+	}
+}
 
 class ShotgunZombieManSpawner : RandomSpawner replaces ShotgunGuy {
 	Default {
@@ -12,10 +16,23 @@ class ShotgunZombieManSpawner : RandomSpawner replaces ShotgunGuy {
 	}
 }
 
-Class ShotgunZombieMan : ShotgunGuy {
+class ShotgunZombieMan : ShotgunGuy {
 }
 
-Class SSGZombieMan : Actor {
+class MaybeSSG : ThingSpawner {
+
+	override void setDrops(){
+		if(sv_ssg_zombie_drop_ssg){
+			spawnlist.Push(new("BasicThingSpawnerElement").Init("SSG",1,1));
+		}else{
+			spawnlist.Push(new("BasicThingSpawnerElement").Init("SSGZombieAmmoDrop",1,1));
+		}
+	}
+
+}
+
+
+class SSGZombieMan : Actor {
 	Default {
 		Health 80;
 		Radius 20;
@@ -30,8 +47,8 @@ Class SSGZombieMan : Actor {
 		DEATHSOUND "SSGUNER/death";
 		ACTIVESOUND "SSGUNER/idle";
 		OBITUARY "%o was blown open by a SSG Zombie!";
-		DropItem "SSG";
-		DropItem "Shell";
+		DropItem "MaybeSSG";
+		DropItem "SSGZombieAmmoDrop";
 		Decal "Bulletchip";
 		MONSTER;
 		+FloorClip

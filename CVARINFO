@@ -1,5 +1,5 @@
 SERVER FLOAT sv_guided_rocket_max_follow_angle = 45;
-SERVER BOOL sv_ssg_from_shotgun = false;
+SERVER BOOL sv_ssg_zombie_drop_ssg = true;
 SERVER BOOL sv_plasmagun_extrafire = true;
 SERVER INT sv_random_damage_mode = 2;
 SERVER BOOL sv_no_casing_despawn = false;

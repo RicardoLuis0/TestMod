@@ -88,9 +88,6 @@ class PistolSpawner : ThingSpawner replaces Pistol{
 class ShotgunSpawner : ThingSpawner replaces Shotgun{
 	override void setDrops(){
 		spawnlist.Push(BasicThingSpawnerElement.Create("PumpShotgun",1,3));
-		if(sv_ssg_from_shotgun){
-			spawnlist.Push(BasicThingSpawnerElement.Create("SSG",1,1));
-		}
 	}
 }
 
