@@ -6,7 +6,7 @@ class ArmorShard : ArmorBonus {
 		Inventory.PickupSound "pickup/armorshard";
 		Armor.SavePercent 33.335;
 		Armor.Saveamount 5;
-		Armor.MaxSaveAmount 200;
+		Armor.MaxSaveAmount 100;
 		-INVENTORY.ALWAYSPICKUP;
 		-COUNTITEM;
 	}

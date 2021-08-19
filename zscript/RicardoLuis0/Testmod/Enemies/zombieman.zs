@@ -44,6 +44,7 @@ class SMGZombieMan : ZombieMan{
 		PainChance 150;
 		DropItem "SMG";
 		DropItem "SMGZombieManClipDrop";
+		AttackSound "";
 		Tag "$FN_SMGZOMBIE";
 	}
 	States {
@@ -59,8 +60,10 @@ class SMGZombieMan : ZombieMan{
 		MGPO E 8 A_FaceTarget;
 	MissileLoop:
 		MGPO E 0 A_FaceTarget;
-		MGPO F 0 A_StartSound("weapons/pistol_fire",CHAN_AUTO);
-		MGPO F 2 BRIGHT A_CustomBulletAttack(12,0,1,random(1,5),"BulletPuff",0,CBAF_NORANDOM);
+		MGPO F 2 BRIGHT  {
+			A_StartSound("weapons/pistol_fire",CHAN_AUTO,volume:0.5);
+			A_CustomBulletAttack(12,0,1,random(1,5),"BulletPuff",0,CBAF_NORANDOM);
+		}
 		MGPO E 2 A_MonsterRefire(192,"SeeStun");
 		Loop;
 	Pain:
@@ -87,10 +90,11 @@ class SMGZombieMan : ZombieMan{
 		Goto See;
 	}
 }
-class PistolZombieMan : ZombieMan{
+class PistolZombieMan : ZombieMan {
 	Default{
 		DropItem "PistolZombieManClipDrop";
 		DropItem "MyPistol";
+		AttackSound "";
 	}
 	States{
 	Spawn:
@@ -101,7 +105,10 @@ class PistolZombieMan : ZombieMan{
 		Loop;
 	Missile:
 		PPSS E 10 A_FaceTarget;
-		PPSS F 8 A_PosAttack;
+		PPSS F 8 {
+			A_StartSound("weapons/pistol_fire",CHAN_AUTO,volume:0.5);
+			A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"BulletPuff",0,CBAF_NORANDOM);
+		}
 		PPSS E 8;
 		Goto See;
 	Pain:
@@ -134,17 +141,19 @@ class ArmoredRifleZombieMan : ZombieMan{
 		DropItem "RifleZombieManClipDrop";
 		DropItem "AssaultRifle";
 		DropItem "ZombieManArmorDrop";
-		AttackSound "weapons/ar_fire";
+		AttackSound "";
 		Health 60;//has more health
 		PainChance 64;//less stun
 		Tag "$FN_RIFLEZOMBIE";
 	}
 
 	action void A_RPosAttack1(){//attack 1 for possessed riflemen, more accurate
+		A_StartSound("weapons/ar_fire",CHAN_AUTO,volume:0.5);
 		A_CustomBulletAttack (15, 0, 1, random(1,3) * 3, "BulletPuff", 0, CBAF_NORANDOM);
 	}
 
 	action void A_RPosAttack2(){//attack 2 for possessed riflemen, less accurate
+		A_StartSound("weapons/ar_fire",CHAN_AUTO,volume:0.5);
 		A_CustomBulletAttack (30, 0, 1, random(1,3) * 3, "BulletPuff", 0, CBAF_NORANDOM);
 	}
 	
