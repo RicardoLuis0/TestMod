@@ -73,7 +73,13 @@ class Slot6Spawner : ThingSpawner {
 	}
 }
 
-class PistolSpawner:Slot2Spawner replaces Pistol{
+class Slot7Spawner : ThingSpawner {
+	override void setDrops(){
+		spawnlist.Push(BasicThingSpawnerElement.Create("BFG",1,1));
+	}
+}
+
+class PistolSpawner : ThingSpawner replaces Pistol{
 	override void setDrops(){
 		spawnlist.Push(BasicThingSpawnerElement.Create("MyPistol",1,1));
 	}
@@ -114,8 +120,8 @@ class PlasmaRifleSpawner : ThingSpawner replaces PlasmaRifle{
 	}
 }
 
-class BFGSpawner : ThingSpawner /* replaces BFG9000 */ {
+class BFGSpawner : ThingSpawner replaces BFG9000 {
 	override void setDrops(){
-		
+		spawnlist.Push(BasicThingSpawnerElement.Create("BFG",1,1));
 	}
 }

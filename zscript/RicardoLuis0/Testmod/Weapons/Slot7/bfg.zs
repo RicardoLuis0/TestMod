@@ -24,7 +24,7 @@ class BFG : ModWeaponBase {
 	override void ReadyTick(){
 		int new_count=0;
 		let iammo=owner.FindInventory(ammotype1);
-		if(iammo&&iammo.amount>ammouse1){
+		if(iammo&&iammo.amount>=ammouse1){
 			new_count=ceil(iammo.amount/double(iammo.maxAmount)*5);
 		}
 		if(init&&new_count!=ammo_display){
@@ -73,19 +73,19 @@ class BFG : ModWeaponBase {
 	Light1TimerCritical:
 		TNT1 A 8 {
 			A_Light1On();
-			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.20,ATTN_NONE,1.0);
+			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.30,ATTN_NONE,1.0);
 		}
 		TNT1 A 4 A_Light1Off;
 		TNT1 A 8 {
 			A_Light1On();
-			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.20,ATTN_NONE,1.0);
+			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.30,ATTN_NONE,1.0);
 		}
 		TNT1 A 15 A_Light1Off;
 		goto Light1TimerOff;
 	Light1TimerOn:
 		TNT1 A 8 {
 			A_Light1On();
-			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.20,ATTN_NONE,1.0);
+			A_StartSound("weapons/bfg/beep",CHAN_7,CHANF_LOCAL,0.30,ATTN_NONE,1.0);
 		}
 		TNT1 A 15 A_Light1Off;
 	Light1TimerOff:
@@ -124,9 +124,9 @@ class BFG : ModWeaponBase {
 		TNT1 A 0 A_GunFlash;
 	FireCharge:
 		BFGS A 8 BRIGHT ;
-		TNT1 A 0 CheckFire(null,null,"FireUncharge");
+		TNT1 A 0 CheckFire(null,"FireUncharge","FireUncharge");
 	FireLoop:
-		BFGS AAAAAA 4 BRIGHT CheckFire(null,null,"FireFire");
+		BFGS A 4 BRIGHT CheckFire(null,"FireUncharge","FireFire");
 		TNT1 A 0 CheckFire("FireLoop");
 	FireFire:
 		TNT1 A 0 {
@@ -147,9 +147,9 @@ class BFG : ModWeaponBase {
 		goto ready;
 	Flash:
 		BFGC ABCD 2 BRIGHT;
-		TNT1 A 0 CheckFire(null,null,"FlashUncharge");
+		TNT1 A 0 CheckFire(null,"FlashUncharge","FlashUncharge");
 	FlashLoop:
-		BFGR ABCDEF 4 BRIGHT CheckFire(null,null,"FlashFire");
+		BFGR ABCDEF 4 BRIGHT CheckFire(null,"FlashUncharge","FlashFire");
 		TNT1 A 0 CheckFire("FlashLoop");
 	FlashFire:
 		BFGF AB 4 BRIGHT;
