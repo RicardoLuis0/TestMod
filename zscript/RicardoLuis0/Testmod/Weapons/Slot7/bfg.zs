@@ -126,9 +126,11 @@ class BFG : ModWeaponBase {
 		BFGS A 8 BRIGHT ;
 		TNT1 A 0 CheckFire(null,"FireUncharge","FireUncharge");
 	FireLoop:
-		BFGS A 4 BRIGHT CheckFire(null,"FireUncharge","FireFire");
+		BFGS AAAAAA 4 BRIGHT CheckFire(null,"FireUncharge","FireFire");
 		TNT1 A 0 CheckFire("FireLoop");
 	FireFire:
+		TNT1 A 0 A_StartSound("weapons/bfg/fire",CHAN_AUTO);
+		BFGS A 3 BRIGHT;
 		TNT1 A 0 {
 			A_WeaponOffset(0,52,WOF_INTERPOLATE);
 			A_BFGFire();
@@ -152,6 +154,8 @@ class BFG : ModWeaponBase {
 		BFGR ABCDEF 4 BRIGHT CheckFire(null,"FlashUncharge","FlashFire");
 		TNT1 A 0 CheckFire("FlashLoop");
 	FlashFire:
+		BFGR A 2 BRIGHT;
+		BFGR B 1 BRIGHT;
 		BFGF AB 4 BRIGHT;
 		stop;
 		BFGO ABCDEFGHIJKLMNOP 0;
@@ -208,7 +212,6 @@ class BFG : ModWeaponBase {
 	
 	action void A_BFGFire(){
 		A_SetBlend("GreenYellow",.75,10);
-		A_StartSound("weapons/bfg/fire",CHAN_AUTO);
 		A_FireBFG();
 		A_Recoil(10);
 		A_AlertMonsters();
