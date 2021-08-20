@@ -102,6 +102,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		DPGG A 1 A_FireGun();
 		DPGG B 1 W_SetLayerSprite(LAYER,"PHNB");
 		DPGG A 1 W_SetLayerSprite(LAYER,"PHNA");
+		DPGG A 1 A_SetTics(clamp(4-ceil((invoker.heat/double(invoker.heatmax))*4),1,3));
 		DPGG A 3 A_Refire("AutoFire");
 		DPGG A 0 A_FireEnd();
 		Goto Ready;
@@ -294,6 +295,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		invoker.firing=true;
 		invoker.HeatPlus();
 		A_AlertMonsters();
+		A_StartSound("weapons/plasma/fire",CHAN_AUTO);
 		A_FireProjectile("PlasmaShot01",frandom(-1,1),pitch:frandom(-1,1));
 		A_SetPitch(pitch+frandom(-1,0));
 		A_Recoil(0.5);
