@@ -1,6 +1,7 @@
-class TestModPlayer : PlayerPawn{
+class TestModPlayer : PlayerPawn {
 	
 	mixin WeaponInertia;
+	mixin LookPos;
 	
 	Default{
 		Speed 1;
@@ -59,6 +60,10 @@ class TestModPlayer : PlayerPawn{
 				ModWeaponBase(player.ReadyWeapon).ReadyTick();
 			}
 		}
+	}
+
+	override Vector2 BobWeapon(double ticfrac){
+		return WeaponInertiaBobWeapon(ticfrac);
 	}
 
 	void player_UpdateCVars(){

@@ -107,7 +107,7 @@ mixin class WeaponInertia {
 		return (DeltaAngle(angle,0),DeltaAngle(pitch,0));
 	}
 
-	override Vector2 BobWeapon(double ticfrac){
+	Vector2 WeaponInertiaBobWeapon(double ticfrac){
 		Vector2 sway=vec2lerp(weaponinertia_prevbob,weaponinertia_nextbob,ticfrac);
 		sway.y-=weaponinertia_y_offset;
 		if(weaponinertia_invert_x_look){

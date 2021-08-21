@@ -16,7 +16,7 @@ class VisTracer:BulletPuff{
 	}
 }
 
-extend class TestModPlayer {
+mixin class LookPos {
 	bool look_calc;
 	Vector3 look_pos;
 	
