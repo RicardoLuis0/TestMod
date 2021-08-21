@@ -15,9 +15,9 @@ class StringHashTableElement {
 
 class StringHashTable {
 	const table_size = 256; // rather small, but should be enough for what it might be used for in this mod
-	Array<StringHashTableElement> table[table_size];
+	private Array<StringHashTableElement> table[table_size];
 	
-	uint hash(String s){ // djb2 hashing algorithm
+	private uint hash(String s){ // djb2 hashing algorithm
 		uint h=5381;
 		for(uint i=0;i<s.length();i++){
 			h=(h*33)+s.byteat(i);
@@ -25,7 +25,7 @@ class StringHashTable {
 		return h;
 	}
 	
-	Object getFrom(out Array<StringHashTableElement> arr,String key){
+	private Object getFrom(out Array<StringHashTableElement> arr,String key){
 		for(uint i=0;i<arr.size();i++){
 			if(arr[i].key==key){
 				return arr[i].obj;
@@ -34,7 +34,7 @@ class StringHashTable {
 		return null;
 	}
 	
-	bool setAt(out Array<StringHashTableElement> arr,String key,Object obj,bool replace){
+	private bool setAt(out Array<StringHashTableElement> arr,String key,Object obj,bool replace){
 		for(uint i=0;i<arr.size();i++){
 			if(arr[i].key==key){
 				if(replace){
@@ -47,7 +47,7 @@ class StringHashTable {
 		return true;
 	}
 	
-	bool delAt(out Array<StringHashTableElement> arr,String key){
+	private bool delAt(out Array<StringHashTableElement> arr,String key){
 		for(uint i=0;i<arr.size();i++){
 			if(arr[i].key==key){
 				arr.delete(i);
