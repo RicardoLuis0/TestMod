@@ -13,9 +13,14 @@ class StringHashTableElement {
 	}
 }
 
+class StringHashTableKeys {
+	Array<String> keys;
+}
+
 class StringHashTable {
 	const table_size = 256; // rather small, but should be enough for what it might be used for in this mod
 	private Array<StringHashTableElement> table[table_size];
+	private uint elems;
 	
 	private uint hash(String s){ // djb2 hashing algorithm
 		uint h=5381;
@@ -44,6 +49,7 @@ class StringHashTable {
 			}
 		}
 		arr.push(StringHashTableElement.newElem(key,obj));
+		elems++;
 		return true;
 	}
 	
@@ -51,6 +57,7 @@ class StringHashTable {
 		for(uint i=0;i<arr.size();i++){
 			if(arr[i].key==key){
 				arr.delete(i);
+				elems--;
 				return true;
 			}
 		}
@@ -71,5 +78,19 @@ class StringHashTable {
 	
 	bool delete(String key){
 		return delAt(table[hash(key)%table_size],key);
+	}
+	
+	StringHashTableKeys getKeys(){
+		StringHashTableKeys keys = new("StringHashTableKeys");
+		for(uint i=0;i<table_size;i++){
+			for(uint j=0;j<table[i].size();j++){
+				keys.keys.push(table[i][j].key);
+			}
+		}
+		return keys;
+	}
+	
+	bool empty(){
+		return elems==0;
 	}
 }

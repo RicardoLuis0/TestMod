@@ -13,9 +13,14 @@ class IntHashTableElement {
 	}
 }
 
+class IntHashTableKeys {
+	Array<int> keys;
+}
+
 class IntHashTable {
 	const table_size = 256; // rather small, but should be enough for what it might be used for in this mod
 	private Array<IntHashTableElement> table[table_size];
+	private uint elems;
 	
 	private uint hash(int i){
 		return abs(i);
@@ -40,6 +45,7 @@ class IntHashTable {
 			}
 		}
 		arr.push(IntHashTableElement.newElem(key,obj));
+		elems++;
 		return true;
 	}
 	
@@ -47,6 +53,7 @@ class IntHashTable {
 		for(uint i=0;i<arr.size();i++){
 			if(arr[i].key==key){
 				arr.delete(i);
+				elems--;
 				return true;
 			}
 		}
@@ -67,5 +74,19 @@ class IntHashTable {
 	
 	bool delete(int key){
 		return delAt(table[hash(key)%table_size],key);
+	}
+	
+	IntHashTableKeys getKeys(){
+		IntHashTableKeys keys = new("IntHashTableKeys");
+		for(uint i=0;i<table_size;i++){
+			for(uint j=0;j<table[i].size();j++){
+				keys.keys.push(table[i][j].key);
+			}
+		}
+		return keys;
+	}
+	
+	bool empty(){
+		return elems==0;
 	}
 }
