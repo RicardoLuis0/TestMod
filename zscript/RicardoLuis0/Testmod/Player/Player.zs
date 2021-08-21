@@ -9,8 +9,9 @@ class TestModPlayer : PlayerPawn{
 		Height 56;
 		Mass 100;
 		PainChance 255;
-
-		Player.DisplayName "Pistol Start (Harder)";
+		
+		Player.DisplayName "TestMod Player";
+		
 		Player.CrouchSprite "PLYC";
 
 		Player.StartItem "MyPistol";
