@@ -1,16 +1,22 @@
 class StringHashTableElement {
 	String key;
 	Object obj;
+	
 	StringHashTableElement Init(String _key,Object _obj){
 		key=_key;
 		obj=_obj;
 		return self;
+	}
+	
+	static StringHashTableElement newElem(String key,Object obj){
+		return new("StringHashTableElement").Init(key,obj);
 	}
 }
 
 class StringHashTable {
 	const table_size = 256; // rather small, but should be enough for what it might be used for in this mod
 	Array<StringHashTableElement> table[table_size];
+	
 	uint hash(String s){ // djb2 hashing algorithm
 		uint h=5381;
 		for(uint i=0;i<s.length();i++){
@@ -37,8 +43,18 @@ class StringHashTable {
 				return replace;
 			}
 		}
-		arr.push(new("StringHashTableElement").Init(key,obj));
+		arr.push(StringHashTableElement.newElem(key,obj));
 		return true;
+	}
+	
+	bool delAt(out Array<StringHashTableElement> arr,String key){
+		for(uint i=0;i<arr.size();i++){
+			if(arr[i].key==key){
+				arr.delete(i);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	Object get(String key){
@@ -51,5 +67,9 @@ class StringHashTable {
 	
 	bool insert(String key,Object obj){//only inserts if key doesn't exist, otherwise fails and returns false
 		return setAt(table[hash(key)%table_size],key,obj,false);
+	}
+	
+	bool delete(String key){
+		return delAt(table[hash(key)%table_size],key);
 	}
 }
