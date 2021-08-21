@@ -34,6 +34,9 @@ class BFG : ModWeaponBase {
 	}
 	
 	States {
+	Spawn:
+		BFGP A -1;
+		Stop;
 	Ready:
 		BFGS A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 		wait;
