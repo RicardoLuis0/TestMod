@@ -24,6 +24,7 @@ class MyPistolClip : Ammo{
 
 class MyPistol : ModWeaponBase {
 	bool partial;
+	
 	Default{
 		Tag "Pistol";
 		Weapon.SlotNumber 2;
@@ -36,6 +37,7 @@ class MyPistol : ModWeaponBase {
 		Weapon.AmmoGive2 10;
 		Inventory.Pickupmessage "You've got the Pistol!";
 		+WEAPON.AMMO_OPTIONAL;
+		+WEAPON.NOALERT;
 		+WEAPON.NOAUTOFIRE;
 	}
 	override void BeginPlay(){
@@ -189,6 +191,7 @@ class MyPistol : ModWeaponBase {
 	}
 	bool canrefire;
 	action void A_FireGun(){
+		A_AlertMonsters();
 		A_StartSound("weapons/pistol_fire",CHAN_AUTO,CHANF_DEFAULT,0.25);
 		invoker.canrefire=false;
 		Actor c=A_FireProjectile("LightClipCasing",random(-80, -100),false,0,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,45));
