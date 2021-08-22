@@ -46,6 +46,7 @@ class Slot2Spawner : ThingSpawner {
 
 class Slot3Spawner : ThingSpawner {
 	override void setDrops(){
+		spawnlist.Push(BasicThingSpawnerElement.Create("AutoShotgun",1,1));
 		spawnlist.Push(BasicThingSpawnerElement.Create("PumpShotgun",1,1));
 		spawnlist.Push(BasicThingSpawnerElement.Create("SSG",1,1));
 	}
@@ -88,6 +89,7 @@ class PistolSpawner : ThingSpawner replaces Pistol{
 class ShotgunSpawner : ThingSpawner replaces Shotgun{
 	override void setDrops(){
 		spawnlist.Push(BasicThingSpawnerElement.Create("PumpShotgun",1,3));
+		spawnlist.Push(BasicThingSpawnerElement.Create("AutoShotgun",1,2));
 	}
 }
 

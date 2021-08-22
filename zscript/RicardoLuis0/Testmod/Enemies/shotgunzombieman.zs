@@ -17,6 +17,9 @@ class ShotgunZombieManSpawner : RandomSpawner replaces ShotgunGuy {
 }
 
 class ShotgunZombieMan : ShotgunGuy {
+	Default {
+		DropItem "PumpShotgun";
+	}
 }
 
 class MaybeSSG : ThingSpawner {

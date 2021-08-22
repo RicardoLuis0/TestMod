@@ -1,5 +1,4 @@
 improve smg/pistol sounds
-improve plasma gun sprites
 add sounds to plasma gun launcher mode
 add sounds to bfg
-???
+bolt cycling when reloading from empty mag for smg/autoshotty

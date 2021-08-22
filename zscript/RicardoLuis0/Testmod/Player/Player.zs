@@ -20,6 +20,7 @@ class TestModPlayer : PlayerPawn {
 		Player.StartItem "PistolLoaded", 18;
 		Player.StartItem "SMGLoaded", 46;
 		Player.StartItem "AssaultRifleLoaded", 21;
+		Player.StartItem "AutoShotgunLoaded", 13;
 		Player.StartItem "PumpLoaded", 9;
 		Player.StartItem "SSGLoaded", 2;
 		Player.StartItem "Fist";
