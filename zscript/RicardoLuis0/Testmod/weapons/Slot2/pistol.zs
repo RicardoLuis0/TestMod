@@ -15,21 +15,21 @@ class LightClipCasing : CasingBase {
 	}
 }
 
-class MyPistolClip : Ammo{
+class PistolLoaded : Ammo{
 	Default{
 		Inventory.MaxAmount 18;
 		+Inventory.IgnoreSkill;
 	}
 }
 
-class MyPistol : ModWeaponBase {
+class NewPistol : ModWeaponBase {
 	bool partial;
 	
 	Default{
 		Tag "Pistol";
 		Weapon.SlotNumber 2;
 		Weapon.SlotPriority 0;
-		Weapon.AmmoType1 "MyPistolClip";
+		Weapon.AmmoType1 "PistolLoaded";
 		Weapon.AmmoType2 "LightClip";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 0;
@@ -47,7 +47,7 @@ class MyPistol : ModWeaponBase {
 	States{
 	Ready:
 		TNT1 A 0 {
-			if(CountInv("MyPistolClip")==0){
+			if(CountInv(invoker.AmmoType1)==0){
 				return ResolveState("ReadyEmpty");
 			}else{
 				return ResolveState(null);
@@ -58,7 +58,7 @@ class MyPistol : ModWeaponBase {
 		Loop;
 	Select:
 		TNT1 A 0 {
-			if(CountInv("MyPistolClip")==0){
+			if(CountInv(invoker.AmmoType1)==0){
 				return ResolveState("SelectEmpty");
 			}else{
 				return ResolveState(null);
@@ -69,7 +69,7 @@ class MyPistol : ModWeaponBase {
 		Loop;
 	Deselect:
 		TNT1 A 0 {
-			if(CountInv("MyPistolClip")==0){
+			if(CountInv(invoker.AmmoType1)==0){
 				return ResolveState("DeselectEmpty");
 			}else{
 				return ResolveState(null);
@@ -89,8 +89,8 @@ class MyPistol : ModWeaponBase {
 		Loop;
 	Fire:
 		DPIG A 0 {
-			if(CountInv("MyPistolClip")==0){
-				if(CountInv("LightClip")==0){
+			if(CountInv(invoker.AmmoType1)==0){
+				if(CountInv(invoker.AmmoType2)==0){
 					return ResolveState("Ready");
 				}else{
 					return ResolveState("Reload");
@@ -103,7 +103,7 @@ class MyPistol : ModWeaponBase {
 		DPIF A 1 BRIGHT UpdateRefire;
 		DPIG CCC 1 UpdateRefire;
 		TNT1 A 0 {
-			if(CountInv("MyPistolClip")==0){
+			if(CountInv(invoker.AmmoType1)==0){
 				return ResolveState("FireEmpty");
 			}else{
 				return ResolveState(null);
@@ -124,29 +124,14 @@ class MyPistol : ModWeaponBase {
 		DEPI A -1;
 		Stop;
 	Reload:
-		TNT1 A 0 CheckReload("LightClip","MyPistolClip",18,"Ready","Ready","ReloadPartial","ReloadPartialEmpty","ReloadEmpty","ReloadFull");
-		Goto Ready;
-	ReloadPartial:
 		TNT1 A 0 {
-			invoker.partial=true;
+			if(CountInv(invoker.AmmoType1)==18||CountInv(invoker.AmmoType2)==0){
+				return ResolveState("Ready");
+			}else if(CountInv(invoker.AmmoType1)==0){
+				return ResolveState("ReloadEmpty");
+			}
+			return ResolveState(null);
 		}
-		Goto ReloadAnim;
-	ReloadFull:
-		TNT1 A 0 {
-			invoker.partial=false;
-		}
-		Goto ReloadAnim;
-	ReloadPartialEmpty:
-		TNT1 A 0 {
-			invoker.partial=true;
-		}
-		Goto ReloadEmptyAnim;
-	ReloadEmpty:
-		TNT1 A 0 {
-			invoker.partial=false;
-		}
-		Goto ReloadEmptyAnim;
-	ReloadAnim:
 		DPIR A 3 A_StartSound("weapons/pistolclipout",CHAN_AUTO);
 		DPIR B 3;
 		DPIR C 3;
@@ -155,19 +140,11 @@ class MyPistol : ModWeaponBase {
 		DPIR F 3;
 		DPIR G 3 A_StartSound("weapons/pistolclipin",CHAN_AUTO);
 		DPIR H 3;
+		TNT1 A 0 A_ReloadAmmo(17,18);
 		DPIR I 3;
 		DPIR J 3;
-		TNT1 A 0 {
-			if(invoker.partial){
-				A_GiveInventory("MyPistolClip",CountInv("LightClip"));
-				A_SetInventory("LightClip",0);
-			}else{
-				A_TakeInventory("LightClip",18-CountInv("MyPistolClip"));
-				A_SetInventory("MyPistolClip",18);
-			}
-		}
 		Goto Ready;
-	ReloadEmptyAnim:
+	ReloadEmpty:
 		DPIE A 3 A_StartSound("weapons/pistolclipout",CHAN_AUTO);
 		DPIE B 3;
 		DPIE C 3;
@@ -176,20 +153,14 @@ class MyPistol : ModWeaponBase {
 		DPIE F 3;
 		DPIE G 3 A_StartSound("weapons/pistolclipin",CHAN_AUTO);
 		DPIE H 5;
+		TNT1 A 0 A_ReloadAmmo(17,18);
 		DPIR I 4 A_StartSound("weapons/pistolclose",CHAN_AUTO);
 		DPIR J 3;
-		TNT1 A 0 {
-			if(invoker.partial){
-				A_GiveInventory("MyPistolClip",CountInv("LightClip"));
-				A_SetInventory("LightClip",0);
-			}else{
-				A_TakeInventory("LightClip",17);
-				A_SetInventory("MyPistolClip",17);
-			}
-		}
 		Goto Ready;
 	}
+	
 	bool canrefire;
+	
 	action void A_FireGun(){
 		A_AlertMonsters();
 		A_StartSound("weapons/pistol_fire",CHAN_AUTO,CHANF_DEFAULT,0.25);
@@ -199,16 +170,18 @@ class MyPistol : ModWeaponBase {
 		W_FireBulletsSpreadXY(0.5,5,1,5,"BulletPuff",FBF_USEAMMO,refire_rate:0.5,refire_max:0.25);
 		A_GunFlash();
 	}
+	
 	action void UpdateRefire(){
 		int input=GetPlayerInput(INPUT_BUTTONS);
 		if(!(input&BT_ATTACK)){
 			invoker.canrefire=true;
 		}
 	}
+	
 	action State TryRefire(){
 		int input=GetPlayerInput(INPUT_BUTTONS);
 		if(input&BT_ATTACK){
-			if(invoker.canrefire&&CountInv("MyPistolClip")>0){
+			if(invoker.canrefire&&CountInv(invoker.AmmoType1)>0){
 				player.refire++;
 				return ResolveState("Fire");
 			}

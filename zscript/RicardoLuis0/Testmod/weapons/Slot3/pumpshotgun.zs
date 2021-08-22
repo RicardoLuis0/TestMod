@@ -34,6 +34,7 @@ class PumpShotgun : ModWeaponBase {
 		Weapon.AmmoUse1 0;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive2 8;
+		Weapon.SlotPriority 0.25;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;
@@ -67,20 +68,12 @@ class PumpShotgun : ModWeaponBase {
 			0SGF D 1;
 			0SGF E 1;
 			0SGG A 0 {
-				if(CountInv("PumpLoaded")==0) return ResolveState("Reload");
+				if(CountInv(invoker.AmmoType1)==0) return ResolveState("Reload");
 				return P_Call("Pump");
 			}
 			0SGG A 5 A_Refire;
 			goto ready;
-		altloop:
-			0SGG A 1;
-			0SGG A 0 A_ReFire("altloop");
-			Goto Ready;
 		flash:
-			TNT1 A 4 Bright A_Light1;
-			TNT1 A 4 Bright A_Light2;
-			goto lightdone;
-		autoflash:
 			TNT1 A 4 Bright A_Light1;
 			TNT1 A 4 Bright A_Light2;
 			goto lightdone;
@@ -140,17 +133,6 @@ class PumpShotgun : ModWeaponBase {
 		spawn:
 			0ESG A -1;
 			stop;
-	}
-
-	action State A_CheckAmmo(bool doreload){
-		if(CountInv("PumpLoaded")==0){
-			if(CountInv("Shell")==0||doreload==false){
-				return ResolveState("noammo");
-			}else{
-				return ResolveState("reload");
-			}
-		}
-		return ResolveState(null);
 	}
 
 	action State A_FirePump(){

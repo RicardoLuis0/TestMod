@@ -17,6 +17,7 @@ class SSG : ModWeaponBase {
 		Weapon.AmmoUse1 0;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive2 4;
+		Weapon.SlotPriority 0.99;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;

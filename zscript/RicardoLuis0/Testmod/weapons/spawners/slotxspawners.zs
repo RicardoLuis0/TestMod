@@ -40,7 +40,7 @@ class GuidedRocketLauncherSpawnerElement : MultiThingSpawnerElement {
 
 class Slot2Spawner : ThingSpawner {
 	override void setDrops(){
-		spawnlist.Push(BasicThingSpawnerElement.Create("MyPistol",1,1));
+		spawnlist.Push(BasicThingSpawnerElement.Create("NewPistol",1,1));
 	}
 }
 
@@ -53,9 +53,9 @@ class Slot3Spawner : ThingSpawner {
 
 class Slot4Spawner : ThingSpawner {
 	override void setDrops(){
-		spawnlist.Push(BasicThingSpawnerElement.Create("SMG",1,6));
-		spawnlist.Push(BasicThingSpawnerElement.Create("AssaultRifle",1,3));
-		spawnlist.Push(BasicThingSpawnerElement.Create("Minigun",1,2));
+		spawnlist.Push(BasicThingSpawnerElement.Create("SMG",1,1));
+		spawnlist.Push(BasicThingSpawnerElement.Create("AssaultRifle",1,1));
+		spawnlist.Push(BasicThingSpawnerElement.Create("Minigun",1,1));
 		spawnlist.Push(BasicThingSpawnerElement.Create("HeavyGatlingGun",1,1));
 	}
 }
@@ -81,7 +81,7 @@ class Slot7Spawner : ThingSpawner {
 
 class PistolSpawner : ThingSpawner replaces Pistol{
 	override void setDrops(){
-		spawnlist.Push(BasicThingSpawnerElement.Create("MyPistol",1,1));
+		spawnlist.Push(BasicThingSpawnerElement.Create("NewPistol",1,1));
 	}
 }
 

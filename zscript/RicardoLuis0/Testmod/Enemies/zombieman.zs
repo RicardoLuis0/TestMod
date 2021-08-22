@@ -93,7 +93,7 @@ class SMGZombieMan : ZombieMan{
 class PistolZombieMan : ZombieMan {
 	Default{
 		DropItem "PistolZombieManClipDrop";
-		DropItem "MyPistol";
+		DropItem "NewPistol";
 		AttackSound "";
 	}
 	States{

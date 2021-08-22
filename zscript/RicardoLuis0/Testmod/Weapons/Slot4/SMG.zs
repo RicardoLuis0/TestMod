@@ -4,7 +4,7 @@ class FastLightClipCasing : LightClipCasing {
 	}
 }
 
-class SMGAmmo : Ammo{
+class SMGLoaded : Ammo{
 	Default{
 		Inventory.MaxAmount 46;
 		+Inventory.IgnoreSkill;
@@ -16,7 +16,7 @@ class SMG : ModWeaponBase {
 		Tag "SMG";
 		Weapon.SlotNumber 4;
 		Weapon.SlotPriority 1;
-		Weapon.AmmoType1 "SMGAmmo";
+		Weapon.AmmoType1 "SMGLoaded";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoGive1 0;
 		Weapon.AmmoType2 "LightClip";
@@ -48,7 +48,7 @@ class SMG : ModWeaponBase {
 			Loop;
 		Fire:
 			TNT1 A 0 {
-				if(CountInv("SMGAmmo")==0){
+				if(CountInv(invoker.AmmoType1)==0){
 					return ResolveState("Reload");
 				}else{
 					return ResolveState(null);
@@ -66,9 +66,9 @@ class SMG : ModWeaponBase {
 		Reload:
 			TNT1 A 0 {
 				player.refire=0;
-				if(CountInv("SMGAmmo")==46){
+				if(CountInv(invoker.AmmoType1)==46){
 					return ResolveState("NoAmmo");
-				}else if(CountInv("LightClip")==0){
+				}else if(CountInv(invoker.AmmoType2)==0){
 					return ResolveState("NoAmmo");
 				}else{
 					return ResolveState(null);
@@ -85,18 +85,8 @@ class SMG : ModWeaponBase {
 			RIFR HIKL 1;
 			TNT1 A 0 A_StartSound("weapons/rifle_reload",CHAN_AUTO);
 			RIFR MMM 1;
+			TNT1 A 0 A_ReloadAmmo(45,46);
 			RIFR NOPQRST 1;
-			TNT1 A 0 {
-				int curammo=CountInv("SMGAmmo");
-				int reload_amount;
-				if(curammo==0){
-					reload_amount=min(CountInv("LightClip"),45);
-				}else{
-					reload_amount=min(CountInv("LightClip"),46-curammo);
-				}
-				A_TakeInventory("LightClip",reload_amount);
-				A_SetInventory("SMGAmmo",reload_amount+curammo);
-			}
 			Goto Ready;
 	}
 	action void A_FireGun(){

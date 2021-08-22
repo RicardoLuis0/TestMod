@@ -1,4 +1,4 @@
-class superplasmaball : Actor {
+class SuperPlasmaBall : Actor {
 	Default {
 		Radius 13;
 		Height 8;

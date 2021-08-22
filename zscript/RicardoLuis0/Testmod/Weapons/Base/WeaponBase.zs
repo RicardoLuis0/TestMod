@@ -48,6 +48,12 @@ class ModWeaponBase : Weapon {
 
 	virtual void ReadyTick() {
 	}
+	
+	action void A_ReloadAmmo(int empty,int nonempty) {
+		int reloadamount=min((CountInv(invoker.AmmoType1)>0)?nonempty:empty,CountInv(invoker.AmmoType1)+CountInv(invoker.AmmoType2));
+		A_SetInventory(invoker.AmmoType2,CountInv(invoker.AmmoType2)-(reloadamount-CountInv(invoker.AmmoType1)));
+		A_SetInventory(invoker.AmmoType1,reloadamount);
+	}
 
 	
 	
