@@ -3,7 +3,7 @@ class PlasmaShot01:FastProjectile{
 		Radius 4;
 		Height 8;
 		Speed 50;
-		Damage 5;
+		Damage 8;
 		Projectile;
 		RenderStyle "Add";
 		Alpha 0.7;
