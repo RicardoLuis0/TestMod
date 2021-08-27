@@ -8,7 +8,7 @@ class TestModCVarUpdateHandler : StaticEventHandler {
 			}
 			if(e.name=="weaponinertia_UpdateCVars"){
 				TestModPlayer p=TestModPlayer(players[e.player].mo);
-				//if(p)p.weaponinertia_UpdateCVars();
+				if(p)p.weaponinertia_UpdateCVars();
 				console.printf("inertia cvars updated");
 			}
 		}
