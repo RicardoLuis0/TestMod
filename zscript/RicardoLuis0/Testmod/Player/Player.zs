@@ -1,5 +1,8 @@
 class TestModPlayer : PlayerPawn {
 	
+	bool grenade_key_down;
+	bool melee_key_down;
+	
 	mixin WeaponInertia;
 	mixin LookPos;
 	

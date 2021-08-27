@@ -1,6 +1,6 @@
 GameInfo {
    PlayerClasses = "TestModPlayer"
-   AddEventHandlers = "ClientCVarUpdater","TiltPlusPlusHandler"
+   AddEventHandlers = "TestModCVarUpdateHandler","TestModKeyPressHandler","TiltPlusPlusHandler"
 }
 
 DamageType Piercing {

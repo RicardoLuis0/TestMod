@@ -1,4 +1,4 @@
-class ClientCVarUpdater : StaticEventHandler {
+class TestModCVarUpdateHandler : StaticEventHandler {
 	override void NetworkProcess(ConsoleEvent e){
 		if(e.player==consoleplayer){
 			if(e.name=="player_UpdateCVars"){
@@ -8,7 +8,7 @@ class ClientCVarUpdater : StaticEventHandler {
 			}
 			if(e.name=="weaponinertia_UpdateCVars"){
 				TestModPlayer p=TestModPlayer(players[e.player].mo);
-				if(p)p.weaponinertia_UpdateCVars();
+				//if(p)p.weaponinertia_UpdateCVars();
 				console.printf("inertia cvars updated");
 			}
 		}

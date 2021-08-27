@@ -54,7 +54,30 @@ class ModWeaponBase : Weapon {
 		A_SetInventory(invoker.AmmoType2,CountInv(invoker.AmmoType2)-(reloadamount-CountInv(invoker.AmmoType1)));
 		A_SetInventory(invoker.AmmoType1,reloadamount);
 	}
-
+	
+	virtual bool GrenadeKeyDown(){
+		return false;
+	}
+	
+	virtual bool MeleeKeyDown(){
+		return false;
+	}
+	
+	action void W_WeaponReady(int flags=0){
+		if(TestModPlayer(self).grenade_key_down){
+			TestModPlayer(self).grenade_key_down=false;
+			if(invoker.GrenadeKeyDown()){
+				return;
+			}
+		}
+		if(TestModPlayer(self).melee_key_down){
+			TestModPlayer(self).melee_key_down=false;
+			if(invoker.MeleeKeyDown()){
+				return;
+			}
+		}
+		A_WeaponReady(flags);
+	}
 	
 	
 }
