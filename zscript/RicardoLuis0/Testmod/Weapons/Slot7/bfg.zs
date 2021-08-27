@@ -38,7 +38,7 @@ class BFG : ModWeaponBase {
 		BFGP A -1;
 		Stop;
 	Ready:
-		BFGS A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		BFGS A 1 W_WeaponReady(WRF_ALLOWRELOAD);
 		wait;
 	Deselect:
 		BFGS A 1 A_Lower();

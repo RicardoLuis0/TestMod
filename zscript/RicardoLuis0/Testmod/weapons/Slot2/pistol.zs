@@ -54,7 +54,7 @@ class NewPistol : ModWeaponBase {
 			}
 		}
 	ReadyLoop:
-		DPIG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		DPIG A 1 W_WeaponReady(WRF_ALLOWRELOAD);
 		Loop;
 	Select:
 		TNT1 A 0 {

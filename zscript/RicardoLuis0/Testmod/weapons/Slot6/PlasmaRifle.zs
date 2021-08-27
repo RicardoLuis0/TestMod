@@ -43,7 +43,7 @@ class MyPlasmaRifle : ModWeaponBase {
 			W_SetLayerSprite(LAYER,"PHNA");
 		}
 	ReadyLoop:
-		DPGG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		DPGG A 1 W_WeaponReady(WRF_ALLOWRELOAD);
 		Loop;
 	Deselect:
 		DPGG A 1 A_Lower();

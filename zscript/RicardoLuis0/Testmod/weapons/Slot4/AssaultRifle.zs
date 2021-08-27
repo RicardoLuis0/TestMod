@@ -52,7 +52,7 @@ class AssaultRifle : ModWeaponBase {
 	}
 	States{
 		ready:
-			ASRG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+			ASRG A 1 W_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
 		Select:
 			ASRG A 1 A_Raise;

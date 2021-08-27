@@ -33,7 +33,7 @@ class SSG : ModWeaponBase {
 	}
 	States{
 		ready:
-			DSSG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+			DSSG A 1 W_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
 		Select:
 			DSSG A 1 A_Raise;

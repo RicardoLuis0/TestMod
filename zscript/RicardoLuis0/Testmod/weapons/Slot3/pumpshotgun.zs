@@ -52,7 +52,7 @@ class PumpShotgun : ModWeaponBase {
 	
 	States{
 		ready:
-			0SGG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+			0SGG A 1 W_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
 		Select:
 			0SGG A 1 A_Raise;

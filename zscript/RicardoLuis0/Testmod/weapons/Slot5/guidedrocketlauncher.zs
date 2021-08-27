@@ -48,7 +48,7 @@ class GuidedRocketLauncher : ModWeaponBase {
 	}
 	States{
 		Ready:
-			DRLG A 1 A_WeaponReady();
+			DRLG A 1 W_WeaponReady;
 			Loop;
 		Select:
 			DRLG A 1 A_Raise;

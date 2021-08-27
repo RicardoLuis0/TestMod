@@ -31,7 +31,7 @@ class HeavyGatlingGun : ModWeaponBase {
 		ready:
 			DGTG A 1 {
 				invoker.spinning=false;
-				A_WeaponReady();
+				W_WeaponReady();
 			}
 			loop;
 		select:

@@ -19,7 +19,7 @@ class GatlingRocketLauncher : ModWeaponBase {
 	}
 	States{
 		Ready:
-			REPG A 1 A_WeaponReady;
+			REPG A 1 W_WeaponReady;
 			Loop;
 		Select:
 			REPG A 1 A_Raise;

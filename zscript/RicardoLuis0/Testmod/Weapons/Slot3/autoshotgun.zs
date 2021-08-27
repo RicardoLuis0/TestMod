@@ -36,7 +36,7 @@ class AutoShotgun : ModWeaponBase {
 	
 	States{
 		ready:
-			DASG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+			DASG A 1 W_WeaponReady(WRF_ALLOWRELOAD);
 			loop;
 		Select:
 			DASG A 1 A_Raise;

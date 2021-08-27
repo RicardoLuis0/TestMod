@@ -38,7 +38,7 @@ class SMG : ModWeaponBase {
 			RIFL A -1;
 			Stop;
 		Ready:
-			RIFG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+			RIFG A 1 W_WeaponReady(WRF_ALLOWRELOAD);
 			Loop;
 		Deselect:
 			RIFG A 1 A_Lower;

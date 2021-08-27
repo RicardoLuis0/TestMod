@@ -13,7 +13,7 @@ class Minigun : HeavyGatlingGun {
 			PKCG A 1 {
 				invoker.spinning=false;
 				player.refire=0;
-				A_WeaponReady();
+				W_WeaponReady();
 			}
 			loop;
 		select:
