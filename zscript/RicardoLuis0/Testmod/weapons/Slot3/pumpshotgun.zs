@@ -175,8 +175,7 @@ class PumpShotgun : ModWeaponBase {
 
 	action State A_ReloadMid(){
 		if(player.PendingWeapon!=WP_NOCHANGE){
-			player.mo.BringUpWeapon();
-			return ResolveState(null);
+			return P_CallJmp("reloadstop","ready");
 		}
 		if(CountInv("PumpLoaded")>=9||CountInv("Shell")==0){
 			return P_CallJmp("reloadstop","ready");
