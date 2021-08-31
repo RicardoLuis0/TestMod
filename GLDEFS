@@ -29,3 +29,59 @@ object ArmorShard
 	frame ARSDC { light ARMORSHARD3 }
 	frame ARSDD { light ARMORSHARD4 }
 }
+
+pointlight PLASMALIGHT1 {
+	color 0.16 0.16 0.40
+	size 50
+}
+
+pointlight PLASMALIGHT2 {
+	color 0.08 0.08 0.20
+	size 40
+}
+
+pointlight PLASMALIGHT3 {
+	color 0.08 0.08 0.20
+	size 30
+}
+
+pointlight PLASMALIGHT4 {
+	color 0.08 0.08 0.20
+	size 20
+}
+
+pointlight PLASMALIGHT5 {
+	color 0.08 0.08 0.20
+	size 10
+}
+
+pointlight PLASMALIGHT6 {
+	color 0.08 0.08 0.20
+	size 5
+}
+
+object PlasmaShot01 {
+	frame BSHTA { light PLASMALIGHT1 }
+	frame BSHTB { light PLASMALIGHT2 }
+	frame BSHTC { light PLASMALIGHT3 }
+	frame BSHTD { light PLASMALIGHT4 }
+	frame BSHTE { light PLASMALIGHT5 }
+	frame BSHTF { light PLASMALIGHT6 }
+}
+
+object PlasmaShot01Trail {
+	frame BSHTA { light PLASMALIGHT1 }
+	frame BSHTB { light PLASMALIGHT2 }
+	frame BSHTC { light PLASMALIGHT3 }
+	frame BSHTD { light PLASMALIGHT4 }
+	frame BSHTE { light PLASMALIGHT5 }
+	frame BSHTF { light PLASMALIGHT6 }
+}
+
+
+
+
+
+
+
+
