@@ -5,6 +5,8 @@ class Minigun : HeavyGatlingGun {
 		Tag "Minigun";
 		Weapon.AmmoType1 "LightClip";
 		Weapon.AmmoType2 "LightClip";
+		Weapon.AmmoUse1 1;
+		Weapon.AmmoUse2 1;
 		Inventory.PickupMessage "You've got the Minigun!";
 		Weapon.SlotPriority 0;
 	}
