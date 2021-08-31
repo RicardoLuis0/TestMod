@@ -124,12 +124,12 @@ class MyPlasmaRifle : ModWeaponBase {
 			}
 			return ResolveState(null);
 		}
-		DPGF A 5 Bright;
-		DPGF C 5 Bright;
-		DPGF A 5 Bright;
-		DPGF C 5 Bright;
-		DPGF A 5 Bright;
-		DPGF C 5 Bright;
+		DPGF A 3 Bright;
+		DPGF C 3 Bright;
+		DPGF A 3 Bright;
+		DPGF C 3 Bright;
+		DPGF A 3 Bright;
+		DPGF C 3 Bright;
 		DPGF C 0 {
 			return CheckFire(null,"LauncherFireStop","LauncherFireStop");
 		}
