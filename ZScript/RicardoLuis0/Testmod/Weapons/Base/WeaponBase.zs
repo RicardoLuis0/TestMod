@@ -56,10 +56,12 @@ class ModWeaponBase : Weapon {
 	}
 	
 	virtual bool GrenadeKeyDown(){
+		console.printf("grenade_key_down");
 		return false;
 	}
 	
 	virtual bool MeleeKeyDown(){
+		console.printf("melee_key_down");
 		return false;
 	}
 	

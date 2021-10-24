@@ -1,4 +1,7 @@
 class BFG : ModWeaponBase {
+	
+	mixin SoundInterpol;
+	
 	const LAYER_LIGHT_1_TIMER = 10001;
 	const LAYER_LIGHT_2_TIMER = 10000;
 	const LAYER_LIGHT_1 = 9999;
@@ -10,6 +13,19 @@ class BFG : ModWeaponBase {
 	bool light1;
 	bool light2;
 	int ammo_display;
+	
+	override void Tick(){
+		super.Tick();
+		if(owner){
+			SoundInterpolTick(owner);
+		}
+	}
+	
+	override void AttachToOwner(Actor other){
+		super.AttachToOwner(other);
+		SoundInterpolInit();
+	}
+	
 
 	Default {
 		Tag "BFG";
