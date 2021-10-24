@@ -21,7 +21,7 @@ class AssaultRifleLoaded : Ammo {
 	}
 }
 
-class PiercingPuff : BulletPuff {
+class PiercingPuff : ModBulletPuffBase {
 	Default {
 		DamageType "Piercing";
 	}

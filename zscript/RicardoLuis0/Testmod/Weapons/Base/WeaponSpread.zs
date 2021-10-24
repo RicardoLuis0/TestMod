@@ -33,7 +33,7 @@ extend class ModWeaponBase {
 		}
 	}
 	
-	action void W_FireBulletsSpreadXY(double min,double max,int count,int dmg,class<Actor> puff = "PuffBase",int flags = FBF_USEAMMO,double range = 0,class<Actor> missile = null,double vert_offset = 32,double horiz_offset = 0,double refire_rate=1.0,double refire_max=0.25,double start=0.0){
+	action void W_FireBulletsSpreadXY(double min,double max,int count,int dmg,class<Actor> puff = "ModBulletPuffBase",int flags = FBF_USEAMMO,double range = 0,class<Actor> missile = null,double vert_offset = 32,double horiz_offset = 0,double refire_rate=1.0,double refire_max=0.25,double start=0.0){
 		for(int i=0;i<count;i++){
 			double sx,sy;
 			[sx,sy]=W_CalcSpreadXY(min,max,refire_rate,refire_max,start);

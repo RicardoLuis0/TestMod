@@ -102,7 +102,7 @@ class AutoShotgun : ModWeaponBase {
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_Recoil(2.0);
 		double spread=(player.refire>0)?6.5:5;
-		W_FireBullets(spread,spread,invoker.pellets,invoker.dmg,"BulletPuff");
+		W_FireBullets(spread,spread,invoker.pellets,invoker.dmg);
 		A_SetPitch(pitch+frandom(-5,-2.5),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-2,2),SPF_INTERPOLATE);
 		A_StartSound("weapons/shotgun_fire",CHAN_AUTO,CHANF_DEFAULT,0.5);

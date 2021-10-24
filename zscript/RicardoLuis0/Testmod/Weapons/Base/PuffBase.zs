@@ -1,4 +1,4 @@
-class PuffBase:BulletPuff {
+class ModBulletPuffBase:BulletPuff {
 	/*
 	override void PostBeginPlay(){
 	}

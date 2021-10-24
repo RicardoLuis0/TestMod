@@ -110,7 +110,7 @@ class Minigun : HeavyGatlingGun {
 		Actor c=A_FireProjectile("LightClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_GunFlash();
-		W_FireBulletsSpreadXY(3,16,1,4,"BulletPuff",((player.refire%2)==0)?FBF_USEAMMO:0,refire_rate:0.0625,refire_max:0.5);
+		W_FireBulletsSpreadXY(3,16,1,4,flags:((player.refire%2)==0)?FBF_USEAMMO:0,refire_rate:0.0625,refire_max:0.5);
 		player.refire++;
 		
 		invoker.tammo=!invoker.tammo;

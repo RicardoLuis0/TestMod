@@ -23,7 +23,7 @@ class ModWeaponBase : Weapon {
 		}
 	}
 
-	action void W_FireBullets(double spread_horiz, double spread_vert, int count, int dmg, class<Actor> puff = "PuffBase", int flags = FBF_USEAMMO, double range = 0, class<Actor> missile = null, double vert_offset = 32, double horiz_offset = 0){
+	action void W_FireBullets(double spread_horiz, double spread_vert, int count, int dmg, class<Actor> puff = "ModBulletPuffBase", int flags = FBF_USEAMMO, double range = 0, class<Actor> missile = null, double vert_offset = 32, double horiz_offset = 0){
 		if(player.refire==0){
 			player.refire=1;
 			W_FireBullets(spread_horiz,spread_vert,count,dmg,puff,flags,range,missile,vert_offset,horiz_offset);
