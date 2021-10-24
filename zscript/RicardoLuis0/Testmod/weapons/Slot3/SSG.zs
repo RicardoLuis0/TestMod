@@ -14,7 +14,7 @@ class SSG : ModWeaponBase {
 		Weapon.SlotNumber 3;
 		Weapon.AmmoType1 "SSGLoaded";
 		Weapon.AmmoType2 "Shell";
-		Weapon.AmmoUse1 0;
+		Weapon.AmmoUse1 2;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive2 4;
 		Weapon.SlotPriority 0.99;
@@ -243,8 +243,9 @@ class SSG : ModWeaponBase {
 	action void A_FireSingle(){
 		A_GunFlash();
 		A_AlertMonsters();
-		A_TakeInventory("SSGLoaded",1);
+		invoker.ammouse1=1;
 		W_FireBullets(5,5,invoker.pellets,invoker.dmg);
+		invoker.ammouse1=2;
 		A_Recoil(2.0);
 		A_SetPitch(pitch+frandom(-5,-2),SPF_INTERPOLATE);
 		A_SetAngle(angle+(CountInv("SSGLoaded")==1?frandom(-5,-2):frandom(2,5)),SPF_INTERPOLATE);
@@ -254,7 +255,6 @@ class SSG : ModWeaponBase {
 	action void A_FireBoth(){
 		A_GunFlash();
 		A_AlertMonsters();
-		A_TakeInventory("SSGLoaded",2);
 		W_FireBullets(10,6,int(invoker.pellets*2.2),invoker.dmg);
 		A_Recoil(5.0);
 		A_SetPitch(pitch+frandom(-10,-5),SPF_INTERPOLATE);

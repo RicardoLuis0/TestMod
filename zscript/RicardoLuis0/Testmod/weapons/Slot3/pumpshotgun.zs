@@ -31,7 +31,7 @@ class PumpShotgun : ModWeaponBase {
 		Weapon.SlotNumber 3;
 		Weapon.AmmoType1 "PumpLoaded";
 		Weapon.AmmoType2 "Shell";
-		Weapon.AmmoUse1 0;
+		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive2 8;
 		Weapon.SlotPriority 0.25;
@@ -144,7 +144,6 @@ class PumpShotgun : ModWeaponBase {
 			}
 		}
 		A_AlertMonsters();
-		A_TakeInventory("PumpLoaded",1);
 		invoker.firecasing=true;
 		A_Recoil(2.0);
 		W_FireBullets(1.5,1.5,invoker.pellets,invoker.dmg);

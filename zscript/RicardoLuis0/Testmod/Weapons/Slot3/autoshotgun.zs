@@ -15,7 +15,7 @@ class AutoShotgun : ModWeaponBase {
 		Weapon.SlotNumber 3;
 		Weapon.AmmoType1 "AutoShotgunLoaded";
 		Weapon.AmmoType2 "Shell";
-		Weapon.AmmoUse1 0;
+		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive2 12;
 		Weapon.SlotPriority 0.75;
@@ -97,7 +97,6 @@ class AutoShotgun : ModWeaponBase {
 			}
 		}
 		A_AlertMonsters();
-		A_TakeInventory(invoker.AmmoType1,1);
 		Actor c=A_FireProjectile("ShellCasing",random(-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_Recoil(2.0);
