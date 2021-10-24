@@ -5,7 +5,7 @@ OptionMenu "TestmodOptionsMenuServerCVars"{
 	Slider "Guided Rocket Max Angle","sv_guided_rocket_max_follow_angle",0,360,5
 	StaticText "Maximum angle that a guided rocket can track the targeting laser.","DarkRed"
 	StaticText ""
-	Option "SSG Zombiemen Drop SSGs","sv_ssg_zombie_drop_ssg","TrueFalse"
+	Option "SSG Zombiemen Drop SSGs","sv_ssg_zombie_drop_ssg","YesNo"
 	StaticText "If false, SSG Zombiemen only drop ammo","DarkRed"
 	StaticText ""
 	Option "Rocket Self-Damage","sv_rocket_selfdamage","YesNo"
