@@ -46,8 +46,8 @@ class PumpShotgun : ModWeaponBase {
 	override void BeginPlay(){
 		super.BeginPlay();
 		crosshair=23;
-		pellets=12;
-		dmg=5;
+		pellets=14;
+		dmg=4;
 		firecasing=false;
 	}
 	

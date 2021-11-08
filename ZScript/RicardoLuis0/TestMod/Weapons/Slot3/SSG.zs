@@ -28,8 +28,8 @@ class SSG : ModWeaponBase {
 	override void BeginPlay(){
 		super.BeginPlay();
 		crosshair=25;
-		pellets=15;
-		dmg=6;
+		pellets=16;
+		dmg=4;
 		fireright=false;
 	}
 	States{

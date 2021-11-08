@@ -31,7 +31,7 @@ class AutoShotgun : ModWeaponBase {
 		super.BeginPlay();
 		crosshair=23;
 		pellets=12;
-		dmg=5;
+		dmg=4;
 		firecasing=false;
 	}
 	
