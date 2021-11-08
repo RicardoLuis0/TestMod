@@ -8,6 +8,7 @@ class SMGLoaded : Ammo{
 	Default{
 		Inventory.MaxAmount 46;
 		+Inventory.IgnoreSkill;
+		Inventory.Icon "RIFLA0";
 	}
 }
 

@@ -2,6 +2,7 @@ class SSGLoaded : Ammo{
 	Default{
 		Inventory.MaxAmount 2;
 		+INVENTORY.IGNORESKILL;
+		Inventory.Icon "DESSA0";
 	}
 }
 

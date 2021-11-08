@@ -2,6 +2,7 @@ class AutoShotgunLoaded : Ammo{
 	Default{
 		Inventory.MaxAmount 13;
 		+INVENTORY.IGNORESKILL;
+		Inventory.Icon "DEASA0";
 	}
 }
 

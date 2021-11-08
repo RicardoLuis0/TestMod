@@ -18,6 +18,7 @@ class PumpLoaded : Ammo{
 	Default{
 		Inventory.MaxAmount 9;
 		+INVENTORY.IGNORESKILL;
+		Inventory.Icon "0ESGA0";
 	}
 }
 

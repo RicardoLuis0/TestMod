@@ -18,6 +18,7 @@ class AssaultRifleLoaded : Ammo {
 	Default{
 		Inventory.MaxAmount 21;
 		+Inventory.IgnoreSkill;
+		Inventory.Icon "MGUNA0";
 	}
 }
 

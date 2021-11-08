@@ -15,10 +15,11 @@ class LightClipCasing : CasingBase {
 	}
 }
 
-class PistolLoaded : Ammo{
+class PistolLoaded : Ammo {
 	Default{
 		Inventory.MaxAmount 18;
 		+Inventory.IgnoreSkill;
+		Inventory.Icon "DEPIA0";
 	}
 }
 
