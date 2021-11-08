@@ -47,12 +47,11 @@ class AutoShotgun : ModWeaponBase {
 			loop;
 		fire:
 			DASG A 0 A_FireAuto();
-			DASF A 2 Bright A_GunFlash;
-			DASF B 2 Bright;
+			DASF B 3 Bright A_GunFlash;
 			DASF C 2 Bright;
 			//DASF D 1;
-			DASF E 2;
-			DASF E 3 A_Refire;
+			DASF E 3;
+			DASF E 2 A_Refire;
 			TNT1 A 0 {
 				player.refire=0;
 			}
