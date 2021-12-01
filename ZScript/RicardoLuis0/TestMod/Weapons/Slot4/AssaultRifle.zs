@@ -174,6 +174,7 @@ class AssaultRifle : ModWeaponBase {
 	}
 	action void A_ReloadGun(){
 		A_ClearReFire();
+		invoker.loaded=CountInv(invoker.ammoType1);
 		A_ReloadAmmo(20,21);
 	}
 	action State A_PostReloadGun(){
