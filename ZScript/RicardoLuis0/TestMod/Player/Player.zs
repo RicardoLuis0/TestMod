@@ -9,6 +9,8 @@ class TestModPlayer : PlayerPawn {
 		melee_key_pressed=false;
 	}
 	
+	bool invuse_key_down;
+	
 	mixin WeaponInertia;
 	mixin LookPos;
 	
@@ -111,6 +113,8 @@ class TestModPlayer : PlayerPawn {
 		if(sv_player_start_green_armor){
 			GiveDefaultInventoryItem("GreenArmor");
 		}
+		if(sv_player_start_portmed){
+			GiveDefaultInventoryItem("PortableMedKit",sv_player_start_extra_ammo?50:25);
 		}
 	}
 
