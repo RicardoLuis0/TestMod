@@ -55,27 +55,45 @@ class ModWeaponBase : Weapon {
 		A_SetInventory(invoker.AmmoType1,reloadamount);
 	}
 	
-	virtual bool GrenadeKeyDown(){
+	virtual bool GrenadeKeyPressed(){
+		let st=player.ReadyWeapon.FindState("ThrowGrenade");
+		if(st){
+			player.setPSprite(PSP_WEAPON,st);
+			return true;
+		}
 		return false;
 	}
 	
-	virtual bool MeleeKeyDown(){
+	virtual bool MeleeKeyPressed(){
+		let st=player.ReadyWeapon.FindState("AttackMelee");
+		if(st){
+			player.setPSprite(PSP_WEAPON,st);
+			return true;
+		}
 		return false;
 	}
 	
-	action void W_WeaponReady(int flags=0){
-		if(TestModPlayer(self).grenade_key_down){
-			TestModPlayer(self).grenade_key_down=false;
-			if(invoker.GrenadeKeyDown()){
+	enum ext_wpflags{
+		WRFX_NOGRENADE=1,
+		WRFX_NOMELEE=2,
+	};
+	
+	action void W_WeaponReady(int flags=0,int flags_extra=0){
+		if(!(flags_extra&WRFX_NOGRENADE)&&TestModPlayer(self).grenade_key_pressed){
+			TestModPlayer(self).grenade_key_pressed=false;
+			if(invoker.GrenadeKeyPressed()){
+				TestModPlayer(self).ClearActionKeys();
 				return;
 			}
 		}
-		if(TestModPlayer(self).melee_key_down){
-			TestModPlayer(self).melee_key_down=false;
-			if(invoker.MeleeKeyDown()){
+		if(!(flags_extra&WRFX_NOMELEE)&&TestModPlayer(self).melee_key_pressed){
+			TestModPlayer(self).melee_key_pressed=false;
+			if(invoker.MeleeKeyPressed()){
+				TestModPlayer(self).ClearActionKeys();
 				return;
 			}
 		}
+		TestModPlayer(self).ClearActionKeys();
 		A_WeaponReady(flags);
 	}
 	

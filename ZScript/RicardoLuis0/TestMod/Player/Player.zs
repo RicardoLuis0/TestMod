@@ -1,7 +1,13 @@
 class TestModPlayer : PlayerPawn {
 	
-	bool grenade_key_down;
-	bool melee_key_down;
+	bool grenade_key_pressed;
+	bool melee_key_pressed;
+	
+	
+	void ClearActionKeys(){
+		grenade_key_pressed=false;
+		melee_key_pressed=false;
+	}
 	
 	mixin WeaponInertia;
 	mixin LookPos;
