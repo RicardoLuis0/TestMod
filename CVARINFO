@@ -12,6 +12,9 @@ SERVER BOOL sv_armorshard_requires_armor = true;
 SERVER BOOL sv_player_start_pistol = true;
 SERVER BOOL sv_player_start_smg = true;
 SERVER BOOL sv_player_start_rifle = false;
+SERVER BOOL sv_player_start_shotgun = false;
+SERVER BOOL sv_player_start_extra_ammo = false;
+SERVER BOOL sv_player_start_green_armor = false;
 
 
 USER BOOL cl_plasma_rifle_classic_mode = false;

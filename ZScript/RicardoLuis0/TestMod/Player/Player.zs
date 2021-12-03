@@ -60,6 +60,9 @@ class TestModPlayer : PlayerPawn {
 			return;
 		}
 		item=Inventory(Spawn(type));
+		if(amount>0&&!(item is "Weapon")){
+			item.amount=clamp(amount,0,item.maxAmount);
+		}
 		Weapon weap=Weapon(item);
 		if(weap){
 			weap.ammoGive1=0;
@@ -85,15 +88,23 @@ class TestModPlayer : PlayerPawn {
 		if(sv_player_start_pistol){
 			GiveDefaultInventoryItem("NewPistol");
 			if(!sv_player_start_smg)
-				GiveDefaultInventoryItem("LightClip",50);
+				GiveDefaultInventoryItem("LightClip",sv_player_start_extra_ammo?80:50);
+		}
+		if(sv_player_start_shotgun){
+			GiveDefaultInventoryItem("PumpShotgun");
+			GiveDefaultInventoryItem("Shell",sv_player_start_extra_ammo?24:16);
 		}
 		if(sv_player_start_smg){
 			GiveDefaultInventoryItem("SMG");
-			GiveDefaultInventoryItem("LightClip",90);
+			GiveDefaultInventoryItem("LightClip",sv_player_start_extra_ammo?120:90);
 		}
 		if(sv_player_start_rifle){
 			GiveDefaultInventoryItem("AssaultRifle");
-			GiveDefaultInventoryItem("HeavyClip",40);
+			GiveDefaultInventoryItem("HeavyClip",sv_player_start_extra_ammo?60:40);
+		}
+		if(sv_player_start_green_armor){
+			GiveDefaultInventoryItem("GreenArmor");
+		}
 		}
 	}
 
