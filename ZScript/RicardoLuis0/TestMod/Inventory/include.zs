@@ -1,5 +1,6 @@
 #include "zscript/ricardoluis0/testmod/inventory/ammo.zs"
 #include "zscript/ricardoluis0/testmod/inventory/armor.zs"
 #include "zscript/ricardoluis0/testmod/inventory/incrementalbackpack.zs"
+#include "zscript/ricardoluis0/testmod/inventory/portablemedkit.zs"
 #include "zscript/ricardoluis0/testmod/inventory/spawners/ammospawners.zs"
 #include "zscript/ricardoluis0/testmod/inventory/spawners/medspawners.zs"
