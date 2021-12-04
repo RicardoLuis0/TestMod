@@ -29,7 +29,7 @@ class PortableMedKit : Inventory {
 	}
 	
 	override bool HandlePickup(Inventory item){
-		if(amount<maxamount&&(amount+item.amount)>maxamount){
+		if(item.getClass()==getClass()&&amount<maxamount&&(amount+item.amount)>maxamount){
 			item.amount-=(maxamount-amount);
 			amount=maxamount;
 			item.bPickupGood=true;
