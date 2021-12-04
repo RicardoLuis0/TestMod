@@ -61,19 +61,23 @@ class IntHashTable {
 	}
 	
 	Object get(int key){
-		return getFrom(table[hash(key)%table_size],key);
+		uint sz=table_size;
+		return getFrom(table[hash(key)%sz],key);
 	}
 	
 	void set(int key,Object obj){
-		setAt(table[hash(key)%table_size],key,obj,true);
+		uint sz=table_size;
+		setAt(table[hash(key)%sz],key,obj,true);
 	}
 	
 	bool insert(int key,Object obj){//only inserts if key doesn't exist, otherwise fails and returns false
-		return setAt(table[hash(key)%table_size],key,obj,false);
+		uint sz=table_size;
+		return setAt(table[hash(key)%sz],key,obj,false);
 	}
 	
 	bool delete(int key){
-		return delAt(table[hash(key)%table_size],key);
+		uint sz=table_size;
+		return delAt(table[hash(key)%sz],key);
 	}
 	
 	IntHashTableKeys getKeys(){
