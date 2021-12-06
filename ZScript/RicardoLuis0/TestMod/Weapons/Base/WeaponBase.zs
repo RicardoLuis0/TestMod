@@ -56,18 +56,18 @@ class ModWeaponBase : Weapon {
 	}
 	
 	virtual bool GrenadeKeyPressed(){
-		let st=player.ReadyWeapon.FindState("ThrowGrenade");
+		let st=owner.player.ReadyWeapon.FindState("ThrowGrenade");
 		if(st){
-			player.setPSprite(PSP_WEAPON,st);
+			owner.player.setPSprite(PSP_WEAPON,st);
 			return true;
 		}
 		return false;
 	}
 	
 	virtual bool MeleeKeyPressed(){
-		let st=player.ReadyWeapon.FindState("AttackMelee");
+		let st=owner.player.ReadyWeapon.FindState("AttackMelee");
 		if(st){
-			player.setPSprite(PSP_WEAPON,st);
+			owner.player.setPSprite(PSP_WEAPON,st);
 			return true;
 		}
 		return false;
