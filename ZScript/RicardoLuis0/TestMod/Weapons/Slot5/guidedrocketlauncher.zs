@@ -35,13 +35,11 @@ class GuidedRocketLauncher : ModWeaponBase {
 			crosshair=0;
 			if(owner is "TestModPlayer"){
 				TestModPlayer p=TestModPlayer(owner);
-				//Spawn("LaserDot",p.getLookAtPos());
 				let a=p.LineAttack_Straight();
-				double dist=level.Vec3Diff((players[consoleplayer].mo.pos.x,players[consoleplayer].mo.pos.y,players[consoleplayer].ViewZ),a.pos).length();
+				double dist=level.Vec3Diff((p.pos.x,p.pos.y,p.player.ViewZ),a.pos).length();'
 				a.A_SpawnParticle("#FF0000",SPF_FULLBRIGHT,2,clamp(5,dist/50,50));
 				a.destroy();
 			}
-			//TestModPlayer(owner).LineAttack_Straight("LaserDot");
 		}else{
 			crosshair=48;
 		}
