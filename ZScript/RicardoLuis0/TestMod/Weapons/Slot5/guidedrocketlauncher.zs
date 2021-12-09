@@ -36,7 +36,7 @@ class GuidedRocketLauncher : ModWeaponBase {
 			if(owner is "TestModPlayer"){
 				TestModPlayer p=TestModPlayer(owner);
 				let a=p.LineAttack_Straight();
-				double dist=level.Vec3Diff((p.pos.x,p.pos.y,p.player.ViewZ),a.pos).length();'
+				double dist=level.Vec3Diff((p.pos.x,p.pos.y,p.player.ViewZ),a.pos).length();
 				a.A_SpawnParticle("#FF0000",SPF_FULLBRIGHT,2,clamp(5,dist/50,50));
 				a.destroy();
 			}
