@@ -6,8 +6,8 @@ class HeavyGatlingGun : ModWeaponBase {
 		Weapon.SlotPriority 0.5;
 		Weapon.AmmoType1 "HeavyClip";
 		Weapon.AmmoType2 "HeavyClip";
-		Weapon.AmmoUse1 2;
-		Weapon.AmmoUse2 2;
+		Weapon.AmmoUse1 1;
+		Weapon.AmmoUse2 1;
 		Weapon.AmmoGive1 20;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
