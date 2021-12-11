@@ -1,6 +1,7 @@
 GameInfo {
    PlayerClasses = "TestModPlayer"
    AddEventHandlers = "TestModCVarUpdateHandler","TestModKeyPressHandler","TiltPlusPlusHandler"
+   BackpackType = "IncrementalBackpack"
 }
 
 DamageType Piercing {
