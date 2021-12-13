@@ -18,7 +18,7 @@ class ArmorShard : ArmorBonus {
 				return false;
 			}
 			if(sv_armorshard_full_refill&&armor.amount>0){
-				maxSaveAmount=armor.MaxAmount;
+				maxSaveAmount=armor.ActualSaveAmount;
 			}
 		}
 		return super.TryPickup(toucher);
