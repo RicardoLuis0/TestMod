@@ -55,7 +55,7 @@ class ModWeaponBase : Weapon {
 		A_SetInventory(invoker.AmmoType1,reloadamount);
 	}
 	
-	virtual bool GrenadeKeyPressed(){
+	virtual bool OnGrenadeKeyPressed(){
 		let st=owner.player.ReadyWeapon.FindState("ThrowGrenade");
 		if(st){
 			owner.player.setPSprite(PSP_WEAPON,st);
@@ -64,13 +64,20 @@ class ModWeaponBase : Weapon {
 		return false;
 	}
 	
-	virtual bool MeleeKeyPressed(){
+	virtual bool OnMeleeKeyPressed(){
 		let st=owner.player.ReadyWeapon.FindState("AttackMelee");
 		if(st){
 			owner.player.setPSprite(PSP_WEAPON,st);
 			return true;
 		}
 		return false;
+	}
+	
+	virtual void GrenadeThrowAnimOver(){
+	}
+	
+	action void A_NotifyGrenadeThrowAnimEnd(){
+		invoker.GrenadeThrowAnimOver();
 	}
 	
 	enum ext_wpflags{
@@ -81,20 +88,29 @@ class ModWeaponBase : Weapon {
 	action void W_WeaponReady(int flags=0,int flags_extra=0){
 		if(!(flags_extra&WRFX_NOGRENADE)&&TestModPlayer(self).grenade_key_pressed){
 			TestModPlayer(self).grenade_key_pressed=false;
-			if(invoker.GrenadeKeyPressed()){
+			if(invoker.OnGrenadeKeyPressed()){
 				TestModPlayer(self).ClearActionKeys();
 				return;
 			}
 		}
 		if(!(flags_extra&WRFX_NOMELEE)&&TestModPlayer(self).melee_key_pressed){
 			TestModPlayer(self).melee_key_pressed=false;
-			if(invoker.MeleeKeyPressed()){
+			if(invoker.OnMeleeKeyPressed()){
 				TestModPlayer(self).ClearActionKeys();
 				return;
 			}
 		}
 		TestModPlayer(self).ClearActionKeys();
 		A_WeaponReady(flags);
+	}
+	
+	States {
+		ThrowGrenadeLArmAnim:
+			TNT1 A 0 A_NotifyGrenadeThrowAnimEnd;
+			Stop;
+		ThrowGrenadeRArmAnim:
+			TNT1 A 0 A_NotifyGrenadeThrowAnimEnd;
+			Stop;
 	}
 	
 	

@@ -17,7 +17,7 @@ class IncrementalBackpack : Backpack replaces Backpack {
 				if (iammo.amount<iammo.maxAmount||sv_unlimited_pickup){
 					int amount=iammo.default.backpackAmount;
 					if (!bIgnoreSkill) {
-						amount*=G_SkillPropertyFloat(SKILLP_AmmoFactor);
+						amount=int(amount*G_SkillPropertyFloat(SKILLP_AmmoFactor));
 					}
 					iammo.amount += amount;
 					if(iammo.amount>iammo.MaxAmount&&!sv_unlimited_pickup){

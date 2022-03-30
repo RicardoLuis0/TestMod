@@ -1,5 +1,5 @@
 class MyPlasmaRifle : ModWeaponBase {
-	const LAYER = 9999;
+	const PSP_DISPLAY = 9999;
 	int heat;
 	int heatmax;
 	int heatup;
@@ -32,15 +32,15 @@ class MyPlasmaRifle : ModWeaponBase {
 	NoAmmo:
 		DPGG A 0 {
 			invoker.init=false;
-			W_SetLayerFrame(LAYER,0);
+			W_SetLayerFrame(PSP_DISPLAY,0);
 		}
-		DPGG A 10 W_SetLayerSprite(LAYER,"PNAAA");
+		DPGG A 10 W_SetLayerSprite(PSP_DISPLAY,"PNAAA");
 		DPGG A 0 {
 			invoker.init=true;
 		}
 	Ready:
 		DPGG A 0 {
-			W_SetLayerSprite(LAYER,"PHNA");
+			W_SetLayerSprite(PSP_DISPLAY,"PHNA");
 		}
 	ReadyLoop:
 		DPGG A 1 W_WeaponReady(WRF_ALLOWRELOAD);
@@ -49,11 +49,11 @@ class MyPlasmaRifle : ModWeaponBase {
 		DPGG A 1 A_Lower();
 		Loop;
 	DeadLowered:
-		DPGG A 0 A_ClearOverlays(LAYER,LAYER);
+		DPGG A 0 A_ClearOverlays(PSP_DISPLAY,PSP_DISPLAY);
 		Stop;
 	Select:
 		DPGG A 0 {
-			A_Overlay(LAYER,"WeaponOverlay");
+			A_Overlay(PSP_DISPLAY,"WeaponOverlay");
 			invoker.init=true;
 		}
 	SelectLoop:
@@ -100,9 +100,9 @@ class MyPlasmaRifle : ModWeaponBase {
 		Goto Ready;
 	AutoFire:
 		DPGG A 1 A_FireGun();
-		DPGG B 1 W_SetLayerSprite(LAYER,"PHNB");
-		DPGG A 1 W_SetLayerSprite(LAYER,"PHNA");
-		DPGG A 1 A_SetTics(clamp(4-ceil((invoker.heat/double(invoker.heatmax))*4),1,3));
+		DPGG B 1 W_SetLayerSprite(PSP_DISPLAY,"PHNB");
+		DPGG A 1 W_SetLayerSprite(PSP_DISPLAY,"PHNA");
+		DPGG A 1 A_SetTics(int(clamp(4-ceil((invoker.heat/double(invoker.heatmax))*4),1,3)));
 		DPGG A 3 A_Refire("AutoFire");
 		DPGG A 0 A_FireEnd();
 		Goto Ready;
@@ -133,7 +133,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		DPGF C 0 {
 			return CheckFire(null,"LauncherFireStop","LauncherFireStop");
 		}
-		DPGF B 0 W_SetLayerSprite(LAYER,"PHNB");
+		DPGF B 0 W_SetLayerSprite(PSP_DISPLAY,"PHNB");
 	LauncherFireLoop1:
 		DPGF B 3 Bright;
 		DPGF D 3 Bright;
@@ -169,39 +169,39 @@ class MyPlasmaRifle : ModWeaponBase {
 				return ResolveState(null);
 			}
 		}
-		DPGG C 6 W_SetLayerSprite(LAYER,"PHNC");
+		DPGG C 6 W_SetLayerSprite(PSP_DISPLAY,"PHNC");
 		DPGG C 0 {
 			invoker.reloading=true;
 		}
 	ReloadLoop:
 		DPGG D 4{
-			W_SetLayerSprite(LAYER,"PHND");
+			W_SetLayerSprite(PSP_DISPLAY,"PHND");
 			return A_ReloadEnd();
 		}
 		Loop;
 	ReloadStop:
-		DPGG C 6 W_SetLayerSprite(LAYER,"PHNC");
+		DPGG C 6 W_SetLayerSprite(PSP_DISPLAY,"PHNC");
 		Goto Ready;
 	Spawn:
 		DEPG A -1;
 		Loop;
 	OverheatStart:
 		DPGG A 0 A_StartSound("weapons/overheat",CHAN_AUTO);
-		DPGG A 3 W_SetLayerSprite(LAYER,"PHOA");
-		DPGG C 6 W_SetLayerSprite(LAYER,"PHOC");
+		DPGG A 3 W_SetLayerSprite(PSP_DISPLAY,"PHOA");
+		DPGG C 6 W_SetLayerSprite(PSP_DISPLAY,"PHOC");
 	OverheatUp:
 		DPGG C 0{
 			invoker.reloading=true;
 		}
 	OverheatLoop:
 		DPGG D 4 {
-			W_SetLayerSprite(LAYER,"PHOD");
+			W_SetLayerSprite(PSP_DISPLAY,"PHOD");
 			return A_OverheatEnd();
 		}
 		Loop;
 	OverheatStop:
-		DPGG C 6 W_SetLayerSprite(LAYER,"PHOC");
-		DPGG A 3 W_SetLayerSprite(LAYER,"PHOA");
+		DPGG C 6 W_SetLayerSprite(PSP_DISPLAY,"PHOC");
+		DPGG A 3 W_SetLayerSprite(PSP_DISPLAY,"PHOA");
 		goto Ready;
 	WeaponOverlay:
 		PHNA A -1 Bright;
@@ -281,7 +281,7 @@ class MyPlasmaRifle : ModWeaponBase {
 	}
 
 	void HeatOverlay(){
-		SetLayerFrame(LAYER,overheat?7-int(ceil((double(heat)/heatmax)*7)):heat?6-int(floor((double(heat)/heatmax)*6)):7);
+		SetLayerFrame(PSP_DISPLAY,overheat?7-int(ceil((double(heat)/heatmax)*7)):heat?6-int(floor((double(heat)/heatmax)*6)):7);
 	}
 
 	action State A_FireGun(){
@@ -315,7 +315,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		A_SetPitch(pitch+frandom(-10,-5));
 		A_Recoil(10);
 		A_Overheat();
-		W_SetLayerSprite(LAYER,"PHOC");
+		W_SetLayerSprite(PSP_DISPLAY,"PHOC");
 	}
 
 	action State A_FireEnd(){
@@ -345,5 +345,4 @@ class MyPlasmaRifle : ModWeaponBase {
 		}
 		return ResolveState(null);
 	}
-
 }

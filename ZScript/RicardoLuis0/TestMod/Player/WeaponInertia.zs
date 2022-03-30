@@ -142,7 +142,7 @@ mixin class WeaponInertia {
 		weaponinertia_zbob_scale=CVar.GetCVar("cl_weaponinertia_zbob_scale",player).getFloat();
 		weaponinertia_oldbob_scale_x=CVar.GetCVar("cl_weaponinertia_oldbob_scale_x",player).getFloat();
 		weaponinertia_oldbob_scale_y=CVar.GetCVar("cl_weaponinertia_oldbob_scale_y",player).getFloat();
-		weaponinertia_max_memory=CVar.GetCVar("cl_weaponinertia_max_memory",player).getFloat();
+		weaponinertia_max_memory=CVar.GetCVar("cl_weaponinertia_max_memory",player).getInt();
 		weaponinertia_ClearInertia();
 	}
 }

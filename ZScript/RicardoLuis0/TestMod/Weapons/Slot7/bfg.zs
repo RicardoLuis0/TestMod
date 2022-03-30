@@ -41,7 +41,7 @@ class BFG : ModWeaponBase {
 		int new_count=0;
 		let iammo=owner.FindInventory(ammotype1);
 		if(iammo&&iammo.amount>=ammouse1){
-			new_count=ceil(iammo.amount/double(iammo.maxAmount)*5);
+			new_count=int(ceil(iammo.amount/double(iammo.maxAmount)*5));
 		}
 		if(init&&new_count!=ammo_display){
 			ammo_display=new_count;
