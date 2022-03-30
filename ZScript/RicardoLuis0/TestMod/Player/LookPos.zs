@@ -17,41 +17,37 @@ class VisTracer:BulletPuff{
 }
 
 mixin class LookPos {
-	bool look_calc;
-	Vector3 look_pos;
 	
-	void do_look_calc(Actor p){
-		if(p){
-			Vector3 ret=p.pos;
-			look_calc=true;
-			look_pos=ret;
-		}
-		look_calc=true;
+	BulletPuff LineAttack_Straight(String puff="VisTracer",int flags=LAF_NORANDOMPUFFZ|LAF_NOINTERACT){
+		return BulletPuff(LineAttack(angle,4096,pitch,0,"None",puff,flags));
 	}
 	
-	BulletPuff LineAttack_Straight(String puff="VisTracer"){
-		BulletPuff p=BulletPuff(LineAttack(angle,4096,pitch,0,"None",puff,LAF_NORANDOMPUFFZ|LAF_NOINTERACT));
-		if(!look_calc){
-			do_look_calc(p);
+    bool lookPosCacheOk;
+    Vector3 lookPosCache;
+    
+	bool getLookAtPos(out Vector3 lookPos,String puff="VisTracer"){//puff recommended to be derived from vistracer
+		if(!lookPosCacheOk){
+			BulletPuff p=BulletPuff(LineAttack(angle,4096,pitch,0,"None",puff,LAF_NORANDOMPUFFZ|LAF_NOINTERACT));
+            if(p){
+                lookPosCache=p.pos;
+                lookPosCacheOk=true;
+                p.destroy();
+            }
 		}
-		return p;
-	}
-
-	Vector3 getLookAtPos(String puff="VisTracer"){//puff recommended to be derived from vistracer
-		if(!look_calc){
-			BulletPuff p=LineAttack_Straight(puff);
-			do_look_calc(p);
-			p.destroy();
-		}
-		return look_pos;
+        if(lookPosCacheOk){
+            lookPos=lookPosCache;
+            return true;
+        }else{
+            return false;//could not get look position
+        }
 	}
 
 	void LookPosInit(){
-		look_calc=false;
+		lookPosCacheOk=false;
 	}
 
 	void LookPosTick(){
-		look_calc=false;
+		lookPosCacheOk=false;
 	}
 
 }

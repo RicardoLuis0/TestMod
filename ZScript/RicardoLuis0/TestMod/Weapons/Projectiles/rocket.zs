@@ -150,7 +150,10 @@ class GuidedRocket:SteerRocket{
 			TestModPlayer p=TestModPlayer(target);
 			if(p){
 				if(p.player.ReadyWeapon.getClass()=="GuidedRocketLauncher"&&GuidedRocketLauncher(p.player.ReadyWeapon).laserenabled){
-					Steer(p.getLookAtPos(),sv_guided_rocket_max_follow_angle,rotspeed);
+					Vector3 lookPos;
+					if(p.getLookAtPos(lookPos)){
+						Steer(lookPos,sv_guided_rocket_max_follow_angle,rotspeed);
+					}
 				}
 			}
 		}
