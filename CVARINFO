@@ -18,7 +18,6 @@ SERVER BOOL sv_player_start_green_armor = false;
 SERVER BOOL sv_player_start_portmed = false;
 
 
-USER BOOL cl_plasma_rifle_classic_mode = false;
 USER BOOL cl_extra_weapon_bob = true;
 USER BOOL cl_ssg_autoreload = true;
 //weapon inertia

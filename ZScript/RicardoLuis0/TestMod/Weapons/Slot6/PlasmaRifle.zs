@@ -6,13 +6,17 @@ class MyPlasmaRifle : ModWeaponBase {
 	int heatdown;
 	int heatdownreload;
 	int heatdownoverheat;
+	
 	bool firing;
 	bool overheat;
 	bool reloading;
 	bool init;
+	bool noammo;
+	
 	int altloop;
 	int firemode;
 	int firemodemax;
+	
 	State fireState;
 
 	Default{
@@ -21,6 +25,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		Weapon.AmmoType1 "Cell";
 		Weapon.AmmoType2 "Cell";
 		Weapon.AmmoUse1 1;
+		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive1 75;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
@@ -30,19 +35,8 @@ class MyPlasmaRifle : ModWeaponBase {
 
 	States{
 	NoAmmo:
-		DPGG A 0 {
-			invoker.init=false;
-			W_SetLayerFrame(PSP_DISPLAY,0);
-		}
-		DPGG A 10 W_SetLayerSprite(PSP_DISPLAY,"PNAAA");
-		DPGG A 0 {
-			invoker.init=true;
-		}
+		DPGG A 10;
 	Ready:
-		DPGG A 0 {
-			W_SetLayerSprite(PSP_DISPLAY,"PHNA");
-		}
-	ReadyLoop:
 		DPGG A 1 W_WeaponReady(WRF_ALLOWRELOAD);
 		Loop;
 	Deselect:
@@ -55,6 +49,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		DPGG A 0 {
 			A_Overlay(PSP_DISPLAY,"WeaponOverlay");
 			invoker.init=true;
+			invoker.noammo=false;
 		}
 	SelectLoop:
 		DPGG A 1 A_Raise();
@@ -102,7 +97,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		DPGG A 1 A_FireGun();
 		DPGG B 1 W_SetLayerSprite(PSP_DISPLAY,"PHNB");
 		DPGG A 1 W_SetLayerSprite(PSP_DISPLAY,"PHNA");
-		DPGG A 1 A_SetTics(int(clamp(4-ceil((invoker.heat/double(invoker.heatmax))*4),1,3)));
+		DPGG A 1 A_SetTics(int(clamp(4-ceil(((invoker.heat*0.75)/double(invoker.heatmax))*4),1,3)));
 		DPGG A 3 A_Refire("AutoFire");
 		DPGG A 0 A_FireEnd();
 		Goto Ready;
@@ -181,6 +176,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		Loop;
 	ReloadStop:
 		DPGG C 6 W_SetLayerSprite(PSP_DISPLAY,"PHNC");
+		DPGG A 0 W_SetLayerSprite(PSP_DISPLAY,"PHNAA");
 		Goto Ready;
 	Spawn:
 		DEPG A -1;
@@ -190,7 +186,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		DPGG A 3 W_SetLayerSprite(PSP_DISPLAY,"PHOA");
 		DPGG C 6 W_SetLayerSprite(PSP_DISPLAY,"PHOC");
 	OverheatUp:
-		DPGG C 0{
+		DPGG C 0 {
 			invoker.reloading=true;
 		}
 	OverheatLoop:
@@ -201,7 +197,8 @@ class MyPlasmaRifle : ModWeaponBase {
 		Loop;
 	OverheatStop:
 		DPGG C 6 W_SetLayerSprite(PSP_DISPLAY,"PHOC");
-		DPGG A 3 W_SetLayerSprite(PSP_DISPLAY,"PHOA");
+		DPGG A 5 W_SetLayerSprite(PSP_DISPLAY,"PHOA");
+		DPGG A 0 W_SetLayerSprite(PSP_DISPLAY,"PHNAA");
 		goto Ready;
 	WeaponOverlay:
 		PHNA A -1 Bright;
@@ -222,22 +219,23 @@ class MyPlasmaRifle : ModWeaponBase {
 		firemodemax=1;
 		crosshair=20;
 		heat=0;
-		heatdown=1;
+		heatdown=5;
 		heatmax=500;
 		updateFire(false);
 		firing=false;
 		overheat=false;
 		reloading=false;
 		init=false;
+		noammo=false;
 	}
-
+	
 	action void updateFire(bool showmessage=true){
 		switch(invoker.firemode){
 		default:
 			invoker.firemode=0;
 		case 0://automatic mode
 			if(showmessage)A_Print("Automatic Mode");
-			invoker.heatdownoverheat=20;
+			invoker.heatdownoverheat=8;
 			invoker.heatdownreload=30;
 			invoker.heatup=10;
 			invoker.fireState=ResolveState("AutoFire");
@@ -273,7 +271,17 @@ class MyPlasmaRifle : ModWeaponBase {
 	}
 
 	void HeatMinus(){
-		heat-=reloading?(overheat?heatdownoverheat:heatdownreload):heatdown;
+		if(reloading||overheat){
+			heat-=overheat?heatdownoverheat:heatdownreload;
+		}else if(heat<(heatmax/4)){
+			heat-=max(heatdown/4,1);
+		}else if(heat<(heatmax/2)){
+			heat-=max(heatdown/3,1);
+		}else if(heat<(heatmax/1.5)){
+			heat-=max(heatdown/2,1);
+		}else{
+			heat-=heatdown;
+		}
 		if(heat<=0){
 			heat=0;
 			overheat=false;
@@ -281,7 +289,21 @@ class MyPlasmaRifle : ModWeaponBase {
 	}
 
 	void HeatOverlay(){
-		SetLayerFrame(PSP_DISPLAY,overheat?7-int(ceil((double(heat)/heatmax)*7)):heat?6-int(floor((double(heat)/heatmax)*6)):7);
+		if(owner.CountInv("Cell")<ammouse1){
+			if(!noammo){
+				noammo=true;
+			}
+			if(GetLayerSprite(PSP_DISPLAY)==GetSpriteIndex("PHNAA")){
+				SetLayerFrame(PSP_DISPLAY,0);
+				SetLayerSprite(PSP_DISPLAY,"PNAAA");
+			}
+		}else{
+			if(noammo){
+				noammo=false;
+				SetLayerSprite(PSP_DISPLAY,"PHNAA");
+			}
+			SetLayerFrame(PSP_DISPLAY,overheat?7-int(ceil((double(heat)/heatmax)*7)):heat?6-int(floor(((double(heat)/heatmax)*6)+0.5)):7);
+		}
 	}
 
 	action State A_FireGun(){
@@ -323,9 +345,6 @@ class MyPlasmaRifle : ModWeaponBase {
 		if(invoker.overheat){
 			return ResolveState("OverheatStart");
 		}else{
-			if(CVar.GetCVar("cl_plasma_rifle_classic_mode",player).getInt()!=0){
-				return ResolveState("Reload");
-			}
 			return ResolveState("Ready");
 		}
 	}

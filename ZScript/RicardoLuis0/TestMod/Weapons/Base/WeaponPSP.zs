@@ -29,7 +29,23 @@ extend class ModWeaponBase {
 			psp.sprite = index;
 		}
 	}
-
+	
+	void SetLayerSpriteIndex(int layer,int sprite_index){
+		PSprite psp = PSP_Get(layer);
+		if(psp && psp.CurState) {
+			psp.sprite = sprite_index;
+		}
+	}
+	
+	int GetLayerSprite(int layer){
+		PSprite psp = PSP_Get(layer);
+		if(psp && psp.CurState) {
+			return psp.sprite;
+		}else{
+			return -1;
+		}
+	}
+	
 	void SetLayerState(int layer,state newState) {
 		PlayerPawn p=PlayerPawn(owner);
 		if(p&&p.player){
