@@ -25,21 +25,16 @@ mixin class LookPos {
     bool lookPosCacheOk;
     Vector3 lookPosCache;
     
-	bool getLookAtPos(out Vector3 lookPos,String puff="VisTracer"){//puff recommended to be derived from vistracer
+	Vector3,bool getLookAtPos(String puff="VisTracer"){//puff recommended to be derived from vistracer
 		if(!lookPosCacheOk){
 			BulletPuff p=BulletPuff(LineAttack(angle,4096,pitch,0,"None",puff,LAF_NORANDOMPUFFZ|LAF_NOINTERACT));
             if(p){
                 lookPosCache=p.pos;
                 lookPosCacheOk=true;
                 p.destroy();
-            }
+            }// else could not get look position
 		}
-        if(lookPosCacheOk){
-            lookPos=lookPosCache;
-            return true;
-        }else{
-            return false;//could not get look position
-        }
+        return lookPosCache , lookPosCacheOk;
 	}
 
 	void LookPosInit(){
