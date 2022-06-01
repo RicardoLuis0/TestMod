@@ -19,6 +19,8 @@ class GatlingRocketLauncher : ModWeaponBase {
 	}
 	States{
 		Ready:
+			TNT1 A 0 StopSounds();
+		ReadyLoop:
 			REPG A 1 W_WeaponReady;
 			Loop;
 		Select:
@@ -100,11 +102,13 @@ class GatlingRocketLauncher : ModWeaponBase {
 			TNT1 A 0 SpinDownSound();
 			REPG A 4;
 		Spindown1Half:
+			TNT1 A 0 SpinDownSound();
 			REPG B 4;
 		Spindown2:
 			TNT1 A 0 SpinDownSound();
 			REPG C 4;
 		Spindown2Half:
+			TNT1 A 0 SpinDownSound();
 			REPG D 4;
 			REPG A 0 CheckFire("Shoot1","AltLoop1");
 			REPG A 6;
@@ -180,6 +184,12 @@ class GatlingRocketLauncher : ModWeaponBase {
 	action void SpinDownSound(){
 		A_StopSound(CHAN_7);
 		A_StartSound("weapons/gatlingrocketwinddown",CHAN_6,CHANF_NOSTOP);
+	}
+	
+	action void StopSounds(){
+		A_StopSound(CHAN_6);
+		A_StopSound(CHAN_7);
+		
 	}
 }
 
