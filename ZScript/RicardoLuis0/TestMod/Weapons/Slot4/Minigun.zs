@@ -1,4 +1,4 @@
-class Minigun : HeavyGatlingGun {
+class Minigun : HeavyGatlingShotgun {
 	bool tammo;
 
 	Default{
@@ -33,7 +33,7 @@ class Minigun : HeavyGatlingGun {
 				invoker.spinning=true;
 				A_StopSound(CHAN_6);
 				A_StartSound("weapons/minigunspin",CHAN_7,CHANF_LOOPING,0.2);
-				if(CountInv("LightClip")==0)return ResolveState("idlespin_clearrefire");
+				if(CountInv(invoker.ammotype1)==0)return ResolveState("idlespin_clearrefire");
 				return ResolveState(null);
 			}
 			PKCG A 0 A_Jump(128,"firespin2");
@@ -104,8 +104,8 @@ class Minigun : HeavyGatlingGun {
 			stop;
 	}
 	action State A_FireGun(){
-		if(CountInv("LightClip")==0){
-			return ResolveState("noammo");
+		if(CountInv(invoker.ammotype1)==0){
+			return ResolveState("idlespin_clearrefire");
 		}
 		Actor c=A_FireProjectile("LightClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);

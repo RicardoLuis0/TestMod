@@ -4,7 +4,7 @@
 #include "zscript/ricardoluis0/testmod/weapons/slot3/autoshotgun.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot3/pumpshotgun.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot3/ssg.zs"
-#include "zscript/ricardoluis0/testmod/weapons/slot4/heavygatlinggun.zs"
+#include "zscript/ricardoluis0/testmod/weapons/slot3/heavygatlingshotgun.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot4/minigun.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot4/assaultrifle.zs"
 #include "zscript/ricardoluis0/testmod/weapons/slot4/smg.zs"

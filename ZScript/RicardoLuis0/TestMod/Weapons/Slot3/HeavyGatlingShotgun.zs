@@ -1,18 +1,18 @@
-class HeavyGatlingGun : ModWeaponBase {
+class HeavyGatlingShotgun : ModWeaponBase {
 	bool spinning;
 	Default{
-		Tag "Heavy Gatling Gun";
-		Weapon.SlotNumber 4;
-		Weapon.SlotPriority 0.5;
-		Weapon.AmmoType1 "HeavyClip";
-		Weapon.AmmoType2 "HeavyClip";
+		Tag "Heavy Gatling Shotgun";
+		Weapon.SlotNumber 3;
+		Weapon.SlotPriority 0.001;
+		Weapon.AmmoType1 "Shell";
+		Weapon.AmmoType2 "Shell";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 1;
 		Weapon.AmmoGive1 20;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;
-		Inventory.PickupMessage "You've got the Heavy Gatling Gun!";
+		Inventory.PickupMessage "You've got the Heavy Gatling Shotgun!";
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
@@ -47,10 +47,10 @@ class HeavyGatlingGun : ModWeaponBase {
 		firespin:
 			TNT1 A 0 {
 				invoker.spinning=true;
-				if(CountInv("HeavyClip")<2)return ResolveState("idlespin_clearrefire");
+				if(CountInv(invoker.ammotype1)==0) return ResolveState("idlespin_clearrefire");
 				return ResolveState(null);
 			}
-			DGTF A 1 Bright A_FireGun;
+			DGTF A 1 Bright A_FireShotgun;
 			DGTF B 1 Bright;
 			goto idlespin2;
 		idlespin_clearrefire:
@@ -110,14 +110,15 @@ class HeavyGatlingGun : ModWeaponBase {
 			DEGT A -1;
 			stop;
 	}
-	action State A_FireGun(){
-		if(CountInv("HeavyClip")==0){
-			return ResolveState("noammo");
+	action State A_FireShotgun(){
+		if(CountInv(invoker.ammotype1)==0){
+			return ResolveState("idlespin_clearrefire");
 		}
 		A_GunFlash();
-		Actor c=A_FireProjectile("HeavyClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
+		Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-		W_FireBulletsSpreadXY(0.5,8,1,20,"PiercingPuff",FBF_USEAMMO,refire_rate:0.5,refire_max:0.25);
+		double spread=2.5+(0.75*clamp(player.refire,0,10));
+		W_FireBullets(spread,spread,12,4);
 		player.refire++;
 		A_Recoil(2.5);
 		A_AlertMonsters();

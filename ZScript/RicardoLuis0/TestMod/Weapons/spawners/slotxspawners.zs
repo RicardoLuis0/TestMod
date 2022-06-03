@@ -49,6 +49,7 @@ class Slot3Spawner : ThingSpawner {
 		spawnlist.Push(BasicThingSpawnerElement.Create("AutoShotgun",1,1));
 		spawnlist.Push(BasicThingSpawnerElement.Create("PumpShotgun",1,1));
 		spawnlist.Push(BasicThingSpawnerElement.Create("SSG",1,1));
+		spawnlist.Push(BasicThingSpawnerElement.Create("HeavyGatlingShotgun",1,1));
 	}
 }
 
@@ -57,7 +58,6 @@ class Slot4Spawner : ThingSpawner {
 		spawnlist.Push(BasicThingSpawnerElement.Create("SMG",1,1));
 		spawnlist.Push(BasicThingSpawnerElement.Create("AssaultRifle",1,1));
 		spawnlist.Push(BasicThingSpawnerElement.Create("Minigun",1,1));
-		spawnlist.Push(BasicThingSpawnerElement.Create("HeavyGatlingGun",1,1));
 	}
 }
 
@@ -101,8 +101,8 @@ class SuperShotgunSpawner : ThingSpawner replaces SuperShotgun{
 
 class ChaingunSpawner : ThingSpawner replaces Chaingun{
 	override void setDrops(){
-		spawnlist.Push(BasicThingSpawnerElement.Create("Minigun",1,3));
-		spawnlist.Push(BasicThingSpawnerElement.Create("HeavyGatlingGun",1,1));
+		spawnlist.Push(BasicThingSpawnerElement.Create("Minigun",1,5));
+		spawnlist.Push(BasicThingSpawnerElement.Create("HeavyGatlingShotgun",1,1));
 	}
 }
 
