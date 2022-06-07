@@ -63,7 +63,7 @@ class ThingSpawner : Actor abstract {
 		for(int i=0;i<spawnlist.Size();i++){
 			if(!bDropped||spawnlist[i].actor_allow_dropped){
 				total+=spawnlist[i].actor_weight;
-				if(total>weight){
+				if(total>=weight){
 					return spawnlist[i];
 				}
 			}
@@ -92,7 +92,7 @@ class ThingSpawner : Actor abstract {
 
 	override void PostBeginPlay(){
 		super.PostBeginPlay();
-		setDrops();
+		//setDrops();
 		if(!DoSpawn()) console.printf("\c[Red] Error Spawning Drops");
 		Destroy();
 	}

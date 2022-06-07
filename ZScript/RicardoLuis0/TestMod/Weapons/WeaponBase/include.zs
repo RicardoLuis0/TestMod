@@ -1,0 +1,6 @@
+#include "./WeaponBase.zs"
+#include "./WeaponChecks.zs"
+#include "./WeaponPSP.zs"
+#include "./WeaponSpread.zs"
+#include "./PuffBase.zs"
+#include "./CasingBase.zs"

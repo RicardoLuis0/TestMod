@@ -89,7 +89,7 @@ class PistolSpawner : ThingSpawner replaces Pistol{
 class ShotgunSpawner : ThingSpawner replaces Shotgun{
 	override void setDrops(){
 		spawnlist.Push(BasicThingSpawnerElement.Create("PumpShotgun",1,3));
-		spawnlist.Push(BasicThingSpawnerElement.Create("AutoShotgun",1,2));
+		spawnlist.Push(BasicThingSpawnerElement.Create("AutoShotgun",1,2,allow_dropped:false));
 	}
 }
 
@@ -102,7 +102,7 @@ class SuperShotgunSpawner : ThingSpawner replaces SuperShotgun{
 class ChaingunSpawner : ThingSpawner replaces Chaingun{
 	override void setDrops(){
 		spawnlist.Push(BasicThingSpawnerElement.Create("Minigun",1,5));
-		spawnlist.Push(BasicThingSpawnerElement.Create("HeavyGatlingShotgun",1,1));
+		spawnlist.Push(BasicThingSpawnerElement.Create("HeavyGatlingShotgun",1,1,allow_dropped:false));
 	}
 }
 
