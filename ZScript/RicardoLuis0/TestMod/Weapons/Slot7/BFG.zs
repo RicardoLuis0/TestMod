@@ -30,7 +30,7 @@ class BFG : ModWeaponBase {
 	Default {
 		Tag "BFG";
 		Weapon.SlotNumber 7;
-		Weapon.AmmoType1 "Cell";
+		Weapon.AmmoType1 "NewCell";
 		Weapon.AmmoUse1 40;
 		Weapon.AmmoGive1 120;
 		+WEAPON.NOALERT;

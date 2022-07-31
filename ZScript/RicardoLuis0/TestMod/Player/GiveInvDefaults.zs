@@ -40,7 +40,7 @@ extend class TestModPlayer {
 		}
 		if(sv_player_start_shotgun){
 			GiveDefaultInventoryItem("PumpShotgun");
-			GiveDefaultInventoryItem("Shell",sv_player_start_extra_ammo?24:16);
+			GiveDefaultInventoryItem("NewShell",sv_player_start_extra_ammo?24:16);
 		}
 		if(sv_player_start_smg){
 			GiveDefaultInventoryItem("SMG");

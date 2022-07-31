@@ -14,7 +14,7 @@ class SSG : ModWeaponBase {
 		Tag "Super Shotgun";
 		Weapon.SlotNumber 3;
 		Weapon.AmmoType1 "SSGLoaded";
-		Weapon.AmmoType2 "Shell";
+		Weapon.AmmoType2 "NewShell";
 		Weapon.AmmoUse1 2;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive2 4;

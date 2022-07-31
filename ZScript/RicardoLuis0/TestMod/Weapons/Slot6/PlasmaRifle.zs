@@ -22,8 +22,8 @@ class MyPlasmaRifle : ModWeaponBase {
 	Default{
 		Tag "Plasma Rifle";
 		Weapon.SlotNumber 6;
-		Weapon.AmmoType1 "Cell";
-		Weapon.AmmoType2 "Cell";
+		Weapon.AmmoType1 "NewCell";
+		Weapon.AmmoType2 "NewCell";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive1 75;
@@ -87,7 +87,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		}
 	Fire:
 		DPGG A 0 {
-			if(CountInv("Cell")<invoker.ammouse1){
+			if(CountInv("NewCell")<invoker.ammouse1){
 				return ResolveState("NoAmmo");
 			}else if(invoker.firemode!=0&&!sv_plasmagun_extrafire)return ResolveState("ResetFire");
 			return invoker.fireState;
@@ -291,7 +291,7 @@ class MyPlasmaRifle : ModWeaponBase {
 	}
 
 	void HeatOverlay(){
-		if(owner.CountInv("Cell")<ammouse1){
+		if(owner.CountInv("NewCell")<ammouse1){
 			if(!noammo){
 				noammo=true;
 			}
@@ -312,7 +312,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		if(invoker.overheat){
 			invoker.firing=false;
 			return ResolveState("OverheatStart");
-		}else if(CountInv("Cell")==0){
+		}else if(CountInv("NewCell")==0){
 			invoker.firing=false;
 			return ResolveState("NoAmmo");
 		}

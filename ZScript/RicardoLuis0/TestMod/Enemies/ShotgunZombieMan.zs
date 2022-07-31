@@ -1,4 +1,4 @@
-class SSGZombieAmmoDrop : Shell {
+class SSGZombieAmmoDrop : NewShell {
 	Default {
 		Inventory.Amount 8;//double the value to account for drops halving ammo amount
 	}

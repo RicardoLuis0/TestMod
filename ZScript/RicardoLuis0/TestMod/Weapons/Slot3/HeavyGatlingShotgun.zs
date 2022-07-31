@@ -4,8 +4,8 @@ class HeavyGatlingShotgun : ModWeaponBase {
 		Tag "Heavy Gatling Shotgun";
 		Weapon.SlotNumber 3;
 		Weapon.SlotPriority 0.001;
-		Weapon.AmmoType1 "Shell";
-		Weapon.AmmoType2 "Shell";
+		Weapon.AmmoType1 "NewShell";
+		Weapon.AmmoType2 "NewShell";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 1;
 		Weapon.AmmoGive1 20;

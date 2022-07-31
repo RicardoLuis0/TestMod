@@ -31,7 +31,7 @@ class PumpShotgun : ModWeaponBase {
 		Tag "Pump Shotgun";
 		Weapon.SlotNumber 3;
 		Weapon.AmmoType1 "PumpLoaded";
-		Weapon.AmmoType2 "Shell";
+		Weapon.AmmoType2 "NewShell";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive2 8;

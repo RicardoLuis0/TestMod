@@ -1,9 +1,10 @@
 class PortableMedKit : Inventory {
+	
+	mixin IncrementalPickup;
+	
 	int max_heal;
 	Property MaxHeal:max_heal;
 	bool allow_use;
-	
-	bool should_stay;
 	
 	Default {
 		PortableMedKit.MaxHeal 100;
@@ -17,27 +18,6 @@ class PortableMedKit : Inventory {
 		+Inventory.IsHealth;
 		+Inventory.PersistentPower;
 		Inventory.Pickupmessage "Got a portable Medkit.";
-	}
-	
-	override bool ShouldStay(){
-		if(should_stay){
-			should_stay=false;
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
-	override bool HandlePickup(Inventory item){
-		if(item.getClass()==getClass()&&amount<maxamount&&(amount+item.amount)>maxamount){
-			item.amount-=(maxamount-amount);
-			amount=maxamount;
-			item.bPickupGood=true;
-			item.bDropped=false;
-			PortableMedKit(item).should_stay=true;
-			return true;
-		}
-		return super.HandlePickup(item);
 	}
 	
 	override void DoEffect(){

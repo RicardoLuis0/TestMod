@@ -17,7 +17,7 @@ class GuidedRocketLauncher : ModWeaponBase {
 		Weapon.SlotPriority 0;
 		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 5;
-		Weapon.AmmoType "RocketAmmo";
+		Weapon.AmmoType "NewRocketAmmo";
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Laser-Guided Rocket Launcher!";
@@ -54,7 +54,7 @@ class GuidedRocketLauncher : ModWeaponBase {
 			Loop;
 		Fire:
 			DRLF A 0 {
-				if(CountInv("RocketAmmo")==0){
+				if(CountInv("NewRocketAmmo")==0){
 					return ResolveState("Ready");
 				}
 				return ResolveState(null);

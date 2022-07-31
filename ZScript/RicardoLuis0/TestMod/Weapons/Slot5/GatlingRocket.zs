@@ -3,8 +3,8 @@ class GatlingRocketLauncher : ModWeaponBase {
 		Tag "Gatling Rocket Launcher";
 		Weapon.AmmoUse 0;
 		Weapon.AmmoGive 10;
-		Weapon.AmmoType1 "RocketAmmo";
-		Weapon.AmmoType2 "RocketAmmo";
+		Weapon.AmmoType1 "NewRocketAmmo";
+		Weapon.AmmoType2 "NewRocketAmmo";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 1;
 		Weapon.SlotNumber 5;
@@ -172,7 +172,7 @@ class GatlingRocketLauncher : ModWeaponBase {
 		A_FireProjectile("FastRocket",frandom(-4,4),pitch:frandom(-2,2));
 	}
 	action State JumpNoRocketsOrFire(StateLabel altfire,StateLabel nofire){
-			if(CountInv("RocketAmmo")==0){
+			if(CountInv("NewRocketAmmo")==0){
 				return CheckFire(altfire,altfire,nofire);
 			}
 			return CheckFire(null,altfire,nofire);
