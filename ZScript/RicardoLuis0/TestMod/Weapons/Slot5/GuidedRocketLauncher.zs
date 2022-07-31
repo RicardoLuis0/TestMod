@@ -15,7 +15,7 @@ class GuidedRocketLauncher : ModWeaponBase {
 		Tag "Laser-Guided Rocket Launcher";
 		Weapon.SlotNumber 5;
 		Weapon.SlotPriority 0;
-		Weapon.AmmoUse 0;
+		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 5;
 		Weapon.AmmoType "RocketAmmo";
 		+WEAPON.NOALERT;
@@ -30,7 +30,7 @@ class GuidedRocketLauncher : ModWeaponBase {
 	override void ReadyTick(){
 		super.ReadyTick();
 		if(laserenabled){
-			crosshair=0;
+			crosshair=99;
 			if(owner is "TestModPlayer"){
 				TestModPlayer p=TestModPlayer(owner);
 				let a=p.LineAttack_Straight();
@@ -92,7 +92,6 @@ class GuidedRocketLauncher : ModWeaponBase {
 	}
 	action void MyFire(){
 		A_Recoil(8);
-		A_TakeInventory("RocketAmmo",1);
 		A_GunFlash();
 		A_AlertMonsters();
 		A_FireProjectile("GuidedRocket");
