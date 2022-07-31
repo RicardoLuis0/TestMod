@@ -240,6 +240,7 @@ class MyPlasmaRifle : ModWeaponBase {
 			invoker.heatup=10;
 			invoker.fireState=ResolveState("AutoFire");
 			invoker.ammouse1=1;
+			invoker.crosshair=20;
 			break;
 		case 1://launcher mode
 			if(showmessage)A_Print("Launcher Mode");
@@ -248,6 +249,7 @@ class MyPlasmaRifle : ModWeaponBase {
 			invoker.heatdownreload=30;
 			invoker.fireState=ResolveState("LauncherFire");
 			invoker.ammouse1=15;
+			invoker.crosshair=21;
 			break;
 		}
 	}
