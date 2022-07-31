@@ -138,8 +138,8 @@ class AssaultRifle : ModWeaponBase {
 	}
 	
 	action State A_FireGun(bool precise=false){
-		if(CountInv(invoker.AmmoType1)==0){
-			if(CountInv(invoker.AmmoType2)==0){
+		if(invoker.ammo1.amount==0){
+			if(invoker.ammo2.amount==0){
 				return ResolveState("noammo");
 			}else{
 				return ResolveState("reload");
@@ -167,16 +167,18 @@ class AssaultRifle : ModWeaponBase {
 		return ResolveState(null);
 	}
 	action State A_PreReloadGun(){
-		if(CountInv(invoker.AmmoType1)==21||CountInv(invoker.AmmoType2)==0){
-			return ResolveState("ready");
+		if(invoker.ammo1.amount == invoker.ammo1.maxamount || invoker.ammo2.amount == 0) {
+			return ResolveState("Ready");
 		}
 		return ResolveState(null);
 	}
+	
 	action void A_ReloadGun(){
 		A_ClearReFire();
-		invoker.loaded=CountInv(invoker.ammoType1);
-		A_ReloadAmmo(20,21);
+		invoker.loaded=invoker.ammo1.amount > 0;
+		A_ReloadAmmoMagazineDefaults();
 	}
+	
 	action State A_PostReloadGun(){
 		if(!invoker.loaded){
 			return P_CallJmp("bolt","ready");

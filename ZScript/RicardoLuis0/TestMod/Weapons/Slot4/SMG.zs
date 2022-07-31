@@ -30,10 +30,12 @@ class SMG : ModWeaponBase {
 		+WEAPON.NOAUTOFIRE;
 		+WEAPON.AMMO_OPTIONAL;
 	}
+	
 	override void BeginPlay(){
 		super.BeginPlay();
 		crosshair=20;
 	}
+	
 	States {
 		Spawn:
 			RIFL A -1;
@@ -49,7 +51,7 @@ class SMG : ModWeaponBase {
 			Loop;
 		Fire:
 			TNT1 A 0 {
-				if(CountInv(invoker.AmmoType1)==0){
+				if(invoker.ammo1.amount==0){
 					return ResolveState("Reload");
 				}else{
 					return ResolveState(null);
@@ -64,17 +66,11 @@ class SMG : ModWeaponBase {
 		NoAmmo:
 			RIFG A 1 A_StartSound("weapons/empty",CHAN_AUTO);
 			Goto Ready;
+		FullAmmo:
+			RIFG A 1;
+			Goto Ready;
 		Reload:
-			TNT1 A 0 {
-				player.refire=0;
-				if(CountInv(invoker.AmmoType1)==46){
-					return ResolveState("NoAmmo");
-				}else if(CountInv(invoker.AmmoType2)==0){
-					return ResolveState("NoAmmo");
-				}else{
-					return ResolveState(null);
-				}
-			}
+			TNT1 A 0 A_PreReloadGun;
 			RIFG A 1 A_WeaponOffset(-5,45,WOF_INTERPOLATE);
 			RIFG A 3 A_WeaponOffset(-8,70,WOF_INTERPOLATE);
 			TNT1 A 0 A_StartSound("weapons/click01",CHAN_AUTO);
@@ -86,16 +82,22 @@ class SMG : ModWeaponBase {
 			RIFR HIKL 1;
 			TNT1 A 0 A_StartSound("weapons/rifle_reload",CHAN_AUTO);
 			RIFR MMM 1;
-			TNT1 A 0 A_ReloadAmmo(45,46);
+			TNT1 A 0 A_ReloadAmmoMagazineDefaults;
 			RIFR NOPQRST 1;
 			Goto Ready;
 	}
 	action void A_FireGun(){
 		A_AlertMonsters();
-		A_StartSound("weapons/pistol_fire",CHAN_AUTO);
+		A_StartSound("weapons/pistol_fire",CHAN_AUTO,CHANF_DEFAULT,0.35);
 		Actor c=A_FireProjectile("FastLightClipCasing",random(-80, -100),false,2,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		W_FireBulletsSpreadXY(0.25,8,1,4,refire_rate:0.25,refire_max:0.75);
 		A_Recoil(0.25);
+	}
+	action State A_PreReloadGun(){
+		if(invoker.ammo1.amount == invoker.ammo1.maxamount || invoker.ammo2.amount == 0){
+			return ResolveState("Ready");
+		}
+		return ResolveState(null);
 	}
 }

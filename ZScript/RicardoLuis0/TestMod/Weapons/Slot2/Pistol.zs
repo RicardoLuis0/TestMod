@@ -48,7 +48,7 @@ class NewPistol : ModWeaponBase {
 	States{
 	Ready:
 		TNT1 A 0 {
-			if(CountInv(invoker.AmmoType1)==0){
+			if(invoker.ammo1.amount==0){
 				return ResolveState("ReadyEmpty");
 			}else{
 				return ResolveState(null);
@@ -59,7 +59,7 @@ class NewPistol : ModWeaponBase {
 		Loop;
 	Select:
 		TNT1 A 0 {
-			if(CountInv(invoker.AmmoType1)==0){
+			if(invoker.ammo1.amount==0){
 				return ResolveState("SelectEmpty");
 			}else{
 				return ResolveState(null);
@@ -70,7 +70,7 @@ class NewPistol : ModWeaponBase {
 		Loop;
 	Deselect:
 		TNT1 A 0 {
-			if(CountInv(invoker.AmmoType1)==0){
+			if(invoker.ammo1.amount==0){
 				return ResolveState("DeselectEmpty");
 			}else{
 				return ResolveState(null);
@@ -80,7 +80,7 @@ class NewPistol : ModWeaponBase {
 		DPIG A 1 A_Lower;
 		Loop;
 	ReadyEmpty:
-		DPIG C 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		DPIG C 1 A_WeaponReady(invoker.ammo2.amount == 0 ? 0 : WRF_ALLOWRELOAD);
 		Loop;
 	SelectEmpty:
 		DPIG C 1 A_Raise;
@@ -90,8 +90,8 @@ class NewPistol : ModWeaponBase {
 		Loop;
 	Fire:
 		DPIG A 0 {
-			if(CountInv(invoker.AmmoType1)==0){
-				if(CountInv(invoker.AmmoType2)==0){
+			if(invoker.ammo1.amount == 0){
+				if(invoker.ammo2.amount == 0){
 					return ResolveState("Ready");
 				}else{
 					return ResolveState("Reload");
@@ -104,7 +104,7 @@ class NewPistol : ModWeaponBase {
 		DPIF A 1 BRIGHT UpdateRefire;
 		DPIG CCC 1 UpdateRefire;
 		TNT1 A 0 {
-			if(CountInv(invoker.AmmoType1)==0){
+			if(invoker.ammo1.amount == 0){
 				return ResolveState("FireEmpty");
 			}else{
 				return ResolveState(null);
@@ -126,9 +126,9 @@ class NewPistol : ModWeaponBase {
 		Stop;
 	Reload:
 		TNT1 A 0 {
-			if(CountInv(invoker.AmmoType1)==18||CountInv(invoker.AmmoType2)==0){
+			if(invoker.ammo1.amount == 18 || invoker.ammo2.amount == 0){
 				return ResolveState("Ready");
-			}else if(CountInv(invoker.AmmoType1)==0){
+			}else if(invoker.ammo1.amount == 0){
 				return ResolveState("ReloadEmpty");
 			}
 			return ResolveState(null);
@@ -141,7 +141,7 @@ class NewPistol : ModWeaponBase {
 		DPIR F 3;
 		DPIR G 3 A_StartSound("weapons/pistolclipin",CHAN_AUTO);
 		DPIR H 3;
-		TNT1 A 0 A_ReloadAmmo(17,18);
+		TNT1 A 0 A_ReloadAmmoMagazineDefaults;
 		DPIR I 3;
 		DPIR J 3;
 		Goto Ready;
@@ -154,7 +154,7 @@ class NewPistol : ModWeaponBase {
 		DPIE F 3;
 		DPIE G 3 A_StartSound("weapons/pistolclipin",CHAN_AUTO);
 		DPIE H 5;
-		TNT1 A 0 A_ReloadAmmo(17,18);
+		TNT1 A 0 A_ReloadAmmoMagazineDefaults;
 		DPIR I 4 A_StartSound("weapons/pistolclose",CHAN_AUTO);
 		DPIR J 3;
 		Goto Ready;
@@ -182,7 +182,7 @@ class NewPistol : ModWeaponBase {
 	action State TryRefire(){
 		int input=GetPlayerInput(INPUT_BUTTONS);
 		if(input&BT_ATTACK){
-			if(invoker.canrefire&&CountInv(invoker.AmmoType1)>0){
+			if(invoker.canrefire && invoker.ammo1.amount > 0){
 				player.refire++;
 				return ResolveState("Fire");
 			}

@@ -137,8 +137,8 @@ class PumpShotgun : ModWeaponBase {
 	}
 
 	action State A_FirePump(){
-		if(CountInv("PumpLoaded")==0){
-			if(CountInv("Shell")==0){
+		if(invoker.ammo1.amount==0){
+			if(invoker.ammo2.amount==0){
 				return ResolveState("noammo");
 			}else{
 				return ResolveState("reload");
@@ -164,10 +164,10 @@ class PumpShotgun : ModWeaponBase {
 
 	action State A_ReloadStart(){
 		InitInterruptReload();
-		if(CountInv("PumpLoaded")>=9||CountInv("Shell")==0){
+		if(invoker.ammo1.amount>=9||invoker.ammo2.amount==0){
 			return ResolveState("ready");
 		}
-		if(CountInv("PumpLoaded")>0){
+		if(invoker.ammo1.amount>0){
 			return CheckFire("fire");
 		}
 		return ResolveState(null);
@@ -177,19 +177,19 @@ class PumpShotgun : ModWeaponBase {
 		if(player.PendingWeapon!=WP_NOCHANGE){
 			return P_CallJmp("reloadstop","ready");
 		}
-		if(CountInv("PumpLoaded")>=9||CountInv("Shell")==0){
+		if(invoker.ammo1.amount>=9||invoker.ammo2.amount==0){
 			return P_CallJmp("reloadstop","ready");
 		}
-		if(CountInv("PumpLoaded")>0){
+		if(invoker.ammo1.amount>0){
 			return InterruptReload();
 		}
 		return ResolveState(null);
 	}
 
 	action State A_ReloadEnd(){
-		A_TakeInventory("Shell",1);
-		A_GiveInventory("PumpLoaded",1);
-		if(CountInv("PumpLoaded")==1) return P_CallJmp("reloadstop",P_CallSLJmp("pump","reload"));
+		invoker.ammo2.amount-=1;
+		invoker.ammo1.amount+=1;
+		if(invoker.ammo1.amount==1) return P_CallJmp("reloadstop",P_CallSLJmp("pump","reload"));
 		return InterruptReload();
 	}
 	

@@ -62,7 +62,7 @@ class AutoShotgun : ModWeaponBase {
 			goto lightdone;
 		reload:
 			TNT1 A 0 {
-				if(CountInv(invoker.AmmoType1)==13||CountInv(invoker.AmmoType2)==0){
+				if(invoker.ammo1.amount==13||invoker.ammo2.amount==0){
 					return ResolveState("Ready");
 				}
 				return ResolveState(null);
@@ -76,7 +76,7 @@ class AutoShotgun : ModWeaponBase {
 			DASG H 2;
 			DASG IJ 2;
 			TNT1 A 0 A_StartSound("weapons/rifle_reload",CHAN_AUTO);
-			DASG K 5 A_ReloadAmmo(12,13);
+			DASG K 5 A_ReloadAmmoMagazineDefaults;
 			DASG L 4;
 			DASG M 4;
 			goto ready;
@@ -89,8 +89,8 @@ class AutoShotgun : ModWeaponBase {
 	}
 
 	action State A_FireAuto(){
-		if(CountInv(invoker.AmmoType1)==0){
-			if(CountInv(invoker.AmmoType2)==0){
+		if(invoker.ammo1.amount==0){
+			if(invoker.ammo2.amount==0){
 				return ResolveState("noammo");
 			}else{
 				return ResolveState("reload");

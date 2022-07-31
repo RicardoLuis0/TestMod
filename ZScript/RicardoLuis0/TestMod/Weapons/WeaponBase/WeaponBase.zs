@@ -5,7 +5,7 @@ class ModWeaponBase : Weapon {
 	Default{
 		Decal "BulletChip";
 	}
-
+	
 	static Vector3 angleToVec3(double a_yaw,double a_pitch,double length=1){
 		Vector3 o;
 		o.x=cos(a_pitch)*cos(a_yaw);
@@ -13,7 +13,7 @@ class ModWeaponBase : Weapon {
 		o.z=-sin(a_pitch);
 		return o*length;
 	}
-
+	
 	static void DoParticleExplosion(actor origin,string x_color,int count,double strength,double size,int lifetime=20){
 		for(int i=0;i<count;i++){
 			double r_yaw=random(0,360);
@@ -50,9 +50,16 @@ class ModWeaponBase : Weapon {
 	}
 	
 	action void A_ReloadAmmo(int empty,int nonempty) {
-		int reloadamount=min((CountInv(invoker.AmmoType1)>0)?nonempty:empty,CountInv(invoker.AmmoType1)+CountInv(invoker.AmmoType2));
-		A_SetInventory(invoker.AmmoType2,CountInv(invoker.AmmoType2)-(reloadamount-CountInv(invoker.AmmoType1)));
-		A_SetInventory(invoker.AmmoType1,reloadamount);
+		int reloadAmount = min(
+							invoker.ammo1.amount > 0 ? nonempty : empty,
+							invoker.ammo1.amount + invoker.ammo2.amount
+						   );
+		invoker.ammo2.amount -= reloadAmount - invoker.ammo1.amount;
+		invoker.ammo1.amount = reloadAmount;
+	}
+	
+	action void A_ReloadAmmoMagazineDefaults() {
+		A_ReloadAmmo(invoker.ammo1.maxamount-1,invoker.ammo1.maxamount);
 	}
 	
 	virtual bool OnGrenadeKeyPressed(){
