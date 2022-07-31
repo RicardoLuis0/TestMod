@@ -1,4 +1,4 @@
-class PlasmaShot01:FastProjectile{
+class PlasmaShot01 : FastProjectile {
 	Default{
 		Radius 4;
 		Height 8;
@@ -16,11 +16,12 @@ class PlasmaShot01:FastProjectile{
 	}
 	States{
 	Spawn:
-		BSHT A 0 Bright A_StartSound("weapons/plasmaflyby",CHAN_BODY,CHANF_LOOPING,1.0);
+		BSHT A 0 NoDelay Bright A_StartSound("weapons/plasmaflyby",CHAN_BODY,CHANF_LOOPING,1.0);
 		BSHT A 1 Bright;
 		Loop;
+	Missile:
 	Death:
-		TNT1 A 1;
+		TNT1 A 0;
 		Stop;
 	}
 }
@@ -41,6 +42,7 @@ class PlasmaShot01Trail:actor{
 		Height 8;
 		Renderstyle "Add";
 		Alpha 0.5;
+		+FORCEXYBILLBOARD;
 	}
 	States{
 	Spawn:
@@ -60,6 +62,7 @@ class PlasmaRailTrail:actor{
 		Height 8;
 		Renderstyle "Add";
 		Alpha 0.1;
+		+FORCEXYBILLBOARD;
 	}
 	States{
 	Spawn:
