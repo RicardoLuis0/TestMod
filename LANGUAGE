@@ -7,3 +7,4 @@ GOTFULLHEAVYCLIP = "Picked up a full magazine of heavy bullets." ;
 GOTHEAVYCLIPBOX = "Picked up a box of heavy bullets." ;
 FN_SMGZOMBIE = "SMG Zombieman" ;
 FN_RIFLEZOMBIE = "Zombie Rifleman" ;
+GOTSHELLS = "Picked up a handful of shotgun shells." ;
