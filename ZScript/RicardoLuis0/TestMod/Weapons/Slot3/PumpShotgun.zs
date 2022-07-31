@@ -41,6 +41,8 @@ class PumpShotgun : ModWeaponBase {
 		+WEAPON.ALT_AMMO_OPTIONAL;
 		+WEAPON.NOAUTOFIRE;
 		Inventory.PickupMessage "You've got the Pump Shotgun!";
+		
+		ModWeaponBase.PickupHandleMagazine true;
 	}
 	
 	override void BeginPlay(){

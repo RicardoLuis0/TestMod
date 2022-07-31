@@ -35,20 +35,24 @@ extend class TestModPlayer {
 		super.GiveDefaultInventory();
 		if(sv_player_start_pistol){
 			GiveDefaultInventoryItem("NewPistol");
+			GiveInventory("PistolLoaded",999);
 			if(!sv_player_start_smg)
 				GiveDefaultInventoryItem("LightClip",sv_player_start_extra_ammo?80:50);
 		}
 		if(sv_player_start_shotgun){
 			GiveDefaultInventoryItem("PumpShotgun");
+			GiveInventory("PumpLoaded",999);
 			GiveDefaultInventoryItem("NewShell",sv_player_start_extra_ammo?24:16);
 		}
 		if(sv_player_start_smg){
 			GiveDefaultInventoryItem("SMG");
 			GiveDefaultInventoryItem("LightClip",sv_player_start_extra_ammo?120:90);
+			GiveInventory("SMGLoaded",999);
 		}
 		if(sv_player_start_rifle){
 			GiveDefaultInventoryItem("AssaultRifle");
 			GiveDefaultInventoryItem("HeavyClip",sv_player_start_extra_ammo?60:40);
+			GiveInventory("AssaultRifleLoaded",999);
 		}
 		if(sv_player_start_green_armor){
 			GiveDefaultInventoryItem("GreenArmor");

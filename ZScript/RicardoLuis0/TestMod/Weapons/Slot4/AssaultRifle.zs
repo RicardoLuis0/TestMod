@@ -44,6 +44,8 @@ class AssaultRifle : ModWeaponBase {
 		+WEAPON.ALT_AMMO_OPTIONAL;
 		+WEAPON.NOAUTOFIRE;
 		Inventory.PickupMessage "You've got the Assault Rifle!";
+		
+		ModWeaponBase.PickupHandleMagazine true;
 	}
 	override void BeginPlay(){
 		super.BeginPlay();

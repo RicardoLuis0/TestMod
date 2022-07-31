@@ -10,6 +10,8 @@ class Minigun : HeavyGatlingShotgun {
 		Inventory.PickupMessage "You've got the Minigun!";
 		Weapon.SlotPriority 0;
 		Weapon.SlotNumber 4;
+		
+		ModWeaponBase.PickupHandleNoMagazine true;
 	}
 	States{
 		ready:

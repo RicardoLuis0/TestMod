@@ -29,6 +29,9 @@ class SMG : ModWeaponBase {
 		+WEAPON.NOALERT;
 		+WEAPON.NOAUTOFIRE;
 		+WEAPON.AMMO_OPTIONAL;
+		
+		ModWeaponBase.PickupHandleMagazine true;
+		
 	}
 	
 	override void BeginPlay(){

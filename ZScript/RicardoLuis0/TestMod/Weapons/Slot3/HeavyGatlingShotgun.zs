@@ -13,6 +13,8 @@ class HeavyGatlingShotgun : ModWeaponBase {
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.ALT_AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Heavy Gatling Shotgun!";
+		
+		ModWeaponBase.PickupHandleNoMagazine true;
 	}
 	override void BeginPlay(){
 		super.BeginPlay();

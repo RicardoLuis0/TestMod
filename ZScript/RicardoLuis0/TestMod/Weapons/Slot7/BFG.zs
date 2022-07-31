@@ -35,6 +35,8 @@ class BFG : ModWeaponBase {
 		Weapon.AmmoGive1 120;
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
+		
+		ModWeaponBase.PickupHandleNoMagazine true;
 	}
 	
 	override void ReadyTick(){

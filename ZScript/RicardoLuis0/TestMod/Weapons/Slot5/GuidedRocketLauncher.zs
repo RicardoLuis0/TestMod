@@ -21,6 +21,8 @@ class GuidedRocketLauncher : ModWeaponBase {
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Laser-Guided Rocket Launcher!";
+		
+		ModWeaponBase.PickupHandleNoMagazine true;
 	}
 	override void BeginPlay(){
 		super.BeginPlay();

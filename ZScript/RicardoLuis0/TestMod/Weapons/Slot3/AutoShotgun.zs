@@ -25,6 +25,8 @@ class AutoShotgun : ModWeaponBase {
 		+WEAPON.ALT_AMMO_OPTIONAL;
 		+WEAPON.NOAUTOFIRE;
 		Inventory.PickupMessage "You've got the Auto Shotgun!";
+		
+		ModWeaponBase.PickupHandleMagazine true;
 	}
 	
 	override void BeginPlay(){

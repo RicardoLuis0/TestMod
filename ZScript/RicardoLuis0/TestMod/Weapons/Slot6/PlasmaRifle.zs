@@ -31,6 +31,8 @@ class MyPlasmaRifle : ModWeaponBase {
 		+WEAPON.AMMO_OPTIONAL;
 		Inventory.PickupMessage "You've got the Plasma Rifle!";
 		Decal "PlasmaScorchLower";
+		
+		ModWeaponBase.PickupHandleNoMagazine true;
 	}
 
 	States{

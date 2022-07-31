@@ -40,6 +40,8 @@ class NewPistol : ModWeaponBase {
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.NOALERT;
 		+WEAPON.NOAUTOFIRE;
+		
+		ModWeaponBase.PickupHandleMagazine true;
 	}
 	override void BeginPlay(){
 		super.BeginPlay();

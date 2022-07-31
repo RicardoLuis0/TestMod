@@ -47,6 +47,8 @@ class TestModKeyPressHandler : StaticEventHandler {
 			TestModPlayer(players[e.player].mo).grenade_key_pressed=true;
 		}else if(e.name=="melee_key_pressed"){
 			TestModPlayer(players[e.player].mo).melee_key_pressed=true;
+		}else if(e.name=="unload_key_pressed"){
+			TestModPlayer(players[e.player].mo).unload_key_pressed=true;
 		}else if(e.name=="invuse_key_down"){
 			TestModPlayer(players[e.player].mo).invuse_key_down=true;
 		}else if(e.name=="invuse_key_up"){

@@ -17,6 +17,9 @@ SERVER BOOL sv_player_start_extra_ammo = false;
 SERVER BOOL sv_player_start_green_armor = false;
 SERVER BOOL sv_player_start_portmed = false;
 
+SERVER BOOL sv_magazine_weapon_ammo_auto_pickup = true;
+SERVER BOOL sv_keep_empty_weapon_items = false;
+
 
 USER BOOL cl_extra_weapon_bob = true;
 USER BOOL cl_ssg_autoreload = true;

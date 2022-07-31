@@ -2,6 +2,14 @@ class ModWeaponBase : Weapon {
 	
 	mixin StateCalls;
 	
+	bool partialPickupHasMagazine;
+	bool partialPickupNoMagazine;
+	Class<Ammo> customUnloadAmmo;
+	
+	Property PickupHandleMagazine : partialPickupHasMagazine;
+	Property PickupHandleNoMagazine : partialPickupNoMagazine;
+	Property CustomUnloadAmmo : customUnloadAmmo;
+	
 	Default{
 		Decal "BulletChip";
 	}
@@ -83,6 +91,10 @@ class ModWeaponBase : Weapon {
 	virtual void GrenadeThrowAnimOver(){
 	}
 	
+	virtual bool OnUnloadKeyPressed(){
+		return UnloadAmmo();
+	}
+	
 	action void A_NotifyGrenadeThrowAnimEnd(){
 		invoker.GrenadeThrowAnimOver();
 	}
@@ -90,19 +102,24 @@ class ModWeaponBase : Weapon {
 	enum ext_wpflags{
 		WRFX_NOGRENADE=1,
 		WRFX_NOMELEE=2,
+		WRFX_NOUNLOAD=4,
 	};
 	
 	action void W_WeaponReady(int flags=0,int flags_extra=0){
 		if(!(flags_extra&WRFX_NOGRENADE)&&TestModPlayer(self).grenade_key_pressed){
-			TestModPlayer(self).grenade_key_pressed=false;
 			if(invoker.OnGrenadeKeyPressed()){
 				TestModPlayer(self).ClearActionKeys();
 				return;
 			}
 		}
 		if(!(flags_extra&WRFX_NOMELEE)&&TestModPlayer(self).melee_key_pressed){
-			TestModPlayer(self).melee_key_pressed=false;
 			if(invoker.OnMeleeKeyPressed()){
+				TestModPlayer(self).ClearActionKeys();
+				return;
+			}
+		}
+		if(invoker.partialPickupHasMagazine&&!(flags_extra&WRFX_NOUNLOAD)&&TestModPlayer(self).unload_key_pressed){
+			if(invoker.OnUnloadKeyPressed()){
 				TestModPlayer(self).ClearActionKeys();
 				return;
 			}

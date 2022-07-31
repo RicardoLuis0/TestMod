@@ -24,6 +24,8 @@ class SSG : ModWeaponBase {
 		+WEAPON.ALT_AMMO_OPTIONAL;
 		+WEAPON.NOAUTOFIRE;
 		Inventory.PickupMessage "You've got the Super Shotgun!";
+		
+		ModWeaponBase.PickupHandleMagazine true;
 	}
 	override void BeginPlay(){
 		super.BeginPlay();
