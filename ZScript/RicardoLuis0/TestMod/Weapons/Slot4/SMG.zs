@@ -5,8 +5,8 @@ class FastLightClipCasing : LightClipCasing {
 }
 
 class SMGLoaded : Ammo{
-	Default{
-		Inventory.MaxAmount 46;
+	Default {
+		Inventory.MaxAmount 31;
 		+Inventory.IgnoreSkill;
 		Inventory.Icon "RIFLA0";
 	}
