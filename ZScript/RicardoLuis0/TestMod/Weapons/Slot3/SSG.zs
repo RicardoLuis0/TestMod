@@ -28,7 +28,7 @@ class SSG : ModWeaponBase {
 	override void BeginPlay(){
 		super.BeginPlay();
 		crosshair=25;
-		pellets=16;
+		pellets=13;
 		dmg=4;
 		fireright=false;
 	}
