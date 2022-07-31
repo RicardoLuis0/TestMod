@@ -61,7 +61,7 @@ class SMGZombieMan : ZombieMan{
 	MissileLoop:
 		MGPO E 0 A_FaceTarget;
 		MGPO F 2 BRIGHT  {
-			A_StartSound("weapons/pistol_fire",CHAN_AUTO,volume:0.5);
+			A_StartSound("weapons/pistol_fire",CHAN_AUTO,CHANF_DEFAULT,0.35);
 			A_CustomBulletAttack(12,0,1,random(1,5),"BulletPuff",0,CBAF_NORANDOM);
 		}
 		MGPO E 2 A_MonsterRefire(192,"SeeStun");
@@ -106,7 +106,7 @@ class PistolZombieMan : ZombieMan {
 	Missile:
 		PPSS E 10 A_FaceTarget;
 		PPSS F 8 {
-			A_StartSound("weapons/pistol_fire",CHAN_AUTO,volume:0.5);
+			A_StartSound("weapons/pistol_fire",CHAN_AUTO,volume:0.25);
 			A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"BulletPuff",0,CBAF_NORANDOM);
 		}
 		PPSS E 8;
