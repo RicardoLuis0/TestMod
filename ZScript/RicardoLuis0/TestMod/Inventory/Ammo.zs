@@ -131,7 +131,7 @@ class HeavyClipBox : HeavyClip {
 
 	Default {
 		Inventory.PickupMessage "$GOTHEAVYCLIPBOX";
-		Inventory.Amount 80;
+		Inventory.Amount 60;
 	}
 
 	States {

@@ -41,7 +41,7 @@ class GuidedRocketLauncherSpawnerElement : MultiThingSpawnerElement {
 class SmartGunSpawnerElement : MultiThingSpawnerElement {
 	override void setDrops(){
 		spawnlist.Push(BasicThingSpawnerElement.Create("Smartgun",1));
-		spawnlist.Push(BasicThingSpawnerElement.Create("HeavyClipBox",2,allow_dropped:false));
+		spawnlist.Push(BasicThingSpawnerElement.Create("HeavyClipBox",1,allow_dropped:false));
 	}
 	
 	SmartGunSpawnerElement Init(int amount=1,int weight=1,bool allow_dropped=true){
@@ -124,7 +124,7 @@ class ChaingunSpawner : ThingSpawner replaces Chaingun{
 		spawnlist.Push(BasicThingSpawnerElement.Create("Minigun",1,20));
 		if(!bDropped){
 			spawnlist.Push(BasicThingSpawnerElement.Create("HeavyGatlingShotgun",1,4));
-			spawnlist.Push(SmartGunSpawnerElement.Create(1,1));
+			spawnlist.Push(BasicThingSpawnerElement.Create("SmartGun",1,1));
 		}
 	}
 }

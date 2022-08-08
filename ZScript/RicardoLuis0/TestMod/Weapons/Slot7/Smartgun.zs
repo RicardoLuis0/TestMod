@@ -17,11 +17,13 @@ class SmartGun : ModWeaponBase {
 		Weapon.SlotNumber 7;
 		Weapon.AmmoType1 "HeavyClip";
 		Weapon.AmmoUse1 1;
-		Weapon.AmmoGive1 100;
+		Weapon.AmmoGive1 50;
 		
 		+WEAPON.NOALERT;
 		+WEAPON.AMMO_OPTIONAL;
 		+WEAPON.NOAUTOFIRE;
+		
+		ModWeaponBase.PickupHandleNoMagazine true;
 	}
 	
 	SmartGunMarker marker;
