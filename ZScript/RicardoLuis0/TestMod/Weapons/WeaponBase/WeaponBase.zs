@@ -12,6 +12,7 @@ class ModWeaponBase : Weapon {
 	
 	Default{
 		Decal "BulletChip";
+		+WEAPON.NOAUTOAIM;
 	}
 	
 	static Vector3 angleToVec3(double a_yaw,double a_pitch,double length=1){

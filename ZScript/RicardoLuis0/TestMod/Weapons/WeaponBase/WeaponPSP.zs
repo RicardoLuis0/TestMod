@@ -30,6 +30,13 @@ extend class ModWeaponBase {
 		}
 	}
 	
+	void SetLayerAlpha(int layer,double alpha){
+		PSprite psp = PSP_Get(layer);
+		if(psp && psp.CurState) {
+			psp.alpha = alpha;
+		}
+	}
+	
 	void SetLayerSpriteIndex(int layer,int sprite_index){
 		PSprite psp = PSP_Get(layer);
 		if(psp && psp.CurState) {

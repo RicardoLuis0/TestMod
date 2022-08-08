@@ -38,6 +38,22 @@ class GuidedRocketLauncherSpawnerElement : MultiThingSpawnerElement {
 	}
 }
 
+class SmartGunSpawnerElement : MultiThingSpawnerElement {
+	override void setDrops(){
+		spawnlist.Push(BasicThingSpawnerElement.Create("Smartgun",1));
+		spawnlist.Push(BasicThingSpawnerElement.Create("HeavyClipBox",2,allow_dropped:false));
+	}
+	
+	SmartGunSpawnerElement Init(int amount=1,int weight=1,bool allow_dropped=true){
+		Super.init(amount,weight,allow_dropped);
+		return self;
+	}
+	
+	static SmartGunSpawnerElement Create(int amount=1,int weight=1,bool allow_dropped=true){
+		return new("SmartGunSpawnerElement").Init(amount,weight,allow_dropped);
+	}
+}
+
 class Slot2Spawner : ThingSpawner {
 	override void setDrops(){
 		spawnlist.Push(BasicThingSpawnerElement.Create("NewPistol",1,1));
@@ -88,21 +104,27 @@ class PistolSpawner : ThingSpawner replaces Pistol{
 
 class ShotgunSpawner : ThingSpawner replaces Shotgun{
 	override void setDrops(){
-		spawnlist.Push(BasicThingSpawnerElement.Create("PumpShotgun",1,3));
-		spawnlist.Push(BasicThingSpawnerElement.Create("AutoShotgun",1,2,allow_dropped:false));
+		spawnlist.Push(BasicThingSpawnerElement.Create("PumpShotgun",1,8));
+		if(!bDropped){
+			spawnlist.Push(BasicThingSpawnerElement.Create("AutoShotgun",1,1));
+			spawnlist.Push(BasicThingSpawnerElement.Create("HeavyGatlingShotgun",1,1));
+		}
 	}
 }
 
 class SuperShotgunSpawner : ThingSpawner replaces SuperShotgun{
 	override void setDrops(){
 		spawnlist.Push(BasicThingSpawnerElement.Create("SSG",1,1));
+		spawnlist.Push(BasicThingSpawnerElement.Create("AutoShotgun",1,1));
 	}
 }
 
 class ChaingunSpawner : ThingSpawner replaces Chaingun{
 	override void setDrops(){
 		spawnlist.Push(BasicThingSpawnerElement.Create("Minigun",1,5));
-		spawnlist.Push(BasicThingSpawnerElement.Create("HeavyGatlingShotgun",1,1,allow_dropped:false));
+		if(!bDropped){
+			spawnlist.Push(BasicThingSpawnerElement.Create("HeavyGatlingShotgun",1,1));
+		}
 	}
 }
 
@@ -122,5 +144,6 @@ class PlasmaRifleSpawner : ThingSpawner replaces PlasmaRifle{
 class BFGSpawner : ThingSpawner replaces BFG9000 {
 	override void setDrops(){
 		spawnlist.Push(BasicThingSpawnerElement.Create("BFG",1,1));
+		spawnlist.Push(SmartGunSpawnerElement.Create(1,1));
 	}
 }

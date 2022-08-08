@@ -70,13 +70,7 @@ class ThingSpawner : Actor abstract {
 		}
 		return null;
 	}
-
-	override void BeginPlay(){
-		super.BeginPlay();
-		setDrops();
-		max_weight=arrayMaxWeight();
-	}
-
+	
 	abstract void setDrops();
 
 	bool DoSpawn(){
@@ -92,7 +86,8 @@ class ThingSpawner : Actor abstract {
 
 	override void PostBeginPlay(){
 		super.PostBeginPlay();
-		//setDrops();
+		setDrops();
+		max_weight=arrayMaxWeight();
 		if(!DoSpawn()) console.printf("\c[Red] Error Spawning Drops");
 		Destroy();
 	}

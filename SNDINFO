@@ -83,3 +83,8 @@ weapons/bfg/fire "sounds/bfgfire.wav"
 //plasma fire, source: Sonniss GDC Audio Bundle 2015
 
 weapons/plasma/fire "sounds/plasmafire.wav"
+
+//smartgun, source: realm667
+
+weapons/smartgun	DSSMARTG
+

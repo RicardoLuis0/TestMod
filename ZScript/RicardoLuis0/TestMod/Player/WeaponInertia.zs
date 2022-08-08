@@ -145,4 +145,9 @@ mixin class WeaponInertia {
 		weaponinertia_max_memory=CVar.GetCVar("cl_weaponinertia_max_memory",player).getInt();
 		weaponinertia_ClearInertia();
 	}
+	
+	
+	Vector2, Vector2 InertiaBobAim(){
+		return (-weaponinertia_prevbob)/2, weaponinertia_prevmove;
+	}
 }
