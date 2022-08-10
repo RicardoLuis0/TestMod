@@ -1,0 +1,16 @@
+OptionMenu "TestmodOptionsMenuMisc"{
+	Title "Misc Options"
+	
+	Option "Disable Casing Despawn","sv_no_casing_despawn","YesNo"
+	StaticText "WARNING: This might impact performance","Yellow"
+	StaticText ""
+	
+	Option "Automatically pick up ammo from weapon magazines","sv_magazine_weapon_ammo_auto_pickup","YesNo"
+	StaticText ""
+	
+	Option "Keep weapons with no bullets in magazine on the ground","sv_keep_empty_weapon_items","YesNo"
+	StaticText ""
+	
+	Option "SSG Auto-Reload","cl_ssg_autoreload","OnOff"
+	StaticText "Whether to reload immediately after firing last shot on ssg.","DarkRed"
+}

@@ -6,9 +6,13 @@ OptionValue "DamageModes" {
 
 OptionMenu "TestmodOptionsMenu" {
 	Title "Testmod Options"
-	Submenu "Weapon Inertia","TestmodOptionsMenuWeaponInertia"
-	Submenu "Configure Server CVars","TestmodOptionsMenuServerCVars"
-	Submenu "Configure User CVars","TestmodOptionsMenuUserCVars"
-	Command "Update All Settings (Ingame)","netevent player_UpdateCVars"
+	Submenu "Weapon Inertia Options","TestmodOptionsMenuWeaponInertia"
+	Submenu "Gameplay Options","TestmodOptionsMenuGameplay"
+	Submenu "Misc Options","TestmodOptionsMenuMisc"
+	StaticText ""
+	Command "Update All Settings (Ingame)","netevent mod_UpdateCVars"
+	StaticText ""
+	Command "Reset Gameplay/Misc Settings to Default","netevent mod_ResetCVars"
+	Command "Reset Weapon Inertia Settings to Default","netevent weaponinertia_ResetCVars"
 }
 
