@@ -45,7 +45,7 @@ class SSG : ModWeaponBase {
 			DSSG A 1 A_Lower;
 			loop;
 		fire:
-			DSSG A 0 {
+			TNT1 A 0 {
 				int loaded=invoker.ammo1.amount;
 				if(loaded==0){//out of ammo
 					if(invoker.ammo2.amount==0){
@@ -54,68 +54,60 @@ class SSG : ModWeaponBase {
 						return ResolveState("reload");//reload
 					}
 				}else if(loaded==1){//only a single shot left
-					A_FireSingle();
+					SSG_FireSingle();
 					if(invoker.fireright)return ResolveState("fireright");
 					return ResolveState("fireleft");
 				}else{
-					A_FireBoth();
+					SSG_FireBoth();
 					return ResolveState("fireboth");
 				}
 			}
-			goto ready;
-		altloop:
-			DSSG A 1;
-			DSSG A 0 A_ReFire("altloop");
 			Goto Ready;
 		fireboth:
 			DSSF A 2 Bright;
 			DSSF B 2 Bright;
 			DSSF C 2;
 			DSSF J 2;
-			DSGG A 0 {
-				if(CVar.GetCVar("cl_ssg_autoreload",player).getInt()!=0){
-					return ResolveState("Reload");
-				}
-				return ResolveState(null);
-			}
-			DSSF A 0 A_ReFire("reload");
+			DSSG B 4 A_WeaponOffset(20,32,WOF_INTERPOLATE);
+			DSSG B 1 A_WeaponOffset(18,32,WOF_INTERPOLATE);
+			DSSG B 1 A_WeaponOffset(15,32,WOF_INTERPOLATE);
+			DSSG B 1 A_WeaponOffset(12,32,WOF_INTERPOLATE);
+			DSSG B 1 A_WeaponOffset(10,32,WOF_INTERPOLATE);
+			TNT1 A 0 SSG_AutoReload();
+			DSSG B 1 A_WeaponOffset(8,32,WOF_INTERPOLATE);
+			DSSG B 1 A_WeaponOffset(6,32,WOF_INTERPOLATE);
+			DSSG B 1 A_WeaponOffset(4,32,WOF_INTERPOLATE);
+			DSSG B 1 A_WeaponOffset(2,32,WOF_INTERPOLATE);
+			DSSG A 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
 			goto ready;
 		fireright:
 			DSSF D 2 Bright;
 			DSSF E 2 Bright;
 			DSSF F 2;
 			DSSF J 2;
-			DSSG A 0 {
+			TNT1 A 0 {
 				if(invoker.fireright){
 					return ResolveState(null);
 				}else{
 					return ResolveState("ready");
 				}
 			}
-			DSGG A 0 {
-				if(CVar.GetCVar("cl_ssg_autoreload",player).getInt()!=0){
-					return ResolveState("Reload");
-				}
-				return ResolveState(null);
-			}
-			DSGG A 0 A_ReFire("reload");
+			TNT1 A 0 SSG_AutoReload();
 			goto ready;
 		fireleft:
 			DSSF G 2 Bright;
 			DSSF H 2 Bright;
 			DSSF I 2;
 			DSSF J 2;
-			DSGG A 0 {
-				if(CVar.GetCVar("cl_ssg_autoreload",player).getInt()!=0){
-					return ResolveState("Reload");
-				}
-				return ResolveState(null);
-			}
-			DSGG A 0 A_ReFire("reload");
+			TNT1 A 0 SSG_AutoReload();
 			goto ready;
 		reload:
-			DSSG A 0{
-				if(invoker.ammo2.amount==0)return ResolveState("ready");
+			TNT1 A 0 {
+				if(invoker.ammo2.amount == 0 || invoker.ammo1.amount == 2)return ResolveState("ready");
+				return ResolveState(null);
+			}
+			DSSG C 2;
+			TNT1 A 0 {
 				switch(invoker.ammo1.amount){
 					case 1:
 						return ResolveState("reloadsingle");
@@ -130,20 +122,17 @@ class SSG : ModWeaponBase {
 				}
 			}
 			goto ready;
-		reloadsingle:
-			DSSG BCD 2;
+		reloadsingle: // THIS IS VERY BROKEN SOMEHOW? PROBABLY FORGOT TO RE-SPRITE STUFF FOR IT -- TODO: REWORK RELOAD ANIMATIONS
+			DSSG D 2;
 			DSSG E 2 A_StartSound("weapons/sshoto",CHAN_AUTO);
 			DXSS AB 2;
+			TNT1 A 0 SSG_DropShell();
 			TNT1 A 0 {
-				Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
-				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-			}
-			DSSG A 0 {
 				invoker.ammo2.amount-=1;
 			}
 			DSSG VWOP 2;
 			DSSG Q 2 A_StartSound("weapons/sshotl",CHAN_AUTO);
-			DSSG A 0{
+			TNT1 A 0{
 				if(invoker.fireright){
 					invoker.ammo1.amount=1;
 				}else{
@@ -155,14 +144,12 @@ class SSG : ModWeaponBase {
 			DSSG UC 2;
 			goto ready;
 		reloadboth:
-			DSSG BCD 2;
+			DSSG D 2;
 			DSSG E 2 A_StartSound("weapons/sshoto",CHAN_AUTO);
 			DXSD AB 2;
 			TNT1 A 0 {
-				Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
-				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-				c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
-				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
+				SSG_DropShell();
+				SSG_DropShell();
 			}
 			DSSG H 2 {
 				if(invoker.ammo2.amount==1){
@@ -172,17 +159,17 @@ class SSG : ModWeaponBase {
 				}
 			}
 		reloadboth2:
-			DSSG A 0 {
+			TNT1 A 0 {
 				invoker.ammo2.amount-=2;
 			}
 			DSSG IJK 2;
 			DSSG L 2 A_StartSound("weapons/sshotl",CHAN_AUTO);
-			DSSG A 0{
+			TNT1 A 0{
 				invoker.ammo1.amount=1;
 			}
 			DSSG MNOP 2;
 			DSSG Q 2 A_StartSound("weapons/sshotl",CHAN_AUTO);
-			DSSG A 0{
+			TNT1 A 0{
 				invoker.ammo1.amount=2;
 			}
 			DSSG RS 2;
@@ -190,14 +177,10 @@ class SSG : ModWeaponBase {
 			DSSG UC 2;
 			goto ready;
 		reloadright:
-			DSSG BC 2;
 			DSSE D 2;
 			DSSE E 2 A_StartSound("weapons/sshoto",CHAN_AUTO);
 			DSSE FG 2;
-			TNT1 A 0 {
-				Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
-				if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-			}
+			TNT1 A 0 SSG_DropShell();
 			DSSE H 2 {
 				if(invoker.ammo2.amount>1){
 					return ResolveState("reloadboth2");
@@ -206,7 +189,7 @@ class SSG : ModWeaponBase {
 				}
 			}
 		reloadright2:
-			DSSG A 0 {
+			TNT1 A 0 {
 				invoker.fireright=true;
 				invoker.ammo2.amount-=1;
 			}
@@ -232,7 +215,7 @@ class SSG : ModWeaponBase {
 			stop;
 	}
 	
-	action void A_FireSingle(){
+	action void SSG_FireSingle(){
 		A_GunFlash();
 		A_AlertMonsters();
 		invoker.ammouse1=1;
@@ -244,7 +227,7 @@ class SSG : ModWeaponBase {
 		A_StartSound("weapons/ssg_fire1",CHAN_AUTO);
 	}
 	
-	action void A_FireBoth(){
+	action void SSG_FireBoth(){
 		A_GunFlash();
 		A_AlertMonsters();
 		W_FireBullets(10,6,int(invoker.pellets*2.25),invoker.dmg);
@@ -252,5 +235,17 @@ class SSG : ModWeaponBase {
 		A_SetPitch(pitch+frandom(-10,-5),SPF_INTERPOLATE);
 		A_StartSound("weapons/ssg_fire2_01",CHAN_AUTO);
 		A_StartSound("weapons/ssg_fire2_02",CHAN_AUTO,CHANF_DEFAULT,500);
+	}
+	
+	action state SSG_AutoReload(){
+		if(CVar.GetCVar("cl_ssg_autoreload",player).getBool() && invoker.ammo2.amount > 0){
+			return ResolveState("Reload");
+		}
+		return ResolveState(null);
+	}
+	
+	action void SSG_DropShell(){
+		Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
+		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 	}
 }
