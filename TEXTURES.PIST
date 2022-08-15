@@ -1,0 +1,138 @@
+Sprite DEPIA0, 19, 15
+{
+    Patch DEPIA0, 0, 0
+    Offset 9, 14
+}
+
+Sprite DPIEA0, 101, 94
+{
+    Patch DPIEA0, 0, 0
+    Offset -128, -89
+}
+
+Sprite DPIEB0, 111, 94
+{
+    Patch DPIEB0, 0, 0
+    Offset -146, -81
+}
+
+Sprite DPIEC0, 86, 98
+{
+    Patch DPIEC0, 0, 0
+    Offset -182, -71
+}
+
+Sprite DPIED0, 79, 98
+{
+    Patch DPIED0, 0, 0
+    Offset -184, -70
+}
+
+Sprite DPIEE0, 78, 98
+{
+    Patch DPIEE0, 0, 0
+    Offset -186, -73
+}
+
+Sprite DPIEF0, 95, 98
+{
+    Patch DPIEF0, 0, 0
+    Offset -170, -76
+}
+
+Sprite DPIEG0, 95, 94
+{
+    Patch DPIEG0, 0, 0
+    Offset -172, -82
+}
+
+Sprite DPIEH0, 96, 95
+{
+    Patch DPIEH0, 0, 0
+    Offset -146, -83
+}
+
+Sprite DPIFA0, 75, 90
+{
+    Patch DPIFA0, 0, 0
+    Offset -113, -85
+}
+
+Sprite DPIGA0, 79, 85
+{
+    Patch DPIGA0, 0, 0
+    Offset -110, -91
+}
+
+Sprite DPIGB0, 75, 81
+{
+    Patch DPIGB0, 0, 0
+    Offset -113, -94
+}
+
+Sprite DPIGC0, 72, 81
+{
+    Patch DPIGC0, 0, 0
+    Offset -116, -95
+}
+
+Sprite DPIRA0, 101, 94
+{
+    Patch DPIRA0, 0, 0
+    Offset -128, -89
+}
+
+Sprite DPIRB0, 111, 94
+{
+    Patch DPIRB0, 0, 0
+    Offset -146, -81
+}
+
+Sprite DPIRC0, 78, 98
+{
+    Patch DPIRC0, 0, 0
+    Offset -182, -71
+}
+
+Sprite DPIRD0, 79, 98
+{
+    Patch DPIRD0, 0, 0
+    Offset -184, -70
+}
+
+Sprite DPIRE0, 78, 98
+{
+    Patch DPIRE0, 0, 0
+    Offset -186, -73
+}
+
+Sprite DPIRF0, 95, 98
+{
+    Patch DPIRF0, 0, 0
+    Offset -170, -76
+}
+
+Sprite DPIRG0, 95, 94
+{
+    Patch DPIRG0, 0, 0
+    Offset -172, -82
+}
+
+Sprite DPIRH0, 96, 95
+{
+    Patch DPIRH0, 0, 0
+    Offset -146, -83
+}
+
+Sprite DPIRI0, 97, 95
+{
+    Patch DPIRI0, 0, 0
+    Offset -149, -86
+}
+
+Sprite DPIRJ0, 97, 95
+{
+    Patch DPIRJ0, 0, 0
+    Offset -132, -89
+}
+

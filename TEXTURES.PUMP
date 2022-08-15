@@ -1,0 +1,78 @@
+Sprite 0ESGA0, 62, 15
+{
+    Patch 0ESGA0, 0, 0
+    Offset 31, 15
+}
+
+Sprite 0SGFA0, 78, 85
+{
+    Patch 0SGFA0, 0, 0
+    Offset -114, -85
+}
+
+Sprite 0SGFB0, 78, 94
+{
+    Patch 0SGFB0, 0, 0
+    Offset -114, -79
+}
+
+Sprite 0SGFC0, 78, 95
+{
+    Patch 0SGFC0, 0, 0
+    Offset -115, -81
+}
+
+Sprite 0SGFD0, 78, 77
+{
+    Patch 0SGFD0, 0, 0
+    Offset -116, -100
+}
+
+Sprite 0SGFE0, 78, 77
+{
+    Patch 0SGFE0, 0, 0
+    Offset -115, -98
+}
+
+Sprite 0SGGA0, 78, 77
+{
+    Patch 0SGGA0, 0, 0
+    Offset -114, -91
+}
+
+Sprite 0SGGB0, 100, 102
+{
+    Patch 0SGGB0, 0, 0
+    Offset -125, -66
+}
+
+Sprite 0SGGC0, 102, 119
+{
+    Patch 0SGGC0, 0, 0
+    Offset -160, -49
+}
+
+Sprite 0SGGD0, 91, 119
+{
+    Patch 0SGGD0, 0, 0
+    Offset -190, -49
+}
+
+Sprite 0SGGE0, 84, 115
+{
+    Patch 0SGGE0, 0, 0
+    Offset -195, -53
+}
+
+Sprite 0SGRA0, 78, 77
+{
+    Patch 0SGRA0, 0, 0
+    Offset -142, -135
+}
+
+Sprite 0SGRB0, 78, 77
+{
+    Patch 0SGRB0, 0, 0
+    Offset -142, -125
+}
+

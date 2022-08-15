@@ -1,0 +1,42 @@
+Sprite DEGTA0, 76, 21
+{
+    Patch DEGTA0, 0, 0
+    Offset 38, 19
+}
+
+Sprite DGTFA0, 124, 96
+{
+    Patch DGTFA0, 0, 0
+    Offset -85, -72
+}
+
+Sprite DGTFB0, 124, 94
+{
+    Patch DGTFB0, 0, 0
+    Offset -85, -74
+}
+
+Sprite DGTGA0, 124, 77
+{
+    Patch DGTGA0, 0, 0
+    Offset -85, -91
+}
+
+Sprite DGTGB0, 124, 76
+{
+    Patch DGTGB0, 0, 0
+    Offset -85, -92
+}
+
+Sprite DGTGC0, 124, 69
+{
+    Patch DGTGC0, 0, 0
+    Offset -85, -99
+}
+
+Sprite DGTGD0, 125, 76
+{
+    Patch DGTGD0, 0, 0
+    Offset -85, -92
+}
+

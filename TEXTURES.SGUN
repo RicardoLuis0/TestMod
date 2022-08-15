@@ -1,0 +1,78 @@
+Sprite SGUNA0, 110, 82
+{
+    Patch SGUNA0, 0, 0
+    Offset -76, -87
+}
+
+Sprite SGUNB0, 110, 82
+{
+    Patch SGUNB0, 0, 0
+    Offset -76, -87
+}
+
+Sprite SGUNC0, 110, 82
+{
+    Patch SGUNC0, 0, 0
+    Offset -76, -83
+}
+
+Sprite SGUND0, 110, 110
+{
+    Patch SGUND0, 0, 0
+    Offset -76, -87
+}
+
+Sprite SGUNE0, 110, 110
+{
+    Patch SGUNE0, 0, 0
+    Offset -76, -87
+}
+
+Sprite SGUNF0, 110, 82
+{
+    Patch SGUNF0, 0, 0
+    Offset -76, -86
+}
+
+Sprite SGUNG0, 142, 128
+{
+    Patch SGUNG0, 0, 0
+    Offset -78, -25
+}
+
+Sprite SGUNH0, 110, 82
+{
+    Patch SGUNH0, 0, 0
+    Offset -76, -84
+}
+
+Sprite SGUNI0, 110, 110
+{
+    Patch SGUNI0, 0, 0
+    Offset -76, -87
+}
+
+Sprite SGUNJ0, 72, 25
+{
+    Patch SGUNJ0, 0, 0
+    Offset 36, 25
+}
+
+Sprite SGUNK0, 110, 82
+{
+    Patch SGUNK0, 0, 0
+    Offset -76, -83
+}
+
+Sprite SGUNL0, 110, 82
+{
+    Patch SGUNL0, 0, 0
+    Offset -76, -86
+}
+
+Sprite SGUNM0, 110, 82
+{
+    Patch SGUNM0, 0, 0
+    Offset -76, -84
+}
+

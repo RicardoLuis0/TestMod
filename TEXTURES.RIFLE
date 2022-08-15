@@ -1,0 +1,180 @@
+Sprite ASRFA0, 90, 89
+{
+    Patch ASRFA0, 0, 0
+    Offset -99, -81
+}
+
+Sprite ASRFB0, 96, 74
+{
+    Patch ASRFB0, 0, 0
+    Offset -95, -101
+}
+
+Sprite ASRFC0, 93, 71
+{
+    Patch ASRFC0, 0, 0
+    Offset -97, -100
+}
+
+Sprite ASRGA0, 90, 69
+{
+    Patch ASRGA0, 0, 0
+    Offset -99, -99
+}
+
+Sprite ASRKA0, 137, 67
+{
+    Patch ASRKA0, 0, 0
+    Offset -116, -101
+}
+
+Sprite ASRKB0, 103, 69
+{
+    Patch ASRKB0, 0, 0
+    Offset -86, -100
+}
+
+Sprite ASRKC0, 92, 69
+{
+    Patch ASRKC0, 0, 0
+    Offset -97, -101
+}
+
+Sprite ASRKD0, 94, 69
+{
+    Patch ASRKD0, 0, 0
+    Offset -95, -103
+}
+
+Sprite ASRKE0, 60, 69
+{
+    Patch ASRKE0, 0, 0
+    Offset -129, -100
+}
+
+Sprite ASRKF0, 75, 69
+{
+    Patch ASRKF0, 0, 0
+    Offset -114, -99
+}
+
+Sprite ASRRA0, 96, 67
+{
+    Patch ASRRA0, 0, 0
+    Offset -150, -103
+}
+
+Sprite ASRRB0, 96, 67
+{
+    Patch ASRRB0, 0, 0
+    Offset -159, -104
+}
+
+Sprite ASRRC0, 154, 69
+{
+    Patch ASRRC0, 0, 0
+    Offset -143, -102
+}
+
+Sprite ASRRD0, 162, 69
+{
+    Patch ASRRD0, 0, 0
+    Offset -136, -101
+}
+
+Sprite ASRRE0, 182, 69
+{
+    Patch ASRRE0, 0, 0
+    Offset -126, -102
+}
+
+Sprite ASRRF0, 195, 69
+{
+    Patch ASRRF0, 0, 0
+    Offset -120, -103
+}
+
+Sprite ASRRG0, 105, 80
+{
+    Patch ASRRG0, 0, 0
+    Offset -189, -88
+}
+
+Sprite ASRRH0, 171, 80
+{
+    Patch ASRRH0, 0, 0
+    Offset -124, -88
+}
+
+Sprite ASRRI0, 165, 80
+{
+    Patch ASRRI0, 0, 0
+    Offset -131, -88
+}
+
+Sprite ASRRJ0, 162, 80
+{
+    Patch ASRRJ0, 0, 0
+    Offset -136, -88
+}
+
+Sprite ASRRK0, 152, 80
+{
+    Patch ASRRK0, 0, 0
+    Offset -148, -89
+}
+
+Sprite ASRRL0, 154, 80
+{
+    Patch ASRRL0, 0, 0
+    Offset -147, -88
+}
+
+Sprite ASRRM0, 154, 80
+{
+    Patch ASRRM0, 0, 0
+    Offset -150, -98
+}
+
+Sprite ASRRN0, 154, 80
+{
+    Patch ASRRN0, 0, 0
+    Offset -147, -108
+}
+
+Sprite ASRRO0, 157, 69
+{
+    Patch ASRRO0, 0, 0
+    Offset -143, -99
+}
+
+Sprite ASRRP0, 155, 69
+{
+    Patch ASRRP0, 0, 0
+    Offset -135, -101
+}
+
+Sprite ASRRQ0, 154, 69
+{
+    Patch ASRRQ0, 0, 0
+    Offset -133, -103
+}
+
+Sprite ASRRR0, 136, 69
+{
+    Patch ASRRR0, 0, 0
+    Offset -142, -102
+}
+
+Sprite ASRRS0, 96, 67
+{
+    Patch ASRRS0, 0, 0
+    Offset -146, -101
+}
+
+Sprite MGUNA0, 54, 14
+{
+    Patch MGUNA0, 0, 0
+    Offset 26, 15
+}
+

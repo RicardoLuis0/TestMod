@@ -1,0 +1,54 @@
+Sprite REPGA0, 205, 97
+{
+    Patch REPGA0, 0, 0
+    Offset -23, -93
+}
+
+Sprite REPGB0, 205, 93
+{
+    Patch REPGB0, 0, 0
+    Offset -23, -97
+}
+
+Sprite REPGC0, 205, 90
+{
+    Patch REPGC0, 0, 0
+    Offset -23, -100
+}
+
+Sprite REPGD0, 205, 94
+{
+    Patch REPGD0, 0, 0
+    Offset -23, -96
+}
+
+Sprite REPGE0, 205, 112
+{
+    Patch REPGE0, 0, 0
+    Offset -23, -78
+}
+
+Sprite REPGF0, 205, 95
+{
+    Patch REPGF0, 0, 0
+    Offset -23, -95
+}
+
+Sprite REPGG0, 205, 100
+{
+    Patch REPGG0, 0, 0
+    Offset -23, -90
+}
+
+Sprite REPGH0, 205, 104
+{
+    Patch REPGH0, 0, 0
+    Offset -23, -86
+}
+
+Sprite REPGI0, 51, 22
+{
+    Patch REPGI0, 0, 0
+    Offset 26, 22
+}
+

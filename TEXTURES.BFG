@@ -1,0 +1,186 @@
+Sprite BFGLA0, 144, 73
+{
+    Patch BFGLA0, 0, 0
+    Offset -88, -95
+}
+
+Sprite BFGPA0, 56, 24
+{
+    Patch BFGPA0, 0, 0
+    Offset 27, 24
+}
+
+Sprite BFGSA0, 130, 74
+{
+    Patch BFGSA0, 0, 0
+    Offset -95, -94
+}
+
+Sprite BFGCA0, 130, 80
+{
+    Patch BFGCA0, 0, 0
+    Offset -95, -88
+}
+
+Sprite BFGCB0, 130, 82
+{
+    Patch BFGCB0, 0, 0
+    Offset -95, -86
+}
+
+Sprite BFGCC0, 130, 81
+{
+    Patch BFGCC0, 0, 0
+    Offset -95, -87
+}
+
+Sprite BFGCD0, 130, 85
+{
+    Patch BFGCD0, 0, 0
+    Offset -95, -83
+}
+
+Sprite BFGFA0, 144, 92
+{
+    Patch BFGFA0, 0, 0
+    Offset -88, -76
+}
+
+Sprite BFGFB0, 144, 91
+{
+    Patch BFGFB0, 0, 0
+    Offset -88, -77
+}
+
+Sprite BFGOA0, 130, 88
+{
+    Patch BFGOA0, 0, 0
+    Offset -95, -80
+}
+
+Sprite BFGOB0, 130, 88
+{
+    Patch BFGOB0, 0, 0
+    Offset -95, -80
+}
+
+Sprite BFGOC0, 130, 88
+{
+    Patch BFGOC0, 0, 0
+    Offset -95, -80
+}
+
+Sprite BFGOD0, 130, 88
+{
+    Patch BFGOD0, 0, 0
+    Offset -95, -80
+}
+
+Sprite BFGOE0, 130, 88
+{
+    Patch BFGOE0, 0, 0
+    Offset -95, -80
+}
+
+Sprite BFGOF0, 130, 88
+{
+    Patch BFGOF0, 0, 0
+    Offset -95, -80
+}
+
+Sprite BFGOG0, 130, 74
+{
+    Patch BFGOG0, 0, 0
+    Offset -95, -94
+}
+
+Sprite BFGOH0, 130, 74
+{
+    Patch BFGOH0, 0, 0
+    Offset -95, -94
+}
+
+Sprite BFGOI0, 144, 73
+{
+    Patch BFGOI0, 0, 0
+    Offset -88, -95
+}
+
+Sprite BFGOJ0, 144, 73
+{
+    Patch BFGOJ0, 0, 0
+    Offset -88, -95
+}
+
+Sprite BFGOK0, 144, 73
+{
+    Patch BFGOK0, 0, 0
+    Offset -88, -95
+}
+
+Sprite BFGOL0, 144, 73
+{
+    Patch BFGOL0, 0, 0
+    Offset -88, -95
+}
+
+Sprite BFGOM0, 144, 73
+{
+    Patch BFGOM0, 0, 0
+    Offset -88, -95
+}
+
+Sprite BFGON0, 144, 73
+{
+    Patch BFGON0, 0, 0
+    Offset -88, -95
+}
+
+Sprite BFGOO0, 144, 73
+{
+    Patch BFGOO0, 0, 0
+    Offset -88, -95
+}
+
+Sprite BFGOP0, 144, 73
+{
+    Patch BFGOP0, 0, 0
+    Offset -88, -95
+}
+
+Sprite BFGRA0, 130, 88
+{
+    Patch BFGRA0, 0, 0
+    Offset -95, -80
+}
+
+Sprite BFGRB0, 130, 88
+{
+    Patch BFGRB0, 0, 0
+    Offset -95, -80
+}
+
+Sprite BFGRC0, 130, 88
+{
+    Patch BFGRC0, 0, 0
+    Offset -95, -80
+}
+
+Sprite BFGRD0, 130, 88
+{
+    Patch BFGRD0, 0, 0
+    Offset -95, -80
+}
+
+Sprite BFGRE0, 130, 88
+{
+    Patch BFGRE0, 0, 0
+    Offset -95, -80
+}
+
+Sprite BFGRF0, 130, 88
+{
+    Patch BFGRF0, 0, 0
+    Offset -95, -80
+}
+

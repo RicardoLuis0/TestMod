@@ -1,0 +1,114 @@
+Sprite DASFA0, 106, 85
+{
+    Patch DASFA0, 0, 0
+    Offset -85, -84
+}
+
+Sprite DASFB0, 114, 91
+{
+    Patch DASFB0, 0, 0
+    Offset -85, -80
+}
+
+Sprite DASFC0, 108, 93
+{
+    Patch DASFC0, 0, 0
+    Offset -85, -82
+}
+
+Sprite DASFD0, 114, 72
+{
+    Patch DASFD0, 0, 0
+    Offset -85, -99
+}
+
+Sprite DASFE0, 108, 75
+{
+    Patch DASFE0, 0, 0
+    Offset -85, -100
+}
+
+Sprite DASGA0, 106, 78
+{
+    Patch DASGA0, 0, 0
+    Offset -85, -91
+}
+
+Sprite DASGB0, 134, 112
+{
+    Patch DASGB0, 0, 0
+    Offset -90, -70
+}
+
+Sprite DASGC0, 113, 112
+{
+    Patch DASGC0, 0, 0
+    Offset -123, -60
+}
+
+Sprite DASGD0, 117, 112
+{
+    Patch DASGD0, 0, 0
+    Offset -125, -57
+}
+
+Sprite DASGE0, 108, 112
+{
+    Patch DASGE0, 0, 0
+    Offset -136, -57
+}
+
+Sprite DASGF0, 113, 111
+{
+    Patch DASGF0, 0, 0
+    Offset -131, -58
+}
+
+Sprite DASGG0, 70, 111
+{
+    Patch DASGG0, 0, 0
+    Offset -174, -58
+}
+
+Sprite DASGH0, 133, 122
+{
+    Patch DASGH0, 0, 0
+    Offset -126, -47
+}
+
+Sprite DASGI0, 133, 122
+{
+    Patch DASGI0, 0, 0
+    Offset -126, -47
+}
+
+Sprite DASGJ0, 151, 122
+{
+    Patch DASGJ0, 0, 0
+    Offset -112, -47
+}
+
+Sprite DASGK0, 156, 122
+{
+    Patch DASGK0, 0, 0
+    Offset -116, -47
+}
+
+Sprite DASGL0, 139, 122
+{
+    Patch DASGL0, 0, 0
+    Offset -110, -61
+}
+
+Sprite DASGM0, 118, 80
+{
+    Patch DASGM0, 0, 0
+    Offset -128, -89
+}
+
+Sprite DEASA0, 56, 29
+{
+    Patch DEASA0, 0, 0
+    Offset 28, 25
+}
+

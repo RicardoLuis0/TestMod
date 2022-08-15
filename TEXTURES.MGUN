@@ -1,0 +1,42 @@
+Sprite PKCFA0, 124, 71
+{
+    Patch PKCFA0, 0, 0
+    Offset -88, -97
+}
+
+Sprite PKCFB0, 124, 71
+{
+    Patch PKCFB0, 0, 0
+    Offset -88, -97
+}
+
+Sprite PKCGA0, 124, 71
+{
+    Patch PKCGA0, 0, 0
+    Offset -88, -97
+}
+
+Sprite PKCGB0, 124, 71
+{
+    Patch PKCGB0, 0, 0
+    Offset -88, -97
+}
+
+Sprite PKCGC0, 124, 71
+{
+    Patch PKCGC0, 0, 0
+    Offset -88, -97
+}
+
+Sprite PKCGD0, 124, 71
+{
+    Patch PKCGD0, 0, 0
+    Offset -88, -97
+}
+
+Sprite PKCPA0, 52, 25
+{
+    Patch PKCPA0, 0, 0
+    Offset 26, 23
+}
+

@@ -1,0 +1,174 @@
+Sprite RIFFA0, 320, 168
+{
+    Patch RIFFA0, 0, 0
+    Offset 1, 0
+}
+
+Sprite RIFFB0, 320, 168
+{
+    Patch RIFFB0, 0, 0
+    Offset 2, 0
+}
+
+Sprite RIFGA0, 320, 168
+{
+    Patch RIFGA0, 0, 0
+    Offset 2, 0
+}
+
+Sprite RIFJA0, 320, 168
+{
+    Patch RIFJA0, 0, 0
+    Offset 2, -1
+}
+
+Sprite RIFJB0, 320, 168
+{
+    Patch RIFJB0, 0, 0
+    Offset 4, -2
+}
+
+Sprite RIFJC0, 320, 168
+{
+    Patch RIFJC0, 0, 0
+    Offset 7, -3
+}
+
+Sprite RIFLA0, 39, 16
+{
+    Patch RIFLA0, 0, 0
+    Offset 12, 16
+}
+
+Sprite RIFRA0, 202, 180
+{
+    Patch RIFRA0, 0, 0
+    Offset -56, 8
+}
+
+Sprite RIFRB0, 202, 180
+{
+    Patch RIFRB0, 0, 0
+    Offset -66, 12
+}
+
+Sprite RIFRC0, 288, 180
+{
+    Patch RIFRC0, 0, 0
+    Offset -18, 10
+}
+
+Sprite RIFRD0, 288, 180
+{
+    Patch RIFRD0, 0, 0
+    Offset -26, 10
+}
+
+Sprite RIFRE0, 288, 180
+{
+    Patch RIFRE0, 0, 0
+    Offset -40, 9
+}
+
+Sprite RIFRF0, 288, 180
+{
+    Patch RIFRF0, 0, 0
+    Offset -40, 8
+}
+
+Sprite RIFRG0, 288, 180
+{
+    Patch RIFRG0, 0, 0
+    Offset -35, 12
+}
+
+Sprite RIFRH0, 288, 180
+{
+    Patch RIFRH0, 0, 0
+    Offset -17, 12
+}
+
+Sprite RIFRI0, 288, 180
+{
+    Patch RIFRI0, 0, 0
+    Offset -17, 12
+}
+
+Sprite RIFRK0, 288, 180
+{
+    Patch RIFRK0, 0, 0
+    Offset -18, 12
+}
+
+Sprite RIFRL0, 288, 180
+{
+    Patch RIFRL0, 0, 0
+    Offset -19, 12
+}
+
+Sprite RIFRM0, 288, 180
+{
+    Patch RIFRM0, 0, 0
+    Offset -23, 10
+}
+
+Sprite RIFRN0, 288, 180
+{
+    Patch RIFRN0, 0, 0
+    Offset -23, 1
+}
+
+Sprite RIFRO0, 288, 180
+{
+    Patch RIFRO0, 0, 0
+    Offset -25, -11
+}
+
+Sprite RIFRP0, 288, 180
+{
+    Patch RIFRP0, 0, 0
+    Offset -40, 12
+}
+
+Sprite RIFRQ0, 288, 180
+{
+    Patch RIFRQ0, 0, 0
+    Offset -40, 10
+}
+
+Sprite RIFRR0, 288, 180
+{
+    Patch RIFRR0, 0, 0
+    Offset -26, 9
+}
+
+Sprite RIFRS0, 288, 180
+{
+    Patch RIFRS0, 0, 0
+    Offset -18, 8
+}
+
+Sprite RIFRT0, 202, 180
+{
+    Patch RIFRT0, 0, 0
+    Offset -56, 12
+}
+
+Sprite RIFSA0, 320, 168
+{
+    Patch RIFSA0, 0, 0
+    Offset 50, -32
+}
+
+Sprite RIFSB0, 320, 168
+{
+    Patch RIFSB0, 0, 0
+    Offset 40, -20
+}
+
+Sprite RIFSC0, 320, 168
+{
+    Patch RIFSC0, 0, 0
+    Offset 23, -6
+}
+
