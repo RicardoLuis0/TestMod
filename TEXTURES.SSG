@@ -1,6 +1,6 @@
 Sprite DESSA0, 68, 20
 {
-    Patch DESSA0, 0, 0
+    Patch "Patches/Weapons/SSG/SSG_Pickup.png", 0, 0
     Offset 34, 20
 }
 
@@ -84,61 +84,61 @@ Sprite DSSEU0, 68, 27
 
 Sprite DSSFA0, 71, 87
 {
-    Patch DSSFA0, 0, 0
+    Patch "Patches/Weapons/SSG/SSG_FireBothA.png", 0, 0
     Offset -118, -81
 }
 
 Sprite DSSFB0, 74, 93
 {
-    Patch DSSFB0, 0, 0
+    Patch "Patches/Weapons/SSG/SSG_FireBothB.png", 0, 0
     Offset -119, -90
 }
 
 Sprite DSSFC0, 74, 92
 {
-    Patch DSSFC0, 0, 0
+    Patch "Patches/Weapons/SSG/SSG_FireBothC.png", 0, 0
     Offset -119, -84
 }
 
 Sprite DSSFD0, 71, 87
 {
-    Patch DSSFD0, 0, 0
+    Patch "Patches/Weapons/SSG/SSG_FireRightA.png", 0, 0
     Offset -118, -81
 }
 
 Sprite DSSFE0, 74, 93
 {
-    Patch DSSFE0, 0, 0
+    Patch "Patches/Weapons/SSG/SSG_FireRightB.png", 0, 0
     Offset -119, -85
 }
 
 Sprite DSSFF0, 74, 92
 {
-    Patch DSSFF0, 0, 0
+    Patch "Patches/Weapons/SSG/SSG_FireRightC.png", 0, 0
     Offset -119, -79
 }
 
 Sprite DSSFG0, 71, 87
 {
-    Patch DSSFG0, 0, 0
+    Patch "Patches/Weapons/SSG/SSG_FireLeftA.png", 0, 0
     Offset -118, -81
 }
 
 Sprite DSSFH0, 74, 93
 {
-    Patch DSSFH0, 0, 0
+    Patch "Patches/Weapons/SSG/SSG_FireLeftB.png", 0, 0
     Offset -119, -85
 }
 
 Sprite DSSFI0, 74, 92
 {
-    Patch DSSFI0, 0, 0
+    Patch "Patches/Weapons/SSG/SSG_FireLeftC.png", 0, 0
     Offset -119, -79
 }
 
 Sprite DSSFJ0, 70, 74
 {
-    Patch DSSFJ0, 0, 0
+    Patch "Patches/Weapons/SSG/SSG_FireD.png", 0, 0
     Offset -119, -94
 }
 
