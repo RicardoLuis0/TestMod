@@ -106,13 +106,11 @@ class SteerRocket:MyRocket {
 	}
 
 	void Steer(Vector3 tpos,double maxangle,double rotspeed){//should be called in "Tick" or comparable function; maxangle=max angle to steer,else keep straight; rotspeed=rotation speed
-		double dx=tpos.x-pos.x;
-		double dy=tpos.y-pos.y;
-		double dz=tpos.z-pos.z;
-		double targetangle=atan2(dy,dx);
-		double targetpitch=-(atan2(sqrt(dy*dy+dx*dx),dz)-90);
-		double adiff=DeltaAngle(angle,targetangle);
-		double pdiff=DeltaAngle(pitch,targetpitch);
+		vector3 targetAnglePitch = Level.SphericalCoords(pos,tpos);
+		
+		double adiff = DeltaAngle(angle,-targetAnglePitch.x);
+		double pdiff = DeltaAngle(pitch,targetAnglePitch.y);
+		
 		if(abs(adiff)<=maxangle&&abs(pdiff)<=maxangle){
 			if(abs(adiff)>rotspeed){
 				angle+=(adiff>0)?rotspeed:-rotspeed;
