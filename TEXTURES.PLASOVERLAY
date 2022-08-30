@@ -1,0 +1,391 @@
+Sprite PHNAA0, 26, 17
+{
+    Patch PHNAA0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHNAB0, 26, 17
+{
+    Patch PHNAB0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHNAC0, 26, 17
+{
+    Patch PHNAC0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHNAD0, 26, 17
+{
+    Patch PHNAD0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHNAE0, 26, 17
+{
+    Patch PHNAE0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHNAF0, 26, 17
+{
+    Patch PHNAF0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHNAG0, 26, 17
+{
+    Patch PHNAG0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHNAH0, 26, 17
+{
+    Patch PHNAH0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHNBA0, 28, 19
+{
+    Patch PHNBA0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHNBB0, 28, 19
+{
+    Patch PHNBB0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHNBC0, 28, 19
+{
+    Patch PHNBC0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHNBD0, 28, 19
+{
+    Patch PHNBD0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHNBE0, 28, 19
+{
+    Patch PHNBE0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHNBF0, 28, 19
+{
+    Patch PHNBF0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHNBG0, 28, 19
+{
+    Patch PHNBG0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHNBH0, 28, 19
+{
+    Patch PHNBH0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHNCA0, 32, 19
+{
+    Patch PHNCA0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHNCB0, 32, 19
+{
+    Patch PHNCB0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHNCC0, 32, 19
+{
+    Patch PHNCC0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHNCD0, 32, 19
+{
+    Patch PHNCD0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHNCE0, 32, 19
+{
+    Patch PHNCE0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHNCF0, 32, 19
+{
+    Patch PHNCF0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHNCG0, 32, 19
+{
+    Patch PHNCG0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHNCH0, 31, 19
+{
+    Patch PHNCH0, 0, 0
+    Offset -183, -142
+}
+
+Sprite PHNDA0, 28, 15
+{
+    Patch PHNDA0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHNDB0, 28, 15
+{
+    Patch PHNDB0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHNDC0, 28, 15
+{
+    Patch PHNDC0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHNDD0, 28, 15
+{
+    Patch PHNDD0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHNDE0, 28, 15
+{
+    Patch PHNDE0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHNDF0, 28, 15
+{
+    Patch PHNDF0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHNDG0, 28, 15
+{
+    Patch PHNDG0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHNDH0, 28, 15
+{
+    Patch PHNDH0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHOAA0, 26, 17
+{
+    Patch PHOAA0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHOAB0, 26, 17
+{
+    Patch PHOAB0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHOAC0, 26, 17
+{
+    Patch PHOAC0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHOAD0, 26, 17
+{
+    Patch PHOAD0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHOAE0, 26, 17
+{
+    Patch PHOAE0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHOAF0, 26, 17
+{
+    Patch PHOAF0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHOAG0, 26, 17
+{
+    Patch PHOAG0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHOAH0, 26, 17
+{
+    Patch PHOAH0, 0, 0
+    Offset -148, -127
+}
+
+Sprite PHOBA0, 28, 19
+{
+    Patch PHOBA0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHOBB0, 28, 19
+{
+    Patch PHOBB0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHOBC0, 28, 19
+{
+    Patch PHOBC0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHOBD0, 28, 19
+{
+    Patch PHOBD0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHOBE0, 28, 19
+{
+    Patch PHOBE0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHOBF0, 28, 19
+{
+    Patch PHOBF0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHOBG0, 28, 19
+{
+    Patch PHOBG0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHOBH0, 28, 19
+{
+    Patch PHOBH0, 0, 0
+    Offset -147, -128
+}
+
+Sprite PHOCA0, 32, 19
+{
+    Patch PHOCA0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHOCB0, 32, 19
+{
+    Patch PHOCB0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHOCC0, 32, 19
+{
+    Patch PHOCC0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHOCD0, 32, 19
+{
+    Patch PHOCD0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHOCE0, 32, 19
+{
+    Patch PHOCE0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHOCF0, 32, 19
+{
+    Patch PHOCF0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHOCG0, 32, 19
+{
+    Patch PHOCG0, 0, 0
+    Offset -182, -142
+}
+
+Sprite PHOCH0, 31, 19
+{
+    Patch PHOCH0, 0, 0
+    Offset -183, -142
+}
+
+Sprite PHODA0, 28, 15
+{
+    Patch PHODA0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHODB0, 28, 15
+{
+    Patch PHODB0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHODC0, 28, 15
+{
+    Patch PHODC0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHODD0, 28, 15
+{
+    Patch PHODD0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHODE0, 28, 15
+{
+    Patch PHODE0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHODF0, 28, 15
+{
+    Patch PHODF0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHODG0, 28, 15
+{
+    Patch PHODG0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PHODH0, 28, 15
+{
+    Patch PHODH0, 0, 0
+    Offset -254, -153
+}
+
+Sprite PNAAA0, 26, 17
+{
+    Patch PNAAA0, 0, 0
+    Offset -148, -127
+}
+
+

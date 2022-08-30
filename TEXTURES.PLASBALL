@@ -1,0 +1,103 @@
+
+Sprite PLSEA0, 23, 23
+{
+    Patch PLSEA0, 0, 0
+    Offset 12, 11
+}
+
+Sprite PLSEB0, 39, 41
+{
+    Patch PLSEB0, 0, 0
+    Offset 19, 18
+}
+
+Sprite PLSEC0, 37, 35
+{
+    Patch PLSEC0, 0, 0
+    Offset 17, 18
+}
+
+Sprite PLSED0, 29, 29
+{
+    Patch PLSED0, 0, 0
+    Offset 13, 13
+}
+
+Sprite PLSEE0, 7, 7
+{
+    Patch PLSEE0, 0, 0
+    Offset 0, 2
+}
+
+Sprite PED1A0, 64, 50
+{
+    Patch PED1A0, 0, 0
+    Offset 30, 27
+}
+
+Sprite PED1B0, 81, 70
+{
+    Patch PED1B0, 0, 0
+    Offset 40, 36
+}
+
+Sprite PED1C0, 143, 114
+{
+    Patch PED1C0, 0, 0
+    Offset 72, 59
+}
+
+Sprite PED1D0, 135, 29
+{
+    Patch PED1D0, 0, 0
+    Offset 67, 14
+}
+
+Sprite PED1E0, 133, 7
+{
+    Patch PED1E0, 0, 0
+    Offset 65, 3
+}
+
+Sprite PED1F0, 102, 1
+{
+    Patch PED1F0, 0, 0
+    Offset 49, 0
+}
+
+Sprite PED2A0, 64, 50
+{
+    Patch PED2A0, 0, 0
+    Offset 32, 24
+}
+
+Sprite PED2B0, 42, 45
+{
+    Patch PED2B0, 0, 0
+    Offset 18, 22
+}
+
+Sprite PED2C0, 35, 35
+{
+    Patch PED2C0, 0, 0
+    Offset 19, 17
+}
+
+Sprite PED2D0, 13, 9
+{
+    Patch PED2D0, 0, 0
+    Offset 5, 4
+}
+
+Sprite PES1A0, 45, 45
+{
+    Patch PES1A0, 0, 0
+    Offset 24, 27
+}
+
+Sprite PES1B0, 45, 45
+{
+    Patch PES1B0, 0, 0
+    Offset 24, 27
+}
+
