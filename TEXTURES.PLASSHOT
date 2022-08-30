@@ -1,41 +1,41 @@
 Sprite BSHTA0, 7, 7
 {
-    Patch BSHTA0, 0, 0
+    Patch "Patches/Weapons/Plasma/PlasmaShot/PlasmaShotA.png", 0, 0
     Offset 3, 3
 }
 
 Sprite BSHTB0, 7, 7
 {
-    Patch BSHTB0, 0, 0
+    Patch "Patches/Weapons/Plasma/PlasmaShot/PlasmaShotB.png", 0, 0
     Offset 3, 3
 }
 
 Sprite BSHTC0, 7, 7
 {
-    Patch BSHTC0, 0, 0
+    Patch "Patches/Weapons/Plasma/PlasmaShot/PlasmaShotC.png", 0, 0
     Offset 3, 3
 }
 
 Sprite BSHTD0, 7, 7
 {
-    Patch BSHTD0, 0, 0
+    Patch "Patches/Weapons/Plasma/PlasmaShot/PlasmaShotD.png", 0, 0
     Offset 3, 3
 }
 
 Sprite BSHTE0, 7, 7
 {
-    Patch BSHTE0, 0, 0
+    Patch "Patches/Weapons/Plasma/PlasmaShot/PlasmaShotE.png", 0, 0
     Offset 3, 3
 }
 
 Sprite BSHTF0, 7, 7
 {
-    Patch BSHTF0, 0, 0
+    Patch "Patches/Weapons/Plasma/PlasmaShot/PlasmaShotF.png", 0, 0
     Offset 3, 3
 }
 
 Sprite BSHTG0, 7, 7
 {
-    Patch BSHTG0, 0, 0
+    Patch "Patches/Weapons/Plasma/PlasmaShot/PlasmaShotG.png", 0, 0
     Offset 3, 3
 }
