@@ -1,60 +1,60 @@
 Sprite RCKTA1, 19, 19
 {
-    Patch RCKTA1, 0, 0
+    Patch "Patches/Weapons/Rocket/Rocket_A1.png", 0, 0
     Offset 9, 15
 }
 
 Sprite RCKTA2A8, 32, 14
 {
-    Patch RCKTA2A8, 0, 0
+    Patch "Patches/Weapons/Rocket/Rocket_A2A8.png", 0, 0
     Offset 16, 13
 }
 
 Sprite RCKTA3A7, 39, 14
 {
-    Patch RCKTA3A7, 0, 0
+    Patch "Patches/Weapons/Rocket/Rocket_A3A7.png", 0, 0
     Offset 15, 13
 }
 
 Sprite RCKTA4A6, 29, 14
 {
-    Patch RCKTA4A6, 0, 0
+    Patch "Patches/Weapons/Rocket/Rocket_A4A6.png", 0, 0
     Offset 11, 13
 }
 
 Sprite RCKTA5, 19, 19
 {
-    Patch RCKTA5, 0, 0
+    Patch "Patches/Weapons/Rocket/Rocket_A5.png", 0, 0
     Offset 9, 16
 }
 
 Sprite RCKTB0, 86, 87
 {
-    Patch RCKTB0, 0, 0
+    Patch "Patches/Weapons/Rocket/Rocket_B0.png", 0, 0
     Offset 44, 46
 }
 
 Sprite RCKTC0, 89, 87
 {
-    Patch RCKTC0, 0, 0
+    Patch "Patches/Weapons/Rocket/Rocket_C0.png", 0, 0
     Offset 46, 44
 }
 
 Sprite RCKTD0, 91, 89
 {
-    Patch RCKTD0, 0, 0
+    Patch "Patches/Weapons/Rocket/Rocket_D0.png", 0, 0
     Offset 42, 46
 }
 
 Sprite RCKTE0, 98, 94
 {
-    Patch RCKTE0, 0, 0
+    Patch "Patches/Weapons/Rocket/Rocket_E0.png", 0, 0
     Offset 46, 45
 }
 
 Sprite RCKTF0, 108, 98
 {
-    Patch RCKTF0, 0, 0
+    Patch "Patches/Weapons/Rocket/Rocket_F0.png", 0, 0
     Offset 50, 48
 }
 
