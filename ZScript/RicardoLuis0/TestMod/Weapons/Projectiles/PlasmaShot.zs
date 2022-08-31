@@ -61,8 +61,17 @@ class PlasmaRailTrail:actor{
 		Scale 4;
 		Height 8;
 		Renderstyle "Add";
-		Alpha 0.1;
+		Alpha 0.025;
 		+FORCEXYBILLBOARD;
+	}
+	
+	override void PostBeginPlay(){
+		super.PostBeginPlay();
+		if(target){
+			int dist=int(Level.Vec3Diff(pos,target.pos).length()/10);
+			int trns=abs((dist%41)-20);
+			A_SetTranslation("RailgunTrailTrns"..trns);
+		}
 	}
 	States{
 	Spawn:
