@@ -6,13 +6,25 @@ Sprite RGUNA0, 93, 72
 
 Sprite RGUNB0, 93, 72
 {
-    Patch "Patches/Weapons/Railgun/Railgun_Charge.png", 0, 0
+    Patch "Patches/Weapons/Railgun/Railgun_ChargeGlass.png", 0, 0
     Offset -115, -97
 }
 
 Sprite RGUNC0, 93, 72
 {
-    Patch "Patches/Weapons/Railgun/Railgun_Fire.png", 0, 0
+    Patch "Patches/Weapons/Railgun/Railgun_FireGlass.png", 0, 0
+    Offset -115, -97
+}
+
+Sprite RGUND0, 93, 72
+{
+    Patch "Patches/Weapons/Railgun/Railgun_ChargeGlow.png", 0, 0
+    Offset -115, -97
+}
+
+Sprite RGUNE0, 93, 72
+{
+    Patch "Patches/Weapons/Railgun/Railgun_FireGlow.png", 0, 0
     Offset -115, -97
 }
 

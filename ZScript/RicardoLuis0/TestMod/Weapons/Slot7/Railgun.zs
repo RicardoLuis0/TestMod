@@ -1,6 +1,6 @@
 class RailgunCharge : Ammo {
 	Default {
-		Inventory.MaxAmount 25;
+		Inventory.MaxAmount 50;
 	}
 }
 
@@ -11,7 +11,7 @@ class Railgun : ModWeaponBase {
 		Weapon.SlotNumber 7;
 		Weapon.AmmoType1 "RailgunCharge";
 		Weapon.AmmoType2 "NewCell";
-		Weapon.AmmoUse1 25;
+		Weapon.AmmoUse1 50;
 		Weapon.AmmoUse2 0;
 		Weapon.AmmoGive1 50;
 		+WEAPON.NOALERT;
@@ -43,9 +43,17 @@ class Railgun : ModWeaponBase {
 	Fire:
 		TNT1 A 0 A_JumpIfNoAmmo("Ready");
 		TNT1 A 0 {
-			A_Overlay(2,"FireAnimOverlay");
+			A_Overlay(2,"FireBodyGlowOverlay");
 			A_OverlayFlags(2,PSPF_FORCEALPHA,true);
 			invoker.SetLayerAlpha(2,0);
+			A_Overlay(3,"FireAnimOverlay");
+			A_OverlayFlags(3,PSPF_FORCEALPHA,true);
+			invoker.SetLayerAlpha(3,0);
+			A_Overlay(4,"FireGlowOverlay");
+			A_OverlayFlags(4,PSPF_FORCEALPHA,true);
+			A_OverlayFlags(4,PSPF_RENDERSTYLE,true);
+			A_OverlayRenderstyle(4,STYLE_Add);
+			invoker.SetLayerAlpha(4,0);
 			invoker.overlay_alpha_down = false;
 			invoker.overlay_alpha = 0.0;
 		}
@@ -77,6 +85,21 @@ class Railgun : ModWeaponBase {
 	FireAnimOverlaySkipFire:
 		RGUN B 25 BRIGHT;
 		Stop;
+		
+	FireGlowOverlay:
+		RGUN D 15 BRIGHT;
+		TNT1 A 0 CheckFireNoAlt(null,"FireGlowOverlaySkipFire");
+		RGUN E 4 BRIGHT;
+	FireGlowOverlaySkipFire:
+		RGUN D 25 BRIGHT;
+		Stop;
+	
+	FireBodyGlowOverlay:
+		RGUN A 15 BRIGHT;
+		TNT1 A 0 CheckFireNoAlt(null,"FireGlowOverlaySkipFire");
+		RGUN A 4 BRIGHT;
+	FireBodyGlowOverlaySkipFire:
+		RGUN A 25 BRIGHT;
 	Spawn:
 		DEPG A -1;
 		Loop;
@@ -87,7 +110,9 @@ class Railgun : ModWeaponBase {
 		double rate_up = 1./15;
 		double rate_down = 1./25;
 		overlay_alpha = clamp(overlay_alpha_down?overlay_alpha - rate_down : overlay_alpha + rate_up,0.0,1.0);
-		SetLayerAlpha(2,overlay_alpha);
+		SetLayerAlpha(2,clamp(overlay_alpha**2,0.0,0.5));
+		SetLayerAlpha(3,overlay_alpha);
+		SetLayerAlpha(4,overlay_alpha);
 		if( (gametic % 2 == 0 ) && PSP_GetState(1) == ResolveState("Ready") && ammo2.amount > 0 && ammo1.amount < ammo1.maxamount){
 			ammo1.amount++;
 			ammo2.amount--;
