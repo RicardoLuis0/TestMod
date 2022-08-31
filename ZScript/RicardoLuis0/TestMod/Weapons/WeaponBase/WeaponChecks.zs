@@ -46,6 +46,14 @@ extend class ModWeaponBase {
 		return ResolveState(noFire);
 	}
 
+	action state CheckFireNoAlt(statelabel fire=null,statelabel noFire=null){
+		int input=GetPlayerInput(INPUT_BUTTONS);
+		if(input&BT_ATTACK){
+			return ResolveState(fire);
+		}
+		return ResolveState(noFire);
+	}
+
 	action state CheckPFire(statelabel fire=null,statelabel noFire=null){
 		int input=GetPlayerInput(INPUT_BUTTONS);
 		if(input&BT_ATTACK){

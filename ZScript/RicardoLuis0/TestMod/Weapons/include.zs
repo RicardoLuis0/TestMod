@@ -12,6 +12,7 @@
 #include "./Slot5/GuidedRocketLauncher.zs"
 #include "./Slot6/PlasmaRifle.zs"
 #include "./Slot7/BFG.zs"
+#include "./Slot7/Railgun.zs"
 #include "./Slot7/Smartgun.zs"
 #include "./Projectiles/Rocket.zs"
 #include "./Projectiles/SuperPlasmaBall.zs"

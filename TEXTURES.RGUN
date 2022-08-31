@@ -1,0 +1,18 @@
+Sprite RGUNA0, 93, 72
+{
+    Patch "Patches/Weapons/Railgun/Railgun_Idle.png", 0, 0
+    Offset -115, -97
+}
+
+Sprite RGUNB0, 93, 72
+{
+    Patch "Patches/Weapons/Railgun/Railgun_Charge.png", 0, 0
+    Offset -115, -97
+}
+
+Sprite RGUNC0, 93, 72
+{
+    Patch "Patches/Weapons/Railgun/Railgun_Fire.png", 0, 0
+    Offset -115, -97
+}
+
