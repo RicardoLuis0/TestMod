@@ -6,3 +6,17 @@ GameInfo {
 
 DamageType Piercing {
 }
+
+Skill Hell { // Secret Difficulty
+	
+	DamageFactor = 10.0
+	KickbackFactor = 0.1
+	
+	Aggressiveness = 0.75
+	FastMonsters
+	SpawnFilter = Nightmare
+	
+	MustConfirm
+	Key = "s"
+	
+}
