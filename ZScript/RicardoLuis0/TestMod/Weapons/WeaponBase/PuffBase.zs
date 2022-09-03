@@ -10,8 +10,11 @@ class ModBulletPuffBase:BulletPuff {
 		//console.printf("ModBulletPuffBase::PostBeginPlay");
 	}
 	
-	void DoPuffFX(float line_angle){
+	void DoPuffFX(Line hitLine){
 		//console.printf("ModBulletPuffBase::DoPuffFX");
+		if(hitLine){
+			console.printf("hitLine");
+		}
 	}
 	
 }

@@ -45,7 +45,17 @@ extend class ModWeaponBase {
 			
 			ModBulletPuffBase puff = ModBulletPuffBase(LineAttack(aim.x,range,aim.y,dmg,'Hitscan',puff,laflags,t));
 			
-			//puff.doPuffFX(...);
+			if(puff) {
+				Line line = null;
+				if(!t.lineTarget) {//no actor was hit, get line
+					FLineTraceData l;
+					bool ok = LineTrace(aim.x,range,aim.y,data:l);
+					if(ok){
+						line = l.hitLine;
+					}
+				}
+				puff.doPuffFX(line);
+			}
 		}
 	}
 	
