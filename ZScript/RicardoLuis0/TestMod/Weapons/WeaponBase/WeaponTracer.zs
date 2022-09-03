@@ -58,19 +58,25 @@ extend class ModWeaponBase {
 			
 			ModBulletPuffBase puff = ModBulletPuffBase(LineAttack(aim.x,range,aim.y,newdmg,GetDefaultByType(puff).default.DamageType,puff,laflags,t));
 			
-			if(drawTracer) {
-				A_RailAttack(0,0,false,"","FFFF7F",RGF_SILENT|RGF_NOPIERCING|RGF_EXPLICITANGLE|RGF_FULLBRIGHT,0,"VisTracer",aim.x - angle,aim.y - pitch,range,1,0.25,0);
-			}
+			Line line = null;
 			
-			if(puff) {
-				Line line = null;
-				
+			if(puff || drawTracer) {
 				FLineTraceData l;
-				bool ok = LineTrace(aim.x,range,aim.y,offsetz:attack_height,data:l);
+				bool ok = LineTrace(aim.x,range,aim.y,TRF_SOLIDACTORS,attack_height,data:l);
 				if(ok){
 					line = l.hitLine;
 				}
-				puff.doPuffFX(aim.x,line,t.lineTarget);
+				
+				if(drawTracer && ok) {
+					vector3 tAnglePitch = Level.SphericalCoords((pos.x,pos.y,player.ViewZ),l.hitLocation,(angle,pitch));
+					double zoff = (player.viewZ - pos.z) - (player.mo.viewHeight * player.crouchfactor);
+					
+					A_RailAttack(0,0,false,"","FFFF7F",RGF_SILENT|RGF_NOPIERCING|RGF_EXPLICITANGLE|RGF_FULLBRIGHT,0,"VisTracer",tAnglePitch.x,tAnglePitch.y,range,1,0.25,0,spawnofs_z:zoff);
+				}
+				
+				if(puff) {
+					puff.doPuffFX(aim.x,line,t.lineTarget);
+				}
 			}
 		}
 	}
