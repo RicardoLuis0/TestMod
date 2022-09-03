@@ -50,13 +50,8 @@ extend class ModWeaponBase {
 				if(!t.lineTarget) {//no actor was hit, get line
 					FLineTraceData l;
 					let attack_height = (player.mo.height / 2) + (player.mo.attackZOffset * player.crouchfactor);
-					
-					console.printf("attack_height = "..attack_height);
-					
 					bool ok = LineTrace(aim.x,range,aim.y,offsetz:attack_height,data:l);
 					if(ok){
-						let ppos = l.hitLocation-pos;
-						A_SpawnParticle("FF0000",SPF_FULLBRIGHT,700,5,0,ppos.x,ppos.y,ppos.z);
 						line = l.hitLine;
 					}
 				}
