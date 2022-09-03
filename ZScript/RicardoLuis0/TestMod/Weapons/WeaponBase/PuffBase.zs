@@ -36,15 +36,18 @@ class ModBulletPuffBase:BulletPuff {
 			//inv_angle = angle + DeltaAngle(angle,target.angle) * 2;
 		}
 		
+		if(hitLine || hitActor){
 		
-		int num_particles = random[puff_fx](2,4);
-		for(int i=0;i<num_particles;i++){
-			A_SpawnParticle("FFFF00",SPF_RELATIVE|SPF_FULLBRIGHT,350,
-				angle:frandom[puff_fx](-10,10),
-				velx:frandom[puff_fx](5,8),
-				velz:frandom[puff_fx](3,5),
-				accelz:-1
-			);
+			int num_particles = random[puff_fx](2,4);
+			for(int i=0;i<num_particles;i++){
+				A_SpawnParticle("FFFF00",SPF_RELATIVE|SPF_FULLBRIGHT,350,
+					angle:frandom[puff_fx](-10,10),
+					velx:frandom[puff_fx](3,5),
+					velz:frandom[puff_fx](3,5),
+					accelz:-1
+				);
+			}
+			
 		}
 		/*
 		angle = inv_angle;
