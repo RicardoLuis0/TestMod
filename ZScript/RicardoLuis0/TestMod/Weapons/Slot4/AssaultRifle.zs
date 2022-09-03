@@ -160,7 +160,7 @@ class AssaultRifle : ModWeaponBase {
 			[sx,sy]=W_CalcSpreadXY(0,15);
 		}
 		
-		W_FireTracer((sx,sy),12,puff:"PiercingPuff",flags:FBF_USEAMMO|FBF_EXPLICITANGLE);
+		W_FireTracer((sx,sy),12,puff:"PiercingPuff",flags:FBF_USEAMMO|FBF_EXPLICITANGLE,drawTracer:sv_heavy_bullet_tracers);
 		A_Recoil(0.5);
 		A_AlertMonsters();
 		A_StartSound("weapons/ar_fire",CHAN_AUTO);

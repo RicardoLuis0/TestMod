@@ -114,7 +114,7 @@ class Minigun : HeavyGatlingShotgun {
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_GunFlash();
 		
-		W_FireTracerSpreadXY(4,3,16,0.0625,0.5,flags:((player.refire%2)==0)?FBF_USEAMMO:0);
+		W_FireTracerSpreadXY(4,3,16,0.0625,0.5,flags:((player.refire%2)==0)?FBF_USEAMMO:0,drawTracer:sv_light_bullet_tracers);
 		
 		player.refire++;
 		

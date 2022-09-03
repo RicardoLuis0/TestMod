@@ -378,7 +378,7 @@ class SmartGun : ModWeaponBase {
 			A_AlertMonsters();
 			A_FireProjectile("HeavyClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
 			
-			W_FireTracer((xoff,yoff),15,puff:"PiercingPuff",flags:FBF_EXPLICITANGLE|FBF_USEAMMO);
+			W_FireTracer((xoff,yoff),15,puff:"PiercingPuff",flags:FBF_EXPLICITANGLE|FBF_USEAMMO,drawTracer:sv_heavy_bullet_tracers);
 			
 			A_StartSound("weapons/smartgun",CHAN_WEAPON,CHANF_OVERLAP);
 			invoker.AmmoUse1=!invoker.AmmoUse1;

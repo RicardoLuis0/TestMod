@@ -219,7 +219,7 @@ class SSG : ModWeaponBase {
 		A_GunFlash();
 		A_AlertMonsters();
 		invoker.ammouse1=1;
-		W_FireTracer((5,5),invoker.dmg,invoker.pellets,drawTracer:false);
+		W_FireTracer((5,5),invoker.dmg,invoker.pellets,drawTracer:sv_shotgun_tracers);
 		invoker.ammouse1=2;
 		A_Recoil(2.0);
 		A_SetPitch(pitch+frandom(-5,-2),SPF_INTERPOLATE);
@@ -230,7 +230,7 @@ class SSG : ModWeaponBase {
 	action void SSG_FireBoth(){
 		A_GunFlash();
 		A_AlertMonsters();
-		W_FireTracer((10,6),invoker.dmg,int(invoker.pellets*2.25),drawTracer:false);
+		W_FireTracer((10,6),invoker.dmg,int(invoker.pellets*2.25),drawTracer:sv_shotgun_tracers);
 		A_Recoil(5.0);
 		A_SetPitch(pitch+frandom(-10,-5),SPF_INTERPOLATE);
 		A_StartSound("weapons/ssg_fire2_01",CHAN_AUTO);

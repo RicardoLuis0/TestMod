@@ -81,11 +81,11 @@ extend class ModWeaponBase {
 		}
 	}
 	
-	action void W_FireTracerSpreadXY(int dmg,double min,double max,double refire_rate=1.0,double refire_max=0.25,double refire_start=0.0,int count = 1,class<ModBulletPuffBase> puff = "ModBulletPuffBase",int flags = FBF_USEAMMO,double range = PLAYERMISSILERANGE){
+	action void W_FireTracerSpreadXY(int dmg,double min,double max,double refire_rate=1.0,double refire_max=0.25,double refire_start=0.0,int count = 1,class<ModBulletPuffBase> puff = "ModBulletPuffBase",int flags = FBF_USEAMMO,double range = PLAYERMISSILERANGE,bool drawTracer = true){
 		Vector2 spread;
 		for(int i=0;i<count;i++){
 			[spread.x,spread.y]=W_CalcSpreadXY(min,max,refire_rate,refire_max,refire_start);
-			W_FireTracer(spread,dmg,1,puff,flags|FBF_EXPLICITANGLE);
+			W_FireTracer(spread,dmg,1,puff,flags|FBF_EXPLICITANGLE,range,drawTracer);
 			flags &= ~FBF_USEAMMO;
 		}
 	}
