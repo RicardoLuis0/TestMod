@@ -71,6 +71,8 @@ extend class ModWeaponBase {
 					vector3 tAnglePitch = Level.SphericalCoords((pos.x,pos.y,player.ViewZ),l.hitLocation,(angle,pitch));
 					double zoff = (player.viewZ - pos.z) - (player.mo.viewHeight * player.crouchfactor);
 					
+					tAnglePitch = (-tAnglePitch.x,-tAnglePitch.y,tAnglePitch.z);
+					
 					A_RailAttack(0,0,false,"","FFFF7F",RGF_SILENT|RGF_NOPIERCING|RGF_EXPLICITANGLE|RGF_FULLBRIGHT,0,"VisTracer",tAnglePitch.x,tAnglePitch.y,range,1,0.25,0,spawnofs_z:zoff);
 				}
 				
