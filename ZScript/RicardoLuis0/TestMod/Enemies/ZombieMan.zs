@@ -37,7 +37,11 @@ class ZombieManSpawner : RandomSpawner replaces ZombieMan {
 	}
 }
 
-class SMGZombieMan : ZombieMan{
+class TracerZombieMan : ZombieMan {
+	mixin TracerEnemy;
+}
+
+class SMGZombieMan : TracerZombieMan {
 	Default {
 		Health 40;
 		Speed 8;
@@ -61,8 +65,9 @@ class SMGZombieMan : ZombieMan{
 	MissileLoop:
 		MGPO E 0 A_FaceTarget;
 		MGPO F 2 BRIGHT  {
-			A_StartSound("weapons/pistol_fire",CHAN_AUTO,CHANF_DEFAULT,0.35);
-			A_CustomBulletAttack(12,0,1,random(1,5),"BulletPuff",0,CBAF_NORANDOM);
+			A_StartSound("weapons/pistol_fire",CHAN_WEAPON,CHANF_OVERLAP,0.35);
+			
+			E_CustomTracerAttack((12,0),random(1,5),flags:CBAF_NORANDOM,drawTracer:sv_light_bullet_tracers);
 		}
 		MGPO E 2 A_MonsterRefire(192,"SeeStun");
 		Loop;
@@ -90,7 +95,7 @@ class SMGZombieMan : ZombieMan{
 		Goto See;
 	}
 }
-class PistolZombieMan : ZombieMan {
+class PistolZombieMan : TracerZombieMan {
 	Default{
 		DropItem "PistolZombieManClipDrop";
 		DropItem "NewPistol";
@@ -106,8 +111,9 @@ class PistolZombieMan : ZombieMan {
 	Missile:
 		PPSS E 10 A_FaceTarget;
 		PPSS F 8 {
-			A_StartSound("weapons/pistol_fire",CHAN_AUTO,volume:0.25);
-			A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"BulletPuff",0,CBAF_NORANDOM);
+			A_StartSound("weapons/pistol_fire",CHAN_WEAPON,CHANF_OVERLAP,0.25);
+			
+			E_CustomTracerAttack((22.5,0),random(1,5)*3,flags:CBAF_NORANDOM,drawTracer:sv_light_bullet_tracers);
 		}
 		PPSS E 8;
 		Goto See;
@@ -136,7 +142,7 @@ class PistolZombieMan : ZombieMan {
 	}
 }
 
-class ArmoredRifleZombieMan : ZombieMan{
+class ArmoredRifleZombieMan : TracerZombieMan {
 	Default{
 		DropItem "RifleZombieManClipDrop";
 		DropItem "AssaultRifle";
@@ -148,13 +154,15 @@ class ArmoredRifleZombieMan : ZombieMan{
 	}
 
 	action void A_RPosAttack1(){//attack 1 for possessed riflemen, more accurate
-		A_StartSound("weapons/ar_fire",CHAN_AUTO,volume:0.5);
-		A_CustomBulletAttack (15, 0, 1, random(1,3) * 3, "BulletPuff", 0, CBAF_NORANDOM);
+		A_StartSound("weapons/ar_fire",CHAN_WEAPON,CHANF_OVERLAP,0.5);
+		
+		E_CustomTracerAttack((15,0),random(1,3) * 3,flags:CBAF_NORANDOM,drawTracer:sv_heavy_bullet_tracers);
 	}
 
 	action void A_RPosAttack2(){//attack 2 for possessed riflemen, less accurate
-		A_StartSound("weapons/ar_fire",CHAN_AUTO,volume:0.5);
-		A_CustomBulletAttack (30, 0, 1, random(1,3) * 3, "BulletPuff", 0, CBAF_NORANDOM);
+		A_StartSound("weapons/ar_fire",CHAN_WEAPON,CHANF_OVERLAP,0.5);
+		
+		E_CustomTracerAttack((30,0),random(1,3) * 3,flags:CBAF_NORANDOM,drawTracer:sv_heavy_bullet_tracers);
 	}
 	
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle){

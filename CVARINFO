@@ -26,6 +26,8 @@ SERVER BOOL sv_shotgun_tracers = false;
 SERVER BOOL sv_light_bullet_tracers = true;
 SERVER BOOL sv_heavy_bullet_tracers = true;
 
+SERVER BOOL sv_enemy_tracers = true;
+
 //weapon inertia
 USER BOOL cl_weaponinertia_move_impulse = true;
 USER BOOL cl_weaponinertia_old_movebob = false;
