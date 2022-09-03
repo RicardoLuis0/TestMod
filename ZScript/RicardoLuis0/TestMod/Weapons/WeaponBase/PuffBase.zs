@@ -15,14 +15,16 @@ class ModBulletPuffBase:BulletPuff {
 		if(hitLine){
 			double line_angle = atan2(hitLine.delta.y,hitLine.delta.x);
 			double diff=DeltaAngle(angle,line_angle);
-			console.printf("hitLine, puff angle = "..angle.." line_angle = "..line_angle.." angle diff = "..diff);
 			
+			double line_hit_normal = diff > 0 ? line_angle - 90 : line_angle + 90;
 			
+			console.printf("hitLine, puff angle = "..angle.." line_angle = "..line_angle.." angle diff = "..diff.." line_hit_normal = "..line_hit_normal);
 			
 			A_SpawnParticle("FF0000",SPF_RELVEL|SPF_FULLBRIGHT,350,
-				angle:line_angle,
+				angle:line_hit_normal,
 				velx:1
 			);
+			
 		}
 		
 	}
