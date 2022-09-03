@@ -170,7 +170,8 @@ class NewPistol : ModWeaponBase {
 		invoker.canrefire=false;
 		Actor c=A_FireProjectile("LightClipCasing",random(-80, -100),false,0,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,45));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
-		W_FireBulletsSpreadXY(0.5,5,1,5,refire_rate:0.5,refire_max:0.25);
+		
+		W_FireTracerSpreadXY(5,0.5,5,0.5,0.25);
 		A_GunFlash();
 	}
 	

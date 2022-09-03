@@ -5,3 +5,4 @@
 #include "./PuffBase.zs"
 #include "./CasingBase.zs"
 #include "./MagazineWeapon.zs"
+#include "./WeaponTracer.zs"

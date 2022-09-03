@@ -149,7 +149,7 @@ class PumpShotgun : ModWeaponBase {
 		A_AlertMonsters();
 		invoker.firecasing=true;
 		A_Recoil(2.0);
-		W_FireBullets(1.5,1.5,invoker.pellets,invoker.dmg);
+		W_FireTracer((1.5,1.5),invoker.dmg,invoker.pellets);
 		A_SetPitch(pitch+frandom(-5,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom(-2,2),SPF_INTERPOLATE);
 		A_StartSound("weapons/shotgun_fire",CHAN_AUTO,CHANF_DEFAULT,0.5);

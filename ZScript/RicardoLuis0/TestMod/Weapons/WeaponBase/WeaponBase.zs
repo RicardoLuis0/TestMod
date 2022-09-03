@@ -32,29 +32,6 @@ class ModWeaponBase : Weapon {
 		}
 	}
 
-	action void W_FireBullets(double spread_horiz, double spread_vert, int count, int dmg, class<Actor> puff = "ModBulletPuffBase", int flags = FBF_USEAMMO, double range = 0, class<Actor> missile = null, double vert_offset = 32, double horiz_offset = 0){
-		if(player.refire==0){
-			player.refire=1;
-			W_FireBullets(spread_horiz,spread_vert,count,dmg,puff,flags,range,missile,vert_offset,horiz_offset);
-			player.refire=0;
-		}else if(flags&FBF_NORANDOM){
-			A_FireBullets(spread_horiz,spread_vert,count,dmg,puff,flags,range,missile,vert_offset,horiz_offset);
-		}else{
-			switch(sv_random_damage_mode){
-			default:
-			case 0://doom type random
-				A_FireBullets(spread_horiz,spread_vert,count,dmg,puff,flags,range,missile,vert_offset,horiz_offset);
-				break;
-			case 1://full random
-				A_FireBullets(spread_horiz,spread_vert,count,random(dmg,dmg*3),puff,flags|FBF_NORANDOM,range,missile,vert_offset,horiz_offset);
-				break;
-			case 2://no random
-				A_FireBullets(spread_horiz,spread_vert,count,dmg*2,puff,flags|FBF_NORANDOM,range,missile,vert_offset,horiz_offset);
-				break;
-			}
-		}
-	}
-
 	virtual void ReadyTick() {
 	}
 	
