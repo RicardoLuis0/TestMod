@@ -13,12 +13,24 @@ extend class ModWeaponBase {
 	}
 	
 	//THIS ALWAYS IGNORES AUTOAIM
-	action void W_FireTracer(Vector2 spread, int dmg, int count = 1, class<ModBulletPuffBase> puff = "ModBulletPuffBase", int flags = FBF_USEAMMO, double range = PLAYERMISSILERANGE){
+	action void W_FireTracer(Vector2 spread, int dmg, int count = 1, class<ModBulletPuffBase> puff = "ModBulletPuffBase", int flags = FBF_USEAMMO, double range = PLAYERMISSILERANGE, bool drawTracer = true){
 		if(!player) return;
+		
+		let attack_zoff = (player.mo.attackZOffset * player.crouchfactor);
+		
+		let attack_height = (player.mo.height / 2) + attack_zoff;
+		
+		FTranslatedLineTarget t;
 		
 		int laflags = (flags & FBF_NORANDOMPUFFZ)? LAF_NORANDOMPUFFZ : 0;
 		
-		FTranslatedLineTarget t;
+		if(flags & FBF_NORANDOMPUFFZ) {
+			laflags |= LAF_NORANDOMPUFFZ;
+		}
+		
+		if(drawTracer){
+			laflags |= LAF_NOIMPACTDECAL;
+		}
 		
 		if((flags & FBF_USEAMMO) && player.ReadyWeapon &&  stateinfo != null && stateinfo.mStateType == STATE_Psprite) {
 			if(!player.ReadyWeapon.DepleteAmmo(player.ReadyWeapon.bAltFire, true)) return;	// out of ammo
@@ -35,27 +47,31 @@ extend class ModWeaponBase {
 		}
 		
 		for(int i = 0; i < count; i++) {
-			if(flags&FBF_NORANDOM) {
-				dmg = TracerCalcDamage(dmg);
+			int newdmg = dmg;
+			if(!(flags & FBF_NORANDOM)) {
+				newdmg = TracerCalcDamage(dmg);
 			}
 			
 			if(!(flags & FBF_EXPLICITANGLE)) {
 				aim = (angle,pitch) + (fRandom[cabullet](-1.0,1.0) * spread.x , fRandom[cabullet](-1.0,1.0) * spread.y);
 			}
 			
-			ModBulletPuffBase puff = ModBulletPuffBase(LineAttack(aim.x,range,aim.y,dmg,'Hitscan',puff,laflags,t));
+			ModBulletPuffBase puff = ModBulletPuffBase(LineAttack(aim.x,range,aim.y,newdmg,GetDefaultByType(puff).default.DamageType,puff,laflags,t));
+			
+			if(drawTracer) {
+				A_RailAttack(0,0,false,"","FFFF7F",RGF_SILENT|RGF_NOPIERCING|RGF_EXPLICITANGLE|RGF_FULLBRIGHT,0,"VisTracer",aim.x - angle,aim.y - pitch,range,1,0.25,0);
+			}
+			
+			Line line = null;
+			
+			FLineTraceData l;
+			bool ok = LineTrace(aim.x,range,aim.y,offsetz:attack_height,data:l);
+			if(ok){
+				line = l.hitLine;
+			}
 			
 			if(puff) {
-				Line line = null;
-				if(!t.lineTarget) {//no actor was hit, get line
-					FLineTraceData l;
-					let attack_height = (player.mo.height / 2) + (player.mo.attackZOffset * player.crouchfactor);
-					bool ok = LineTrace(aim.x,range,aim.y,offsetz:attack_height,data:l);
-					if(ok){
-						line = l.hitLine;
-					}
-				}
-				puff.doPuffFX(aim.x,line);
+				puff.doPuffFX(aim.x,line,t.lineTarget);
 			}
 		}
 	}
@@ -65,6 +81,7 @@ extend class ModWeaponBase {
 		for(int i=0;i<count;i++){
 			[spread.x,spread.y]=W_CalcSpreadXY(min,max,refire_rate,refire_max,refire_start);
 			W_FireTracer(spread,dmg,1,puff,flags|FBF_EXPLICITANGLE);
+			flags &= ~FBF_USEAMMO;
 		}
 	}
 }

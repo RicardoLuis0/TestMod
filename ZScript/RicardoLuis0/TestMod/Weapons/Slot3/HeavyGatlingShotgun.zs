@@ -120,7 +120,7 @@ class HeavyGatlingShotgun : ModWeaponBase {
 		Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		double spread=2.5+(0.75*clamp(player.refire,0,10));
-		W_FireTracer((spread,spread),4,12);
+		W_FireTracer((spread,spread),4,12,drawTracer:false);
 		player.refire++;
 		A_Recoil(2.5);
 		A_AlertMonsters();
