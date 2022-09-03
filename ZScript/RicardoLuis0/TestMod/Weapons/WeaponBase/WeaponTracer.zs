@@ -62,15 +62,14 @@ extend class ModWeaponBase {
 				A_RailAttack(0,0,false,"","FFFF7F",RGF_SILENT|RGF_NOPIERCING|RGF_EXPLICITANGLE|RGF_FULLBRIGHT,0,"VisTracer",aim.x - angle,aim.y - pitch,range,1,0.25,0);
 			}
 			
-			Line line = null;
-			
-			FLineTraceData l;
-			bool ok = LineTrace(aim.x,range,aim.y,offsetz:attack_height,data:l);
-			if(ok){
-				line = l.hitLine;
-			}
-			
 			if(puff) {
+				Line line = null;
+				
+				FLineTraceData l;
+				bool ok = LineTrace(aim.x,range,aim.y,offsetz:attack_height,data:l);
+				if(ok){
+					line = l.hitLine;
+				}
 				puff.doPuffFX(aim.x,line,t.lineTarget);
 			}
 		}
