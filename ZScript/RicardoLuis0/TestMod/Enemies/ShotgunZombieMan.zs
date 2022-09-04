@@ -17,8 +17,22 @@ class ShotgunZombieManSpawner : RandomSpawner replaces ShotgunGuy {
 }
 
 class ShotgunZombieMan : ShotgunGuy {
+	mixin TracerEnemy;
+	
 	Default {
 		DropItem "PumpShotgun";
+	}
+	
+	States {
+	Missile:
+		SPOS E 10 A_FaceTarget;
+		SPOS F 10 BRIGHT {
+			A_StartSound("shotguy/attack",CHAN_WEAPON,CHANF_OVERLAP,1.0);
+			
+			E_CustomTracerAttack((22.5,0),random(1,5)*3,3,flags:CBAF_NORANDOM,drawTracer:sv_shotgun_tracers);
+		}
+		SPOS E 10;
+		Goto See;
 	}
 }
 
@@ -36,6 +50,8 @@ class MaybeSSG : ThingSpawner {
 
 
 class SSGZombieMan : Actor {
+	mixin TracerEnemy;
+	
 	Default {
 		Health 80;
 		Radius 20;
@@ -66,7 +82,10 @@ class SSGZombieMan : Actor {
 		Loop;
 	Missile:
 		GPOS E 15 A_FaceTarget();
-		GPOS F 8 BRIGHT A_CustomBulletAttack(11.2, 7.1, 15, 2, "Bulletpuff");
+		GPOS F 8 BRIGHT {
+			A_StartSound(AttackSound,CHAN_WEAPON,CHANF_OVERLAP,1.0);
+			E_CustomTracerAttack((11.2, 7.1), 2, 15, drawTracer:sv_shotgun_tracers);
+		}
 		GPOS E 8;
 		Goto See;
 	Pain:
