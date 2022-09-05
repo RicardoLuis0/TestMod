@@ -26,7 +26,7 @@ extend class ModWeaponBase {
 		
 		double zoff = ((player.viewZ - pos.z) - view_height) + int(attack_zoff*1.5);
 		
-		
+		/*
 		console.printf(
 			"attack_height: "..attack_height..
 			" view_height: "..view_height..
@@ -34,7 +34,7 @@ extend class ModWeaponBase {
 			" viewz: "..(player.viewZ-pos.z)..
 			" zoff: "..zoff
 		);
-		
+		*/
 		
 		FTranslatedLineTarget t;
 		
@@ -44,11 +44,11 @@ extend class ModWeaponBase {
 			laflags |= LAF_NORANDOMPUFFZ;
 		}
 		
-		/*
+		
 		if(drawTracer){
 			laflags |= LAF_NOIMPACTDECAL;
 		}
-		*/
+		
 		
 		if((flags & FBF_USEAMMO) && player.ReadyWeapon &&  stateinfo != null && stateinfo.mStateType == STATE_Psprite) {
 			if(!player.ReadyWeapon.DepleteAmmo(player.ReadyWeapon.bAltFire, true)) return;	// out of ammo
