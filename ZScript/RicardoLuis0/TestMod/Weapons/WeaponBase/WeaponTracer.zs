@@ -16,9 +16,25 @@ extend class ModWeaponBase {
 	action void W_FireTracer(Vector2 spread, int dmg, int count = 1, class<ModBulletPuffBase> puff = "ModBulletPuffBase", int flags = FBF_USEAMMO, double range = PLAYERMISSILERANGE, bool drawTracer = true){
 		if(!player) return;
 		
-		let attack_zoff = (player.mo.attackZOffset * player.crouchfactor);
+		double attack_zoff = (player.mo.attackZOffset * player.crouchfactor);
 		
-		let attack_height = (player.mo.height / 2) + attack_zoff;
+		double view_height = (player.mo.viewHeight * player.crouchfactor);
+		
+		double attack_height = (player.mo.height / 2) + attack_zoff;
+		
+		double view_zviewatk = player.viewz - (view_height - attack_height);
+		
+		double zoff = ((player.viewZ - pos.z) - view_height) + int(attack_zoff*1.5);
+		
+		
+		console.printf(
+			"attack_height: "..attack_height..
+			" view_height: "..view_height..
+			" view_zviewatk: "..view_zviewatk..
+			" viewz: "..(player.viewZ-pos.z)..
+			" zoff: "..zoff
+		);
+		
 		
 		FTranslatedLineTarget t;
 		
@@ -28,9 +44,11 @@ extend class ModWeaponBase {
 			laflags |= LAF_NORANDOMPUFFZ;
 		}
 		
+		/*
 		if(drawTracer){
 			laflags |= LAF_NOIMPACTDECAL;
 		}
+		*/
 		
 		if((flags & FBF_USEAMMO) && player.ReadyWeapon &&  stateinfo != null && stateinfo.mStateType == STATE_Psprite) {
 			if(!player.ReadyWeapon.DepleteAmmo(player.ReadyWeapon.bAltFire, true)) return;	// out of ammo
@@ -68,12 +86,28 @@ extend class ModWeaponBase {
 				}
 				
 				if(drawTracer && ok) {
-					vector3 tAnglePitch = Level.SphericalCoords((pos.x,pos.y,player.ViewZ),l.hitLocation,(angle,pitch));
-					double zoff = (player.viewZ - pos.z) - (player.mo.viewHeight * player.crouchfactor);
+					vector3 tAnglePitch = Level.SphericalCoords((pos.x,pos.y,view_zviewatk),l.hitLocation,(angle,pitch));
 					
 					tAnglePitch = (-tAnglePitch.x,-tAnglePitch.y,tAnglePitch.z);
 					
-					A_RailAttack(0,0,false,"","FFFF7F",RGF_SILENT|RGF_NOPIERCING|RGF_EXPLICITANGLE|RGF_FULLBRIGHT,0,"VisTracer",tAnglePitch.x,tAnglePitch.y,range,1,0.25,0,spawnofs_z:zoff);
+					//console.printf("tAnglePitch: "..tAnglePitch.xy.." aim: "..(aim-(angle,pitch)));
+					
+					A_RailAttack(0,
+						spawnofs_xy:0,
+						useammo:false,
+						color1:"",
+						color2:"FFFF7F",
+						flags:RGF_SILENT|RGF_NOPIERCING|RGF_EXPLICITANGLE|RGF_FULLBRIGHT|RGF_CENTERZ,
+						maxdiff:0,
+						pufftype:"VisTracer",
+						spread_xy:tAnglePitch.x,
+						spread_z:tAnglePitch.y,
+						range:range,
+						duration:1,
+						sparsity:0.25,
+						driftspeed:0,
+						spawnofs_z:zoff
+					);
 				}
 				
 				if(puff) {
