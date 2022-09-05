@@ -22,7 +22,7 @@ SERVER BOOL sv_keep_empty_weapon_items = false;
 
 USER BOOL cl_ssg_autoreload = true;
 
-SERVER BOOL sv_shotgun_tracers = false;
+SERVER BOOL sv_shotgun_tracers = true;
 SERVER BOOL sv_light_bullet_tracers = true;
 SERVER BOOL sv_heavy_bullet_tracers = true;
 
