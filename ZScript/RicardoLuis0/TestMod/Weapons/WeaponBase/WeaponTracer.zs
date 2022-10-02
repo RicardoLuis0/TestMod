@@ -45,11 +45,6 @@ extend class ModWeaponBase {
 		}
 		
 		
-		if(drawTracer){
-			laflags |= LAF_NOIMPACTDECAL;
-		}
-		
-		
 		if((flags & FBF_USEAMMO) && player.ReadyWeapon &&  stateinfo != null && stateinfo.mStateType == STATE_Psprite) {
 			if(!player.ReadyWeapon.DepleteAmmo(player.ReadyWeapon.bAltFire, true)) return;	// out of ammo
 		}
@@ -91,7 +86,8 @@ extend class ModWeaponBase {
 					tAnglePitch = (-tAnglePitch.x,-tAnglePitch.y,tAnglePitch.z);
 					
 					//console.printf("tAnglePitch: "..tAnglePitch.xy.." aim: "..(aim-(angle,pitch)));
-					
+					let old_decal = invoker.decalGenerator;
+					invoker.decalGenerator = null;
 					A_RailAttack(0,
 						spawnofs_xy:0,
 						useammo:false,
@@ -108,6 +104,7 @@ extend class ModWeaponBase {
 						driftspeed:0,
 						spawnofs_z:zoff
 					);
+					invoker.decalGenerator = old_decal;
 				}
 				
 				if(puff) {

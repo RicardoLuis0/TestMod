@@ -41,7 +41,7 @@ class TestModPlayer : DoomPlayer {
 		Super.Tick();
 		if (!player || !player.mo || player.mo != self){
 			return;
-		}else{
+		} else {
 			InertiaTick();
 			LookPosTick();
 			if(player.ReadyWeapon is "ModWeaponBase"){
