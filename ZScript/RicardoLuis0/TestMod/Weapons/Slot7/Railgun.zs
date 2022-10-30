@@ -5,7 +5,7 @@ class RailgunCharge : Ammo {
 }
 
 class RailgunTrail : Actor {
-	Default{
+	Default {
 		+NOINTERACTION;
 		+NOBLOCKMAP;
 		+NOGRAVITY;
@@ -18,11 +18,11 @@ class RailgunTrail : Actor {
 		+FORCEXYBILLBOARD;
 	}
 	
-	override void PostBeginPlay(){
+	override void PostBeginPlay() {
 		super.PostBeginPlay();
-		if(target){
-			int dist=int(Level.Vec3Diff(pos,target.pos).length()/10);
-			int trns=abs((dist%41)-20);
+		if(target) {
+			int dist = int(Level.Vec3Diff(pos, target.pos).length() / 10);
+			int trns = Abs((dist % 41) - 20);
 			A_SetTranslation("RailgunTrailTrns"..trns);
 		}
 	}
@@ -36,7 +36,7 @@ class RailgunTrail : Actor {
 
 class Railgun : ModWeaponBase {
 
-	Default{
+	Default {
 		Tag "Railgun";
 		Weapon.SlotNumber 7;
 		Weapon.AmmoType1 "RailgunCharge";
@@ -52,9 +52,9 @@ class Railgun : ModWeaponBase {
 		//ModWeaponBase.PickupHandleNoMagazine true;
 	}
 
-	override void BeginPlay(){
+	override void BeginPlay() {
 		super.BeginPlay();
-		crosshair=43;
+		crosshair = 43;
 	}
 	
 	States{
@@ -73,32 +73,35 @@ class Railgun : ModWeaponBase {
 	Fire:
 		TNT1 A 0 A_JumpIfNoAmmo("Ready");
 		TNT1 A 0 {
-			A_Overlay(2,"FireBodyGlowOverlay");
-			A_OverlayFlags(2,PSPF_FORCEALPHA,true);
-			invoker.SetLayerAlpha(2,0);
-			A_Overlay(3,"FireAnimOverlay");
-			A_OverlayFlags(3,PSPF_FORCEALPHA,true);
-			invoker.SetLayerAlpha(3,0);
-			A_Overlay(4,"FireGlowOverlay");
-			A_OverlayFlags(4,PSPF_FORCEALPHA,true);
-			A_OverlayFlags(4,PSPF_RENDERSTYLE,true);
-			A_OverlayRenderstyle(4,STYLE_Add);
-			invoker.SetLayerAlpha(4,0);
+			A_Overlay(2, "FireBodyGlowOverlay");
+			A_OverlayFlags(2,PSPF_FORCEALPHA, true);
+			invoker.SetLayerAlpha(2, 0);
+			
+			A_Overlay(3, "FireAnimOverlay");
+			A_OverlayFlags(3,PSPF_FORCEALPHA, true);
+			invoker.SetLayerAlpha(3, 0);
+			
+			A_Overlay(4, "FireGlowOverlay");
+			A_OverlayFlags(4, PSPF_FORCEALPHA, true);
+			A_OverlayFlags(4, PSPF_RENDERSTYLE, true);
+			A_OverlayRenderstyle(4, STYLE_Add);
+			invoker.SetLayerAlpha(4, 0);
+			
 			invoker.overlay_alpha_down = false;
 			invoker.overlay_alpha = 0.0;
 		}
 		RGUN A 15;
-		TNT1 A 0 CheckFireNoAlt(null,"SkipFire");
+		TNT1 A 0 CheckFireNoAlt(null, "SkipFire");
 		RGUN A 4 {
-			A_SetBlend("cc33ff",1,5);
+			A_SetBlend("cc33ff", 1, 5);
 			A_RailAttack(
-					1500,
-					flags: RGF_FULLBRIGHT,
-					pufftype: "",
-					spawnclass: "RailgunTrail"
+				1500,
+				flags: RGF_FULLBRIGHT,
+				pufftype: "",
+				spawnclass: "RailgunTrail"
 			);
 			A_AlertMonsters();
-			A_SetPitch(pitch+random(-10,0));
+			A_SetPitch(pitch+random(-10, 0));
 			A_Recoil(15);
 		}
 	SkipFire:
@@ -110,7 +113,7 @@ class Railgun : ModWeaponBase {
 		
 	FireAnimOverlay:
 		RGUN B 15 BRIGHT;
-		TNT1 A 0 CheckFireNoAlt(null,"FireAnimOverlaySkipFire");
+		TNT1 A 0 CheckFireNoAlt(null, "FireAnimOverlaySkipFire");
 		RGUN C 4 BRIGHT;
 	FireAnimOverlaySkipFire:
 		RGUN B 25 BRIGHT;
@@ -118,7 +121,7 @@ class Railgun : ModWeaponBase {
 		
 	FireGlowOverlay:
 		RGUN D 15 BRIGHT;
-		TNT1 A 0 CheckFireNoAlt(null,"FireGlowOverlaySkipFire");
+		TNT1 A 0 CheckFireNoAlt(null, "FireGlowOverlaySkipFire");
 		RGUN E 4 BRIGHT;
 	FireGlowOverlaySkipFire:
 		RGUN D 25 BRIGHT;
@@ -126,7 +129,7 @@ class Railgun : ModWeaponBase {
 	
 	FireBodyGlowOverlay:
 		RGUN A 15 BRIGHT;
-		TNT1 A 0 CheckFireNoAlt(null,"FireGlowOverlaySkipFire");
+		TNT1 A 0 CheckFireNoAlt(null, "FireGlowOverlaySkipFire");
 		RGUN A 4 BRIGHT;
 	FireBodyGlowOverlaySkipFire:
 		RGUN A 25 BRIGHT;
@@ -134,16 +137,27 @@ class Railgun : ModWeaponBase {
 		DEPG A -1;
 		Loop;
 	}
+	
 	bool overlay_alpha_down;
 	double overlay_alpha;
-	override void ReadyTick(){
-		double rate_up = 1./15;
-		double rate_down = 1./25;
-		overlay_alpha = clamp(overlay_alpha_down?overlay_alpha - rate_down : overlay_alpha + rate_up,0.0,1.0);
-		SetLayerAlpha(2,clamp(overlay_alpha**2,0.0,0.5));
-		SetLayerAlpha(3,overlay_alpha);
-		SetLayerAlpha(4,overlay_alpha);
-		if( (gametic % 2 == 0 ) && PSP_GetState(1) == ResolveState("Ready") && ammo2.amount > 0 && ammo1.amount < ammo1.maxamount){
+	
+	override void ReadyTick() {
+		double rate_up = 1.0 / 15;
+		double rate_down = 1.0 / 25;
+		overlay_alpha = clamp(
+						overlay_alpha_down ? 
+							overlay_alpha - rate_down
+						  : overlay_alpha + rate_up,
+						0.0, 1.0);
+		SetLayerAlpha(2, clamp(overlay_alpha ** 2, 0.0, 0.5));
+		SetLayerAlpha(3, overlay_alpha);
+		SetLayerAlpha(4, overlay_alpha);
+		if(
+			(gametic % 2 == 0 )
+		  && PSP_GetState(1) == ResolveState("Ready")
+		  && ammo2.amount > 0
+		  && ammo1.amount < ammo1.maxamount
+		){
 			ammo1.amount++;
 			ammo2.amount--;
 		}
