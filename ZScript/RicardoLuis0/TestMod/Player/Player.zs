@@ -35,7 +35,10 @@ class TestModPlayer : DoomPlayer {
 		super.PostBeginPlay();
 		InertiaInit();
 		LookPosInit();
+		updatePlayerCVars();
 	}
+	
+	bool do_railgun_light_fx;
 
 	override void Tick(){
 		Super.Tick();
@@ -56,5 +59,10 @@ class TestModPlayer : DoomPlayer {
 
 	void player_UpdateCVars(){
 		weaponinertia_UpdateCVars();
+		updatePlayerCVars();
+	}
+	
+	void updatePlayerCVars() {
+		do_railgun_light_fx = CVar.GetCVar("cl_do_railgun_light_fx",player).getBool();
 	}
 }

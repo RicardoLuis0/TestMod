@@ -17,19 +17,118 @@ class RailgunTrail : Actor {
 		Alpha 0.025;
 		+FORCEXYBILLBOARD;
 	}
+	/*
+	static const Color lightColors[] = {
+		"C7C7FF", //  0%
+		"C3BDFF", //  5%
+		"C0B3FF", // 10%
+		"BCA9FF", // 15%
+		"B99FFF", // 20%
+		"B595FF", // 25%
+		"B18BFF", // 30%
+		"AE81FF", // 35%
+		"AA77FF", // 40%
+		"A76DFF", // 45%
+		"A363FF", // 50%
+		"9F5AFF", // 55%
+		"9C50FF", // 60%
+		"9846FF", // 65%
+		"953CFF", // 70%
+		"9132FF", // 75%
+		"8D28FF", // 80%
+		"8A1EFF", // 85%
+		"8614FF", // 90%
+		"830AFF", // 95%
+		"7F00FF"  // 100%
+	}
+	*/
+	
+	static const Color lightColors[] = {
+		"060607", //   0%
+		"060507", //   5%
+		"060507", //  10%
+		"050507", //  15%
+		"050407", //  20%
+		"050407", //  25%
+		"050407", //  30%
+		"050407", //  35%
+		"050307", //  40%
+		"050307", //  45%
+		"050307", //  50%
+		"040207", //  55%
+		"040207", //  60%
+		"040207", //  65%
+		"040107", //  70%
+		"040107", //  75%
+		"040107", //  80%
+		"040007", //  85%
+		"040007", //  90%
+		"040007", //  95%
+		"030007"  // 100%
+	};
+	
+	static const Color lightColorsBig[] = {
+		"030303", //   0%
+		"030203", //   5%
+		"030203", //  10%
+		"020203", //  15%
+		"020203", //  20%
+		"020203", //  25%
+		"020203", //  30%
+		"020203", //  35%
+		"020103", //  40%
+		"020103", //  45%
+		"020103", //  50%
+		"020103", //  55%
+		"020103", //  60%
+		"020103", //  65%
+		"020003", //  70%
+		"020003", //  75%
+		"020003", //  80%
+		"020003", //  85%
+		"020003", //  90%
+		"020003", //  95%
+		"010003"  // 100%
+	};
+	
+	int trns;
+	int intens;
+	
+	bool do_light;
 	
 	override void PostBeginPlay() {
 		super.PostBeginPlay();
 		if(target) {
 			int dist = int(Level.Vec3Diff(pos, target.pos).length() / 10);
-			int trns = Abs((dist % 41) - 20);
+			trns = Abs((dist % 41) - 20);
+			do_light = TestModPlayer(target).do_railgun_light_fx;
 			A_SetTranslation("RailgunTrailTrns"..trns);
+			if(do_light){
+				if((trns % 2) == 0) {
+					intens = 200;
+					A_AttachLight("bigGlow",DynamicLight.PointLight,lightColorsBig[trns],intens,intens,DynamicLight.LF_ATTENUATE | DynamicLight.LF_NOSHADOWMAP);
+				} else {
+					intens = 50;
+					A_AttachLight("glow",DynamicLight.PointLight,lightColors[trns],intens,intens,DynamicLight.LF_ATTENUATE | DynamicLight.LF_NOSHADOWMAP);
+				}
+			}
 		}
 	}
+	
 	States{
 	Spawn:
 		BSHT A 10 Bright;
-		BSHT AABBCDEFG 1 Bright;
+		BSHT AABBCDEFG 1 Bright {
+			if(do_light){
+				if((trns % 2) == 0) {
+					invoker.intens -= 20;
+					A_AttachLight("bigGlow",DynamicLight.PointLight,invoker.lightColorsBig[trns],invoker.intens,invoker.intens,DynamicLight.LF_ATTENUATE | DynamicLight.LF_NOSHADOWMAP);
+				} else {
+					invoker.intens -= 5;
+					A_AttachLight("glow",DynamicLight.PointLight,invoker.lightColors[trns],invoker.intens,invoker.intens,DynamicLight.LF_ATTENUATE | DynamicLight.LF_NOSHADOWMAP);
+				}
+			}
+		}
 		Stop;
 	}
 }
