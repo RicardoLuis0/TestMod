@@ -4,6 +4,36 @@ class RailgunCharge : Ammo {
 	}
 }
 
+class RailgunTrail : Actor {
+	Default{
+		+NOINTERACTION;
+		+NOBLOCKMAP;
+		+NOGRAVITY;
+		+NOTELEPORT;
+		Radius 4;
+		Scale 4;
+		Height 8;
+		Renderstyle "Add";
+		Alpha 0.025;
+		+FORCEXYBILLBOARD;
+	}
+	
+	override void PostBeginPlay(){
+		super.PostBeginPlay();
+		if(target){
+			int dist=int(Level.Vec3Diff(pos,target.pos).length()/10);
+			int trns=abs((dist%41)-20);
+			A_SetTranslation("RailgunTrailTrns"..trns);
+		}
+	}
+	States{
+	Spawn:
+		BSHT A 10 Bright;
+		BSHT AABBCDEFG 1 Bright;
+		Stop;
+	}
+}
+
 class Railgun : ModWeaponBase {
 
 	Default{
@@ -65,7 +95,7 @@ class Railgun : ModWeaponBase {
 					1500,
 					flags: RGF_FULLBRIGHT,
 					pufftype: "",
-					spawnclass: "PlasmaRailTrail"
+					spawnclass: "RailgunTrail"
 			);
 			A_AlertMonsters();
 			A_SetPitch(pitch+random(-10,0));

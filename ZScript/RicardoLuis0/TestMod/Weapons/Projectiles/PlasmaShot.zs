@@ -14,7 +14,7 @@ class PlasmaShot01 : FastProjectile {
 		Decal "PlasmaScorchLower";
 		+FORCEXYBILLBOARD;
 	}
-	States{
+	States {
 	Spawn:
 		BSHT A 0 NoDelay Bright A_StartSound("weapons/plasmaflyby",CHAN_BODY,CHANF_LOOPING,1.0);
 		BSHT A 1 Bright;
@@ -26,14 +26,14 @@ class PlasmaShot01 : FastProjectile {
 	}
 }
 
-class PlasmaShot01Silent:PlasmaShot01{
+class PlasmaShot01Silent : PlasmaShot01{
 	Default{
 		SeeSound "";
 	}
 }
 
-class PlasmaShot01Trail:actor{
-	Default{
+class PlasmaShot01Trail : Actor{
+	Default {
 		+NOINTERACTION;
 		+NOBLOCKMAP;
 		+NOGRAVITY;
@@ -44,38 +44,8 @@ class PlasmaShot01Trail:actor{
 		Alpha 0.5;
 		+FORCEXYBILLBOARD;
 	}
-	States{
+	States {
 	Spawn:
-		BSHT AABBCDEFG 1 Bright;
-		Stop;
-	}
-}
-
-class PlasmaRailTrail:actor{
-	Default{
-		+NOINTERACTION;
-		+NOBLOCKMAP;
-		+NOGRAVITY;
-		+NOTELEPORT;
-		Radius 4;
-		Scale 4;
-		Height 8;
-		Renderstyle "Add";
-		Alpha 0.025;
-		+FORCEXYBILLBOARD;
-	}
-	
-	override void PostBeginPlay(){
-		super.PostBeginPlay();
-		if(target){
-			int dist=int(Level.Vec3Diff(pos,target.pos).length()/10);
-			int trns=abs((dist%41)-20);
-			A_SetTranslation("RailgunTrailTrns"..trns);
-		}
-	}
-	States{
-	Spawn:
-		BSHT A 10 Bright;
 		BSHT AABBCDEFG 1 Bright;
 		Stop;
 	}
