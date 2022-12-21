@@ -35,7 +35,6 @@ class ModRotatingWeapon : ModWeaponBase {
 		invoker.rotSpeed += invoker.rotSpeedRate;
 		if(invoker.rotSpeed > invoker.rotSpeedMax) invoker.rotSpeed = invoker.rotSpeedMax;
 		UpdateTics();
-		console.printf("rotSpeed = "..invoker.rotSpeed);
 		return ResolveState((invoker.rotSpeed == invoker.rotSpeedMax) ? ifFullSpeed : ifElse);
 	}
 	
@@ -43,7 +42,6 @@ class ModRotatingWeapon : ModWeaponBase {
 		invoker.rotSpeed -= invoker.rotSpeedRate;
 		if(invoker.rotSpeed < 0) invoker.rotSpeed = 0;
 		UpdateTics();
-		console.printf("rotSpeed = "..invoker.rotSpeed);
 		return ResolveState((invoker.rotSpeed == 0) ? ifStopped : ifElse);
 	}
 	
