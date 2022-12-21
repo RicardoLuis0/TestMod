@@ -20,9 +20,7 @@ class HeavyGatlingShotgun : ModWeaponBase {
 		super.BeginPlay();
 		crosshair=35;
 	}
-	override void Tick(){
-		super.Tick();
-	}
+	
 	override void ReadyTick(){
 		if(spinning){
 			Owner.player.WeaponState |= WF_DISABLESWITCH;

@@ -6,3 +6,4 @@
 #include "./CasingBase.zs"
 #include "./MagazineWeapon.zs"
 #include "./WeaponTracer.zs"
+#include "./RotatingWeapon.zs"

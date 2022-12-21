@@ -1,5 +1,13 @@
-class Minigun : HeavyGatlingShotgun {
+class Minigun : ModRotatingWeapon {
 	bool tammo;
+	bool spinning_up;
+	
+	bool fireframe;
+	
+	const CHAN_SPINFAST = 10;
+	
+	const CHAN_SPINUP = 11;
+	const CHAN_SPINDOWN = 12;
 
 	Default{
 		Tag "Minigun";
@@ -7,109 +15,149 @@ class Minigun : HeavyGatlingShotgun {
 		Weapon.AmmoType2 "LightClip";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoUse2 1;
+		
+		Weapon.AmmoGive1 20;
+		
 		Inventory.PickupMessage "You've got the Minigun!";
 		Weapon.SlotPriority 0;
 		Weapon.SlotNumber 4;
 		
+		+WEAPON.NOALERT;
+		+WEAPON.AMMO_OPTIONAL;
+		+WEAPON.ALT_AMMO_OPTIONAL;
+		
 		ModWeaponBase.PickupHandleNoMagazine true;
 	}
-	States{
-		ready:
-			PKCG A 1 {
-				invoker.spinning=false;
-				player.refire=0;
-				W_WeaponReady();
+	
+	int spin_tics;
+	override void ReadyTick(){
+		if(spinning_up) {
+			spin_tics ++;
+			if(spin_tics == 24) {
+				owner.A_StartSound("weapons/minigunspin",CHAN_SPINFAST,CHANF_LOOPING,0.2);
 			}
-			loop;
-		select:
-			PKCG A 1 A_Raise;
-			loop;
-		deselect:
-			TNT1 A 0 {
-				invoker.spinning=false;
-			}
-		deselectloop:
-			PKCG A 1 A_Lower;
-			loop;
-		firespin:
-			TNT1 A 0 {
-				invoker.spinning=true;
-				A_StopSound(CHAN_6);
-				A_StartSound("weapons/minigunspin",CHAN_7,CHANF_LOOPING,0.2);
-				if(CountInv(invoker.ammotype1)==0)return ResolveState("idlespin_clearrefire");
-				return ResolveState(null);
-			}
-			PKCG A 0 A_Jump(128,"firespin2");
-			PKCF A 1 Bright A_FireGun;
-			goto idlespin2fire;
-		firespin2:
-			PKCF B 1 Bright A_FireGun;
-			goto idlespin2fire;
-		idlespin_clearrefire:
-			TNT1 A 0 {
-				player.refire=0;
-			}
-		idlespin:
-			TNT1 A 0 {
-				invoker.spinning=true;
-				A_StopSound(CHAN_6);
-				A_StartSound("weapons/minigunspin",CHAN_7,CHANF_LOOPING,0.2);
-			}
-			PKCG A 1;
-		idlespin2:
-			PKCG C 1;
-			PKCG A 0 CheckFire("firespin","idlespin_clearrefire","spin1down");
-			goto ready;
-		idlespin2fire:
-			PKCG C 1 Bright;
-			PKCG A 0 CheckFire("firespin","idlespin_clearrefire","spin1down");
-			goto ready;
-		spin1up:
-			TNT1 A 0 A_StartSound("weapons/minigunwindup",CHAN_6,CHANF_NOSTOP,0.2);
-			PKCG A 2;
-			PKCG B 2;
-			PKCG C 1;
-			PKCG D 1;
-			PKCG A 0 CheckFire("firespin","idlespin_clearrefire","spin1down");
-		spin1down:
-			TNT1 A 0 {
-				player.refire=0;
-			}
-			TNT1 A 0 A_StopSound(CHAN_7);
-			TNT1 A 0 A_StartSound("weapons/minigunwinddown",CHAN_6,CHANF_DEFAULT,0.25);
-			PKCG A 1;
-			PKCG B 1;
-			PKCG C 2;
-			PKCG D 2;
-			PKCG A 0 CheckFire("firespin","idlespin_clearrefire","spin2down");
-		altfire:
-		fire:
-		spin2up:
-			TNT1 A 0 A_StartSound("weapons/minigunwindup",CHAN_6,CHANF_DEFAULT,0.2);
-			PKCG A 6;
-			PKCG B 5;
-			PKCG C 4;
-			PKCG D 3;
-			PKCG A 0 CheckFire("spin1up","spin1up","spin2down");
-		spin2down:
-			TNT1 A 0 {
-				player.refire=0;
-			}
-			TNT1 A 0 A_StopSound(CHAN_7);
-			TNT1 A 0 A_StartSound("weapons/minigunwinddown",CHAN_6,CHANF_NOSTOP,0.25);
-			PKCG A 3;
-			PKCG B 4;
-			PKCG C 5;
-			PKCG D 6;
-			PKCG A 0 CheckFire("spin2up","spin2up","ready");
-		spawn:
-			PKCP A -1;
-			stop;
-	}
-	action State A_FireGun(){
-		if(CountInv(invoker.ammotype1)==0){
-			return ResolveState("idlespin_clearrefire");
+		} else {
+			spin_tics = 0;
 		}
+		
+	}
+	
+	action State TrySpin(bool allowFire = false,bool spinDown = true){
+		if(player.cmd.buttons & (BT_ALTATTACK|BT_ATTACK) || (invoker.spin_tics > 0 && invoker.spin_tics < 18)){
+			if(allowFire) {
+				SpinUp();
+				if(!invoker.spinning_up) {
+					A_StopSound(CHAN_SPINFAST);
+					A_StopSound(CHAN_SPINDOWN);
+					A_StartSound("weapons/minigunwindup",CHAN_SPINUP,CHANF_NOSTOP,0.25);
+				}
+				invoker.spinning_up = true;
+				if(player.cmd.buttons & BT_ATTACK) {
+					return IfSpeedGtEq(25,"RealFire");
+				} else {
+					player.refire = 0;
+					return null;
+				}
+			}
+			return SpinUp();
+		} else if(spinDown) {
+			if(invoker.spinning_up) {
+				A_StopSound(CHAN_SPINFAST);
+				A_StopSound(CHAN_SPINUP);
+				A_StartSound("weapons/minigunwinddown",CHAN_SPINDOWN,CHANF_NOSTOP,0.25);
+			}
+			invoker.spinning_up = false;
+			return SpinDown("Ready");
+		} else {
+			UpdateTics();
+			return null;
+		}
+	}
+	
+	States{
+	Ready:
+		PKCG A 1 {
+			invoker.spinning_up = false;
+			W_WeaponReady();
+		}
+		Loop;
+	Deselect:
+		PKCG A 1 A_Lower;
+		Loop;
+	Select:
+		PKCG A 1 A_Raise;
+		Loop;
+	Fire:
+	AltFire:
+		Goto Spin;
+	Spin:
+		TNT1 A 0 IfSpeedEq(50,"SpinFast");
+		PKCG A 10 TrySpin(true);
+		PKCG B 10 TrySpin;
+		PKCG C 10 TrySpin;
+		PKCG D 10 TrySpin;
+		Loop;
+	SpinFast:
+		PKCG A 10 {
+			A_StopSound(CHAN_SPINUP);
+			A_StopSound(CHAN_SPINDOWN);
+			A_StartSound("weapons/minigunspin",CHAN_SPINFAST,CHANF_LOOPING,0.2);
+			W_SetLayerFrame(PSP_WEAPON,random[minigunFireFrame](0,1));
+			return TrySpin(true);
+		}
+		PKCG C 10 {
+			W_SetLayerFrame(PSP_WEAPON,random[minigunFireFrame](2,3));
+			return TrySpin(true);
+		}
+		Goto Spin;
+	Spawn:
+		PKCP A -1;
+		stop;
+	RealFire:
+		TNT1 A 0 IfSpeedEq(50,"RealFireFast");
+		PKCF A 10 Bright {
+			if(invoker.ammo1.amount==0)return ResolveState("Spin");
+			W_SetLayerFrame(PSP_WEAPON,invoker.fireframe);
+			invoker.fireframe = !invoker.fireframe;
+			
+			TrySpin(false,false);
+			A_FireGun();
+			return ResolveState(null);
+		}
+		PKCG B 10 TrySpin;
+		PKCG C 10 TrySpin;
+	AbortFireFast:
+		PKCG D 10 {
+			W_SetLayerFrame(PSP_WEAPON,random[minigunFireFrame](0,1));
+			TrySpin();
+		}
+		Goto Spin;
+	RealFireFast:
+		PKCF A 10 Bright {
+			A_StopSound(CHAN_SPINUP);
+			A_StopSound(CHAN_SPINDOWN);
+			A_StartSound("weapons/minigunspin",CHAN_SPINFAST,CHANF_LOOPING,0.2);
+			if(invoker.ammo1.amount==0)return ResolveState("SpinFast");
+			TrySpin(false,false);
+			A_FireGun();
+			return ResolveState(null);
+		}
+		PKCG C 10 {
+			W_SetLayerFrame(PSP_WEAPON,random[minigunFireFrame](1,3));
+			TrySpin();
+			return IfSpeedEq(50,null,"AbortFireFast");
+		}
+		PKCF B 10 Bright {
+			TrySpin(false,false);
+			A_FireGun();
+		}
+		PKCG C 10 {
+			W_SetLayerFrame(PSP_WEAPON,random[minigunFireFrame](1,3));
+			TrySpin();
+		}
+		Goto Spin;
+	}
+	action State A_FireGun() {
 		Actor c=A_FireProjectile("LightClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_GunFlash();
