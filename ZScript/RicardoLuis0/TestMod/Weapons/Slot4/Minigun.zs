@@ -29,6 +29,11 @@ class Minigun : ModRotatingWeapon {
 		ModWeaponBase.PickupHandleNoMagazine true;
 	}
 	
+	override void BeginPlay(){
+		super.BeginPlay();
+		crosshair=35;
+	}
+	
 	int spin_tics;
 	override void ReadyTick(){
 		if(spinning_up) {
@@ -76,11 +81,14 @@ class Minigun : ModRotatingWeapon {
 	
 	States{
 	Ready:
-		PKCG A 1 {
+		PKCG A 0 {
+			A_StopSound(CHAN_SPINFAST);
+			A_StopSound(CHAN_SPINUP);
+			A_StopSound(CHAN_SPINDOWN);
 			invoker.spinning_up = false;
-			W_WeaponReady();
 		}
-		Loop;
+		PKCG A 1 W_WeaponReady;
+		Wait;
 	Deselect:
 		PKCG A 1 A_Lower;
 		Loop;
