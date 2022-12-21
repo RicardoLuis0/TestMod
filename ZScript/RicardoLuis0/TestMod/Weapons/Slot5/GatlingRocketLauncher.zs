@@ -1,4 +1,4 @@
-class GatlingRocketLauncher : ModWeaponBase {
+class GatlingRocketLauncher : ModRotatingWeapon {
 	Default{
 		Tag "Gatling Rocket Launcher";
 		Weapon.AmmoUse 0;
@@ -19,6 +19,7 @@ class GatlingRocketLauncher : ModWeaponBase {
 		super.BeginPlay();
 		crosshair=46;
 	}
+	
 	States{
 		Ready:
 			TNT1 A 0 StopSounds();
@@ -167,6 +168,7 @@ class GatlingRocketLauncher : ModWeaponBase {
 			REPG I -1;
 			Stop;
 	}
+	
 	action void MyFire(){
 		A_Recoil(2);
 		A_GunFlash();

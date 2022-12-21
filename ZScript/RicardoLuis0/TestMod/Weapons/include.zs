@@ -8,7 +8,7 @@
 #include "./Slot4/Minigun.zs"
 #include "./Slot4/AssaultRifle.zs"
 #include "./Slot4/SMG.zs"
-#include "./Slot5/GatlingRocket.zs"
+#include "./Slot5/GatlingRocketLauncher.zs"
 #include "./Slot5/GuidedRocketLauncher.zs"
 #include "./Slot6/PlasmaRifle.zs"
 #include "./Slot7/BFG.zs"

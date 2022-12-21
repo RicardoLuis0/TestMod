@@ -1,4 +1,4 @@
-class HeavyGatlingShotgun : ModWeaponBase {
+class HeavyGatlingShotgun : ModRotatingWeapon {
 	bool spinning;
 	Default{
 		Tag "Heavy Gatling Shotgun";
