@@ -1,11 +1,9 @@
 class Minigun : ModRotatingWeapon {
-	bool tammo;
 	bool spinning_up;
 	
 	bool fireframe;
 	
 	const CHAN_SPINFAST = 10;
-	
 	const CHAN_SPINUP = 11;
 	const CHAN_SPINDOWN = 12;
 
@@ -58,7 +56,7 @@ class Minigun : ModRotatingWeapon {
 				}
 				invoker.spinning_up = true;
 				if(player.cmd.buttons & BT_ATTACK) {
-					return IfSpeedGtEq(25,"RealFire");
+					return IfSpeedGtEq(invoker.rotSpeedMax/2,"RealFire");
 				} else {
 					player.refire = 0;
 					return null;
@@ -134,6 +132,8 @@ class Minigun : ModRotatingWeapon {
 		}
 		PKCG B 10 TrySpin;
 		PKCG C 10 TrySpin;
+		PKCG D 10 TrySpin;
+		Goto Spin;
 	AbortFireFast:
 		PKCG D 10 {
 			W_SetLayerFrame(PSP_WEAPON,random[minigunFireFrame](0,1));
@@ -174,7 +174,6 @@ class Minigun : ModRotatingWeapon {
 		
 		player.refire++;
 		
-		invoker.tammo=!invoker.tammo;
 		A_Recoil(1);
 		A_AlertMonsters();
 		A_SetPitch(pitch+frandom(-1,0),SPF_INTERPOLATE);

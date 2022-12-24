@@ -21,6 +21,13 @@ extend class ModWeaponBase {
 			psp.frame = frame;
 		}
 	}
+
+	void SetLayerTics(int layer, int tics) {
+		PSprite psp = PSP_Get(layer);
+		if(psp && psp.CurState) {
+			psp.tics = tics;
+		}
+	}
 	
 	void SetLayerSprite(int layer,name sprite){
 		PSprite psp = PSP_Get(layer);
@@ -62,6 +69,10 @@ extend class ModWeaponBase {
 	
 	action void W_SetLayerFrame(int layer, int frame) {
 		invoker.SetLayerFrame(layer,frame);
+	}
+	
+	action void W_SetLayerTics(int layer, int tics) {
+		invoker.SetLayerTics(layer,tics);
 	}
 	
 	action void W_SetLayerStateSL(int layer, statelabel newSL) {

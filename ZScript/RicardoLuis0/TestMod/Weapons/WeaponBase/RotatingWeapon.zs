@@ -24,8 +24,8 @@ class ModRotatingWeapon : ModWeaponBase {
 	// MAIN
 	// call spinup and spindown on the main layers, and updatespeed on overlays
 	
-	action void UpdateTics(int layer = PSP_WEAPON) {
-		player.FindPSprite(layer).tics = int((1.0 - sqrt(sqrt(invoker.rotSpeed / double(invoker.rotSpeedMax)))) * (invoker.maxTics - invoker.minTics)) + invoker.minTics;
+	action void UpdateTics(int layer = PSP_WEAPON,double factor = 1.0) {
+		player.FindPSprite(layer).tics = int((((1.0 - sqrt(sqrt(invoker.rotSpeed / double(invoker.rotSpeedMax)))) * (invoker.maxTics - invoker.minTics)) + invoker.minTics) * factor);
 	}
 	
 	action State SpinUp(StateLabel ifFullSpeed = null, StateLabel ifElse = null) {
