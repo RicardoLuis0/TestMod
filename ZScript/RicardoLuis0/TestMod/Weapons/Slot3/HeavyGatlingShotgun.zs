@@ -38,7 +38,7 @@ class HeavyGatlingShotgun : ModRotatingWeapon {
 	
 	int spin_tics;
 	override void ReadyTick(){
-		double loopPitch = 1.0 + (((double(rotSpeed) / rotSpeedMax) ** 2) / 2);
+		double loopPitch = 1.0 + (((double(rotSpeed) / rotSpeedMax) ** 2) / 4);
 		owner.A_SoundPitch(CHAN_SPINFAST,loopPitch);
 		//console.printf("spin_tics = "..spin_tics.." rotSpeed = "..rotSpeed.." loopPitch = "..loopPitch);
 		if(spinning_up) {
