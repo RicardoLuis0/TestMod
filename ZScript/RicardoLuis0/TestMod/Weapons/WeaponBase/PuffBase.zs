@@ -40,7 +40,7 @@ class ModBulletPuffBase:BulletPuff {
 		
 			int num_particles = random[puff_fx](2,4);
 			for(int i=0;i<num_particles;i++){
-				A_SpawnParticle("FFFF00",SPF_RELATIVE|SPF_FULLBRIGHT,350,
+				A_SpawnParticle("FFFF00",SPF_RELATIVE|SPF_FULLBRIGHT,70,
 					angle:frandom[puff_fx](-10,10),
 					velx:frandom[puff_fx](3,5),
 					velz:frandom[puff_fx](3,5),

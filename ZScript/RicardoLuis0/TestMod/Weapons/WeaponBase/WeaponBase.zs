@@ -23,7 +23,7 @@ class ModWeaponBase : Weapon {
 		return o*length;
 	}
 	
-	static void DoParticleExplosion(actor origin,string x_color,int count,double strength,double size,int lifetime=20){
+	static void DoParticleExplosion(actor origin,Color x_color,int count,double strength,double size,int lifetime=20){
 		for(int i=0;i<count;i++){
 			double r_yaw=random(0,360);
 			double r_pitch=random(0,360);
