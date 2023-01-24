@@ -2,6 +2,7 @@ class MyPlasmaRifle : ModWeaponBase {
 	const PSP_DISPLAY = 9999;
 	int heat;
 	int heatmax;
+	int heatmaxmax;
 	int heatup;
 	int heatdown;
 	int heatdownreload;
@@ -223,6 +224,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		heat = 0;
 		heatdown = 5;
 		heatmax = 500;
+		heatmaxmax = heatmax + 50;
 		updateFire(false);
 		firing = false;
 		overheat = false;
@@ -240,6 +242,7 @@ class MyPlasmaRifle : ModWeaponBase {
 			invoker.heatdownoverheat = 8;
 			invoker.heatdownreload = 30;
 			invoker.heatup = 10;
+			invoker.heatmaxmax = invoker.heatmax + 50;
 			invoker.fireState = ResolveState("AutoFire");
 			invoker.ammouse1 = 1;
 			invoker.crosshair = 20;
@@ -247,6 +250,7 @@ class MyPlasmaRifle : ModWeaponBase {
 		case 1://launcher mode
 			if(showmessage) A_Print("Launcher Mode");
 			invoker.heatup = invoker.heatmax;
+			invoker.heatmaxmax = invoker.heatmax;
 			invoker.heatdownoverheat = 10;
 			invoker.heatdownreload = 30;
 			invoker.fireState = ResolveState("LauncherFire");
@@ -306,7 +310,12 @@ class MyPlasmaRifle : ModWeaponBase {
 				noammo = false;
 				SetLayerSprite(PSP_DISPLAY, "PHNAA");
 			}
-			SetLayerFrame(PSP_DISPLAY,overheat?7-int(ceil((double(heat)/heatmax)*7)):heat?6-int(floor(((double(heat)/heatmax)*6)+0.5)):7);
+			SetLayerFrame(PSP_DISPLAY, overheat
+										  ? 7 - int(ceil(min(double(heat) / heatmax, 1) * 7))
+										  : heat
+											  ? 6 - int(floor((min(double(heat) / heatmax, 1) * 6) + 0.5))
+											  : 7
+										);
 		}
 	}
 
