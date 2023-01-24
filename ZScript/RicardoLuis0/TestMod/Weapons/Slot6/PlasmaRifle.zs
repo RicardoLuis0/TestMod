@@ -217,18 +217,18 @@ class MyPlasmaRifle : ModWeaponBase {
 
 	override void BeginPlay(){
 		super.BeginPlay();
-		firemode=0;
-		firemodemax=1;
-		crosshair=20;
-		heat=0;
-		heatdown=5;
-		heatmax=500;
+		firemode = 0;
+		firemodemax = 1;
+		crosshair = 20;
+		heat = 0;
+		heatdown = 5;
+		heatmax = 500;
 		updateFire(false);
-		firing=false;
-		overheat=false;
-		reloading=false;
-		init=false;
-		noammo=false;
+		firing = false;
+		overheat = false;
+		reloading = false;
+		init = false;
+		noammo = false;
 	}
 	
 	action void updateFire(bool showmessage=true){
@@ -236,75 +236,75 @@ class MyPlasmaRifle : ModWeaponBase {
 		default:
 			invoker.firemode=0;
 		case 0://automatic mode
-			if(showmessage)A_Print("Automatic Mode");
-			invoker.heatdownoverheat=8;
-			invoker.heatdownreload=30;
-			invoker.heatup=10;
-			invoker.fireState=ResolveState("AutoFire");
-			invoker.ammouse1=1;
-			invoker.crosshair=20;
+			if(showmessage) A_Print("Automatic Mode");
+			invoker.heatdownoverheat = 8;
+			invoker.heatdownreload = 30;
+			invoker.heatup = 10;
+			invoker.fireState = ResolveState("AutoFire");
+			invoker.ammouse1 = 1;
+			invoker.crosshair = 20;
 			break;
 		case 1://launcher mode
-			if(showmessage)A_Print("Launcher Mode");
-			invoker.heatup=invoker.heatmax;
-			invoker.heatdownoverheat=10;
-			invoker.heatdownreload=30;
-			invoker.fireState=ResolveState("LauncherFire");
-			invoker.ammouse1=15;
-			invoker.crosshair=21;
+			if(showmessage) A_Print("Launcher Mode");
+			invoker.heatup = invoker.heatmax;
+			invoker.heatdownoverheat = 10;
+			invoker.heatdownreload = 30;
+			invoker.fireState = ResolveState("LauncherFire");
+			invoker.ammouse1 = 15;
+			invoker.crosshair = 21;
 			break;
 		}
 	}
 
 	override void ReadyTick(){
-		if(!firing&&heat>0)HeatMinus();
-		if(init&&owner.health>0)HeatOverlay();
+		if(!firing && heat > 0)HeatMinus();
+		if(init && owner.health > 0)HeatOverlay();
 	}
 
 	action void A_Overheat(){
-		invoker.overheat=true;
-		invoker.heat=invoker.heatmax;
+		invoker.overheat = true;
+		invoker.heat = invoker.heatmax;
 	}
 
 	void HeatPlus(){
-		heat+=heatup;
-		if(heat>=heatmax){
-			heat=heatmax;
-			overheat=true;
+		heat += heatup;
+		if(heat >= heatmaxmax){
+			heat = heatmax;
+			overheat = true;
 		}
 	}
 
 	void HeatMinus(){
-		if(reloading||overheat){
-			heat-=overheat?heatdownoverheat:heatdownreload;
-		}else if(heat<(heatmax/4)){
-			heat-=max(heatdown/4,1);
-		}else if(heat<(heatmax/2)){
-			heat-=max(heatdown/3,1);
-		}else if(heat<(heatmax/1.5)){
-			heat-=max(heatdown/2,1);
+		if(reloading || overheat){
+			heat -= overheat ? heatdownoverheat : heatdownreload;
+		}else if(heat < (heatmax / 4)){
+			heat -= max(heatdown / 4, 1);
+		}else if(heat < (heatmax / 2)){
+			heat -= max(heatdown / 3, 1);
+		}else if(heat < (heatmax / 1.5)){
+			heat -= max(heatdown / 2, 1);
 		}else{
-			heat-=heatdown;
+			heat -= heatdown;
 		}
-		if(heat<=0){
-			heat=0;
-			overheat=false;
+		if(heat <= 0){
+			heat = 0;
+			overheat = false;
 		}
 	}
 
 	void HeatOverlay(){
-		if(owner.CountInv("NewCell")<ammouse1){
+		if(owner.CountInv("NewCell") < ammouse1){
 			if(!noammo){
-				noammo=true;
+				noammo = true;
 			}
-			if(GetLayerSprite(PSP_DISPLAY)==GetSpriteIndex("PHNAA")){
-				SetLayerFrame(PSP_DISPLAY,0);
-				SetLayerSprite(PSP_DISPLAY,"PNAAA");
+			if(GetLayerSprite(PSP_DISPLAY) == GetSpriteIndex("PHNAA")){
+				SetLayerFrame(PSP_DISPLAY, 0);
+				SetLayerSprite(PSP_DISPLAY, "PNAAA");
 			}
 		}else{
 			if(noammo){
-				noammo=false;
-				SetLayerSprite(PSP_DISPLAY,"PHNAA");
+				noammo = false;
+				SetLayerSprite(PSP_DISPLAY, "PHNAA");
 			}
 			SetLayerFrame(PSP_DISPLAY,overheat?7-int(ceil((double(heat)/heatmax)*7)):heat?6-int(floor(((double(heat)/heatmax)*6)+0.5)):7);
 		}
