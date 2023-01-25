@@ -1,3 +1,5 @@
+// Normal
+
 Sprite PHNAA0, 26, 17
 {
     Patch "Patches/Weapons/Plasma/Overlay/OverlayNormalAA.png", 0, 0
@@ -190,6 +192,107 @@ Sprite PHNDH0, 28, 15
     Offset -254, -153
 }
 
+// Extra
+
+Sprite PHEAA0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraAA.png", 0, 0
+    Offset -148, -127
+}
+
+Sprite PHEAB0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraAB.png", 0, 0
+    Offset -148, -127
+}
+
+Sprite PHEAC0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraAC.png", 0, 0
+    Offset -148, -127
+}
+
+Sprite PHEAD0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraAD.png", 0, 0
+    Offset -148, -127
+}
+
+Sprite PHEAE0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraAE.png", 0, 0
+    Offset -148, -127
+}
+
+Sprite PHEAF0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraAF.png", 0, 0
+    Offset -148, -127
+}
+
+Sprite PHEAG0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraAG.png", 0, 0
+    Offset -148, -127
+}
+
+Sprite PHEAH0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayNormalAA.png", 0, 0
+    Offset -148, -127
+}
+
+Sprite PHEBA0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraBA.png", 0, 0
+    Offset -147, -128
+}
+
+Sprite PHEBB0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraBB.png", 0, 0
+    Offset -147, -128
+}
+
+Sprite PHEBC0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraBC.png", 0, 0
+    Offset -147, -128
+}
+
+Sprite PHEBD0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraBD.png", 0, 0
+    Offset -147, -128
+}
+
+Sprite PHEBE0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraBE.png", 0, 0
+    Offset -147, -128
+}
+
+Sprite PHEBF0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraBF.png", 0, 0
+    Offset -147, -128
+}
+
+Sprite PHEBG0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayExtraBG.png", 0, 0
+    Offset -147, -128
+}
+
+Sprite PHEBH0, 26, 17
+{
+    Patch "Patches/Weapons/Plasma/Overlay/OverlayNormalBA.png", 0, 0
+    Offset -147, -128
+}
+
+
+// Overheat
+
 Sprite PHOAA0, 26, 17
 {
     Patch "Patches/Weapons/Plasma/Overlay/OverlayOverheatAA.png", 0, 0
@@ -381,6 +484,8 @@ Sprite PHODH0, 28, 15
     Patch "Patches/Weapons/Plasma/Overlay/OverlayOverheatDH.png", 0, 0
     Offset -254, -153
 }
+
+// No Ammo
 
 Sprite PNAAA0, 26, 17
 {
