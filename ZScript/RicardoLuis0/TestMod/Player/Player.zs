@@ -39,6 +39,7 @@ class TestModPlayer : DoomPlayer {
 	}
 	
 	bool do_railgun_light_fx;
+	bool simplified_railgun_light_fx;
 
 	override void Tick(){
 		Super.Tick();
@@ -64,5 +65,6 @@ class TestModPlayer : DoomPlayer {
 	
 	void updatePlayerCVars() {
 		do_railgun_light_fx = CVar.GetCVar("cl_do_railgun_light_fx",player).getBool();
+		simplified_railgun_light_fx = CVar.GetCVar("cl_simplified_railgun_light_fx",player).getBool();
 	}
 }

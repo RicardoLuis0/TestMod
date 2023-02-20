@@ -93,6 +93,10 @@ class RailgunTrail : Actor {
 	
 	int trns;
 	int intens;
+	int base_intens;
+	int intens_dec;
+	Name lightName;
+	Color lightColor;
 	
 	bool do_light;
 	
@@ -101,34 +105,59 @@ class RailgunTrail : Actor {
 		if(target) {
 			int dist = int(Level.Vec3Diff(pos, target.pos).length() / 10);
 			trns = Abs((dist % 41) - 20);
-			do_light = TestModPlayer(target).do_railgun_light_fx;
+			bool simple = (vid_rendermode != 4) || TestModPlayer(target).simplified_railgun_light_fx;
+			if(simple)
+			{	//software mode
+				do_light = TestModPlayer(target).do_railgun_light_fx && ((trns % 7) == 0);
+				base_intens = 500;
+			}
+			else
+			{
+				do_light = TestModPlayer(target).do_railgun_light_fx;
+				base_intens = 200;
+			}
 			A_SetTranslation("RailgunTrailTrns"..trns);
-			if(do_light){
-				if((trns % 2) == 0) {
-					intens = 200;
-					A_AttachLight("bigGlow",DynamicLight.PointLight,lightColorsBig[trns],intens,intens,DynamicLight.LF_ATTENUATE | DynamicLight.LF_NOSHADOWMAP);
+			if(do_light)
+			{
+				if((trns % 2) == 1 || simple)
+				{
+					intens = base_intens / 4;
+					intens_dec = intens / 10;
+					lightName = "glow";
+					
+					if(simple)
+					{
+						lightColor = lightColorsBig[trns] * 7;
+					}
+					else
+					{
+						lightColor = lightColors[trns];
+					}
 				} else {
-					intens = 50;
-					A_AttachLight("glow",DynamicLight.PointLight,lightColors[trns],intens,intens,DynamicLight.LF_ATTENUATE | DynamicLight.LF_NOSHADOWMAP);
+					intens = base_intens;
+					intens_dec = intens / 10;
+					lightName = "bigGlow";
+					lightColor = lightColorsBig[trns];
 				}
+				A_AttachLight(lightName,DynamicLight.PointLight,lightColor,intens,intens,DynamicLight.LF_ATTENUATE | DynamicLight.LF_NOSHADOWMAP);
 			}
 		}
 	}
 	
 	States{
 	Spawn:
+		BSHT A 0 NODELAY A_JumpIf(!do_light, "NoLight");
 		BSHT A 10 Bright;
-		BSHT AABBCDEFG 1 Bright {
-			if(do_light){
-				if((trns % 2) == 0) {
-					invoker.intens -= 20;
-					A_AttachLight("bigGlow",DynamicLight.PointLight,invoker.lightColorsBig[trns],invoker.intens,invoker.intens,DynamicLight.LF_ATTENUATE | DynamicLight.LF_NOSHADOWMAP);
-				} else {
-					invoker.intens -= 5;
-					A_AttachLight("glow",DynamicLight.PointLight,invoker.lightColors[trns],invoker.intens,invoker.intens,DynamicLight.LF_ATTENUATE | DynamicLight.LF_NOSHADOWMAP);
-				}
-			}
+		BSHT AABBCDEFG 1 Bright
+		{
+			invoker.intens -= intens_dec;
+			A_AttachLight(lightName,DynamicLight.PointLight,lightColor,intens,intens,DynamicLight.LF_ATTENUATE | DynamicLight.LF_NOSHADOWMAP);
 		}
+		Stop;
+	NoLight:
+		BSHT A 10 Bright;
+		BSHT AB 2 Bright;
+		BSHT CDEFG 1 Bright;
 		Stop;
 	}
 }

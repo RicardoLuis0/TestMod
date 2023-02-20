@@ -29,6 +29,7 @@ SERVER BOOL sv_heavy_bullet_tracers = true;
 SERVER BOOL sv_enemy_tracers = true;
 
 USER BOOL cl_do_railgun_light_fx = true;
+USER BOOL cl_simplified_railgun_light_fx = false;
 
 //weapon inertia
 USER BOOL cl_weaponinertia_move_impulse = true;
