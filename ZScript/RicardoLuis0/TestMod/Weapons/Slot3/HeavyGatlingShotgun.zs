@@ -63,7 +63,7 @@ class HeavyGatlingShotgun : ModRotatingWeapon {
 					A_StartSound("weapons/gatlingwindup",CHAN_SPINUP,CHANF_NOSTOP);
 				}
 				invoker.spinning_up = true;
-				if(player.cmd.buttons & BT_ATTACK) {
+				if(player.cmd.buttons & BT_ATTACK && invoker.ammo1.amount > 0) {
 					return IfSpeedGtEq(invoker.rotSpeedMax/2,"RealFire");
 				} else {
 					player.refire = 0;
