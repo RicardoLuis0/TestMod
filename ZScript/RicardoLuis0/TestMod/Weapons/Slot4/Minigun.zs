@@ -55,7 +55,7 @@ class Minigun : ModRotatingWeapon {
 					A_StartSound("weapons/minigunwindup",CHAN_SPINUP,CHANF_NOSTOP,0.25);
 				}
 				invoker.spinning_up = true;
-				if(player.cmd.buttons & BT_ATTACK) {
+				if(player.cmd.buttons & BT_ATTACK && invoker.ammo1.amount > 0) {
 					return IfSpeedGtEq(invoker.rotSpeedMax/2,"RealFire");
 				} else {
 					player.refire = 0;
