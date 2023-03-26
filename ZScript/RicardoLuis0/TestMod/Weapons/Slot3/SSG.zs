@@ -222,8 +222,8 @@ class SSG : ModWeaponBase {
 		W_FireTracer((5,5),invoker.dmg,invoker.pellets,drawTracer:sv_shotgun_tracers);
 		invoker.ammouse1=2;
 		A_Recoil(2.0);
-		A_SetPitch(pitch+frandom(-5,-2),SPF_INTERPOLATE);
-		A_SetAngle(angle+(invoker.ammo1.amount==1?frandom(-5,-2):frandom(2,5)),SPF_INTERPOLATE);
+		A_SetPitch(pitch+frandom[TestModWeapon](-5,-2),SPF_INTERPOLATE);
+		A_SetAngle(angle+(invoker.ammo1.amount==1?frandom[TestModWeapon](-5,-2):frandom[TestModWeapon](2,5)),SPF_INTERPOLATE);
 		A_StartSound("weapons/ssg_fire1",CHAN_AUTO);
 	}
 	
@@ -232,7 +232,7 @@ class SSG : ModWeaponBase {
 		A_AlertMonsters();
 		W_FireTracer((10,6),invoker.dmg,int(invoker.pellets*2.25),drawTracer:sv_shotgun_tracers);
 		A_Recoil(5.0);
-		A_SetPitch(pitch+frandom(-10,-5),SPF_INTERPOLATE);
+		A_SetPitch(pitch+frandom[TestModWeapon](-10,-5),SPF_INTERPOLATE);
 		A_StartSound("weapons/ssg_fire2_01",CHAN_AUTO);
 		A_StartSound("weapons/ssg_fire2_02",CHAN_AUTO,CHANF_DEFAULT,500);
 	}
@@ -245,7 +245,7 @@ class SSG : ModWeaponBase {
 	}
 	
 	action void SSG_DropShell(){
-		Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
+		Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 	}
 }

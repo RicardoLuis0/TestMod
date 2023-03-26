@@ -74,7 +74,7 @@ class ThingSpawner : Actor abstract {
 	abstract void setDrops();
 
 	bool DoSpawn(){
-		int weight=random(0,max_weight);
+		int weight=random[ThingSpawnerWeight](0,max_weight);
 		ThingSpawnerElement toSpawn=getFromWeight(weight);
 
 		if(toSpawn==null) return false;
@@ -128,7 +128,7 @@ class BasicThingSpawnerElement : ThingSpawnerElement {
 			return ThingSpawner.spawnactor(actor_class,actor_replace,pos,vel,bDropped);
 		}else{
 			for(int i=0;i<actor_amount;i++){
-				Vector3 spawn_vel=vel+(frandom(-1,1),frandom(-1,1),frandom(1,2));
+				Vector3 spawn_vel=vel+(frandom[ThingSpawnerVel](-1,1),frandom[ThingSpawnerVel](-1,1),frandom[ThingSpawnerVel](1,2));
 				if(!ThingSpawner.spawnactor(actor_class,actor_replace,pos,spawn_vel,bDropped))return false;
 			}
 			return true;
@@ -171,7 +171,7 @@ class MultiThingSpawnerElement : ThingSpawnerElement abstract {
 		}else{
 			for(int i=0;i<spawnlist.Size();i++){
 				if(!bDropped||spawnlist[i].actor_allow_dropped){
-					Vector3 spawn_vel=vel+(frandom(-1,1),frandom(-1,1),frandom(1,2));
+					Vector3 spawn_vel=vel+(frandom[ThingSpawnerVel](-1,1),frandom[ThingSpawnerVel](-1,1),frandom[ThingSpawnerVel](1,2));
 					if(!spawnlist[i].doSpawn(pos,spawn_vel,bDropped))return false;
 				}
 			}
@@ -184,7 +184,7 @@ class MultiThingSpawnerElement : ThingSpawnerElement abstract {
 			return doSpawnList(pos,vel,bDropped);
 		}else{
 			for(int i=0;i<actor_amount;i++){
-				Vector3 spawn_vel=vel+(frandom(-1,1),frandom(-1,1),frandom(1,2));
+				Vector3 spawn_vel=vel+(frandom[ThingSpawnerVel](-1,1),frandom[ThingSpawnerVel](-1,1),frandom[ThingSpawnerVel](1,2));
 				if(!doSpawnList(pos,spawn_vel,bDropped))return false;
 			}
 			return true;

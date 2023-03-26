@@ -229,7 +229,7 @@ class Railgun : ModWeaponBase {
 				spawnclass: "RailgunTrail"
 			);
 			A_AlertMonsters();
-			A_SetPitch(pitch+random(-10, 0));
+			A_SetPitch(pitch+random[TestModWeapon](-10, 0));
 			A_Recoil(15);
 		}
 	SkipFire:

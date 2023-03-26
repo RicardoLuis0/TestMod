@@ -250,14 +250,14 @@ class HeavyGatlingShotgun : ModRotatingWeapon {
 	*/
 	action State A_FireShotgun(){
 		A_GunFlash();
-		Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
+		Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		double spread=2.5+(0.75*clamp(player.refire,0,10));
 		W_FireTracer((spread,spread),4,12,drawTracer:sv_shotgun_tracers);
 		player.refire++;
 		A_Recoil(2.5);
 		A_AlertMonsters();
-		A_SetPitch(pitch+frandom(-2,0),SPF_INTERPOLATE);
+		A_SetPitch(pitch+frandom[TestModWeapon](-2,0),SPF_INTERPOLATE);
 		A_StartSound("weapons/gatlingfire",CHAN_AUTO);
 		return ResolveState(null);
 	}

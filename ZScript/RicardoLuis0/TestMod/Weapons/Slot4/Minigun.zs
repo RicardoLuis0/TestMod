@@ -166,7 +166,7 @@ class Minigun : ModRotatingWeapon {
 		Goto Spin;
 	}
 	action State A_FireGun() {
-		Actor c=A_FireProjectile("LightClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random(80,100));
+		Actor c=A_FireProjectile("LightClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_GunFlash();
 		
@@ -176,7 +176,7 @@ class Minigun : ModRotatingWeapon {
 		
 		A_Recoil(1);
 		A_AlertMonsters();
-		A_SetPitch(pitch+frandom(-1,0),SPF_INTERPOLATE);
+		A_SetPitch(pitch+frandom[TestModWeapon](-1,0),SPF_INTERPOLATE);
 		A_StartSound("weapons/minigun_fire_01",CHAN_AUTO);
 		return ResolveState(null);
 	}

@@ -151,7 +151,7 @@ class AssaultRifle : ModWeaponBase {
 			return P_CallJmp("bolt","ready");
 		}
 		A_GunFlash();
-		Actor c=A_FireProjectile("HeavyClipCasing",random(-80, -100),false,2,4-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
+		Actor c=A_FireProjectile("HeavyClipCasing",random[TestModWeapon](-80, -100),false,2,4-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		double sx,sy;
 		if(precise){
@@ -164,8 +164,8 @@ class AssaultRifle : ModWeaponBase {
 		A_Recoil(0.5);
 		A_AlertMonsters();
 		A_StartSound("weapons/ar_fire",CHAN_AUTO);
-		A_SetPitch(pitch+frandom(-2,0),SPF_INTERPOLATE);
-		A_SetAngle(angle+frandom(-2,1.5),SPF_INTERPOLATE);
+		A_SetPitch(pitch+frandom[TestModWeapon](-2,0),SPF_INTERPOLATE);
+		A_SetAngle(angle+frandom[TestModWeapon](-2,1.5),SPF_INTERPOLATE);
 		return ResolveState(null);
 	}
 	action State A_PreReloadGun(){

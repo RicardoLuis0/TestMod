@@ -236,6 +236,6 @@ class BFG : ModWeaponBase {
 		A_FireBFG();
 		A_Recoil(10);
 		A_AlertMonsters();
-		A_SetPitch(pitch+frandom(-10,-5));
+		A_SetPitch(pitch+frandom[TestModWeapon](-10,-5));
 	}
 }

@@ -29,7 +29,7 @@ class ShotgunZombieMan : ShotgunGuy {
 		SPOS F 10 BRIGHT {
 			A_StartSound("shotguy/attack",CHAN_WEAPON,CHANF_OVERLAP,1.0);
 			
-			E_CustomTracerAttack((22.5,0),random(1,5)*3,3,flags:CBAF_NORANDOM,drawTracer:sv_shotgun_tracers);
+			E_CustomTracerAttack((22.5,0),random[TestModEnemy](1,5)*3,3,flags:CBAF_NORANDOM,drawTracer:sv_shotgun_tracers);
 		}
 		SPOS E 10;
 		Goto See;

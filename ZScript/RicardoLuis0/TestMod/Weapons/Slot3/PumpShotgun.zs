@@ -150,8 +150,8 @@ class PumpShotgun : ModWeaponBase {
 		invoker.firecasing=true;
 		A_Recoil(2.0);
 		W_FireTracer((1.5,1.5),invoker.dmg,invoker.pellets,drawTracer:sv_shotgun_tracers);
-		A_SetPitch(pitch+frandom(-5,0),SPF_INTERPOLATE);
-		A_SetAngle(angle+frandom(-2,2),SPF_INTERPOLATE);
+		A_SetPitch(pitch+frandom[TestModWeapon](-5,0),SPF_INTERPOLATE);
+		A_SetAngle(angle+frandom[TestModWeapon](-2,2),SPF_INTERPOLATE);
 		A_StartSound("weapons/shotgun_fire",CHAN_AUTO,CHANF_DEFAULT,0.5);
 		return ResolveState(null);
 	}
@@ -159,7 +159,7 @@ class PumpShotgun : ModWeaponBase {
 	action void A_PumpCasing(){
 		if(invoker.firecasing){
 			invoker.firecasing=false;
-			Actor c=A_FireProjectile("ShellCasing",random(-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random(15,30));
+			Actor c=A_FireProjectile("ShellCasing",random[TestModWeapon](-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
 			if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		}
 	}

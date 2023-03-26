@@ -405,10 +405,10 @@ class MyPlasmaRifle : ModWeaponBase
 		invoker.HeatPlus();
 		A_AlertMonsters();
 		A_StartSound("weapons/plasma/fire",CHAN_AUTO);
-		A_FireProjectile("PlasmaShot01",frandom(-1,1),pitch:frandom(-1,1));
-		A_SetPitch(pitch+frandom(-1,0));
+		A_FireProjectile("PlasmaShot01",frandom[TestModWeapon](-1,1),pitch:frandom[TestModWeapon](-1,1));
+		A_SetPitch(pitch+frandom[TestModWeapon](-1,0));
 		A_Recoil(0.5);
-		if(random(0,1))
+		if(random[TestModWeapon](0,1))
 		{
 			A_GunFlash("Flash1");
 		}
@@ -425,7 +425,7 @@ class MyPlasmaRifle : ModWeaponBase
 		invoker.firing=true;
 		A_AlertMonsters();
 		A_FireProjectile("SuperPlasmaBall",0);
-		A_SetPitch(pitch+frandom(-10,-5));
+		A_SetPitch(pitch+frandom[TestModWeapon](-10,-5));
 		A_Recoil(10);
 		A_Overheat();
 		W_SetLayerSprite(PSP_DISPLAY,"PHOC");

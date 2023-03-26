@@ -67,7 +67,7 @@ class SMGZombieMan : TracerZombieMan {
 		MGPO F 2 BRIGHT  {
 			A_StartSound("weapons/pistol_fire",CHAN_WEAPON,CHANF_OVERLAP,0.35);
 			
-			E_CustomTracerAttack((12,0),random(1,5),flags:CBAF_NORANDOM,drawTracer:sv_light_bullet_tracers);
+			E_CustomTracerAttack((12,0),random[TestModEnemy](1,5),flags:CBAF_NORANDOM,drawTracer:sv_light_bullet_tracers);
 		}
 		MGPO E 2 A_MonsterRefire(192,"SeeStun");
 		Loop;
@@ -113,7 +113,7 @@ class PistolZombieMan : TracerZombieMan {
 		PPSS F 8 {
 			A_StartSound("weapons/pistol_fire",CHAN_WEAPON,CHANF_OVERLAP,0.25);
 			
-			E_CustomTracerAttack((22.5,0),random(1,5)*3,flags:CBAF_NORANDOM,drawTracer:sv_light_bullet_tracers);
+			E_CustomTracerAttack((22.5,0),random[TestModEnemy](1,5)*3,flags:CBAF_NORANDOM,drawTracer:sv_light_bullet_tracers);
 		}
 		PPSS E 8;
 		Goto See;
@@ -156,13 +156,13 @@ class ArmoredRifleZombieMan : TracerZombieMan {
 	action void A_RPosAttack1(){//attack 1 for possessed riflemen, more accurate
 		A_StartSound("weapons/ar_fire",CHAN_WEAPON,CHANF_OVERLAP,0.5);
 		
-		E_CustomTracerAttack((15,0),random(1,3) * 3,flags:CBAF_NORANDOM,drawTracer:sv_heavy_bullet_tracers);
+		E_CustomTracerAttack((15,0),random[TestModEnemy](1,3) * 3,flags:CBAF_NORANDOM,drawTracer:sv_heavy_bullet_tracers);
 	}
 
 	action void A_RPosAttack2(){//attack 2 for possessed riflemen, less accurate
 		A_StartSound("weapons/ar_fire",CHAN_WEAPON,CHANF_OVERLAP,0.5);
 		
-		E_CustomTracerAttack((30,0),random(1,3) * 3,flags:CBAF_NORANDOM,drawTracer:sv_heavy_bullet_tracers);
+		E_CustomTracerAttack((30,0),random[TestModEnemy](1,3) * 3,flags:CBAF_NORANDOM,drawTracer:sv_heavy_bullet_tracers);
 	}
 	
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle){

@@ -25,8 +25,8 @@ class ModWeaponBase : Weapon {
 	
 	static void DoParticleExplosion(actor origin,Color x_color,int count,double strength,double size,int lifetime=20){
 		for(int i=0;i<count;i++){
-			double r_yaw=random(0,360);
-			double r_pitch=random(0,360);
+			double r_yaw=random[explosion_fx](0,360);
+			double r_pitch=random[explosion_fx](0,360);
 			vector3 vel=angleToVec3(r_yaw,r_pitch,strength);
 			origin.A_SpawnParticle(x_color,SPF_FULLBRIGHT,lifetime,size,0,0,0,0,vel.x,vel.y,vel.z);
 		}
