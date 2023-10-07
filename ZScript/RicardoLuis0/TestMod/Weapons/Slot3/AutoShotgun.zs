@@ -99,7 +99,7 @@ class AutoShotgun : ModWeaponBase {
 			}
 		}
 		A_AlertMonsters();
-		Actor c=A_FireProjectile("ShellCasing",random[TestModWeapon](-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
+		Actor c=W_FireProjectile("ShellCasing",random[TestModWeapon](-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_Recoil(2.0);
 		double spread=(player.refire>0)?6.5:5;

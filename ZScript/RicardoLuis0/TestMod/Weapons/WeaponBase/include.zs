@@ -7,3 +7,4 @@
 #include "./MagazineWeapon.zs"
 #include "./WeaponTracer.zs"
 #include "./RotatingWeapon.zs"
+#include "./WeaponProjectiles.zs"

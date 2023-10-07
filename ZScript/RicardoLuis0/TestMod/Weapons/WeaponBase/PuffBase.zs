@@ -10,7 +10,7 @@ class ModBulletPuffBase:BulletPuff {
 		//console.printf("ModBulletPuffBase::PostBeginPlay");
 	}
 	
-	void DoPuffFX(double firing_angle,Line hitLine,Actor hitActor){
+	void DoPuffFX(double firing_angle,Line hitLine,Actor hitActor, Vector3 hitPos){
 		//console.printf("ModBulletPuffBase::DoPuffFX");
 		
 		//double inv_angle = angle;
@@ -30,6 +30,13 @@ class ModBulletPuffBase:BulletPuff {
 			);
 			*/
 			
+			TextureID tex = TexMan.CheckForTexture("glstuff/glpart.png", TexMan.Type_MiscPatch);
+			
+			Vector3 off = Level.Vec3Diff(pos, hitPos);
+			
+			A_SpawnParticleEx("FFC000", tex, Style_ADD, SPF_FULLBRIGHT, 140, 3, xoff:off.x, yoff:off.y, zoff:off.z);
+			A_SpawnParticleEx("800000", tex, Style_ADD, SPF_FULLBRIGHT, 350, 2, xoff:off.x, yoff:off.y, zoff:off.z);
+			
 			angle = line_hit_normal;
 			
 		} else if(!hitLine && target){
@@ -37,10 +44,11 @@ class ModBulletPuffBase:BulletPuff {
 		}
 		
 		if(hitLine || hitActor){
-		
+			TextureID tex;
+			tex.setNull();
 			int num_particles = random[puff_fx](2,4);
 			for(int i=0;i<num_particles;i++){
-				A_SpawnParticle("FFFF00",SPF_RELATIVE|SPF_FULLBRIGHT,70,
+				A_SpawnParticleEx("FFC000",tex, Style_ADD, SPF_RELATIVE|SPF_FULLBRIGHT,35,
 					angle:frandom[puff_fx](-10,10),
 					velx:frandom[puff_fx](3,5),
 					velz:frandom[puff_fx](3,5),

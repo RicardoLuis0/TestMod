@@ -96,6 +96,6 @@ class GuidedRocketLauncher : ModWeaponBase {
 		A_Recoil(8);
 		A_GunFlash();
 		A_AlertMonsters();
-		A_FireProjectile("GuidedRocket");
+		W_FireProjectile("GuidedRocket");
 	}
 }

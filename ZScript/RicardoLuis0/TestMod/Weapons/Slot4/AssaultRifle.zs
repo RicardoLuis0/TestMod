@@ -151,7 +151,7 @@ class AssaultRifle : ModWeaponBase {
 			return P_CallJmp("bolt","ready");
 		}
 		A_GunFlash();
-		Actor c=A_FireProjectile("HeavyClipCasing",random[TestModWeapon](-80, -100),false,2,4-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
+		Actor c=W_FireProjectile("HeavyClipCasing",random[TestModWeapon](-80, -100),false,2,4-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		double sx,sy;
 		if(precise){

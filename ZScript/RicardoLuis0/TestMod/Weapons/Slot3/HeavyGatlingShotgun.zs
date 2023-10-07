@@ -250,7 +250,7 @@ class HeavyGatlingShotgun : ModRotatingWeapon {
 	*/
 	action State A_FireShotgun(){
 		A_GunFlash();
-		Actor c=A_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));
+		Actor c=W_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		double spread=2.5+(0.75*clamp(player.refire,0,10));
 		W_FireTracer((spread,spread),4,12,drawTracer:sv_shotgun_tracers);

@@ -3,8 +3,7 @@ class TestModPlayer : DoomPlayer {
 	bool grenade_key_pressed;
 	bool melee_key_pressed;
 	bool unload_key_pressed;
-	
-	
+
 	void ClearActionKeys(){
 		grenade_key_pressed=false;
 		melee_key_pressed=false;

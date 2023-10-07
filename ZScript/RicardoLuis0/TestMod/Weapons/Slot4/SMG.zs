@@ -92,7 +92,7 @@ class SMG : ModWeaponBase {
 	action void A_FireGun(){
 		A_AlertMonsters();
 		A_StartSound("weapons/pistol_fire",CHAN_AUTO,CHANF_DEFAULT,0.35);
-		Actor c=A_FireProjectile("FastLightClipCasing",random[TestModWeapon](-80, -100),false,2,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
+		Actor c=W_FireProjectile("FastLightClipCasing",random[TestModWeapon](-80, -100),false,2,6-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		
 		W_FireTracerSpreadXY(4,0.25,8,0.25,0.75,drawTracer:sv_light_bullet_tracers);

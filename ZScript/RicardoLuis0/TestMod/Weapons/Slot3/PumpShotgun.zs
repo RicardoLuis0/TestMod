@@ -159,7 +159,7 @@ class PumpShotgun : ModWeaponBase {
 	action void A_PumpCasing(){
 		if(invoker.firecasing){
 			invoker.firecasing=false;
-			Actor c=A_FireProjectile("ShellCasing",random[TestModWeapon](-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
+			Actor c=W_FireProjectile("ShellCasing",random[TestModWeapon](-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
 			if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		}
 	}
@@ -191,7 +191,7 @@ class PumpShotgun : ModWeaponBase {
 	action State A_ReloadEnd(){
 		invoker.ammo2.amount-=1;
 		invoker.ammo1.amount+=1;
-		if(invoker.ammo1.amount==1) return P_CallJmp("reloadstop",P_CallSLJmp("pump","reload"));
+		if(invoker.ammo1.amount==1) return P_CallJmp("reloadstop",P_CallJmpSL("pump","reload"));
 		return InterruptReload();
 	}
 	

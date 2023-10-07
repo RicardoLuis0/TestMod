@@ -166,7 +166,7 @@ class Minigun : ModRotatingWeapon {
 		Goto Spin;
 	}
 	action State A_FireGun() {
-		Actor c=A_FireProjectile("LightClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));
+		Actor c=W_FireProjectile("LightClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));
 		if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		A_GunFlash();
 		

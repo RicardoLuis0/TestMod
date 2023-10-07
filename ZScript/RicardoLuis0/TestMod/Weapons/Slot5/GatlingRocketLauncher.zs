@@ -173,7 +173,7 @@ class GatlingRocketLauncher : ModRotatingWeapon {
 		A_Recoil(2);
 		A_GunFlash();
 		A_AlertMonsters();
-		A_FireProjectile("FastRocket",frandom[TestModWeapon](-4,4),pitch:frandom[TestModWeapon](-2,2));
+		W_FireProjectile("FastRocket",frandom[TestModWeapon](-4,4),pitch:frandom[TestModWeapon](-2,2));
 	}
 	action State JumpNoRocketsOrFire(StateLabel altfire,StateLabel nofire){
 			if(CountInv("NewRocketAmmo")==0){

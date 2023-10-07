@@ -38,7 +38,7 @@ mixin class TracerEnemy {
 				if(ok){
 					line = l.hitLine;
 				}
-				puff.doPuffFX(aim.x,line,t.lineTarget);
+				puff.doPuffFX(aim.x,line,t.lineTarget,l.hitLocation);
 			}
 		}
 	}

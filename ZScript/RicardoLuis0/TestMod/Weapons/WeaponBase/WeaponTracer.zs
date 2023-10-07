@@ -12,9 +12,16 @@ extend class ModWeaponBase {
 		}
 	}
 	
+	static clearscope Vector2 ConvertUnitToAngle(Vector3 Unit)
+	{
+		return (atan2(Unit.y, Unit.x), -asin(Unit.z));
+	}
+	
 	//THIS ALWAYS IGNORES AUTOAIM
 	action void W_FireTracer(Vector2 spread, int dmg, int count = 1, class<ModBulletPuffBase> puff = "ModBulletPuffBase", int flags = FBF_USEAMMO, double range = PLAYERMISSILERANGE, bool drawTracer = true){
 		if(!player) return;
+		
+		flags |= FBF_NORANDOMPUFFZ;
 		
 		double attack_zoff = (player.mo.attackZOffset * player.crouchfactor);
 		
@@ -40,10 +47,6 @@ extend class ModWeaponBase {
 		
 		int laflags = (flags & FBF_NORANDOMPUFFZ)? LAF_NORANDOMPUFFZ : 0;
 		
-		if(flags & FBF_NORANDOMPUFFZ) {
-			laflags |= LAF_NORANDOMPUFFZ;
-		}
-		
 		
 		if((flags & FBF_USEAMMO) && player.ReadyWeapon &&  stateinfo != null && stateinfo.mStateType == STATE_Psprite) {
 			if(!player.ReadyWeapon.DepleteAmmo(player.ReadyWeapon.bAltFire, true)) return;	// out of ammo
@@ -56,7 +59,7 @@ extend class ModWeaponBase {
 		Vector2 aim;
 		
 		if(flags & FBF_EXPLICITANGLE) {
-			aim = (angle,pitch) + spread;
+			aim = ConvertUnitToAngle((Quat.FromAngles(angle, pitch, roll) * Quat.AxisAngle((0,0,1), spread.x) * Quat.AxisAngle((0,1,0), spread.y)) * (1,0,0));
 		}
 		
 		for(int i = 0; i < count; i++) {
@@ -66,8 +69,11 @@ extend class ModWeaponBase {
 			}
 			
 			if(!(flags & FBF_EXPLICITANGLE)) {
-				aim = (angle,pitch) + (fRandom[cabullet](-1.0,1.0) * spread.x , fRandom[cabullet](-1.0,1.0) * spread.y);
+				double sx = fRandom[cabullet](-1.0,1.0) * spread.x;
+				double sy = fRandom[cabullet](-1.0,1.0) * spread.y;
+				aim = ConvertUnitToAngle((Quat.FromAngles(angle, pitch, roll) * Quat.AxisAngle((0,0,1), sx) * Quat.AxisAngle((0,1,0), sy)) * (1,0,0));
 			}
+			
 			
 			ModBulletPuffBase puff = ModBulletPuffBase(LineAttack(aim.x,range,aim.y,newdmg,GetDefaultByType(puff).default.DamageType,puff,laflags,t));
 			
@@ -76,14 +82,18 @@ extend class ModWeaponBase {
 			if(puff || drawTracer) {
 				FLineTraceData l;
 				bool ok = LineTrace(aim.x,range,aim.y,TRF_SOLIDACTORS,attack_height,data:l);
+				vector3 tAnglePitch;
 				if(ok){
+					tAnglePitch = Level.SphericalCoords((pos.x,pos.y,view_zviewatk),l.hitLocation,(angle,pitch));
 					line = l.hitLine;
+					
+					double c = cos(tAnglePitch.y + pitch);
+					Vector3 dir = (c * cos(tAnglePitch.x + angle), c * sin(tAnglePitch.x + angle), -sin(tAnglePitch.y + pitch));
+					
+					l.hitLocation -= dir * 0.15;
 				}
 				
 				if(drawTracer && ok) {
-					vector3 tAnglePitch = Level.SphericalCoords((pos.x,pos.y,view_zviewatk),l.hitLocation,(angle,pitch));
-					
-					tAnglePitch = (-tAnglePitch.x,-tAnglePitch.y,tAnglePitch.z);
 					
 					//console.printf("tAnglePitch: "..tAnglePitch.xy.." aim: "..(aim-(angle,pitch)));
 					let old_decal = invoker.decalGenerator;
@@ -96,8 +106,8 @@ extend class ModWeaponBase {
 						flags:RGF_SILENT|RGF_NOPIERCING|RGF_EXPLICITANGLE|RGF_FULLBRIGHT|RGF_CENTERZ,
 						maxdiff:0,
 						pufftype:"VisTracer",
-						spread_xy:tAnglePitch.x,
-						spread_z:tAnglePitch.y,
+						spread_xy:-tAnglePitch.x,
+						spread_z:-tAnglePitch.y,
 						range:range,
 						duration:1,
 						sparsity:0.25,
@@ -108,7 +118,7 @@ extend class ModWeaponBase {
 				}
 				
 				if(puff) {
-					puff.doPuffFX(aim.x,line,t.lineTarget);
+					puff.doPuffFX(aim.x,l.hitLine,t.lineTarget, l.hitLocation);
 				}
 			}
 		}

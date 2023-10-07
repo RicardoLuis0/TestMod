@@ -376,7 +376,7 @@ class SmartGun : ModWeaponBase {
 			xoff-=invoker.aim_angle.x;
 			yoff-=invoker.aim_angle.y;
 			A_AlertMonsters();
-			A_FireProjectile("HeavyClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));
+			W_FireProjectile("HeavyClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));
 			
 			W_FireTracer((xoff,yoff),15,puff:"PiercingPuff",flags:FBF_EXPLICITANGLE|FBF_USEAMMO,drawTracer:sv_heavy_bullet_tracers);
 			
