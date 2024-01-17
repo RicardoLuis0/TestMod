@@ -1,50 +1,61 @@
-mixin class IncrementalPickup {
-	override bool CanPickup(Actor toucher) {
+mixin class PartialPickup {
+	override bool CanPickup(Actor toucher)
+	{
 		if(toucher == null) return false;
 		Inventory tItem;
-		Class<Inventory> findClass=GetClass();
+		Class<Inventory> findClass = GetClass();
 		
-		while(findClass is "Ammo"){//find root ammo
-			Class<Inventory> pcls=(Class<Inventory>)(findClass.getParentClass());
-			if(pcls!="Ammo"){
-				findClass=pcls;
-			}else{
+		while(findClass is "Ammo")
+		{	//find root ammo
+			Class<Inventory> pcls = (Class<Inventory>)(findClass.getParentClass());
+			
+			if(pcls != "Ammo"){
+				findClass = pcls;
+			}
+			else
+			{
 				break;
 			}
 		}
 		
-		if((tItem = Toucher.FindInventory(findClass))) {
-			if(tItem.amount < tItem.maxamount) {
-				if((tItem.amount + amount) > tItem.maxamount) {
-					let p = toucher.player;
-					if(p){
-						toucher = p.mo;
+		if((tItem = Toucher.FindInventory(findClass))
+          && tItem.amount < tItem.maxamount
+          && (tItem.amount + amount) > tItem.maxamount)
+		{
+			let p = toucher.player;
+			if(p)
+			{	// handle voodoo doll pickups
+				toucher = p.mo;
+			}
+			
+			bool localView = toucher.CheckLocalView();
+			
+			let givenAmount = tItem.maxamount - tItem.amount;
+			amount -= tItem.maxamount - tItem.amount;
+			tItem.amount = tItem.maxamount;
+			
+			if(!bQuiet)
+			{   // print pickup message + amount
+				Inventory.PrintPickupMessage(localView,Stringtable.Localize(PickupMsg).." ("..givenAmount..")");
+				if(p)
+				{
+					PlayPickupSound(p.mo);
+					if(!bNoScreenFlash && p.playerstate != PST_DEAD)
+					{   // do screen flash
+						p.bonuscount = BONUSADD;
 					}
-					
-					bool localView = toucher.CheckLocalView();
-					
-					let givenAmount = tItem.maxamount - tItem.amount;
-					amount -= tItem.maxamount - tItem.amount;
-					tItem.amount = tItem.maxamount;
-					
-					if(!bQuiet){
-						Inventory.PrintPickupMessage(localView,Stringtable.Localize(PickupMsg).." ("..givenAmount..")");
-						if(p) {
-							PlayPickupSound(toucher);
-							if(!bNoScreenFlash && p.playerstate != PST_DEAD) {
-								p.bonuscount = BONUSADD;
-							}
-						} else {
-							PlayPickupSound(toucher);
-						}
-					}
-				} else {
-					return super.CanPickup(toucher);
+				}
+				else
+				{
+					PlayPickupSound(toucher);
 				}
 			}
 			return false;
 		}
-		return super.CanPickup(toucher);
+		else
+		{
+			return super.CanPickup(toucher);
+		}
 	}
 }
 
@@ -56,7 +67,7 @@ mixin class MyModAmmo {
 
 class LightClip : Ammo {
 	mixin MyModAmmo;
-	mixin IncrementalPickup;
+	mixin PartialPickup;
 	
 	Default {
 		Inventory.PickupMessage "$GOTLIGHTCLIP";
@@ -100,7 +111,7 @@ class LightClipBox : LightClip {
 
 class HeavyClip : Ammo {
 	mixin MyModAmmo;
-	mixin IncrementalPickup;
+	mixin PartialPickup;
 	
 	Default {
 		Inventory.PickupMessage "$GOTHEAVYCLIP";
@@ -144,7 +155,7 @@ class HeavyClipBox : HeavyClip {
 
 class NewShell : Ammo replaces Shell {
 	mixin MyModAmmo;
-	mixin IncrementalPickup;
+	mixin PartialPickup;
 	
 	Default {
 		Inventory.PickupMessage "$GOTSHELLS";
@@ -176,7 +187,7 @@ class NewShellBox : NewShell replaces ShellBox {
 
 class NewCell : Ammo replaces Cell {
 	mixin MyModAmmo;
-	mixin IncrementalPickup;
+	mixin PartialPickup;
 	
 	Default {
 		Inventory.PickupMessage "$GOTCELL";
@@ -209,7 +220,7 @@ class NewCellPack : NewCell replaces CellPack {
 
 class NewRocketAmmo : Ammo replaces RocketAmmo {
 	mixin MyModAmmo;
-	mixin IncrementalPickup;
+	mixin PartialPickup;
 	
 	Default {
 		Inventory.PickupMessage "$GOTROCKET";

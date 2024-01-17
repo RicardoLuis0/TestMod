@@ -151,3 +151,5 @@ mixin class WeaponInertia {
 		return (-weaponinertia_prevbob)/2, weaponinertia_prevmove;
 	}
 }
+
+

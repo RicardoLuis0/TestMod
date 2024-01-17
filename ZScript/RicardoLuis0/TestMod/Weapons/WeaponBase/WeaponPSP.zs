@@ -1,8 +1,16 @@
-extend class ModWeaponBase {
+class WeaponOffsetInterpolData
+{
+	int duration;
+	int currentTick;
+	Vector2 start;
+	Vector2 diff;
+}
+
+extend class ModWeaponBase
+{
 	PSPrite PSP_Get(int layer=PSP_WEAPON){
-		PlayerPawn p=PlayerPawn(owner);
-		if(p&&p.player){
-			return p.player.GetPSprite(layer);
+		if(owner.player){
+			return owner.player.GetPSprite(layer);
 		}
 		return null;
 	}
@@ -86,4 +94,74 @@ extend class ModWeaponBase {
 	action void W_SetLayerSprite(int layer, name sprite) {
 		invoker.SetLayerSprite(layer,sprite);
 	}
+	
+	
+	Map<int, WeaponOffsetInterpolData> layerInterpol;
+	
+	void SetLayerInterpolation(int index, Vector2 start, Vector2 end, int duration)
+	{
+		let data = new('WeaponOffsetInterpolData');
+		data.start = start;
+		data.diff = end - start;
+		data.currentTick = 0;
+		data.duration = duration - 1;
+		layerInterpol.insert(index, data);
+		
+		PSprite psp;
+		if(owner.player)
+		{
+			psp = owner.player.FindPSprite(index);
+			if(psp)
+			{
+				psp.x = start.x;
+				psp.y = start.y;
+			}
+		}
+	}
+	
+	bool _DoInterpolateLayer(int index, WeaponOffsetInterpolData data)
+	{
+		PSprite psp;
+		if(owner.player)
+		{
+			psp = owner.player.FindPSprite(index);
+			if(psp)
+			{
+				double ratio = double(data.currentTick) / double(data.duration);
+				
+				psp.x = data.start.x + (data.diff.x * ratio);
+				psp.y = data.start.y + (data.diff.y * ratio);
+			}
+		}
+		data.currentTick++;
+		return data.currentTick >= data.duration;
+	}
+	
+	override void DoEffect()
+	{
+		if(self == owner.player.ReadyWeapon)
+		{
+			MapIterator<int, WeaponOffsetInterpolData> it;
+			Array<int> toRemove;
+			
+			it.init(layerInterpol);
+			
+			while(it.next())
+			{
+				if(_DoInterpolateLayer(it.getKey(), it.getValue()))
+				{
+					toRemove.push(it.getKey());
+				}
+			}
+			
+			foreach(key : toRemove)
+			{
+				layerInterpol.remove(key);
+			}
+		}
+	}
+	
+	
+	
+	
 }

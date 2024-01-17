@@ -1,4 +1,5 @@
-extend class TestModPlayer {
+extend class TestModPlayer
+{
 	private void GiveDefaultInventoryItem(class<Inventory> type,int amount=0){//this logic was extracted from PlayerPawn::GiveDefaultInventory
 		Inventory item=FindInventory(type);
 		if(item){

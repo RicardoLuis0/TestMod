@@ -1,6 +1,6 @@
 class PortableMedKit : Inventory {
 	
-	mixin IncrementalPickup;
+	mixin PartialPickup;
 	
 	int max_heal;
 	Property MaxHeal:max_heal;

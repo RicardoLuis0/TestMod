@@ -20,14 +20,15 @@ class TestModKeyPressHandler : StaticEventHandler {
 	override bool InputProcess(InputEvent e){
 		if(e.type==InputEvent.Type_KeyDown||e.type==InputEvent.Type_KeyUp){
 			bool wasDown=invuse_key_count>0;
-			uint n=invuse_buttons.size();
-			for(uint i=0;i<n;i++){
-				if(e.keyScan==invuse_buttons[i]){
-					if(e.type==InputEvent.Type_KeyDown){
-						invuse_key_count++;
-					}else{
-						invuse_key_count--;
-					}
+			if(invuse_buttons.Find(e.keyScan) != invuse_buttons.Size())
+			{
+				if(e.type==InputEvent.Type_KeyDown)
+				{
+					invuse_key_count++;
+				}
+				else
+				{
+					invuse_key_count--;
 				}
 			}
 			bool isDown=invuse_key_count>0;
