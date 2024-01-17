@@ -165,12 +165,18 @@ class ArmoredRifleZombieMan : TracerZombieMan {
 		E_CustomTracerAttack((30,0),random[TestModEnemy](1,3) * 3,flags:CBAF_NORANDOM,drawTracer:sv_heavy_bullet_tracers);
 	}
 	
-	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle){
-		if((mod!="Piercing")&&(damage>0)){//if not armor piercing and not healing, apply damage resistance of 5
-			if(damage>5){
-				damage-=5;
-			}else{
-				damage=0;
+	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
+	{
+		//if not armor piercing and not healing, apply damage resistance of 5
+		if((mod!="Piercing")&&(damage>0))
+		{
+			if(damage>5)
+			{
+				damage -= 5;
+			}
+			else
+			{
+				damage = 1;
 			}
 		}
 		return Super.DamageMobj(inflictor,source,damage,mod,flags,angle);
