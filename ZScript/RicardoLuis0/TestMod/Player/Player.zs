@@ -1,10 +1,11 @@
-class TestModPlayer : DoomPlayer {
-	
+class TestModPlayer : DoomPlayer
+{
 	bool grenade_key_pressed;
 	bool melee_key_pressed;
 	bool unload_key_pressed;
 
-	void ClearActionKeys(){
+	void ClearActionKeys()
+	{
 		grenade_key_pressed=false;
 		melee_key_pressed=false;
 		unload_key_pressed=false;
@@ -15,7 +16,8 @@ class TestModPlayer : DoomPlayer {
 	mixin WeaponInertia;
 	mixin LookPos;
 	
-	Default{
+	Default
+	{
 		Speed 1;
 		Health 100;
 		Radius 16;
@@ -30,7 +32,8 @@ class TestModPlayer : DoomPlayer {
 		Player.StartItem "Fist";
 	}
 
-	override void PostBeginPlay(){
+	override void PostBeginPlay()
+	{
 		super.PostBeginPlay();
 		InertiaInit();
 		LookPosInit();
@@ -40,29 +43,33 @@ class TestModPlayer : DoomPlayer {
 	bool do_railgun_light_fx;
 	bool simplified_railgun_light_fx;
 
-	override void Tick(){
+	override void Tick()
+	{
 		Super.Tick();
-		if (!player || !player.mo || player.mo != self){
+		if (!player || !player.mo || player.mo != self)
+		{
 			return;
-		} else {
-			InertiaTick();
-			LookPosTick();
-			if(player.ReadyWeapon is "ModWeaponBase"){
-				ModWeaponBase(player.ReadyWeapon).ReadyTick();
-			}
+		}
+		InertiaTick();
+		LookPosTick();
+		if(player.ReadyWeapon is "ModWeaponBase"){
+			ModWeaponBase(player.ReadyWeapon).ReadyTick();
 		}
 	}
 
-	override Vector2 BobWeapon(double ticfrac){
+	override Vector2 BobWeapon(double ticfrac)
+	{
 		return WeaponInertiaBobWeapon(ticfrac);
 	}
 
-	void player_UpdateCVars(){
+	void player_UpdateCVars()
+	{
 		weaponinertia_UpdateCVars();
 		updatePlayerCVars();
 	}
 	
-	void updatePlayerCVars() {
+	void updatePlayerCVars()
+	{
 		do_railgun_light_fx = CVar.GetCVar("cl_do_railgun_light_fx",player).getBool();
 		simplified_railgun_light_fx = CVar.GetCVar("cl_simplified_railgun_light_fx",player).getBool();
 	}
