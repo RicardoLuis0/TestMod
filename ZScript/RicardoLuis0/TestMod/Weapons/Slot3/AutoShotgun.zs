@@ -52,15 +52,15 @@ class AutoShotgun : ModWeaponBase {
 			DASF B 3 Bright A_GunFlash;
 			DASF C 2 Bright;
 			//DASF D 1;
-			DASF E 3;
+			DASF E 2;
 			DASF E 2 A_Refire;
 			TNT1 A 0 {
 				player.refire=0;
 			}
 			goto ready;
 		flash:
-			TNT1 A 4 Bright A_Light1;
-			TNT1 A 4 Bright A_Light2;
+			TNT1 A 3 Bright A_Light1;
+			TNT1 A 2 Bright A_Light2;
 			goto lightdone;
 		reload:
 			TNT1 A 0 {

@@ -176,7 +176,7 @@ class Minigun : ModRotatingWeapon {
 		
 		A_Recoil(1);
 		A_AlertMonsters();
-		A_SetPitch(pitch+frandom[TestModWeapon](-1,0),SPF_INTERPOLATE);
+		A_SetPitch(pitch+frandom[TestModWeapon](1,0),SPF_INTERPOLATE);
 		A_StartSound("weapons/minigun_fire_01",CHAN_AUTO);
 		return ResolveState(null);
 	}

@@ -1,9 +1,0 @@
-TestModPlayer
-{
-	rename "MyPistol","Pistol";
-	rename "PumpShotgun","Pump-Action Shotgun";
-	rename "SSG","Super Shotgun";
-	rename "AssaultRifle","Assault Rifle";
-	rename "HeavyGatlingGun","Heavy Gatling Gun";
-	rename "GuidedRocketLauncher","Laser-Guided Rocket Launcher";
-}
