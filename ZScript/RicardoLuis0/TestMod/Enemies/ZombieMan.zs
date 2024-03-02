@@ -168,9 +168,9 @@ class ArmoredRifleZombieMan : TracerZombieMan {
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
 		//if not armor piercing and not healing, apply damage resistance of 5
-		if((mod!="Piercing")&&(damage>0))
+		if((mod!="Piercing") && (damage>0))
 		{
-			if(damage>5)
+			if(damage > 5)
 			{
 				damage -= 5;
 			}
@@ -178,6 +178,7 @@ class ArmoredRifleZombieMan : TracerZombieMan {
 			{
 				damage = 1;
 			}
+			damage = max(1, damage * 0.75);
 		}
 		return Super.DamageMobj(inflictor,source,damage,mod,flags,angle);
 	}
