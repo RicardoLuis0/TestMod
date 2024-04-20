@@ -1,3 +1,10 @@
+OptionValue "StartingArmorType" {
+	0, "None"
+	1, "Green Armor"
+	2, "Blue Armor"
+}
+
+
 OptionMenu "TestmodOptionsMenuSpawnItems"{
 	Title "Loadout Options"
 	
@@ -14,7 +21,9 @@ OptionMenu "TestmodOptionsMenuSpawnItems"{
 	
 	StaticText "Misc"
 	
-	Option "Start with Green Armor","sv_player_start_green_armor","YesNo"
+	Option "Start with Armor","sv_player_start_armor","StartingArmorType"
+	
+	Slider "Armor Points","sv_player_start_armor_amount", "0", "200", "25", "0", "sv_player_start_armor"
 	
 	Option "Start with Portable Medkit","sv_player_start_portmed","YesNo"
 	

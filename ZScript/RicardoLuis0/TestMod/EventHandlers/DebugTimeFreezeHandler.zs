@@ -11,7 +11,7 @@ class DebugTimeFreezeHandler : StaticEventHandler {
 	}
 	
 	override void NetworkProcess(ConsoleEvent e){
-		if(developer>0){
+		if(!multiplayer && developer>0){
 			if(e.name.IndexOf("FreezeTime") == 0){
 				Array<string> s;
 				e.name.split(s,":");

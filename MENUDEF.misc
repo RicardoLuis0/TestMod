@@ -13,4 +13,14 @@ OptionMenu "TestmodOptionsMenuMisc"{
 	
 	Option "SSG Auto-Reload","cl_ssg_autoreload","OnOff"
 	StaticText "Whether to reload immediately after firing last shot on ssg.","DarkRed"
+	
+	StaticText ""
+	
+	Option "Show RPM","cl_showrpm","OnOff"
+	StaticText "Show RPM for Gatling Shotgun / Minigun","DarkRed"
+	
+	StaticText ""
+	
+	Slider "RPM Gauge X position","cl_rpm_x", "5", "315", "5", "0", "cl_showrpm"
+	Slider "RPM Gauge Y position","cl_rpm_y", "5", "195", "5", "0", "cl_showrpm"
 }

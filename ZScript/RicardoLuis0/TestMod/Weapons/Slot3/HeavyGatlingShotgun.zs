@@ -117,11 +117,12 @@ class HeavyGatlingShotgun : ModRotatingWeapon {
 		DGTG D 1 W_WeaponReady;
 		Wait;
 	Deselect:
-		DGTG A 1 A_Lower;
-		Loop;
+		TNT1 A 0 { invoker.spinframe = 0; }
+		"####" "#" 1 A_Lower;
+		Wait;
 	Select:
 		DGTG A 1 A_Raise;
-		Loop;
+		Wait;
 	Fire:
 	AltFire:
 		TNT1 A 0 {
@@ -163,91 +164,7 @@ class HeavyGatlingShotgun : ModRotatingWeapon {
 		DGTF B 10 UpdateTics(PSP_WEAPON,0.5);
 		Goto SpinB;
 	}
-	/*
-	States{
-		ready:
-			DGTG A 1 {
-				invoker.spinning=false;
-				W_WeaponReady();
-			}
-			loop;
-		select:
-			DGTG A 1 A_Raise;
-			loop;
-		deselect:
-			TNT1 A 0 {
-				invoker.spinning=false;
-			}
-		deselectloop:
-			DGTG A 1 A_Lower;
-			loop;
-		firespin:
-			TNT1 A 0 {
-				invoker.spinning=true;
-				if(CountInv(invoker.ammotype1)==0) return ResolveState("idlespin_clearrefire");
-				return ResolveState(null);
-			}
-			DGTF A 1 Bright A_FireShotgun;
-			DGTF B 1 Bright;
-			goto idlespin2;
-		idlespin_clearrefire:
-			TNT1 A 0 {
-				player.refire=0;
-			}
-		idlespin:
-			TNT1 A 0 {
-				invoker.spinning=true;
-			}
-			DGTG A 2;
-		idlespin2:
-			DGTG B 2;
-			DGTG C 2;
-			DGTG D 2;
-			DGTG A 0 CheckFire("firespin","idlespin_clearrefire","spin1down");
-			goto ready;
-		spin1up:
-			DGTG A 4;
-			DGTG B 4;
-			DGTG C 3;
-			DGTG D 3;
-			DGTG A 0 CheckFire("firespin","idlespin_clearrefire","spin1down");
-		spin1down:
-			TNT1 A 0 {
-				player.refire=0;
-			}
-			DGTG A 3;
-			DGTG B 3;
-			DGTG C 4;
-			DGTG D 4;
-			DGTG A 0 CheckFire("firespin","idlespin_clearrefire","spin2down");
-		fire:
-		altfire:
-		spin2up:
-			TNT1 A 0 {
-				A_StartSound("weapons/gatlingspin",CHAN_7,CHANF_LOOPING,3);
-				A_StartSound("weapons/gatlingwindup",CHAN_6,CHANF_DEFAULT,4);
-			}
-			DGTG A 7;
-			DGTG B 6;
-			DGTG C 5;
-			DGTG D 4;
-			DGTG A 0 CheckFire("spin1up","spin1up","spin2down");
-		spin2down:
-			TNT1 A 0 {
-				player.refire=0;
-			}
-			DGTG A 0 A_StopSound(CHAN_7);
-			DGTG A 0 A_StartSound("weapons/gatlingwinddown",CHAN_6,CHANF_DEFAULT,3);
-			DGTG A 4;
-			DGTG B 5;
-			DGTG C 6;
-			DGTG D 7;
-			DGTG A 0 CheckFire("spin2up","spin2up","ready");
-		spawn:
-			DEGT A -1;
-			stop;
-	}
-	*/
+	
 	action State A_FireShotgun(){
 		A_GunFlash();
 		Actor c=W_FireProjectile("ShellCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));

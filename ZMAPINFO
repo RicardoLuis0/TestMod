@@ -1,6 +1,6 @@
 GameInfo {
    PlayerClasses = "TestModPlayer"
-   AddEventHandlers = "TestModCVarUpdateHandler","TestModKeyPressHandler","TiltPlusPlusHandler","DebugTimeFreezeHandler"
+   AddEventHandlers = "TestModCVarUpdateHandler","TestModKeyPressHandler","TiltPlusPlusHandler","DebugTimeFreezeHandler","CustomHUDDrawer"
    BackpackType = "IncrementalBackpack"
 }
 

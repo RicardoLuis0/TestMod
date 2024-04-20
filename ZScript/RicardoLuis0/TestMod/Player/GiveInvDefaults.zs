@@ -5,18 +5,27 @@ extend class TestModPlayer
 		Inventory item=FindInventory(type);
 		if(item)
 		{
-			if(!(item is "Weapon"))
+			if(!(item is "Weapon") && !(item is "BasicArmorPickup"))
 			{
 				item.amount=clamp(item.Amount+(amount>0?amount:item.default.amount),0,item.maxAmount);
 			}
 			return;
 		}
-		item=Inventory(Spawn(type));
-		if(amount>0&&!(item is "Weapon"))
+		
+		item = Inventory(Spawn(type));
+		
+		if(amount > 0 && !(item is "Weapon") && !(item is "BasicArmorPickup"))
 		{
 			item.amount=clamp(amount,0,item.maxAmount);
 		}
-		Weapon weap=Weapon(item);
+		
+		if(amount > 0 && item is "BasicArmorPickup")
+		{
+			BasicArmorPickup(item).saveamount = amount;
+		}
+		
+		
+		Weapon weap = Weapon(item);
 		if(weap)
 		{
 			weap.ammoGive1=0;
@@ -80,10 +89,19 @@ extend class TestModPlayer
 				GiveDefaultInventoryItem("HeavyClip",sv_player_start_extra_ammo?60:40);
 				GiveInventory("AssaultRifleLoaded",999);
 			}
-			if(sv_player_start_green_armor)
+			
+			if(sv_player_start_armor_amount > 0)
 			{
-				GiveDefaultInventoryItem("GreenArmor");
+				if(sv_player_start_armor == 1)
+				{
+					GiveDefaultInventoryItem("GreenArmor", sv_player_start_armor_amount);
+				}
+				else if(sv_player_start_armor == 2)
+				{
+					GiveDefaultInventoryItem("BlueArmor", sv_player_start_armor_amount);
+				}
 			}
+			
 			if(sv_player_start_portmed)
 			{
 				GiveDefaultInventoryItem("PortableMedKit",sv_player_start_extra_ammo?50:25);

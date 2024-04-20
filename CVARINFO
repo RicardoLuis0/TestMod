@@ -14,7 +14,8 @@ SERVER BOOL sv_player_start_smg = true;
 SERVER BOOL sv_player_start_rifle = false;
 SERVER BOOL sv_player_start_shotgun = false;
 SERVER BOOL sv_player_start_extra_ammo = false;
-SERVER BOOL sv_player_start_green_armor = false;
+SERVER INT sv_player_start_armor = 0;
+SERVER INT sv_player_start_armor_amount = 50;
 SERVER BOOL sv_player_start_portmed = false;
 
 SERVER BOOL sv_magazine_weapon_ammo_auto_pickup = true;
@@ -30,6 +31,11 @@ SERVER BOOL sv_enemy_tracers = true;
 
 USER BOOL cl_do_railgun_light_fx = true;
 USER BOOL cl_simplified_railgun_light_fx = false;
+
+
+USER BOOL cl_showrpm = true;
+USER INT cl_rpm_x = 5;
+USER INT cl_rpm_y = 170;
 
 //weapon inertia
 USER BOOL cl_weaponinertia_move_impulse = true;
