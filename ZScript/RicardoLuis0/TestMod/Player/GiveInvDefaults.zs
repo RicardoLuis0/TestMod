@@ -19,11 +19,6 @@ extend class TestModPlayer
 			item.amount=clamp(amount,0,item.maxAmount);
 		}
 		
-		if(amount > 0 && item is "BasicArmorPickup")
-		{
-			BasicArmorPickup(item).saveamount = amount;
-		}
-		
 		
 		Weapon weap = Weapon(item);
 		if(weap)
@@ -48,19 +43,26 @@ extend class TestModPlayer
 			player.readyWeapon=weap;
 			player.pendingWeapon=weap;
 		}
+		
+		if(amount > 0 && item is "BasicArmorPickup")
+		{
+			//BasicArmorPickup(item).saveamount = amount;
+			BasicArmor(FindInventory("BasicArmor")).amount = amount;
+		}
 	}
 	
 	override void GiveDefaultInventory()
 	{
 		super.GiveDefaultInventory();
-		if(G_SkillPropertyFloat(SKILLP_DamageFactor) == 10.0)
+		if(G_SkillPropertyInt(SKILLP_ACSReturn) == 5)
 		{
 			A_SetHealth(25);
 			GiveDefaultInventoryItem("NewPistol");
 			GiveInventory("PistolLoaded",999);
 			GiveDefaultInventoryItem("LightClip",17);
-			//GiveDefaultInventoryItem("GreenArmor",1);
-			//FindInventory("BasicArmor").amount = 25;
+			GiveDefaultInventoryItem("GreenArmor", 15);
+			//console.printf("amount = "..FindInventory("BasicArmor").amount);
+			//BasicArmor(FindInventory("BasicArmor")).ActualSaveAmount = 15;
 		}
 		else
 		{

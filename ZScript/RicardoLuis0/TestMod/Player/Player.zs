@@ -31,17 +31,19 @@ class TestModPlayer : DoomPlayer
         
 		Player.StartItem "Fist";
 	}
+	
+	CVar do_railgun_light_fx;
+	CVar simplified_railgun_light_fx;
 
 	override void PostBeginPlay()
 	{
 		super.PostBeginPlay();
 		InertiaInit();
 		LookPosInit();
-		updatePlayerCVars();
+		
+		do_railgun_light_fx = CVar.GetCVar("cl_do_railgun_light_fx",player);
+		simplified_railgun_light_fx = CVar.GetCVar("cl_simplified_railgun_light_fx",player);
 	}
-	
-	bool do_railgun_light_fx;
-	bool simplified_railgun_light_fx;
 
 	override void Tick()
 	{
@@ -60,17 +62,5 @@ class TestModPlayer : DoomPlayer
 	override Vector2 BobWeapon(double ticfrac)
 	{
 		return WeaponInertiaBobWeapon(ticfrac);
-	}
-
-	void player_UpdateCVars()
-	{
-		weaponinertia_UpdateCVars();
-		updatePlayerCVars();
-	}
-	
-	void updatePlayerCVars()
-	{
-		do_railgun_light_fx = CVar.GetCVar("cl_do_railgun_light_fx",player).getBool();
-		simplified_railgun_light_fx = CVar.GetCVar("cl_simplified_railgun_light_fx",player).getBool();
 	}
 }

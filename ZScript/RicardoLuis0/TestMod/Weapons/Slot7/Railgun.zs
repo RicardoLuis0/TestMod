@@ -105,15 +105,15 @@ class RailgunTrail : Actor {
 		if(target) {
 			int dist = int(Level.Vec3Diff(pos, target.pos).length() / 10);
 			trns = Abs((dist % 41) - 20);
-			bool simple = (vid_rendermode != 4) || TestModPlayer(target).simplified_railgun_light_fx;
+			bool simple = TestModPlayer(target).simplified_railgun_light_fx.getBool();
 			if(simple)
 			{	//software mode
-				do_light = TestModPlayer(target).do_railgun_light_fx && ((trns % 7) == 0);
+				do_light = TestModPlayer(target).do_railgun_light_fx.getBool() && ((trns % 7) == 0);
 				base_intens = 500;
 			}
 			else
 			{
-				do_light = TestModPlayer(target).do_railgun_light_fx;
+				do_light = TestModPlayer(target).do_railgun_light_fx.getBool();
 				base_intens = 200;
 			}
 			A_SetTranslation("RailgunTrailTrns"..trns);

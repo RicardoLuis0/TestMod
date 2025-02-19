@@ -1,5 +1,6 @@
 class ModWeaponBase : Weapon {
 	
+	
 	mixin StateCalls;
 	
 	bool partialPickupHasMagazine;

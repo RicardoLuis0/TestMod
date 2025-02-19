@@ -1,24 +1,11 @@
 class TestModCVarUpdateHandler : StaticEventHandler {
 	
-	static void resetSingleCVar(string cvar_name,PlayerInfo p = null){
-		CVar.GetCVar(cvar_name,p).ResetToDefault();
+	static ui void resetSingleCVar(string cvar_name){
+		CVar.FindCVar(cvar_name).ResetToDefault();
 	}
 	
-	static void updateInertiaCVars(TestModPlayer p){
-		if(!p) return;
-		
-		p.weaponinertia_UpdateCVars();
-	}
-	
-	static void updateModCVars(TestModPlayer p){
-		if(!p) return;
-		
-		p.player_UpdateCVars();
-	}
-	
-	static void resetInertiaCVars(TestModPlayer p){
-		if(!p || !p.player) return;
-		
+	static ui void resetInertiaCVars()
+	{
 		static const string inertiaCVars [] = {
 			"cl_weaponinertia_move_impulse",
 			"cl_weaponinertia_old_movebob",
@@ -38,12 +25,14 @@ class TestModCVarUpdateHandler : StaticEventHandler {
 		
 		int n=inertiaCVars.size();
 		
-		for(int i=0;i<n;i++){
-			resetSingleCVar(inertiaCVars[i],p.player);
+		for(int i=0;i<n;i++)
+		{
+			resetSingleCVar(inertiaCVars[i]);
 		}
 	}
 	
-	static void resetModCVars(TestModPlayer p){
+	static ui void resetModCVars()
+	{
 		static const string modCVars [] = {
 			"sv_guided_rocket_max_follow_angle",
 			"sv_ssg_zombie_drop_ssg",
@@ -69,44 +58,25 @@ class TestModCVarUpdateHandler : StaticEventHandler {
 		
 		int n=modCVars.size();
 		
-		for(int i=0;i<n;i++){
+		for(int i=0;i<n;i++)
+		{
 			resetSingleCVar(modCVars[i]);
 		}
 	}
 	
-	override void NetworkProcess(ConsoleEvent e){
-		if(e.player==consoleplayer){
-			if(e.name=="mod_UpdateCVars"){
-				
-				updateModCVars(TestModPlayer(players[e.player].mo));
-				
-				console.printf("mod cvars updated");
-				
-			} else if(e.name=="weaponinertia_UpdateCVars"){
-				
-				updateInertiaCVars(TestModPlayer(players[e.player].mo));
-				
-				console.printf("inertia cvars updated");
-				
-			} else if(e.name == "weaponinertia_ResetCVars"){
-				
-				let p = TestModPlayer(players[e.player].mo);
-				
-				resetInertiaCVars(p);
-				updateInertiaCVars(p);
-				
-				console.printf("inertia cvars reset");
-				
-			} else if(e.name == "testMod_ResetCVars"){
-				
-				let p = TestModPlayer(players[e.player].mo);
-				
-				resetModCVars(p);
-				updateModCVars(p);
-				
-				console.printf("mod cvars reset");
-				
-			}
+	override void InterfaceProcess(ConsoleEvent e)
+	{
+		if(e.name == "weaponinertia_ResetCVars")
+		{
+			resetInertiaCVars();
+			
+			console.printf("inertia cvars reset");
+		}
+		else if(e.name == "testMod_ResetCVars")
+		{
+			resetModCVars();
+			
+			console.printf("mod cvars reset");
 		}
 	}
 }

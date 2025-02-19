@@ -12,11 +12,6 @@ extend class ModWeaponBase {
 		}
 	}
 	
-	static clearscope Vector2 ConvertUnitToAngle(Vector3 Unit)
-	{
-		return (atan2(Unit.y, Unit.x), -asin(Unit.z));
-	}
-	
 	//THIS ALWAYS IGNORES AUTOAIM
 	action void W_FireTracer(Vector2 spread, int dmg, int count = 1, class<ModBulletPuffBase> puff = "ModBulletPuffBase", int flags = FBF_USEAMMO, double range = PLAYERMISSILERANGE, bool drawTracer = true){
 		if(!player) return;
@@ -59,7 +54,7 @@ extend class ModWeaponBase {
 		Vector2 aim;
 		
 		if(flags & FBF_EXPLICITANGLE) {
-			aim = ConvertUnitToAngle((Quat.FromAngles(angle, pitch, roll) * Quat.AxisAngle((0,0,1), spread.x) * Quat.AxisAngle((0,1,0), spread.y)) * (1,0,0));
+			aim = TestModUtil.ConvertUnitToAngle((Quat.FromAngles(angle, pitch, roll) * Quat.AxisAngle((0,0,1), spread.x) * Quat.AxisAngle((0,1,0), spread.y)) * (1,0,0));
 		}
 		
 		for(int i = 0; i < count; i++) {
@@ -71,7 +66,7 @@ extend class ModWeaponBase {
 			if(!(flags & FBF_EXPLICITANGLE)) {
 				double sx = fRandom[cabullet](-1.0,1.0) * spread.x;
 				double sy = fRandom[cabullet](-1.0,1.0) * spread.y;
-				aim = ConvertUnitToAngle((Quat.FromAngles(angle, pitch, roll) * Quat.AxisAngle((0,0,1), sx) * Quat.AxisAngle((0,1,0), sy)) * (1,0,0));
+				aim = TestModUtil.ConvertUnitToAngle((Quat.FromAngles(angle, pitch, roll) * Quat.AxisAngle((0,0,1), sx) * Quat.AxisAngle((0,1,0), sy)) * (1,0,0));
 			}
 			
 			

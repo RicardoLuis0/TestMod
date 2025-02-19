@@ -10,9 +10,7 @@ OptionMenu "TestmodOptionsMenu" {
 	Submenu "Gameplay Options","TestmodOptionsMenuGameplay"
 	Submenu "Misc Options","TestmodOptionsMenuMisc"
 	StaticText ""
-	Command "Update All Settings (Ingame)","netevent mod_UpdateCVars"
-	StaticText ""
-	Command "Reset Gameplay/Misc Settings to Default","netevent mod_ResetCVars"
-	Command "Reset Weapon Inertia Settings to Default","netevent weaponinertia_ResetCVars"
+	Command "Reset Gameplay/Misc Settings to Default","interfaceevent mod_ResetCVars"
+	Command "Reset Weapon Inertia Settings to Default","interfaceevent weaponinertia_ResetCVars"
 }
 

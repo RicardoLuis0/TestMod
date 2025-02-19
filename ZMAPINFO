@@ -8,11 +8,12 @@ DamageType Piercing {
 }
 
 Skill Hell { // Secret Difficulty
+	ACSReturn = 5
+	DamageFactor = 7.50
+	KickbackFactor = 0.10
+	MonsterHealth = 0.50
 	
-	DamageFactor = 10.0
-	KickbackFactor = 0.1
-	
-	Aggressiveness = 0.75
+	Aggressiveness = 0.25
 	FastMonsters
 	SpawnFilter = Nightmare
 	

@@ -9,11 +9,13 @@ extend class ModWeaponBase
 			int flags = 0,
 			double pitch = 0)
 	{
-		Vector2 newAngles = ConvertUnitToAngle((Quat.FromAngles(self.angle, self.pitch, self.roll) * Quat.AxisAngle((0,0,1), angle) * Quat.AxisAngle((0,1,0), pitch)) * (1,0,0));
+		Vector2 newAngles = TestModUtil.OffsetAngleVA((self.angle, self.pitch, self.roll), (angle, pitch, 0));
 		
 		angle = DeltaAngle(self.angle, newAngles.x);
 		pitch = DeltaAngle(self.pitch, newAngles.y);
 		
-		return A_FireProjectile(missiletype, angle, useammo, spawnofs_xy, spawnheight, flags, pitch);
+		let [a, b] = A_FireProjectile(missiletype, angle, useammo, spawnofs_xy, spawnheight, flags, pitch);
+		
+		return a, b;
 	}
 }
