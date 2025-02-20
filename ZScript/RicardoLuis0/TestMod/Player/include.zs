@@ -2,3 +2,4 @@
 #include "./WeaponInertia.zs"
 #include "./LookPos.zs"
 #include "./GiveInvDefaults.zs"
+#include "./ArmorBase.zs"

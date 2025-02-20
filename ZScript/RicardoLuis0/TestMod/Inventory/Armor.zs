@@ -12,7 +12,7 @@ class ArmorShard : ArmorBonus {
 	}
 	
 	override bool TryPickup(in out Actor toucher){
-		BasicArmor armor=BasicArmor(toucher.FindInventory("BasicArmor"));
+		BasicArmor armor=BasicArmor(toucher.FindInventory("ArmorBase"));
 		if(armor){
 			if(sv_armorshard_requires_armor&&armor.amount<=0){
 				return false;
@@ -21,6 +21,11 @@ class ArmorShard : ArmorBonus {
 				maxSaveAmount=armor.ActualSaveAmount;
 			}
 		}
+		else if(!armor && sv_armorshard_requires_armor)
+		{
+			return false;
+		}
+		
 		return super.TryPickup(toucher);
 	}
 

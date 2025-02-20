@@ -47,7 +47,7 @@ extend class TestModPlayer
 		if(amount > 0 && item is "BasicArmorPickup")
 		{
 			//BasicArmorPickup(item).saveamount = amount;
-			BasicArmor(FindInventory("BasicArmor")).amount = amount;
+			BasicArmor(FindInventory("ArmorBase")).amount = amount;
 		}
 	}
 	
@@ -61,8 +61,6 @@ extend class TestModPlayer
 			GiveInventory("PistolLoaded",999);
 			GiveDefaultInventoryItem("LightClip",17);
 			GiveDefaultInventoryItem("GreenArmor", 15);
-			//console.printf("amount = "..FindInventory("BasicArmor").amount);
-			//BasicArmor(FindInventory("BasicArmor")).ActualSaveAmount = 15;
 		}
 		else
 		{
