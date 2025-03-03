@@ -4,7 +4,7 @@ class CasingBase : Actor {
 		Radius 2;
 		Speed 4;
 		Scale 0.15;
-		+DOOMBOUNCE
+		BounceType 'Doom';
 		-NOGRAVITY
 		+WINDTHRUST
 		+CLIENTSIDEONLY

@@ -178,7 +178,7 @@ class ArmoredRifleZombieMan : TracerZombieMan {
 			{
 				damage = 1;
 			}
-			damage = max(1, damage * 0.75);
+			damage = int(max(1, damage * 0.75));
 		}
 		return Super.DamageMobj(inflictor,source,damage,mod,flags,angle);
 	}

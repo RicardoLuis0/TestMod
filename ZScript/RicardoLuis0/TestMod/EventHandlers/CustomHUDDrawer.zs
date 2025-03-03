@@ -59,7 +59,7 @@ class CustomHUDDrawer : StaticEventHandler
 			
 			Screen.DrawTexture(tex, false, px,  py + ((th - rpm_h) / 2), DTA_DestWidthF, rpm_w, DTA_DestHeightF, rpm_h, DTA_FillColor, 0x0, DTA_Alpha, 0.5);
 			
-			Screen.SetClipRect(px, py, rpm_w * fill_pct, th);
+			Screen.SetClipRect(int(floor(px)), int(floor(py)), int(ceil(rpm_w * fill_pct)), int(ceil(th)));
 			
 			Screen.DrawTexture(tex, false, px,  py + ((th - rpm_h) / 2), DTA_DestWidthF, rpm_w, DTA_DestHeightF, rpm_h);
 			
