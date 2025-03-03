@@ -1,10 +1,10 @@
-class CustomHUDDrawer : StaticEventHandler
+extend class TestModHandler
 {
 	TextureID tex;
 	TextureID tex2;
 	Font f;
 	
-	override void OnRegister()
+	void OnRegisterCustomHUDDrawer()
 	{
 		tex = TexMan.CheckForTexture("Patches/HUD/rpm.png");
 		tex2 = TexMan.CheckForTexture("Patches/HUD/uifill.png");

@@ -1,4 +1,4 @@
-class TestModCVarUpdateHandler : StaticEventHandler {
+class TestModHandler : StaticEventHandler {
 	
 	static ui void resetSingleCVar(string cvar_name){
 		CVar.FindCVar(cvar_name).ResetToDefault();
@@ -64,6 +64,35 @@ class TestModCVarUpdateHandler : StaticEventHandler {
 		}
 	}
 	
+	override void PlayerEntered(PlayerEvent e)
+	{
+		if(e.IsReturn || Level.MapTime < 1) return;
+		foreach(ThingSpawner spawner : ThinkerIterator.Create("ThingSpawner"))
+		{
+			spawner.SpawnForPlayer(players[e.playernumber]);
+		}
+	}
+	
+	override void PlayerDisconnected(PlayerEvent e)
+	{
+		PlayerInfo p = players[e.playernumber];
+		
+		Array<Actor> toDestroy;
+		
+		foreach(Inventory item : ThinkerIterator.Create("Inventory"))
+		{
+			if(!item.owner && TestModUtil.GetPlayerRestrict(item) == p)
+			{
+				toDestroy.Push(item);
+			}
+		}
+		
+		foreach(item : toDestroy)
+		{
+			item.Destroy();
+		}
+	}
+	
 	override void InterfaceProcess(ConsoleEvent e)
 	{
 		if(e.name == "weaponinertia_ResetCVars")
@@ -78,5 +107,15 @@ class TestModCVarUpdateHandler : StaticEventHandler {
 			
 			console.printf("mod cvars reset");
 		}
+	}
+	
+	override void OnRegister(){
+		OnRegisterCustomHUDDrawer();
+		OnRegisterKeyHandler();
+	}
+	
+	override void NetworkProcess(ConsoleEvent e){
+		ProcessKeyNetEvent(e);
+		ProcessTimeFreezeNetEvent(e);
 	}
 }

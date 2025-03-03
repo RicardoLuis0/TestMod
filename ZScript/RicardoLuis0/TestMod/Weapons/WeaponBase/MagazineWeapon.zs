@@ -1,4 +1,11 @@
-extend class ModWeaponBase {
+extend class ModWeaponBase
+{
+	mixin MPMultiPickup;
+	
+	override String PickupMessage()
+	{
+		return Stringtable.Localize(PickupMsg).." ("..(partialPickupHasMagazine ? ammogive2 : ammogive1)..")";
+	}
 	
 	Inventory TossItem(Class<Inventory> item,int amt){
 		if(item == null) return null;
@@ -41,11 +48,23 @@ extend class ModWeaponBase {
 		super.SetGiveAmount(receiver,amount,givecheat);
 	}
 	
-	override bool CanPickup(Actor toucher) {
-		if(toucher == null) return false;
-		if(!wasGiveCheat) {
-			if((partialPickupHasMagazine || partialPickupNoMagazine) && Toucher.FindInventory(GetClass())) {
-				if(partialPickupHasMagazine){
+	
+	override bool TryPickup(in out Actor toucher)
+	{
+		if(!Toucher) return super.TryPickup(toucher);
+		
+		if(!sv_partial_ammo_pickup && (!Toucher.FindInventory(GetClass()) || partialPickupNoMagazine))
+		{
+			console.printf("1");
+			return super.TryPickup(toucher);
+		}
+		
+		if(!wasGiveCheat)
+		{
+			if((partialPickupHasMagazine || partialPickupNoMagazine) && Toucher.FindInventory(GetClass()))
+			{
+				if(partialPickupHasMagazine)
+				{
 					if(ammogive2 == 0) return false;
 					
 					let tAmmo = Ammo(Toucher.FindInventory(AmmoType2));
@@ -59,7 +78,7 @@ extend class ModWeaponBase {
 							if(sv_keep_empty_weapon_items) {
 								giveAmount = ammogive2;
 							} else {
-								return super.CanPickup(toucher);
+								return super.TryPickup(toucher);
 							}
 						}
 						
@@ -87,7 +106,9 @@ extend class ModWeaponBase {
 						}
 					}
 					return false;
-				} else {
+				}
+				else
+				{
 					if(ammogive1 == 0) return false;
 					
 					let tAmmo = Ammo(Toucher.FindInventory(AmmoType1));
@@ -110,7 +131,7 @@ extend class ModWeaponBase {
 							if(sv_keep_empty_weapon_items) {
 								giveAmount = ammogive2;
 							} else {
-								return super.CanPickup(toucher);
+								return super.TryPickup(toucher);
 							}
 						}
 						
@@ -133,13 +154,16 @@ extend class ModWeaponBase {
 					}
 				}
 			}
-		} else {
+		}
+		else
+		{
 			wasGiveCheat=false;
 		}
-		return super.CanPickup(toucher);
+		return super.TryPickup(toucher);
 	}
 	
-	override bool TryPickupRestricted(Actor toucher){
+	
+	override bool TryPickupRestricted(in out Actor toucher){
 		return false;
 	}
 	

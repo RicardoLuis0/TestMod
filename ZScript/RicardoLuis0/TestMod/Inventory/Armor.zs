@@ -1,4 +1,6 @@
-class ArmorShard : ArmorBonus {
+class ArmorShard : ArmorBonus
+{
+	mixin MPMultiPickup;
 
 	Default {
 		Inventory.Pickupmessage "Picked up an Armor Shard.";
@@ -11,7 +13,8 @@ class ArmorShard : ArmorBonus {
 		-COUNTITEM;
 	}
 	
-	override bool TryPickup(in out Actor toucher){
+	override bool TryPickup(in out Actor toucher)
+	{
 		BasicArmor armor=BasicArmor(toucher.FindInventory("ArmorBase"));
 		if(armor){
 			if(sv_armorshard_requires_armor&&armor.amount<=0){

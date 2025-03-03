@@ -1,4 +1,6 @@
-class IncrementalBackpack : Backpack replaces Backpack {
+class IncrementalBackpack : Backpack replaces Backpack
+{
+	mixin MPMultiPickup;
 	
 	//modified from BackpackItem::CreateCopy
 	override Inventory CreateCopy(Actor other)

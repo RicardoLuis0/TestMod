@@ -3,6 +3,7 @@ class LightClipCasing : CasingBase {
 		Speed 2;
 		Scale 0.05;
 	}
+	
 	States {
 	Spawn:
 		CAS1 A 10;

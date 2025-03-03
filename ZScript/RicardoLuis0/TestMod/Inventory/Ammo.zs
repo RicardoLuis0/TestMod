@@ -1,7 +1,42 @@
-mixin class PartialPickup {
+mixin class MPMultiPickup
+{
+	PlayerInfo PlayerRestrict;
+	
 	override bool CanPickup(Actor toucher)
 	{
 		if(toucher == null) return false;
+		
+		if(PlayerRestrict && PlayerRestrict != toucher.player)
+		{
+			return false;
+		}
+		
+		return super.CanPickup(toucher);
+	}
+	
+	void UpdateLocalRendering()
+	{
+		if(!owner && PlayerRestrict)
+		{
+			for(int i = 0; i < MAXPLAYERS; i++)
+			{
+				DisableLocalRendering(i, i != PlayerRestrict.mo.PlayerNumber());
+			}
+		}
+	}
+}
+
+mixin class PartialPickup
+{
+	override bool TryPickup(in out Actor toucher)
+	{
+		if(toucher == null) return false;
+		
+		if(!sv_partial_ammo_pickup)
+		{
+			return super.TryPickup(toucher);
+		}
+		
 		Inventory tItem;
 		Class<Inventory> findClass = GetClass();
 		
@@ -9,7 +44,8 @@ mixin class PartialPickup {
 		{	//find root ammo
 			Class<Inventory> pcls = (Class<Inventory>)(findClass.getParentClass());
 			
-			if(pcls != "Ammo"){
+			if(pcls != "Ammo")
+			{
 				findClass = pcls;
 			}
 			else
@@ -54,20 +90,24 @@ mixin class PartialPickup {
 		}
 		else
 		{
-			return super.CanPickup(toucher);
+			return super.TryPickup(toucher);
 		}
 	}
-}
-
-mixin class MyModAmmo {
+	
 	override String PickupMessage(){
 		return Stringtable.Localize(PickupMsg).." ("..amount..")";
 	}
 }
 
+mixin class MyModAmmo
+{
+	
+}
+
 class LightClip : Ammo {
 	mixin MyModAmmo;
 	mixin PartialPickup;
+	mixin MPMultiPickup;
 	
 	Default {
 		Inventory.PickupMessage "$GOTLIGHTCLIP";
@@ -112,6 +152,7 @@ class LightClipBox : LightClip {
 class HeavyClip : Ammo {
 	mixin MyModAmmo;
 	mixin PartialPickup;
+	mixin MPMultiPickup;
 	
 	Default {
 		Inventory.PickupMessage "$GOTHEAVYCLIP";
@@ -156,6 +197,7 @@ class HeavyClipBox : HeavyClip {
 class NewShell : Ammo replaces Shell {
 	mixin MyModAmmo;
 	mixin PartialPickup;
+	mixin MPMultiPickup;
 	
 	Default {
 		Inventory.PickupMessage "$GOTSHELLS";
@@ -188,6 +230,7 @@ class NewShellBox : NewShell replaces ShellBox {
 class NewCell : Ammo replaces Cell {
 	mixin MyModAmmo;
 	mixin PartialPickup;
+	mixin MPMultiPickup;
 	
 	Default {
 		Inventory.PickupMessage "$GOTCELL";
@@ -221,6 +264,7 @@ class NewCellPack : NewCell replaces CellPack {
 class NewRocketAmmo : Ammo replaces RocketAmmo {
 	mixin MyModAmmo;
 	mixin PartialPickup;
+	mixin MPMultiPickup;
 	
 	Default {
 		Inventory.PickupMessage "$GOTROCKET";

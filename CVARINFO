@@ -21,6 +21,9 @@ SERVER BOOL sv_player_start_portmed = false;
 SERVER BOOL sv_magazine_weapon_ammo_auto_pickup = true;
 SERVER BOOL sv_keep_empty_weapon_items = false;
 
+SERVER BOOL sv_partial_ammo_pickup = true;
+SERVER BOOL sv_per_player_rolls = true;
+
 USER BOOL cl_ssg_autoreload = true;
 
 SERVER BOOL sv_shotgun_tracers = true;

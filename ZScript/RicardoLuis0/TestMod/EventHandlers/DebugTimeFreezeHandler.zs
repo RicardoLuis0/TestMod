@@ -1,5 +1,5 @@
-class DebugTimeFreezeHandler : StaticEventHandler {
-	
+extend class TestModHandler
+{
 	void doFreezeTime(int tics,PlayerPawn p){
 		if(!p || tics <= 0) return;
 		Powerup power=Powerup(p.Spawn("PowerTimeFreezer"));
@@ -10,7 +10,7 @@ class DebugTimeFreezeHandler : StaticEventHandler {
 		}
 	}
 	
-	override void NetworkProcess(ConsoleEvent e){
+	void ProcessTimeFreezeNetEvent(ConsoleEvent e){
 		if(!multiplayer && developer>0){
 			if(e.name.IndexOf("FreezeTime") == 0){
 				Array<string> s;

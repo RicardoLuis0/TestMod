@@ -1,4 +1,4 @@
-#include "./TestModCVarUpdateHandler.zs"
+#include "./TestModHandler.zs"
 #include "./TestModKeyPressHandler.zs"
 #include "./DebugTimeFreezeHandler.zs"
 #include "./CustomHUDDrawer.zs"

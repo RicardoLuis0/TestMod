@@ -1,4 +1,5 @@
-class TestModKeyPressHandler : StaticEventHandler {
+extend class TestModHandler
+{
 	
 	array<int> invuse_buttons;
 	ui int invuse_key_count;
@@ -7,7 +8,7 @@ class TestModKeyPressHandler : StaticEventHandler {
 		Bindings.GetAllKeysForCommand(invuse_buttons,"invuse");
 	}
 	
-	override void OnRegister(){
+	void OnRegisterKeyHandler(){
 		updateBindings();
 	}
 	
@@ -43,7 +44,8 @@ class TestModKeyPressHandler : StaticEventHandler {
 		return false;
 	}
 	
-	override void NetworkProcess(ConsoleEvent e){
+	void ProcessKeyNetEvent(ConsoleEvent e)
+	{
 		if(e.name=="grenade_key_pressed"){
 			TestModPlayer(players[e.player].mo).grenade_key_pressed=true;
 		}else if(e.name=="melee_key_pressed"){
