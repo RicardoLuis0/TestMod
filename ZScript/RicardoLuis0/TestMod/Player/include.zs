@@ -3,3 +3,4 @@
 #include "./LookPos.zs"
 #include "./GiveInvDefaults.zs"
 #include "./ArmorBase.zs"
+#include "./UseToPickup.zs"

@@ -55,7 +55,6 @@ extend class ModWeaponBase
 		
 		if(!sv_partial_ammo_pickup && (!Toucher.FindInventory(GetClass()) || partialPickupNoMagazine))
 		{
-			console.printf("1");
 			return super.TryPickup(toucher);
 		}
 		
@@ -109,7 +108,7 @@ extend class ModWeaponBase
 				}
 				else
 				{
-					if(ammogive1 == 0) return false;
+					if(ammogive1 == 0) return super.TryPickup(toucher);
 					
 					let tAmmo = Ammo(Toucher.FindInventory(AmmoType1));
 					

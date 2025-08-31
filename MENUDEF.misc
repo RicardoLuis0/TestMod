@@ -8,6 +8,11 @@ OptionMenu "TestmodOptionsMenuMisc"{
 	Option "Automatically pick up ammo from weapon magazines","sv_magazine_weapon_ammo_auto_pickup","YesNo"
 	StaticText ""
 	
+	
+	Title "Use to Pickup"
+	Option "Use to Pickup","sv_use_to_pickup","OnOff"
+	StaticText "Disable picking up items by touch","DarkRed"
+	
 	Option "Keep weapons with no bullets in magazine on the ground","sv_keep_empty_weapon_items","YesNo"
 	StaticText ""
 	

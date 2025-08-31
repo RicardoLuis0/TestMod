@@ -8,6 +8,7 @@ SERVER BOOL sv_incremental_backpack = false;
 SERVER INT sv_incremental_backpack_max_multiplier = 5;
 SERVER BOOL sv_armorshard_full_refill = true;
 SERVER BOOL sv_armorshard_requires_armor = true;
+SERVER BOOL sv_use_to_pickup = false;
 
 SERVER BOOL sv_player_start_pistol = true;
 SERVER BOOL sv_player_start_smg = true;
@@ -39,6 +40,9 @@ USER BOOL cl_simplified_railgun_light_fx = false;
 USER BOOL cl_showrpm = true;
 USER INT cl_rpm_x = 5;
 USER INT cl_rpm_y = 170;
+
+USER INT cl_item_highlight_style = 0; // 0 = brackets, 1 = full outline
+USER BOOL cl_item_highlight_bounding = false;
 
 //weapon inertia
 USER BOOL cl_weaponinertia_move_impulse = true;

@@ -44,6 +44,7 @@ class TestModPlayer : DoomPlayer
 		if(inited) return;
 		
 		InertiaInit();
+		UseToPickupInit();
 		LookPosInit();
 		
 		do_railgun_light_fx = CVar.GetCVar("cl_do_railgun_light_fx",player);
@@ -62,7 +63,9 @@ class TestModPlayer : DoomPlayer
 		if(!inited) PostBeginPlay();
 		
 		InertiaTick();
+		UseToPickupTick();
 		LookPosTick();
+		
 		if(player.ReadyWeapon is "ModWeaponBase"){
 			ModWeaponBase(player.ReadyWeapon).ReadyTick();
 		}
