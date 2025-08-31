@@ -34,4 +34,5 @@ class CasingBase : Actor {
 			}
 			return ResolveState("Fade");
 	}
+	
 }

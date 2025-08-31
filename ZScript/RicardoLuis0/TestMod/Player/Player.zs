@@ -34,15 +34,22 @@ class TestModPlayer : DoomPlayer
 	
 	CVar do_railgun_light_fx;
 	CVar simplified_railgun_light_fx;
+	
+	bool inited;
 
 	override void PostBeginPlay()
 	{
 		super.PostBeginPlay();
+		
+		if(inited) return;
+		
 		InertiaInit();
 		LookPosInit();
 		
 		do_railgun_light_fx = CVar.GetCVar("cl_do_railgun_light_fx",player);
 		simplified_railgun_light_fx = CVar.GetCVar("cl_simplified_railgun_light_fx",player);
+		
+		inited = true;
 	}
 
 	override void Tick()
@@ -52,6 +59,8 @@ class TestModPlayer : DoomPlayer
 		{
 			return;
 		}
+		if(!inited) PostBeginPlay();
+		
 		InertiaTick();
 		LookPosTick();
 		if(player.ReadyWeapon is "ModWeaponBase"){

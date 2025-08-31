@@ -1,0 +1,1214 @@
+class TMGM_Variable {
+	private uint id;
+
+	static TMGM_Variable internalCreate(uint curId) {
+		let ret = new();
+		ret.id = curId;
+		return ret;
+	}
+
+	uint getId() { return self.id; }
+}
+class TMGM_VariableHasher : TMGM_Hasher {
+	override uint hash(Object o) { return TMGM_Variable(o).getId(); }
+	override bool eq(Object o0, Object o1) {
+		return TMGM_Variable(o0).getId() == TMGM_Variable(o1).getId();
+	}
+}
+
+struct TMGM_VariableManager {
+	private uint curId;
+
+	TMGM_Variable createVariable() {
+		let ret = TMGM_Variable.internalCreate(self.curId);
+		self.curId += 1;
+		return ret;
+	}
+}
+
+class TMGM_Term {
+	TMGM_Variable variable;
+	double coefficient;
+
+	static TMGM_Term create(TMGM_Variable variable, double coefficient) {
+		let ret = new();
+		ret.variable = variable;
+		ret.coefficient = coefficient;
+		return ret;
+	}
+}
+
+class TMGM_Expr {
+	Array<TMGM_Term> terms;
+	double constant;
+
+	static TMGM_Expr fromConstant(double v) {
+		let ret = new();
+		ret.constant = v;
+		return ret;
+	}
+	static TMGM_Expr c(double v) { return TMGM_Expr.fromConstant(v); }
+
+	static TMGM_Expr fromTerm(TMGM_Term term) {
+		let ret = new();
+		ret.terms.push(term);
+		return ret;
+	}
+
+	static TMGM_Expr fromVariable(TMGM_Variable variable) {
+		let ret = new();
+		ret.terms.push(TMGM_Term.create(variable, 1.0));
+		return ret;
+	}
+	static TMGM_Expr v(TMGM_Variable variable) { return TMGM_Expr.fromVariable(variable); }
+
+	static TMGM_Expr create() {
+		let ret = new();
+		return ret;
+	}
+
+	void negate() {
+		self.constant = -self.constant;
+		for (let i = 0; i < self.terms.size(); i++) {
+			let t = self.terms[i];
+			t.coefficient = -t.coefficient;
+		}
+	}
+
+	TMGM_Expr addAssignVariable(TMGM_Variable variable, double coefficient = 1.0) {
+		self.terms.push(TMGM_Term.create(variable, coefficient));
+		return self;
+	}
+	TMGM_Expr addAssignConstant(double constant) {
+		self.constant += constant;
+		return self;
+	}
+	TMGM_Expr addAssignExpression(TMGM_Expr e) {
+		for (let i = 0; i < e.terms.size(); i++) {
+			self.terms.push(e.terms[i]);
+		}
+		self.constant += e.constant;
+		return self;
+	}
+	TMGM_Expr mulAssign(double coeff) {
+		for (let i = 0; i < self.terms.size(); i++) {
+			self.terms[i].coefficient *= coeff;
+		}
+		self.constant *= coeff;
+		return self;
+	}
+}
+
+struct TMGM_Strength {
+	static double create(double a, double b, double c, double w) {
+		return
+			clamp(a * w, 0.0, 1000.0) * 1000000.0 +
+			clamp(b * w, 0.0, 1000.0) * 1000.0 +
+			clamp(c * w, 0.0, 1000.0);
+	}
+
+	const REQUIRED = 1001001000.0;
+	const STRONG = 1000000.0;
+	const MEDIUM = 1000.0;
+	const WEAK = 1.0;
+
+	static double clip(double s) {
+		return clamp(s, 0.0, REQUIRED);
+	}
+}
+
+enum TMGM_Rel {
+	TMGM_Rel_LEq,
+	TMGM_Rel_Eq,
+	TMGM_Rel_GEq,
+}
+
+struct TMGM_ConstraintManager {
+	private uint curId;
+
+	TMGM_Constraint createConstraint(TMGM_Expr e, TMGM_Rel op, double strength) {
+		let ret = TMGM_Constraint.internalCreate(e, op, strength, self.curId);
+		self.curId += 1;
+		return ret;
+	}
+}
+
+class TMGM_Constraint {
+	private TMGM_Expr expression;
+	private double strength;
+	private TMGM_Rel op;
+	private uint id;
+
+	static TMGM_Constraint internalCreate(TMGM_Expr e, TMGM_Rel op, double strength, uint curId) {
+		let ret = new();
+		ret.expression = e;
+		ret.op = op;
+		ret.strength = strength;
+		ret.id = curId;
+		return ret;
+	}
+
+	TMGM_Expr getExpr() { return self.expression; }
+	TMGM_Rel getOp() { return self.op; }
+	double getStrength() { return self.strength; }
+	uint getId() { return self.id; }
+}
+class TMGM_ConstraintHasher : TMGM_Hasher {
+	override uint hash(Object o) { return TMGM_Constraint(o).getId(); }
+	override bool eq(Object o0, Object o1) {
+		return TMGM_Constraint(o0).getId() == TMGM_Constraint(o1).getId();
+	}
+}
+
+class TMGM_ConstraintBuilderWithRhs {
+	TMGM_Expr lhs;
+	TMGM_Expr rhs;
+	TMGM_Rel rel;
+	double strength;
+}
+
+enum TMGM_SymbolKind {
+	TMGM_SymbolKind_Invalid,
+	TMGM_SymbolKind_External,
+	TMGM_SymbolKind_Slack,
+	TMGM_SymbolKind_Error,
+	TMGM_SymbolKind_Dummy,
+}
+
+class TMGM_Symbol {
+	uint id;
+	TMGM_SymbolKind kind;
+
+	static TMGM_Symbol invalid() {
+		let ret = new();
+		ret.id = 0;
+		ret.kind = TMGM_SymbolKind_Invalid;
+		return ret;
+	}
+
+	static TMGM_Symbol create(uint id, TMGM_SymbolKind kind) {
+		let ret = new();
+		ret.id = id;
+		ret.kind = kind;
+		return ret;
+	}
+
+	TMGM_Symbol clone() {
+		let ret = new();
+		ret.id = self.id;
+		ret.kind = self.kind;
+		return ret;
+	}
+
+	String repr() {
+		let ret = "Symbol(";
+		ret.appendFormat("%d, ", self.id);
+		switch (self.kind) {
+			case TMGM_SymbolKind_Invalid:  ret.appendFormat("Invalid"); break;
+			case TMGM_SymbolKind_External: ret.appendFormat("External"); break;
+			case TMGM_SymbolKind_Slack:    ret.appendFormat("Slack"); break;
+			case TMGM_SymbolKind_Error:    ret.appendFormat("Error"); break;
+			case TMGM_SymbolKind_Dummy:    ret.appendFormat("Dummy"); break;
+		}
+		ret.appendFormat(")");
+		return ret;
+	}
+}
+
+class TMGM_SymbolHasher : TMGM_Hasher {
+	override uint hash(Object o) {
+		let o = TMGM_Symbol(o);
+		let seed = o.id;
+		hashCombine(seed, o.kind);
+		return seed;
+	}
+	override bool eq(Object o0, Object o1) {
+		let o0 = TMGM_Symbol(o0);
+		let o1 = TMGM_Symbol(o1);
+
+		return
+			o0.id == o1.id &&
+			o0.kind == o1.kind;
+	}
+}
+
+class TMGM_Row {
+	TMGM_HashMap/*<Symbol, BoxedDouble>*/ cells;
+	double constant;
+
+	static TMGM_Row create(double constant) {
+		let ret = new();
+		ret.cells = TMGM_HashMap.create(new("TMGM_SymbolHasher"));
+		ret.constant = constant;
+		return ret;
+	}
+
+	TMGM_Row clone() {
+		let ret = new();
+		ret.cells = TMGM_HashMap.create(new("TMGM_SymbolHasher"));
+		let iter = self.cells.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+
+			let k = TMGM_Symbol(ko);
+			let v = TMGM_BoxedDouble(vo);
+
+			ret.cells.insert(k.clone(), v.clone());
+		}
+		ret.constant = self.constant;
+		return ret;
+	}
+
+	double add(double v) {
+		self.constant += v;
+		return self.constant;
+	}
+
+	void insertSymbol(TMGM_Symbol s, double coefficient) {
+		let g = self.cells.get(s);
+		if (g is "TMGM_HashUnoccupied") {
+			if (!TMGM_GlobalMaths.nearZero(coefficient)) {
+				self.cells.insert(s, TMGM_BoxedDouble.create(coefficient));
+			}
+		} else {
+			let g = TMGM_BoxedDouble(g);
+			g.val += coefficient;
+			if (TMGM_GlobalMaths.nearZero(g.val)) {
+				self.cells.remove(s);
+			}
+		}
+	}
+
+	bool insertRow(TMGM_Row other, double coefficient) {
+		let constantDiff = other.constant * coefficient;
+		self.constant += constantDiff;
+		let iter = other.cells.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+
+			let s = TMGM_Symbol(ko);
+			let v = TMGM_BoxedDouble(vo).val;
+
+			self.insertSymbol(s, v * coefficient);
+		}
+		return constantDiff != 0.0;
+	}
+
+	void remove(TMGM_Symbol s) {
+		self.cells.remove(s);
+	}
+
+	void reverseSign() {
+		self.constant = -self.constant;
+		let iter = self.cells.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+			let v = TMGM_BoxedDouble(vo);
+			v.val = -v.val;
+		}
+	}
+
+	void solveForSymbol(TMGM_Symbol s) {
+		let e = TMGM_BoxedDouble(self.cells.remove(s)).val;
+		let coeff = -1.0 / e;
+		self.constant *= coeff;
+		let iter = self.cells.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+			let v = TMGM_BoxedDouble(vo);
+			v.val *= coeff;
+		}
+	}
+
+	void solveForSymbols(TMGM_Symbol lhs, TMGM_Symbol rhs) {
+		self.insertSymbol(lhs, -1.0);
+		self.solveForSymbol(rhs);
+	}
+
+	double coefficientFor(TMGM_Symbol s) {
+		let v = self.cells.get(s);
+		return (!(v is "TMGM_HashUnoccupied")) ? TMGM_BoxedDouble(v).val : 0.0;
+	}
+
+	bool substitute(TMGM_Symbol s, TMGM_Row row) {
+		let e = self.cells.remove(s);
+		if (!(e is "TMGM_HashUnoccupied")) {
+			let coeff = TMGM_BoxedDouble(e).val;
+			return self.insertRow(row, coeff);
+		} else {
+			return false;
+		}
+	}
+}
+
+enum TMGM_AddConstraintError {
+	TMGM_AddConstraintError_None,
+	TMGM_AddConstraintError_DuplicateConstraint,
+	TMGM_AddConstraintError_UnsatisfiableConstraint,
+}
+
+enum TMGM_RemoveConstraintError {
+	TMGM_RemoveConstraintError_None,
+	TMGM_RemoveConstraintError_UnknownConstraint,
+}
+
+enum TMGM_AddEditVariableError {
+	TMGM_AddEditVariableError_None,
+	TMGM_AddEditVariableError_DuplicateEditVariable,
+	TMGM_AddEditVariableError_BadRequiredStrength,
+}
+
+enum TMGM_RemoveEditVariableError {
+	TMGM_RemoveEditVariableError_None,
+	TMGM_RemoveEditVariableError_UnknownEditVariable,
+}
+
+enum TMGM_SuggestValueError {
+	TMGM_SuggestValueError_None,
+	TMGM_SuggestValueError_UnknownEditVariable,
+}
+
+class TMGM_Tag {
+	TMGM_Symbol marker;
+	TMGM_Symbol other;
+
+	static TMGM_Tag create(TMGM_Symbol marker = NULL, TMGM_Symbol other = NULL) {
+		let ret = new();
+		ret.marker = marker;
+		ret.other = other;
+		return ret;
+	}
+}
+
+class TMGM_EditInfo {
+	TMGM_Tag tag;
+	TMGM_Constraint constraint;
+	double constant;
+
+	static TMGM_EditInfo create(TMGM_Tag tag, TMGM_Constraint constraint, double constant) {
+		let ret = new();
+		ret.tag = tag;
+		ret.constraint = constraint;
+		ret.constant = constant;
+		return ret;
+	}
+}
+
+class TMGM_VarDataEntry {
+	double value;
+	TMGM_Symbol symbol;
+	uint count;
+
+	static TMGM_VarDataEntry create(double value, TMGM_Symbol symbol, uint count) {
+		let ret = new();
+		ret.value = value;
+		ret.symbol = symbol;
+		ret.count = count;
+		return ret;
+	}
+}
+
+class TMGM_PublicChangesEntry {
+	TMGM_Variable variable;
+	double value;
+
+	static TMGM_PublicChangesEntry create(TMGM_Variable variable, double value) {
+		let ret = new();
+		ret.variable = variable;
+		ret.value = value;
+		return ret;
+	}
+}
+
+class TMGM_Solver {
+	private TMGM_HashMap/*<Constraint, Tag>*/ cns;
+	private TMGM_HashMap/*<Variable, VarDataEntry>*/ varData;
+	private TMGM_HashMap/*<Symbol, Variable>*/ varForSymbol;
+	private Array<TMGM_PublicChangesEntry> publicChanges;
+	private TMGM_HashSet/*<Variable>*/ changed;
+	private bool shouldClearChanges;
+	private TMGM_HashMap/*<Symbol, Row>*/ rows;
+	private TMGM_HashMap/*<Variable, EditInfo>*/ edits;
+	private Array<TMGM_Symbol> infeasibleRows;
+	private TMGM_Row objective;
+	private /* Nullable */ TMGM_Row artificial;
+	private uint idTick;
+
+	private TMGM_VariableManager variableManager;
+	TMGM_ConstraintManager constraintManager;
+
+	static TMGM_Solver create() {
+		let constraintHasher = new("TMGM_ConstraintHasher");
+		let variableHasher = new("TMGM_VariableHasher");
+		let symbolHasher = new("TMGM_SymbolHasher");
+
+		let ret = new();
+		ret.cns = TMGM_HashMap.create(constraintHasher);
+		ret.varData = TMGM_HashMap.create(variableHasher);
+		ret.varForSymbol = TMGM_HashMap.create(symbolHasher);
+		/* ret.publicChanges = default; */
+		ret.changed = TMGM_HashSet.create(variableHasher);
+		ret.shouldClearChanges = false;
+		ret.rows = TMGM_HashMap.create(symbolHasher);
+		ret.edits = TMGM_HashMap.create(variableHasher);
+		/* ret.infeasibleRows = default; */
+		ret.objective = TMGM_Row.create(0.0);
+		ret.artificial = NULL;
+		ret.idTick = 1;
+
+		return ret;
+	}
+
+	TMGM_Variable createVariable() {
+		return self.variableManager.createVariable();
+	}
+
+	static void assertNoErr(int errcode) {
+		if (errcode != 0) { throwAbortException("err %d", errcode); }
+	}
+
+	TMGM_AddConstraintError, TMGM_Constraint addConstraintFromRelation(
+		TMGM_Expr lhs,
+		Name op,
+		TMGM_Expr rhs,
+		double strength = TMGM_Strength.REQUIRED
+	) {
+		rhs.negate();
+		lhs.addAssignExpression(rhs);
+		if (op != '==' && op != '<=' && op != '>=') {
+			throwAbortException("invalid op string '%s'", op);
+		}
+		let op = (op == '==') ? TMGM_Rel_Eq : (op == '<=') ? TMGM_Rel_Leq : TMGM_Rel_Geq;
+		let constraint = self.constraintManager.createConstraint(lhs, op, strength);
+		return self.addConstraint(constraint), constraint;
+	}
+
+	TMGM_AddConstraintError addConstraint(TMGM_Constraint constraint) {
+		if (self.cns.containsKey(constraint)) {
+			return TMGM_AddConstraintError_DuplicateConstraint;
+		}
+
+		TMGM_Row row; TMGM_Tag tag;
+		[row, tag] = self.createRow(constraint);
+		let subject = chooseSubject(row, tag);
+
+		if (subject.kind == TMGM_SymbolKind_Invalid && allDummies(row)) {
+			if (!TMGM_GlobalMaths.nearZero(row.constant)) {
+				return TMGM_AddConstraintError_UnsatisfiableConstraint;
+			} else {
+				subject = tag.marker;
+			}
+		}
+		if (subject.kind == TMGM_SymbolKind_Invalid) {
+			if (!self.addWithArtificialVariable(row)) {
+				return TMGM_AddConstraintError_UnsatisfiableConstraint;
+			}
+		} else {
+			row.solveForSymbol(subject);
+			self.substitute(subject, row);
+
+			if (subject.kind == TMGM_SymbolKind_External && row.constant != 0.0) {
+				let v = TMGM_Variable(self.varForSymbol.get(subject));
+				self.varChanged(v);
+			}
+			self.rows.insert(subject, row);
+		}
+
+		self.cns.insert(constraint, tag);
+
+		let objective = self.objective;
+		self.optimise(objective);
+
+		return TMGM_AddConstraintError_None;
+	}
+
+	TMGM_RemoveConstraintError removeConstraint(TMGM_Constraint constraint) {
+		let t = self.cns.remove(constraint);
+		if (t is "TMGM_HashUnoccupied") {
+			return TMGM_RemoveConstraintError_UnknownConstraint;
+		}
+		let tag = TMGM_Tag(t);
+
+		self.removeConstraintEffects(constraint, tag);
+
+		if (self.rows.remove(tag.marker) is "TMGM_HashUnoccupied") {
+			TMGM_Symbol leaving; TMGM_Row row;
+			[leaving, row] = self.getMarkerLeavingRow(tag.marker);
+			row.solveForSymbols(leaving, tag.marker);
+			self.substitute(tag.marker, row);
+		}
+
+		let objective = self.objective;
+		self.optimise(objective);
+
+		let cexpr = constraint.getExpr();
+		for (let i = 0; i < cexpr.terms.size(); i++) {
+			let term = cexpr.terms[i];
+			if (!TMGM_GlobalMaths.nearZero(term.coefficient)) {
+				let shouldRemove = false;
+				let v = self.varData.get(term.variable);
+				if (!(v is "TMGM_HashUnoccupied")) {
+					let v = TMGM_VarDataEntry(v);
+					v.count -= 1;
+					shouldRemove = v.count == 0;
+				}
+				if (shouldRemove) {
+					self.varForSymbol.remove(TMGM_VarDataEntry(self.varData.get(term.variable)).symbol);
+					self.varData.remove(term.variable);
+				}
+			}
+		}
+
+		return TMGM_RemoveConstraintError_None;
+	}
+
+	bool hasConstraint(TMGM_Constraint constraint) {
+		return self.cns.containsKey(constraint);
+	}
+
+	TMGM_AddEditVariableError addEditVariable(TMGM_Variable v, double strength) {
+		if (self.edits.containsKey(v)) {
+			return TMGM_AddEditVariableError_DuplicateEditVariable;
+		}
+		let strength = TMGM_Strength.clip(strength);
+		if (strength == TMGM_Strength.REQUIRED) {
+			return TMGM_AddEditVariableError_BadRequiredStrength;
+		}
+		let cn = self.constraintManager.createConstraint(
+			TMGM_Expr.fromTerm(TMGM_Term.create(v, 1.0)),
+			TMGM_Rel_Eq,
+			strength
+		);
+		{
+			let err = self.addConstraint(cn);
+			if (err != 0) { throwAbortException("shouldn't happen"); }
+		}
+		self.edits.insert(
+			v,
+			TMGM_EditInfo.create(
+				TMGM_Tag(self.cns.get(cn)),
+				cn,
+				0.0
+			)
+		);
+
+		return TMGM_AddEditVariableError_None;
+	}
+
+	TMGM_RemoveEditVariableError removeEditVariable(TMGM_Variable v) {
+		let e = self.edits.remove(v);
+		if (!(e is "TMGM_HashUnoccupied")) {
+			let constraint = TMGM_EditInfo(e).constraint;
+			let err = self.removeConstraint(constraint);
+			if (err == TMGM_RemoveConstraintError_UnknownConstraint) {
+				throwAbortException("Edit constraint not in system.");
+			}
+			return TMGM_RemoveEditVariableError_None;
+		} else {
+			return TMGM_RemoveEditVariableError_UnknownEditVariable;
+		}
+	}
+
+	bool hasEditVariable(TMGM_Variable v) {
+		return self.edits.containsKey(v);
+	}
+
+	TMGM_SuggestValueError suggestValue(TMGM_Variable variable, double value) {
+		let i = self.edits.get(variable);
+		if (i is "TMGM_HashUnoccupied") {
+			return TMGM_SuggestValueError_UnknownEditVariable;
+		}
+		let info = TMGM_EditInfo(i);
+		let infoTagMarker = info.tag.marker;
+		let infoTagOther = info.tag.other;
+		let delta = value - info.constant;
+		info.constant = value;
+
+		{
+			let rm = self.rows.get(infoTagMarker);
+			let ro = self.rows.get(infoTagOther);
+			if (!(rm is "TMGM_HashUnoccupied")) {
+				let row = TMGM_Row(rm);
+				if (row.add(-delta) < 0.0) {
+					infeasibleRows.push(infoTagMarker);
+				}
+			} else if (!(ro is "TMGM_HashUnoccupied")) {
+				let row = TMGM_Row(ro);
+				if (row.add(delta) < 0.0) {
+					infeasibleRows.push(infoTagOther);
+				}
+			} else {
+				let iter = self.rows.iter();
+				while (true) {
+					Object ko, vo;
+					[ko, vo] = iter.next();
+					if (ko is "TMGM_HashUnoccupied") { break; }
+
+					let symbol = TMGM_Symbol(ko);
+					let row = TMGM_Row(vo);
+
+					let coeff = row.coefficientFor(infoTagMarker);
+					let diff = delta * coeff;
+					if (diff != 0.0 && symbol.kind == TMGM_SymbolKind_External) {
+						let v = TMGM_Variable(self.varForSymbol.get(symbol));
+						if (self.shouldClearChanges) {
+							self.changed.clear();
+							self.shouldClearChanges = false;
+						}
+						self.changed.insert(v);
+					}
+					if (
+						coeff != 0.0 &&
+						row.add(diff) < 0.0 &&
+						symbol.kind != TMGM_SymbolKind_External
+					) {
+						infeasibleRows.push(symbol);
+					}
+				}
+			}
+		}
+
+		self.dualOptimise();
+
+		return TMGM_SuggestValueError_None;
+	}
+
+	private void varChanged(TMGM_Variable v) {
+		if (self.shouldClearChanges) {
+			self.changed.clear();
+			self.shouldClearChanges = false;
+		}
+		self.changed.insert(v);
+	}
+
+	void fetchChanges(out Array<TMGM_PublicChangesEntry> ret) {
+		if (self.shouldClearChanges) {
+			self.changed.clear();
+			self.shouldClearChanges = false;
+		} else {
+			self.shouldClearChanges = true;
+		}
+		self.publicChanges.clear();
+
+		let iter = self.changed.iter();
+		while (true) {
+			let vo = iter.next();
+			if (vo is "TMGM_HashUnoccupied") { break; }
+			let v = TMGM_Variable(vo);
+			
+			let vd = self.varData.get(v);
+			if (!(vd is "TMGM_HashUnoccupied")) {
+				let varData = TMGM_VarDataEntry(vd);
+				let r = self.rows.get(varData.symbol);
+				let newValue = 0.0;
+				if (!(r is "TMGM_HashUnoccupied")) {
+					newValue = TMGM_Row(r).constant;
+				}
+				let oldValue = varData.value;
+				if (oldValue != newValue) {
+					self.publicChanges.push(
+						TMGM_PublicChangesEntry.create(v, newValue)
+					);
+					varData.value = newValue;
+				}
+			}
+		}
+
+		ret.copy(self.publicChanges);
+	}
+
+	void reset() {
+		self.rows.clear();
+		self.cns.clear();
+		self.varData.clear();
+		self.varForSymbol.clear();
+		self.changed.clear();
+		self.shouldClearChanges = false;
+		self.edits.clear();
+		self.infeasibleRows.clear();
+		self.objective = TMGM_Row.create(0.0);
+		self.artificial = NULL;
+		self.idTick = 1;
+	}
+
+	private TMGM_Symbol getVarSymbol(TMGM_Variable v) {
+		TMGM_VarDataEntry value;
+		let vd = self.varData.get(v);
+		if (!(vd is "TMGM_HashUnoccupied")) {
+			value = TMGM_VarDataEntry(vd);
+		} else {
+			let s = TMGM_Symbol.create(self.idTick, TMGM_SymbolKind_External);
+			self.varForSymbol.insert(s, v);
+			self.idTick += 1;
+			value = TMGM_VarDataEntry.create(double.NAN, s, 0);
+			self.varData.insert(v, value);
+		}
+		value.count += 1;
+		return value.symbol;
+	}
+
+	private TMGM_Row, TMGM_Tag createRow(TMGM_Constraint constraint) {
+		let expr = constraint.getExpr();
+		let row = TMGM_Row.create(expr.constant);
+		for (let i = 0; i < expr.terms.size(); i++) {
+			let term = expr.terms[i]; 
+			if (!TMGM_GlobalMaths.nearZero(term.coefficient)) {
+				let symbol = self.getVarSymbol(term.variable);
+				let o = self.rows.get(symbol);
+				if (!(o is "TMGM_HashUnoccupied")) {
+					let otherRow = TMGM_Row(o);
+					row.insertRow(otherRow, term.coefficient);
+				} else {
+					row.insertSymbol(symbol, term.coefficient);
+				}
+			}
+		}
+
+		let objective = self.objective;
+
+		TMGM_Tag tag;
+		let constraintOp = constraint.getOp();
+		switch (constraintOp) {
+		case TMGM_Rel_Geq:
+		case TMGM_Rel_Leq: {
+			let coeff = (constraintOp == TMGM_Rel_Leq) ? 1.0 : -1.0;
+			let slack = TMGM_Symbol.create(self.idTick, TMGM_SymbolKind_Slack);
+			self.idTick += 1;
+			row.insertSymbol(slack, coeff);
+			let constraintStrength = constraint.getStrength();
+			if (constraintStrength < TMGM_Strength.REQUIRED) {
+				let error = TMGM_Symbol.create(self.idTick, TMGM_SymbolKind_Error);
+				self.idTick += 1;
+				row.insertSymbol(error, -coeff);
+				objective.insertSymbol(error, constraintStrength);
+				tag = TMGM_Tag.create(
+					marker: slack,
+					other: error
+				);
+			} else {
+				tag = TMGM_Tag.create(
+					marker: slack,
+					other: TMGM_Symbol.invalid()
+				);
+			}
+			break;
+		}
+		case TMGM_Rel_Eq: {
+			let constraintStrength = constraint.getStrength();
+			if (constraintStrength < TMGM_Strength.REQUIRED) {
+				let errplus = TMGM_Symbol.create(self.idTick, TMGM_SymbolKind_Error);
+				self.idTick += 1;
+				let errminus = TMGM_Symbol.create(self.idTick, TMGM_SymbolKind_Error);
+				self.idTick += 1;
+				row.insertSymbol(errplus,  -1.0);
+				row.insertSymbol(errminus,  1.0);
+				objective.insertSymbol(errplus, constraintStrength);
+				objective.insertSymbol(errminus, constraintStrength);
+				tag = TMGM_Tag.create(
+					marker: errplus,
+					other: errminus
+				);
+			} else {
+				let dummy = TMGM_Symbol.create(self.idTick, TMGM_SymbolKind_Dummy);
+				self.idTick += 1;
+				row.insertSymbol(dummy, 1.0);
+				tag = TMGM_Tag.create(
+					marker: dummy,
+					other: TMGM_Symbol.invalid()
+				);
+			}
+			break;
+		}
+		default:
+			throwAbortException("shouldn't happen");
+		}
+
+		if (row.constant < 0.0) {
+			row.reverseSign();
+		}
+		return row, tag;
+	}
+
+	static private TMGM_Symbol chooseSubject(TMGM_Row row, TMGM_Tag tag) {
+		let iter = row.cells.iter();
+		while (true) {
+			let ko = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+			let s = TMGM_Symbol(ko);
+
+			if (s.kind == TMGM_SymbolKind_External) {
+				return s;
+			}
+		}
+		if (tag.marker.kind == TMGM_SymbolKind_Slack || tag.marker.kind == TMGM_SymbolKind_Error) {
+			if (row.coefficientFor(tag.marker) < 0.0) {
+				return tag.marker;
+			}
+		}
+		if (tag.other.kind == TMGM_SymbolKind_Slack || tag.other.kind == TMGM_SymbolKind_Error) {
+			if (row.coefficientFor(tag.other) < 0.0) {
+				return tag.other;
+			}
+		}
+		return TMGM_Symbol.invalid();
+	}
+
+	private bool addWithArtificialVariable(TMGM_Row row) {
+		let art = TMGM_Symbol.create(self.idTick, TMGM_SymbolKind_Slack);
+		self.idTick += 1;
+		self.rows.insert(art, row.clone());
+		self.artificial = row.clone();
+
+		let artificial = self.artificial;
+		self.optimise(artificial);
+		let success = TMGM_GlobalMaths.nearZero(artificial.constant);
+		self.artificial = NULL;
+
+		let r = self.rows.remove(art);
+		if (!(r is "TMGM_HashUnoccupied")) {
+			let row = TMGM_Row(r);
+			if (row.cells.isEmpty()) {
+				return success;
+			}
+			let entering = anyPivotableSymbol(row);
+			if (entering.kind == TMGM_SymbolKind_Invalid) {
+				return false;
+			}
+			row.solveForSymbols(art, entering);
+			self.substitute(entering, row);
+			self.rows.insert(entering, row);
+		}
+
+		let iter = self.rows.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+
+			let row = TMGM_Row(vo);
+
+			row.remove(art);
+		}
+		self.objective.remove(art);
+		return success;
+	}
+
+	private void substitute(TMGM_Symbol symbol, TMGM_Row row) {
+		let iter = self.rows.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+
+			let otherSymbol = TMGM_Symbol(ko);
+			let otherRow = TMGM_Row(vo);
+
+			let constantChanged = otherRow.substitute(symbol, row);
+			if (otherSymbol.kind == TMGM_SymbolKind_External && constantChanged) {
+				let v = TMGM_Variable(self.varForSymbol.get(otherSymbol));
+				if (self.shouldClearChanges) {
+					self.changed.clear();
+					self.shouldClearChanges = false;
+				}
+				self.changed.insert(v);
+			}
+			if (otherSymbol.kind != TMGM_SymbolKind_External && otherRow.constant < 0.0) {
+				self.infeasibleRows.push(otherSymbol);
+			}
+		}
+		self.objective.substitute(symbol, row);
+		if (self.artificial != NULL) {
+			let artificial = self.artificial;
+			artificial.substitute(symbol, row);
+		}
+	}
+
+	private void optimise(TMGM_Row objective) {
+		while (true) {
+			let entering = getEnteringSymbol(objective);
+			if (entering.kind == TMGM_SymbolKind_Invalid) {
+				return;
+			}
+			TMGM_Symbol leaving;
+			TMGM_Row row;
+			[leaving, row] = self.getLeavingRow(entering);
+			if (leaving == NULL) {
+				throwAbortException("internal solver error: the objective is unbounded");
+			}
+			row.solveForSymbols(leaving, entering);
+			self.substitute(entering, row);
+			if (entering.kind == TMGM_SymbolKind_External && row.constant != 0.0) {
+				let v = TMGM_Variable(self.varForSymbol.get(entering));
+				self.varChanged(v);
+			}
+			self.rows.insert(entering, row);
+		}
+	}
+
+	private void dualOptimise() {
+		while (self.infeasibleRows.size() != 0u) {
+			let leaving = self.infeasibleRows[self.infeasibleRows.size() - 1];
+			self.infeasibleRows.pop();
+
+			TMGM_Row row;
+			let e = self.rows.get(leaving);
+			if (!(e is "TMGM_HashUnoccupied")) {
+				let entry = TMGM_Row(e);
+				if (entry.constant < 0.0) {
+					row = entry;
+					self.rows.remove(leaving);
+				} else {
+					row = NULL;
+				}
+			} else {
+				row = NULL;
+			}
+			if (row != NULL) {
+				let entering = self.getDualEnteringSymbol(row);
+				if (entering.kind == TMGM_SymbolKind_Invalid) {
+					throwAbortException("internal solver error: dual optimise failed");
+				}
+				row.solveForSymbols(leaving, entering);
+				self.substitute(entering, row);
+				if (entering.kind == TMGM_SymbolKind_External && row.constant != 0.0) {
+					let v = TMGM_Variable(self.varForSymbol.get(entering));
+					self.varChanged(v);
+				}
+				self.rows.insert(entering, row);
+			}
+		}
+	}
+
+	private TMGM_Symbol getEnteringSymbol(TMGM_Row objective) {
+		let iter = objective.cells.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+
+			let symbol = TMGM_Symbol(ko);
+			let value = TMGM_BoxedDouble(vo).val;
+
+			if (symbol.kind != TMGM_SymbolKind_Dummy && value < 0.0) {
+				return symbol;
+			}
+		}
+		return TMGM_Symbol.invalid();
+	}
+
+	private TMGM_Symbol getDualEnteringSymbol(TMGM_Row row) {
+		let entering = TMGM_Symbol.invalid();
+		let ratio = double.INFINITY;
+		let objective = self.objective;
+		let iter = row.cells.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+
+			let symbol = TMGM_Symbol(ko);
+			let value = TMGM_BoxedDouble(vo).val;
+
+			if (value > 0.0 && symbol.kind != TMGM_SymbolKind_Dummy) {
+				let coeff = objective.coefficientFor(symbol);
+				let r = coeff / value;
+				if (r < ratio) {
+					ratio = r;
+					entering = symbol;
+				}
+			}
+		}
+		return entering;
+	}
+
+	private static TMGM_Symbol anyPivotableSymbol(TMGM_Row row) {
+		let iter = row.cells.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+
+			let symbol = TMGM_Symbol(ko);
+
+			if (symbol.kind == TMGM_SymbolKind_Slack || symbol.kind == TMGM_SymbolKind_Error) {
+				return symbol;
+			}
+		}
+		return TMGM_Symbol.invalid();
+	}
+
+	private TMGM_Symbol, TMGM_Row getLeavingRow(TMGM_Symbol entering) {
+		let ratio = double.INFINITY;
+		TMGM_Symbol found = NULL;
+		let iter = self.rows.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+
+			let symbol = TMGM_Symbol(ko);
+			let row = TMGM_Row(vo);
+
+			if (symbol.kind != TMGM_SymbolKind_External) {
+				let temp = row.coefficientFor(entering);
+				if (temp < 0.0) {
+					let tempRatio = -row.constant / temp;
+					if (tempRatio < ratio) {
+						ratio = tempRatio;
+						found = symbol;
+					}
+				}
+			}
+		}
+		if (found != NULL) {
+			return found, TMGM_Row(self.rows.remove(found));
+		} else {
+			return NULL, NULL;
+		}
+	}
+
+	private TMGM_Symbol, TMGM_Row getMarkerLeavingRow(TMGM_Symbol marker) {
+		let r1 = double.INFINITY;
+		let r2 = r1;
+		TMGM_Symbol first = NULL;
+		TMGM_Symbol second = NULL;
+		TMGM_Symbol third = NULL;
+		let iter = self.rows.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+
+			let symbol = TMGM_Symbol(ko);
+			let row = TMGM_Row(vo);
+
+			let c = row.coefficientFor(marker);
+			if (c == 0.0) {
+				continue;
+			}
+			if (symbol.kind == TMGM_SymbolKind_External) {
+				third = symbol;
+			} else if (c < 0.0) {
+				let r = -row.constant / c;
+				if (r < r1) {
+					r1 = r;
+					first = symbol;
+				}
+			} else {
+				let r = row.constant / c;
+				if (r < r2) {
+					r2 = r;
+					second = symbol;
+				}
+			}
+		}
+		let s =
+			(first != NULL)
+			? first
+			: (second != NULL)
+			  ? second
+			  : third;
+		if (s != NULL) {
+			if (s.kind == TMGM_SymbolKind_External && TMGM_Row(self.rows.get(s)).constant != 0.0) {
+				let v = TMGM_Variable(self.varForSymbol.get(s));
+				self.varChanged(v);
+			}
+			let r = self.rows.remove(s);
+			if (!(r is "TMGM_HashUnoccupied")) {
+				return s, TMGM_Row(r);
+			} else {
+				return NULL, NULL;
+			}
+		} else {
+			return NULL, NULL;
+		}
+	}
+
+	private void removeConstraintEffects(TMGM_Constraint cn, TMGM_Tag tag) {
+		if (tag.marker.kind == TMGM_SymbolKind_Error) {
+			self.removeMarkerEffects(tag.marker, cn.getStrength());
+		} else if (tag.other.kind == TMGM_SymbolKind_Error) {
+			self.removeMarkerEffects(tag.other, cn.getStrength());
+		}
+	}
+
+	private void removeMarkerEffects(TMGM_Symbol marker, double strength) {
+		let r = self.rows.get(marker);
+		if (!(r is "TMGM_HashUnoccupied")) {
+			let row = TMGM_Row(r);
+			self.objective.insertRow(row, -strength);
+		} else {
+			self.objective.insertSymbol(marker, -strength);
+		}
+	}
+
+	private static bool allDummies(TMGM_Row row) {
+		let iter = row.cells.iter();
+		while (true) {
+			let ko = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+			let s = TMGM_Symbol(ko);
+
+			if (s.kind != TMGM_SymbolKind_Dummy) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	static void printRow(TMGM_Row row) {
+		let ret = "row = Row {\n    cells: {\n";
+
+		let iter = row.cells.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+
+			let symbol = TMGM_Symbol(ko);
+			let val = TMGM_BoxedDouble(vo).val;
+
+			ret.appendFormat("        %s: %f,\n", symbol.repr(), val);
+		}
+		ret.appendFormat("    },\n    constant: %f,\n}", row.constant);
+		Console.printf(ret);
+	}
+
+	private void printRows() {
+		let ret = "self.rows = {\n";
+		let iter = self.rows.iter();
+		while (true) {
+			Object ko, vo;
+			[ko, vo] = iter.next();
+			if (ko is "TMGM_HashUnoccupied") { break; }
+
+			let symbol = TMGM_Symbol(ko);
+			let row = TMGM_Row(vo);
+
+			ret.appendFormat("    %s: Row {\n        cells: {\n", symbol.repr());
+
+			let iter = row.cells.iter();
+			while (true) {
+				Object ko, vo;
+				[ko, vo] = iter.next();
+				if (ko is "TMGM_HashUnoccupied") { break; }
+
+				let symbol = TMGM_Symbol(ko);
+				let val = TMGM_BoxedDouble(vo).val;
+
+				ret.appendFormat("            %s: %f,\n", symbol.repr(), val);
+			}
+			ret.appendFormat("        },\n        constant: %f,\n    },\n", row.constant);
+		}
+		ret.appendFormat("}");
+		Console.printf(ret);
+	}
+}
