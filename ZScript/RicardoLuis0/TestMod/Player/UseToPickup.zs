@@ -1,15 +1,24 @@
 class InvUseTracer : LineTracer
 {
+	TestModPlayer pawn;
 	override ETraceStatus TraceCallback()
 	{
-		if(results.HitType != TRACE_HitActor || results.HitActor is "Inventory")
+		if(results.HitType != TRACE_HitActor)
 		{
 			return TRACE_Stop;
 		}
-		else
+		else if(results.HitActor is "Inventory")
 		{
-			return TRACE_Skip;
+			let item = Inventory(results.HitActor);
+			
+			let prestrict = TestModUtil.GetPlayerRestrictConst(item);
+			
+			if((prestrict == null || prestrict == pawn.player) && !item.HasPickedUpLocally(pawn))
+			{
+				return TRACE_Stop;
+			}
 		}
+		return TRACE_Skip;
 	}
 }
 
@@ -34,6 +43,7 @@ extend class TestModPlayer
 			bool inv_hold = (player.oldbuttons&player.cmd.buttons) & BT_USE;
 			
 			let t = new('InvUseTracer');
+			t.pawn = self;
 			
 			//if(LineTrace(angle, 4096, pitch, TRF_THRUHITSCAN | TRF_ALLACTORS, height-12, 0, 0, t))
 			double c = cos(pitch);

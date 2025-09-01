@@ -63,11 +63,13 @@ class TestModPlayer : DoomPlayer
 		if(!inited) PostBeginPlay();
 		
 		InertiaTick();
-		UseToPickupTick();
+		if(!(player.cheats & CF_PREDICTING)) UseToPickupTick();
 		LookPosTick();
 		
-		if(player.ReadyWeapon is "ModWeaponBase"){
-			ModWeaponBase(player.ReadyWeapon).ReadyTick();
+		if(player.ReadyWeapon is "ModWeaponBase")
+		{
+			if(!(player.cheats & CF_PREDICTING)) ModWeaponBase(player.ReadyWeapon).ReadyTick();
+			else ModWeaponBase(player.ReadyWeapon).PredictedReadyTick();
 		}
 	}
 

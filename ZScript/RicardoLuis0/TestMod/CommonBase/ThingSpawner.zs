@@ -22,6 +22,8 @@ class ThingSpawnerElement abstract
 
 class ThingSpawner : Actor abstract
 {
+	bool noperplayerrolls;
+	
 	static bool SpawnActor(class<Actor> a_class, int replace, Vector3 pos, Vector3 vel, bool bDropped, Array<Actor> spawned)
 	{
 		if(!a_class)
@@ -129,7 +131,7 @@ class ThingSpawner : Actor abstract
 			initialized = true;
 		}
 		
-		if(sv_per_player_rolls)
+		if(sv_per_player_rolls && !noperplayerrolls)
 		{
 			for(int i = 0; i < MAXPLAYERS; i++)
 			{

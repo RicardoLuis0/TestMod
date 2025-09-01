@@ -33,8 +33,8 @@ class ModWeaponBase : Weapon {
 		}
 	}
 
-	virtual void ReadyTick() {
-	}
+	virtual void ReadyTick() {}
+	virtual void PredictedReadyTick() {}
 	
 	action void A_ReloadAmmo(int empty,int nonempty) {
 		int reloadAmount = min(

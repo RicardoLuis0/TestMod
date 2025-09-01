@@ -80,11 +80,61 @@ class TestModUtil
 		else
 		{
 			Console.Printf("\c[Red] Cannot set PlayerRestrict for unmanaged item "..item.GetClassName());
+			return;
 		}
+		Inventory(item).bNeverLocal = true;
 	}
 	
 	
 	static play PlayerInfo GetPlayerRestrict(Actor item)
+	{
+		if(item is 'LightClip')
+		{
+			return LightClip(item).PlayerRestrict;
+		}
+		else if(item is 'HeavyClip')
+		{
+			return HeavyClip(item).PlayerRestrict;
+		}
+		else if(item is 'NewShell')
+		{
+			return NewShell(item).PlayerRestrict;
+		}
+		else if(item is 'NewCell')
+		{
+			return NewCell(item).PlayerRestrict;
+		}
+		else if(item is 'NewRocketAmmo')
+		{
+			return NewRocketAmmo(item).PlayerRestrict;
+		}
+		else if(item is 'ArmorShard')
+		{
+			return ArmorShard(item).PlayerRestrict;
+		}
+		else if(item is 'IncrementalBackpack')
+		{
+			return IncrementalBackpack(item).PlayerRestrict;
+		}
+		else if(item is 'PortableMedKit')
+		{
+			return PortableMedKit(item).PlayerRestrict;
+		}
+		else if(item is 'TestModMedikit')
+		{
+			return TestModMedikit(item).PlayerRestrict;
+		}
+		else if(item is 'ModWeaponBase')
+		{
+			return ModWeaponBase(item).PlayerRestrict;
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
+	
+	static clearscope readonly<PlayerInfo> GetPlayerRestrictConst(readonly<Actor> item)
 	{
 		if(item is 'LightClip')
 		{

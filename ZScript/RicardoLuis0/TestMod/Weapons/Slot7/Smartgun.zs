@@ -1,17 +1,3 @@
-
-class SmartGunMarker : Actor {
-	Default{
-		+NOINTERACTION
-		+FORCEXYBILLBOARD
-		FloatBobPhase 0;
-	}
-	States{
-		Spawn:
-			TNT1 A -1;
-			Stop;
-	}
-}
-
 class SmartGun : ModWeaponBase {
 	Default {
 		Weapon.SlotNumber 7;
@@ -25,8 +11,6 @@ class SmartGun : ModWeaponBase {
 		
 		ModWeaponBase.PickupHandleNoMagazine true;
 	}
-	
-	SmartGunMarker marker;
 	
 	Actor last_target;
 	
@@ -72,15 +56,22 @@ class SmartGun : ModWeaponBase {
 						offsetside: pos_offset.x,
 						data: t);
 		
-		if(t.HitActor){
-			if(t.HitActor.bIsMonster && !t.HitActor.bFriendly){
-				int sz=targets.size();
-				for(int i=0;i<sz;i++){
-					if(targets[i]==t.HitActor){
-						return t.HitLocation, true;
+		if(t.HitActor)
+		{
+			if(t.HitActor.bIsMonster && !t.HitActor.bFriendly)
+			{
+				if(!(owner.player.cheats & CF_PREDICTING))
+				{
+					int sz=targets.size();
+					for(int i=0;i<sz;i++)
+					{
+						if(targets[i]==t.HitActor)
+						{
+							return t.HitLocation, true;
+						}
 					}
+					targets.push(t.HitActor);
 				}
-				targets.push(t.HitActor);
 				return t.HitLocation, true;
 			}
 		}
@@ -93,14 +84,14 @@ class SmartGun : ModWeaponBase {
 		[hLoc, hit_monster] = doTrace(x_a, y_a);
 		
 		Vector3 diff=level.Vec3Diff((owner.pos.x,owner.pos.y,owner.player.ViewZ),hLoc);
-		let hLoc2=hLoc-(diff/diff.length());
-		marker.SetOrigin(hLoc2,false);
 		double dist=diff.length();
-		
+		let hLoc2=hLoc-(diff/diff.length());
 		Color enemy_color="#FF0000";
 		Color not_enemy_color="#00FF00";
 		
-		marker.A_SpawnParticle(hit_monster?enemy_color:not_enemy_color,SPF_FULLBRIGHT,1,clamp(dist/100,2.5,75));
+		Vector3 loc = hLoc-owner.pos; // spawn 1mu away from wall
+		
+		owner.A_SpawnParticle(hit_monster? enemy_color : not_enemy_color, SPF_FULLBRIGHT, 1, clamp(dist/100,2.5,75), xoff:loc.x, yoff:loc.y, zoff:loc.z);
 	}
 	
 	void pspReset(PSPrite psp){
@@ -134,18 +125,8 @@ class SmartGun : ModWeaponBase {
 		psp.InterpolateTic=true;
 	}
 	
-	override void ReadyTick() {
-		
-		targets.clear();
-		
-		if(marker){
-			marker.Destroy();
-		}
-		
-		marker=SmartGunMarker(owner.Spawn("SmartGunMarker",owner.pos,NO_REPLACE));
-		
-		[angle_offset, pos_offset] = TestModPlayer(owner).InertiaBobAim();
-		
+	void TraceAll()
+	{
 		double x_a=31.5;
 		double m_x=16.5;
 		double y_a=16.5;
@@ -189,9 +170,21 @@ class SmartGun : ModWeaponBase {
 				TraceVisible(x,y);
 			}
 		}
+	}
+	
+	override void PredictedReadyTick()
+	{
+		TraceAll();
+	}
+	
+	override void ReadyTick()
+	{
 		
-		marker.Destroy();
-		marker=null;
+		targets.clear();
+		
+		[angle_offset, pos_offset] = TestModPlayer(owner).InertiaBobAim();
+		
+		TraceAll();
 		
 		if(targets.size()>0){
 			Actor closest=targets[0];

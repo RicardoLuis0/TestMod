@@ -29,6 +29,13 @@ class GuidedRocketLauncher : ModWeaponBase {
 		laserenabled=true;
 	}
 	
+	/*
+	override void PredictedReadyTick()
+	{
+		//TODO
+	}
+	*/
+	
 	override void ReadyTick(){
 		super.ReadyTick();
 		if(laserenabled){

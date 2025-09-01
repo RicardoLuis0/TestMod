@@ -17,31 +17,6 @@ class RailgunTrail : Actor {
 		Alpha 0.025;
 		+FORCEXYBILLBOARD;
 	}
-	/*
-	static const Color lightColors[] = {
-		"C7C7FF", //  0%
-		"C3BDFF", //  5%
-		"C0B3FF", // 10%
-		"BCA9FF", // 15%
-		"B99FFF", // 20%
-		"B595FF", // 25%
-		"B18BFF", // 30%
-		"AE81FF", // 35%
-		"AA77FF", // 40%
-		"A76DFF", // 45%
-		"A363FF", // 50%
-		"9F5AFF", // 55%
-		"9C50FF", // 60%
-		"9846FF", // 65%
-		"953CFF", // 70%
-		"9132FF", // 75%
-		"8D28FF", // 80%
-		"8A1EFF", // 85%
-		"8614FF", // 90%
-		"830AFF", // 95%
-		"7F00FF"  // 100%
-	}
-	*/
 	
 	static const Color lightColors[] = {
 		"060607", //   0%

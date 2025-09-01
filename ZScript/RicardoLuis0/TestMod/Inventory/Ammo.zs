@@ -1,6 +1,6 @@
 mixin class MPMultiPickup
 {
-	PlayerInfo PlayerRestrict;
+	unsafe(clearscope) PlayerInfo PlayerRestrict;
 	
 	override bool CanPickup(Actor toucher)
 	{
@@ -13,6 +13,18 @@ mixin class MPMultiPickup
 		
 		return super.CanPickup(toucher);
 	}
+	
+	override bool ShouldStay()
+	{
+		return PlayerRestrict == null && super.ShouldStay();
+	}
+	
+	/*
+	override bool CanPickUpLocally(Actor other) const
+	{
+		return PlayerRestrict == null && super.CanPickUpLocally(other);
+	}
+	*/
 	
 	void UpdateLocalRendering()
 	{
