@@ -205,7 +205,6 @@ extend class TestModHandler
 				}
 				else
 				{
-					
 					Screen.DrawThickLine(leftX, topY, leftX + 10, topY, 2, 0xFFFFFFFF, 255);
 					Screen.DrawThickLine(leftX, topY, leftX, topY + 10, 2, 0xFFFFFFFF, 255);
 					
@@ -217,12 +216,45 @@ extend class TestModHandler
 					
 					Screen.DrawThickLine(leftX, bottomY, leftX + 10, bottomY, 2, 0xFFFFFFFF, 255);
 					Screen.DrawThickLine(leftX, bottomY, leftX, bottomY - 10, 2, 0xFFFFFFFF, 255);
-					
-					//Screen.DrawThickLine(rightX, topY, rightX, bottomY, 2, 0xFFFFFFFF, 255);
-					//Screen.DrawThickLine(rightX, bottomY, leftX, bottomY, 2, 0xFFFFFFFF, 255);
-					//Screen.DrawThickLine(leftX, bottomY, leftX, topY, 2, 0xFFFFFFFF, 255);
-					
 				}
+				
+				double textScale = 2.0;
+				
+				double textHeight = SmallFont.GetHeight() * textScale;
+				
+				string text = item.GetTag(item.GetClassName());
+				
+				if(item is 'ModWeaponBase')
+				{
+					let weapon = ModWeaponBase(item);
+					if(weapon.partialPickupHasMagazine)
+					{
+						int curAmmo = weapon.ammogive2;
+						let magazine = GetDefaultByType(weapon.ammotype1);
+						let reserve = GetDefaultByType(weapon.ammotype2);
+						int maxAmmo = magazine.maxAmount;
+						String ammoType = reserve.GetTag(reserve.GetClassName());
+						
+						text = text.." - "..curAmmo.."/"..maxAmmo.." "..ammoType;
+					}
+					else
+					{
+						int curAmmo = weapon.ammogive2;
+						let reserve = GetDefaultByType(weapon.ammotype2);
+						String ammoType = reserve.GetTag(reserve.GetClassName());
+						text = text.." - "..curAmmo.." "..ammoType;
+					}
+				}
+				else if(item is "Health")
+				{
+					text = text.." - "..item.amount.." HP";
+				}
+				else if(item.amount > 1)
+				{
+					text = item.amount.." "..text;
+				}
+				
+				Screen.DrawText(SmallFont, Font.CR_WHITE, leftX, topY - (textHeight + 10), text, DTA_ScaleX, textScale, DTA_ScaleY, textScale);
 			}
 		}
 	}

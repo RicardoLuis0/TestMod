@@ -64,7 +64,7 @@ class TestModPlayer : DoomPlayer
 		
 		InertiaTick();
 		if(!(player.cheats & CF_PREDICTING)) UseToPickupTick();
-		LookPosTick();
+		if(!(player.cheats & CF_PREDICTING)) LookPosTick(); //TODO switch lookpos to not use puffs
 		
 		if(player.ReadyWeapon is "ModWeaponBase")
 		{

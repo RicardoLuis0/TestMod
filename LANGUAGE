@@ -1,4 +1,4 @@
-[en]
+[en default]
 GOTLIGHTCLIP = "Picked up some light bullets." ;
 GOTFULLLIGHTCLIP = "Picked up a full magazine of light bullets." ;
 GOTLIGHTCLIPBOX = "Picked up a box of light bullets." ;
@@ -8,3 +8,5 @@ GOTHEAVYCLIPBOX = "Picked up a box of heavy bullets." ;
 FN_SMGZOMBIE = "SMG Zombieman" ;
 FN_RIFLEZOMBIE = "Zombie Rifleman" ;
 GOTSHELLS = "Picked up a handful of shotgun shells." ;
+AMMO_LIGHTCLIP = "Light Bullets" ;
+AMMO_HEAVYCLIP = "Heavy Bullets" ;

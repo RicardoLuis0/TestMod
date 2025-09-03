@@ -128,7 +128,7 @@ class LightClip : Ammo {
 		Ammo.BackpackAmount 15;
 		Ammo.BackpackMaxAmount 600;
 		Inventory.Icon "MBLKA0";
-		Tag "$AMMO_CLIP";
+		Tag "$AMMO_LIGHTCLIP";
 	}
 
 	States {
@@ -173,7 +173,7 @@ class HeavyClip : Ammo {
 		Ammo.BackpackAmount 20;
 		Ammo.BackpackMaxAmount 360;
 		Inventory.Icon "CLIPA0";
-		Tag "$AMMO_CLIP";
+		Tag "$AMMO_HEAVYCLIP";
 	}
 
 	States {

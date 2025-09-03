@@ -53,7 +53,6 @@ extend class TestModPlayer
 			inv_lasthit = null;
 			if(t.Trace((Pos.X, Pos.Y, Player.ViewZ), cursector, dir, pickup_distance, TRACE_NoSky, Line.ML_BLOCKEVERYTHING, false, self))
 			{
-				
 				if((t.results.HitType == TRACE_HitActor))
 				{
 					if(t.results.HitActor is "Inventory")
@@ -62,7 +61,14 @@ extend class TestModPlayer
 						
 						if(inv_use && !inv_hold)
 						{
-							inv_lasthit.Touch(self);
+							let pickup = inv_lasthit;
+							inv_lasthit = null;
+							pickup.Touch(self);
+							
+							if(!pickup.owner)
+							{
+								inv_lasthit = pickup;
+							}
 						}
 					}
 				}

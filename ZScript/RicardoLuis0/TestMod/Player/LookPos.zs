@@ -26,7 +26,8 @@ mixin class LookPos {
     Vector3 lookPosCache;
     
 	Vector3,bool getLookAtPos(String puff="VisTracer"){//puff recommended to be derived from vistracer
-		if(!lookPosCacheOk){
+		if(!lookPosCacheOk && !(player.cheats & CF_PREDICTING))
+		{
 			BulletPuff p=BulletPuff(LineAttack(angle,4096,pitch,0,"None",puff,LAF_NORANDOMPUFFZ|LAF_NOINTERACT));
             if(p){
                 lookPosCache=p.pos;
