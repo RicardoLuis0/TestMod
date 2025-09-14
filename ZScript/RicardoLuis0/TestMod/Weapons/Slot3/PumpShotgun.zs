@@ -14,6 +14,31 @@ class ShellCasing : CasingBase {
 	}
 }
 
+class ShellCasingAmmo : NewShell
+{
+	mixin CasingBehavior;
+	
+	Default {
+		Scale 0.10;
+		Inventory.Amount 1;
+	}
+	
+	States {
+	Death:
+		"####" "#" 100;
+		Loop;
+	Spawn:
+		CAS2 C 0;
+		CAS2 AB 3;
+	Bounce:
+	Stay:
+		CAS2 C 1 {
+			A_SetScale(0.15);
+		}
+		Loop;
+	}
+}
+
 class PumpLoaded : Ammo{
 	Default{
 		Inventory.MaxAmount 9;
@@ -43,14 +68,25 @@ class PumpShotgun : ModWeaponBase {
 		Inventory.PickupMessage "You've got the Pump Shotgun!";
 		
 		ModWeaponBase.PickupHandleMagazine true;
+		ModWeaponBase.HasChamber true;
 	}
 	
-	override void BeginPlay(){
+	override void BeginPlay()
+	{
 		super.BeginPlay();
 		crosshair=23;
 		pellets=14;
 		dmg=4;
 		firecasing=false;
+		magazineWeaponChamberLoaded=true;
+	}
+	
+	override void ReadyTick()
+	{
+		if(ammo1.amount == 9)
+		{
+			magazineWeaponChamberLoaded = true;
+		}
 	}
 	
 	States{
@@ -70,16 +106,23 @@ class PumpShotgun : ModWeaponBase {
 			0SGF C 2 Bright;
 			0SGF D 1;
 			0SGF E 1;
-			0SGG A 0 {
-				if(CountInv(invoker.AmmoType1)==0) return ResolveState("Reload");
-				return P_Call("Pump");
+			0SGG A 0
+			{
+				if(CountInv(invoker.AmmoType1) == 0 && sv_automatic_reload)
+				{
+					return ResolveState("Reload");
+				}
+				
+				if(sv_automatic_bolt || sv_automatic_shotgun || TestModPlayer(self).cycle_key_pressed)
+				{
+					TestModPlayer(self).cycle_key_pressed = false;
+					return P_Call("Pump");
+				}
+				
+				return ResolveState("ready");
 			}
 			0SGG A 5 A_Refire;
 			goto ready;
-		flash:
-			TNT1 A 4 Bright A_Light1;
-			TNT1 A 4 Bright A_Light2;
-			goto lightdone;
 		reload:
 			0SGG A 0 A_ReloadStart;
 			0SGG A 0 PollInterruptReload;
@@ -138,11 +181,22 @@ class PumpShotgun : ModWeaponBase {
 			stop;
 	}
 
-	action State A_FirePump(){
-		if(invoker.ammo1.amount==0){
-			if(invoker.ammo2.amount==0){
+	action State A_FirePump()
+	{
+		if(!ChamberLoaded() && invoker.ammo2.amount > 0 && (sv_automatic_reload || TestModPlayer(self).cycle_key_pressed))
+		{
+			TestModPlayer(self).cycle_key_pressed = false;
+			return P_CallJmp("pump", "ready");
+		}
+		
+		if(invoker.ammo1.amount == 0 || !ChamberLoaded())
+		{
+			if(invoker.ammo2.amount == 0 || !sv_automatic_reload)
+			{
 				return ResolveState("noammo");
-			}else{
+			}
+			else
+			{
 				return ResolveState("reload");
 			}
 		}
@@ -153,45 +207,69 @@ class PumpShotgun : ModWeaponBase {
 		A_SetPitch(pitch+frandom[TestModWeapon](-5,0),SPF_INTERPOLATE);
 		A_SetAngle(angle+frandom[TestModWeapon](-2,2),SPF_INTERPOLATE);
 		A_StartSound("weapons/shotgun_fire",CHAN_AUTO,CHANF_DEFAULT,0.5);
+		A_UnloadChamber();
 		return ResolveState(null);
 	}
 
-	action void A_PumpCasing(){
-		if(invoker.firecasing){
-			invoker.firecasing=false;
-			Actor c=W_FireProjectile("ShellCasing",random[TestModWeapon](-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
+	action void A_PumpCasing()
+	{
+		if(invoker.firecasing || ChamberLoaded())
+		{
+			if(ChamberLoaded())
+			{
+				invoker.ammo1.amount--;
+			}
+			else
+			{
+				invoker.firecasing = false;
+			}
+			Actor c=W_FireProjectile(ChamberLoaded() ? "ShellCasingAmmo" : "ShellCasing",random[TestModWeapon](-30, -50),false,2,2-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,-random[TestModWeapon](15,30));
 			if(c)c.SetOrigin(c.pos+AngleToVector(angle,10),false);
 		}
+		if(invoker.ammo1.amount > 0) A_LoadChamber();
 	}
 
-	action State A_ReloadStart(){
+	action State A_ReloadStart()
+	{
 		InitInterruptReload();
-		if(invoker.ammo1.amount>=9||invoker.ammo2.amount==0){
+		
+		if(invoker.ammo1.amount > 0 && !ChamberLoaded() && sv_automatic_bolt) return P_CallJmp("pump", "reload");
+		
+		if(invoker.ammo1.amount >= (ChamberLoaded() ? 9 : 8) || invoker.ammo2.amount==0)
+		{
 			return ResolveState("ready");
 		}
-		if(invoker.ammo1.amount>0){
+		
+		if(invoker.ammo1.amount > 0)
+		{
 			return CheckFire("fire");
 		}
 		return ResolveState(null);
 	}
 
-	action State A_ReloadMid(){
-		if(player.PendingWeapon!=WP_NOCHANGE){
+	action State A_ReloadMid()
+	{
+		if(invoker.ammo1.amount > 0 && !ChamberLoaded() && sv_automatic_bolt) return P_CallJmp("reloadstop", P_CallJmpSL("pump","reload"));
+		
+		if(player.PendingWeapon != WP_NOCHANGE){
 			return P_CallJmp("reloadstop","ready");
 		}
-		if(invoker.ammo1.amount>=9||invoker.ammo2.amount==0){
+		if(invoker.ammo1.amount >= (ChamberLoaded() ? 9 : 8) || invoker.ammo2.amount == 0)
+		{
 			return P_CallJmp("reloadstop","ready");
 		}
-		if(invoker.ammo1.amount>0){
-			return InterruptReload();
+		if(invoker.ammo1.amount>0)
+		{
+			return InterruptReload(true);
 		}
 		return ResolveState(null);
 	}
 
-	action State A_ReloadEnd(){
+	action State A_ReloadEnd()
+	{
 		invoker.ammo2.amount-=1;
 		invoker.ammo1.amount+=1;
-		if(invoker.ammo1.amount==1) return P_CallJmp("reloadstop",P_CallJmpSL("pump","reload"));
+		if(invoker.ammo1.amount == 1 && sv_automatic_bolt) return P_CallJmp("reloadstop",P_CallJmpSL("pump","reload"));
 		return InterruptReload();
 	}
 	
@@ -207,8 +285,21 @@ class PumpShotgun : ModWeaponBase {
 		}
 	}
 	
-	action state InterruptReload(){
-		if(invoker.do_interrupt||iCheckFire()>0){
+	override bool OnUnloadKeyPressed()
+	{
+		P_RemoteCallJmp(PSP_WEAPON, "pump","ready");
+		return true;
+	}
+	override bool OnCycleKeyPressed()
+	{
+		P_RemoteCallJmp(PSP_WEAPON, "pump","ready");
+		return true;
+	}
+	
+	action state InterruptReload(bool first = false)
+	{
+		if(invoker.do_interrupt || iCheckFire()>0 || (!first && sv_shotgun_reload_hold && !(player.cmd.buttons&BT_RELOAD)))
+		{
 			return P_CallJmp("reloadstop","firecheck");
 		}
 		return ResolveState(null);

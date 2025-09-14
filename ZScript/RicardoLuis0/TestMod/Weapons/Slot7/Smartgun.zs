@@ -13,6 +13,7 @@ class SmartGun : ModWeaponBase {
 	}
 	
 	Actor last_target;
+	bool tick;
 	
 	Array<Actor> targets;
 	
@@ -47,10 +48,13 @@ class SmartGun : ModWeaponBase {
 	
 	Vector2 aim_angle;
 	
-	Vector3, bool doTrace(double x_a,double y_a){
+	bool aimingfriend;
+	
+	Vector3, int, bool doTrace(double x_a, double y_a, bool maintrace)
+	{
 		FLineTraceData t;
 		
-		owner.player.mo.LineTrace(owner.angle + x_a,1024, owner.pitch + y_a, TRF_NOSKY | TRF_SOLIDACTORS,
+		bool hit = owner.player.mo.LineTrace(owner.angle + x_a,1024, owner.pitch + y_a, TRF_NOSKY | TRF_SOLIDACTORS,
 						//offsetz: (owner.player.ViewZ) + pos_offset.y,
 						offsetz: (owner.player.mo.viewheight * owner.player.crouchfactor) + pos_offset.y,
 						offsetside: pos_offset.x,
@@ -58,7 +62,9 @@ class SmartGun : ModWeaponBase {
 		
 		if(t.HitActor)
 		{
-			if(t.HitActor.bIsMonster && !t.HitActor.bFriendly)
+			bool isEnemyMonster = (t.HitActor.bIsMonster && !t.HitActor.bFriendly);
+			bool isEnemyPlayer = (t.HitActor.player && deathmatch && (!teamplay || t.HitActor.player.GetTeam() != owner.player.GetTeam()));
+			if(isEnemyMonster || isEnemyPlayer)
 			{
 				if(!(owner.player.cheats & CF_PREDICTING))
 				{
@@ -67,31 +73,42 @@ class SmartGun : ModWeaponBase {
 					{
 						if(targets[i]==t.HitActor)
 						{
-							return t.HitLocation, true;
+							return t.HitLocation, 1, hit;
 						}
 					}
 					targets.push(t.HitActor);
 				}
-				return t.HitLocation, true;
+				
+				return t.HitLocation, 1, hit;
+			}
+			else if(t.HitActor.bIsMonster || t.HitActor.player)
+			{
+				if(maintrace && !(owner.player.cheats & CF_PREDICTING)) aimingfriend = true;
+				return t.HitLocation, 2, hit;
 			}
 		}
-		return t.HitLocation, false;
+		return t.HitLocation, 0, hit;
 	}
 	
 	void TraceVisible(double x_a,double y_a){
 		Vector3 hLoc;
-		bool hit_monster;
-		[hLoc, hit_monster] = doTrace(x_a, y_a);
+		int hit_monster;
+		bool hitAnything;
+		[hLoc, hit_monster, hitAnything] = doTrace(x_a, y_a, abs(x_a) <= 4 && abs(y_a) <= 4);
 		
-		Vector3 diff=level.Vec3Diff((owner.pos.x,owner.pos.y,owner.player.ViewZ),hLoc);
-		double dist=diff.length();
-		let hLoc2=hLoc-(diff/diff.length());
-		Color enemy_color="#FF0000";
-		Color not_enemy_color="#00FF00";
-		
-		Vector3 loc = hLoc-owner.pos; // spawn 1mu away from wall
-		
-		owner.A_SpawnParticle(hit_monster? enemy_color : not_enemy_color, SPF_FULLBRIGHT, 1, clamp(dist/100,2.5,75), xoff:loc.x, yoff:loc.y, zoff:loc.z);
+		if(hitAnything)
+		{
+			Vector3 diff=level.Vec3Diff((owner.pos.x,owner.pos.y,owner.player.ViewZ),hLoc);
+			double dist=diff.length();
+			let hLoc2=hLoc-(diff/diff.length());
+			Color enemy_color="#FF0000";
+			Color not_enemy_color="#00FF00";
+			Color friend_color="#00FFFF";
+			
+			Vector3 loc = hLoc-owner.pos; // spawn 1mu away from wall
+			
+			owner.A_SpawnParticle(hit_monster == 1 ? enemy_color : (hit_monster == 2 ? friend_color : not_enemy_color), SPF_FULLBRIGHT, 1, clamp(dist/100,2.5,75), xoff:loc.x, yoff:loc.y, zoff:loc.z);
+		}
 	}
 	
 	void pspReset(PSPrite psp){
@@ -179,7 +196,7 @@ class SmartGun : ModWeaponBase {
 	
 	override void ReadyTick()
 	{
-		
+		aimingfriend = false;
 		targets.clear();
 		
 		[angle_offset, pos_offset] = TestModPlayer(owner).InertiaBobAim();
@@ -326,25 +343,20 @@ class SmartGun : ModWeaponBase {
 	NoAmmo:
 		SGUN A 1 {
 			A_WeaponOffset(0,32,WOF_INTERPOLATE);
-			invoker.firing=false;
+			invoker.firing = false;
+			player.refire=0;
 		}
 		Goto Ready;
 	Fire:
 		TNT1 A 0 {
-			invoker.AmmoUse1=true;
+			invoker.AmmoUse1 = 1;
+			invoker.tick = true;
 		}
-		TNT1 A 0 A_JumpIfNoAmmo("NoAmmo");
+		TNT1 A 0 A_JumpIf(invoker.ammo1.amount == 0 || (invoker.aimingfriend && !invoker.last_target), "NoAmmo");
 		TNT1 A 0 {
+			invoker.firing = true;
+			
 			A_WeaponOffset(0,40,WOF_INTERPOLATE);
-			
-			A_Overlay(-50,"BarrelOverlay.Fire");
-			A_OverlayFlags(-50,PSPF_PIVOTPERCENT,false);
-			A_OverlayPivot(-50,76,83);
-			
-			A_Overlay(-49,"BarrelOverlay.Glow.Fire");
-			A_OverlayFlags(-49,PSPF_PIVOTPERCENT,false);
-			A_OverlayPivot(-49,76,83);
-			A_OverlayFlags(-49,PSPF_FORCEALPHA,true);
 			
 			if(invoker.barrel_glow_alpha<0.25){
 				invoker.barrel_glow_alpha=0.25;
@@ -352,29 +364,45 @@ class SmartGun : ModWeaponBase {
 			
 			invoker.barrel_glow_alpha=clamp(invoker.barrel_glow_alpha,0,1.0);
 			A_OverlayAlpha(-49,invoker.barrel_glow_alpha);
-			
-			invoker.firing = true;
 		}
 	Hold:
-		TNT1 A 0 A_JumpIfNoAmmo("NoAmmo");
-		SGUN A 2 {
+		TNT1 A 0 A_JumpIf(invoker.ammo1.amount == 0 || (invoker.aimingfriend && !invoker.last_target), "NoAmmo");
+		SGUN A 1
+		{
 			A_Overlay(-150,"MuzzleFlashOverlay.Fire");
 			A_OverlayFlags(-150,PSPF_PIVOTPERCENT,false);
 			A_OverlayFlags(-150,PSPF_RENDERSTYLE,true);
 			A_OverlayRenderstyle(-150,STYLE_Add);
 			
 			A_OverlayPivot(-150,76,139);
-			double xoff=frandom[TestModWeapon](2,-2);
-			double yoff=frandom[TestModWeapon](2,-2);
-			xoff-=invoker.aim_angle.x;
-			yoff-=invoker.aim_angle.y;
+			
 			A_AlertMonsters();
-			W_FireProjectile("HeavyClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));
 			
-			W_FireTracer((xoff,yoff),15,puff:"PiercingPuff",flags:FBF_EXPLICITANGLE|FBF_USEAMMO,drawTracer:sv_heavy_bullet_tracers);
+			for(int i = 0; i < 4; i++)
+			{
+				if(invoker.ammo1.amount == 0) break;
+				
+				double xoff=frandom[TestModWeapon](2,-2);
+				double yoff=frandom[TestModWeapon](2,-2);
+				xoff-=invoker.aim_angle.x;
+				yoff-=invoker.aim_angle.y;
+				W_FireProjectile("HeavyClipCasing",-75,false,3,5-(8*(1-player.crouchfactor)),FPF_NOAUTOAIM,random[TestModWeapon](80,100));
+				
+				W_FireTracer((xoff,yoff),15,puff:"PiercingPuff",flags:FBF_EXPLICITANGLE|FBF_USEAMMO,drawTracer:sv_heavy_bullet_tracers);
+				
+				if(sv_cheaper_smartgun)
+				{
+					invoker.AmmoUse1 = !invoker.AmmoUse1;
+				}
+				else
+				{
+					invoker.AmmoUse1 = 1;
+				}
+			}
 			
-			A_StartSound("weapons/smartgun",CHAN_WEAPON,CHANF_OVERLAP);
-			invoker.AmmoUse1=!invoker.AmmoUse1;
+			if(invoker.tick) A_StartSound("weapons/smartgun",CHAN_WEAPON,CHANF_OVERLAP);
+			
+			invoker.tick = !invoker.tick;
 		}
 		TNT1 A 0 A_ReFire;
 		TNT1 A 0 {
@@ -402,25 +430,24 @@ class SmartGun : ModWeaponBase {
 		Loop;
 		
 	BarrelOverlay:
-		SGUN C -1;
+		SGUN C 1 A_JumpIf(invoker.firing, "BarrelOverlay.Fire");
 		Loop;
+		
 	BarrelOverlay.Fire:
 		SGUN L 1 BRIGHT;
 		SGUN M 1 BRIGHT;
-		TNT1 A 0 CheckFire("BarrelOverlay.Fire");
-		//TNT1 A 0 A_ReFire("BarrelOverlay.Fire");
-		Goto BarrelOverlay;
+		SGUN M 0 A_JumpIf(!invoker.firing, "BarrelOverlay");
+		Loop;
 		
 	BarrelOverlay.Glow:
-		SGUN K 1 BRIGHT;
+		SGUN K 1 BRIGHT A_JumpIf(invoker.firing, "BarrelOverlay.Glow.Fire");
 		Loop;
 		
 	BarrelOverlay.Glow.Fire:
 		SGUN F 1 BRIGHT;
 		SGUN H 1 BRIGHT;
-		TNT1 A 0 CheckFire("BarrelOverlay.Glow.Fire");
-		//TNT1 A 0 A_ReFire("BarrelOverlay.Glow.Fire");
-		Goto BarrelOverlay.Glow;
+		SGUN H 0 A_JumpIf(!invoker.firing, "BarrelOverlay.Glow");
+		Loop;
 	
 	MuzzleFlashOverlay:
 		TNT1 A -1;

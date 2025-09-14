@@ -63,6 +63,14 @@ extend class TestModPlayer
 						{
 							let pickup = inv_lasthit;
 							inv_lasthit = null;
+							
+							Weapon temp;
+							
+							if(pickup is "Weapon" && (temp = Weapon(FindInventory(pickup.GetClass()))))
+							{
+								DropInventory(temp);
+							}
+							
 							pickup.Touch(self);
 							
 							if(!pickup.owner)

@@ -90,11 +90,6 @@ class GuidedRocketLauncher : ModWeaponBase {
 			DRLG A 1;
 			DRLG A 0 A_ReFire("altloop");
 			Goto Ready;
-		Flash:
-			TNT1 A 2 A_Light1;
-			TNT1 A 2 A_Light2;
-			TNT1 A 0 A_Light0;
-			Goto LightDone;
 		Spawn:
 			DERL A -1;
 			Stop;

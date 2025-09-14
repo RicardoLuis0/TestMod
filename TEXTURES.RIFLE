@@ -172,6 +172,25 @@ Sprite ASRRS0, 96, 67
     Offset -146, -101
 }
 
+Sprite ASRRT0, 161, 80
+{
+    Patch ASRRT0, 0, 0
+    Offset -133, -88
+}
+
+Sprite ASRRU0, 161, 80
+{
+    Patch ASRRU0, 0, 0
+    Offset -133, -88
+}
+
+Sprite ASRRV0, 161, 80
+{
+    Patch ASRRV0, 0, 0
+    Offset -133, -88
+}
+
+
 Sprite MGUNA0, 54, 14
 {
     Patch MGUNA0, 0, 0

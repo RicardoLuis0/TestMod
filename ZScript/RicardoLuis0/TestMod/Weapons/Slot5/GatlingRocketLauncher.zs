@@ -148,11 +148,6 @@ class GatlingRocketLauncher : ModWeaponBase
 			REPG D 4;
 			REPG A 0 CheckFire("Shoot1","AltLoop1","Spindown1");
 			goto Spindown1;
-		Flash:
-			TNT1 A 8 A_Light2;
-			TNT1 A 8 A_Light1;
-			TNT1 A 0 A_Light0;
-			Goto LightDone;
 		AltLoop1:
 			TNT1 A 0 SpinSound();
 			REPG A 4 A_WeaponOffset(0,32,WOF_INTERPOLATE);

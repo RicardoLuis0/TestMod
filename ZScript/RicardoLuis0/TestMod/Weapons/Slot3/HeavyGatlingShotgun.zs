@@ -152,7 +152,7 @@ class HeavyGatlingShotgun : ModRotatingWeapon {
 		}
 		Goto SpinA;
 	Spawn:
-		PKCP A -1;
+		DEGT A -1;
 		stop;
 	RealFire:
 		DGTF A 10 Bright {

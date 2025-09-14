@@ -34,6 +34,25 @@ Sprite DSSEH0, 61, 20
     Offset -67, -148
 }
 
+Sprite DSSEI0, 86, 36
+{
+    Patch "Patches/Weapons/SSG/SSG_OpenEmptyA.png", 0, 0
+    Offset -88, -132
+}
+
+Sprite DSSEJ0, 74, 22
+{
+    Patch "Patches/Weapons/SSG/SSG_OpenEmptyB.png", 0, 0
+    Offset -73, -146
+}
+
+
+Sprite DSSEK0, 61, 20
+{
+    Patch "Patches/Weapons/SSG/SSG_CloseOnlyRightA.png", 0, 0
+    Offset -67, -148
+}
+
 Sprite DSSEN0, 142, 55
 {
     Patch "Patches/Weapons/SSG/SSG_LoadOnlyRightA.png", 0, 0
@@ -304,3 +323,28 @@ Sprite DXSSB0, 170, 39
     Offset -69, -129
 }
 
+
+
+Sprite DXSSC0, 153, 48
+{
+    Patch "Patches/Weapons/SSG/SSG_LoadLeftA.png", 0, 0
+    Offset -67, -120
+}
+
+Sprite DXSSD0, 128, 55
+{
+    Patch "Patches/Weapons/SSG/SSG_LoadLeftB.png", 0, 0
+    Offset -67, -113
+}
+
+Sprite DXSSE0, 111, 48
+{
+    Patch "Patches/Weapons/SSG/SSG_LoadLeftC.png", 0, 0
+    Offset -67, -120
+}
+
+Sprite DXSSF0, 114, 48
+{
+    Patch "Patches/Weapons/SSG/SSG_LoadLeftE.png", 0, 0
+    Offset -65, -123
+}

@@ -120,8 +120,8 @@ class MyPlasmaRifle : ModWeaponBase
 		DPGG A 0 A_FireEnd();
 		Goto Ready;
 	Flash1:
-		DPGF A 1 Bright A_Light(2);
-		DPGF B 1 Bright A_Light(1);
+		DPGF A 1 Bright;
+		DPGF B 1 Bright;
 		Goto LightDone;
 	Flash2:
 		DPGF C 1 Bright A_Light(2);
@@ -258,8 +258,8 @@ class MyPlasmaRifle : ModWeaponBase
 		firemodemax = 1;
 		heat = 0;
 		heatdown = 5;
-		heatmax = 400;
-		heatextra = 200;
+		heatmax = 300;
+		heatextra = 300;
 		updateFire(false);
 		firing = false;
 		overheat = false;
@@ -462,6 +462,6 @@ class MyPlasmaRifle : ModWeaponBase
 	
 	action int CalcAutoFireTics()
 	{
-		return (invoker.heat > invoker.heatmax) ? (invoker.heat > (invoker.heatmax + (invoker.heatextra / 2)) ? 0 : 1) : (int((1.0 - (invoker.heat / double(invoker.heatmax))) * 3) + 1);
+		return (invoker.heat > invoker.heatmax) ? (invoker.heat > (invoker.heatmax + (invoker.heatextra / 4)) ? 0 : 1) : (int((1.0 - (invoker.heat / double(invoker.heatmax))) * 3) + 1);
 	}
 }

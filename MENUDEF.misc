@@ -8,13 +8,37 @@ OptionMenu "TestmodOptionsMenuMisc"{
 	Option "Automatically pick up ammo from weapon magazines","sv_magazine_weapon_ammo_auto_pickup","YesNo"
 	StaticText ""
 	
-	
 	Title "Use to Pickup"
 	Option "Use to Pickup","sv_use_to_pickup","OnOff"
 	StaticText "Disable picking up items by touch","DarkRed"
 	
 	Option "Keep weapons with no bullets in magazine on the ground","sv_keep_empty_weapon_items","YesNo"
 	StaticText ""
+	
+	Option "Manually unload weapons","sv_manual_unloading","YesNo"
+	StaticText ""
+	
+	
+	Option "Automatically Chamber Round when Reloading","sv_automatic_bolt","YesNo"
+	StaticText "(Otherwise it'll need a second 'reload')","DarkRed"
+	
+	Option "Automatically Pump Shotgun after Shooting","sv_automatic_shotgun","YesNo","sv_automatic_bolt",0,1
+	StaticText ""
+	
+	Option "Shotgun reload requires holding button","sv_shotgun_reload_hold","YesNo"
+	StaticText ""
+	
+	Option "Automatically Reload when trying to shoot with empty magazine","sv_automatic_reload","YesNo"
+	StaticText ""
+	
+	Option "Smartgun uses half ammo","sv_cheaper_smartgun","YesNo"
+	StaticText ""
+	
+	Option "Drop current magazine when reloading","sv_drop_magazine_reload","YesNo"
+	StaticText ""
+	
+	Command "Unload Current Weapon", "unloadweapon"
+	Command "Manually Cycle Current Weapon", "cycleweapon"
 	
 	Option "SSG Auto-Reload","cl_ssg_autoreload","OnOff"
 	StaticText "Whether to reload immediately after firing last shot on ssg.","DarkRed"

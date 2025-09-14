@@ -7,20 +7,80 @@ extend class ModWeaponBase
 		return Stringtable.Localize(PickupMsg).." ("..(partialPickupHasMagazine ? ammogive2 : ammogive1)..")";
 	}
 	
-	Inventory TossItem(Class<Inventory> item,int amt){
+	Inventory TossItem(Class<Inventory> item, int amt)
+	{
 		if(item == null) return null;
-		Inventory drop=Inventory(Spawn(item,owner.pos + (0,0, 10.)));
+		
+		Vector3 startpos = (owner.pos.x, owner.pos.y, owner.player.viewz - 20);
+		Inventory drop=Inventory(Spawn(item,startpos));
+		
 		if(drop == null) return null;
 		drop.Amount=amt;
-		//drop.SetOrigin(owner.pos + (0, 0, 10.), false);
 		drop.Angle=owner.Angle;
-		drop.VelFromAngle(5.);
-		drop.SetOrigin(owner.pos + Vel*2, false);
-		drop.Vel.Z=1.;
+		drop.Pitch=owner.Pitch;
+		drop.Vel3DFromAngle(5., owner.Angle, owner.Pitch);
+		drop.SetOrigin(startpos + Vel*2, false);
+		drop.Vel.Z+=1.;
 		drop.Vel+=Vel;
 		drop.bNoGravity = false;	// Don't float
-		drop.ClearCounters();	// do not count for statistics again
+		drop.ClearCounters();	// do not count for statistics
 		drop.OnDrop(self);
+		return drop;
+	}
+	
+	Actor TossActor(class<Actor> type)
+	{
+		if(type == null) return null;
+		
+		Vector3 startpos = (owner.pos.x, owner.pos.y, owner.player.viewz - 20);
+		
+		Actor drop = Spawn(type,startpos);
+		
+		if(drop == null) return null;
+		drop.Angle=owner.Angle;
+		drop.Pitch=owner.Pitch;
+		drop.Vel3DFromAngle(5., owner.Angle, owner.Pitch);
+		drop.SetOrigin(startpos + Vel*2, false);
+		drop.Vel.Z+=1.;
+		drop.Vel+=Vel;
+		drop.bNoGravity = false;	// Don't float
+		drop.ClearCounters();	// do not count for statistics
+		return drop;
+	}
+	
+	Inventory DropItem(Class<Inventory> item, int amt){
+		if(item == null) return null;
+		
+		Vector3 startpos = (owner.pos.x, owner.pos.y, owner.player.viewz - 20);
+		Inventory drop=Inventory(Spawn(item, startpos));
+		
+		if(drop == null) return null;
+		drop.Amount=amt;
+		drop.Angle=owner.Angle;
+		drop.VelFromAngle(1.);
+		drop.Vel.Z-=1.;
+		drop.Vel+=Vel;
+		drop.bNoGravity = false;	// Don't float
+		drop.ClearCounters();	// do not count for statistics
+		drop.OnDrop(self);
+		return drop;
+	}
+	
+	Actor DropActor(class<Actor> type)
+	{
+		if(type == null) return null;
+		
+		Vector3 startpos = (owner.pos.x, owner.pos.y, owner.player.viewz - 20);
+		
+		Actor drop = Spawn(type,startpos);
+		
+		if(drop == null) return null;
+		drop.Angle=owner.Angle;
+		drop.VelFromAngle(1.);
+		drop.Vel.Z-=1.;
+		drop.Vel+=Vel;
+		drop.bNoGravity = false;	// Don't float
+		drop.ClearCounters();	// do not count for statistics
 		return drop;
 	}
 	
@@ -166,16 +226,57 @@ extend class ModWeaponBase
 		return false;
 	}
 	
-	virtual bool UnloadAmmo(){
-		if(partialPickupHasMagazine&&ammo1.amount>0){
-			if(customUnloadAmmo){
-				TossItem(customUnloadAmmo,ammo1.amount);
-			}else{
-				TossItem(ammotype2,ammo1.amount);
+	virtual bool UnloadAmmo(bool toss = true)
+	{
+		if(!partialPickupHasMagazine) return false;
+		
+		int amount = ammo1.amount;
+		
+		if(magazineWeaponHasChamber && magazineWeaponChamberLoaded && (sv_manual_unloading || !toss))
+		{
+			amount -= 1;
+		}
+		
+		if(partialPickupHasMagazine && amount > 0)
+		{
+			if(toss)
+			{
+				TossItem(customUnloadAmmo ? customUnloadAmmo : ammotype2, amount);
 			}
-			ammo1.amount=0;
+			else
+			{
+				DropItem(customUnloadAmmo ? customUnloadAmmo : ammotype2, amount);
+			}
+			
+			ammo1.amount -= amount;
+			
+			if(ammo1.amount == 0 && magazineWeaponHasChamber && magazineWeaponChamberLoaded)
+			{
+				magazineWeaponChamberLoaded = false;
+			}
+			
 			return true;
 		}
 		return false;
+	}
+	
+	action void A_CheckChamber()
+	{
+		invoker.magazineWeaponChamberLoaded = (invoker.ammo1.amount > 0);
+	}
+	
+	action bool ChamberLoaded()
+	{
+		return invoker.magazineWeaponChamberLoaded;
+	}
+	
+	action void A_LoadChamber()
+	{
+		invoker.magazineWeaponChamberLoaded = true;
+	}
+	
+	action void A_UnloadChamber()
+	{
+		invoker.magazineWeaponChamberLoaded = false;
 	}
 }

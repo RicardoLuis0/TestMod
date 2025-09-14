@@ -27,6 +27,14 @@ SERVER BOOL sv_per_player_rolls = true;
 
 USER BOOL cl_ssg_autoreload = true;
 
+SERVER BOOL sv_automatic_bolt = true;
+SERVER BOOL sv_automatic_shotgun = true;
+SERVER BOOL sv_automatic_reload = true;
+SERVER BOOL sv_shotgun_reload_hold = false;
+SERVER BOOL sv_manual_unloading = false;
+SERVER BOOL sv_drop_magazine_reload = false;
+SERVER BOOL sv_cheaper_smartgun = true;
+
 SERVER BOOL sv_shotgun_tracers = true;
 SERVER BOOL sv_light_bullet_tracers = true;
 SERVER BOOL sv_heavy_bullet_tracers = true;

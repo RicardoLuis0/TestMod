@@ -1,0 +1,7 @@
+alias "unloadweapon" "netevent unload_key_pressed"
+alias "cycleweapon" "netevent cycle_key_pressed"
+defaultbind "Z" "unloadweapon"
+defaultbind "F" "cycleweapon"
+addkeysection "TestMod Keys" "testmod"
+addmenukey "Unload Current Weapon" "unloadweapon"
+addmenukey "Manually Cycle Current Weapon" "cycleweapon"

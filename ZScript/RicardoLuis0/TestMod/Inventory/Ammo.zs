@@ -127,6 +127,7 @@ class LightClip : Ammo {
 		Inventory.MaxAmount 300;
 		Ammo.BackpackAmount 15;
 		Ammo.BackpackMaxAmount 600;
+		Scale 0.5;
 		Inventory.Icon "MBLKA0";
 		Tag "$AMMO_LIGHTCLIP";
 	}
@@ -151,11 +152,22 @@ class LightClipBox : LightClip {
 	Default {
 		Inventory.PickupMessage "$GOTLIGHTCLIPBOX";
 		Inventory.Amount 45;
+		Scale 1.0;
 	}
 
 	States {
 	Spawn:
 		4M0K A -1;
+		Stop;
+	}
+
+}
+
+class EmptyHeavyClip : Actor
+{
+	States {
+	Spawn:
+		CLIP B -1;
 		Stop;
 	}
 

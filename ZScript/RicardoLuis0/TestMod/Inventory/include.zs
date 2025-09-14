@@ -1,5 +1,6 @@
 #include "./Ammo.zs"
 #include "./Armor.zs"
+#include "./Health.zs"
 #include "./IncrementalBackpack.zs"
 #include "./PortableMedkit.zs"
 #include "./Spawners/AmmoSpawners.zs"

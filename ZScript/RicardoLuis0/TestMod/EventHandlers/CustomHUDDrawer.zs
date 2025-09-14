@@ -86,10 +86,10 @@ extend class TestModHandler
 		}
 		
 		//TODO
-		double xoff = (Screen.GetTextureLeftOffset(spawnsprite) * scale.x);
-		double yoff = (Screen.GetTextureTopOffset(spawnsprite) * scale.y);
-		double width = (Screen.GetTextureWidth(spawnsprite) * scale.x);
-		double height = (Screen.GetTextureHeight(spawnsprite) * scale.y);
+		double xoff = ((Screen.GetTextureLeftOffset(spawnsprite)+2) * scale.x);
+		double yoff = ((Screen.GetTextureTopOffset(spawnsprite)+2) * scale.y);
+		double width = ((Screen.GetTextureWidth(spawnsprite)+4) * scale.x);
+		double height = ((Screen.GetTextureHeight(spawnsprite)+4) * scale.y);
 		
 		Vector3 posDiff = Level.Vec3Diff(item.Pos, sourcePos);
 		
@@ -196,6 +196,37 @@ extend class TestModHandler
 					bottomY = max(point1.Y, point2.Y, point3.Y, point4.Y);
 				}
 				
+				if(bottomy-topy < 2)
+				{
+					topy -= 6;
+					bottomy += 6;
+				}
+				else if(bottomy-topy < 4)
+				{
+					topy -=5;
+					bottomy += 5;
+				}
+				else if(bottomy-topy < 6)
+				{
+					topy -=4;
+					bottomy += 4;
+				}
+				else if(bottomy-topy < 8)
+				{
+					topy -= 3;
+					bottomy += 3;
+				}
+				else if(bottomy-topy < 10)
+				{
+					topy -=2;
+					bottomy += 2;
+				}
+				else if(bottomy-topy < 12)
+				{
+					topy -=1;
+					bottomy += 1;
+				}
+				
 				if(style == 1)
 				{
 					Screen.DrawThickLine(leftX, topY, rightX, topY, 2, 0xFFFFFFFF, 255);
@@ -224,6 +255,7 @@ extend class TestModHandler
 				
 				string text = item.GetTag(item.GetClassName());
 				
+				
 				if(item is 'ModWeaponBase')
 				{
 					let weapon = ModWeaponBase(item);
@@ -239,8 +271,8 @@ extend class TestModHandler
 					}
 					else
 					{
-						int curAmmo = weapon.ammogive2;
-						let reserve = GetDefaultByType(weapon.ammotype2);
+						int curAmmo = weapon.ammogive1;
+						let reserve = GetDefaultByType(weapon.ammotype1);
 						String ammoType = reserve.GetTag(reserve.GetClassName());
 						text = text.." - "..curAmmo.." "..ammoType;
 					}

@@ -68,6 +68,10 @@ extend class TestModHandler
 		{
 			TestModPlayer(players[e.player].mo).unload_key_pressed = true;
 		}
+		else if(e.name == "cycle_key_pressed")
+		{
+			TestModPlayer(players[e.player].mo).cycle_key_pressed = true;
+		}
 		else if(e.name == "invuse_key_down")
 		{
 			TestModPlayer(players[e.player].mo).invuse_key_down = true;

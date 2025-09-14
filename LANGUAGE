@@ -10,3 +10,5 @@ FN_RIFLEZOMBIE = "Zombie Rifleman" ;
 GOTSHELLS = "Picked up a handful of shotgun shells." ;
 AMMO_LIGHTCLIP = "Light Bullets" ;
 AMMO_HEAVYCLIP = "Heavy Bullets" ;
+GOTHEALTHINJECTOR = "Used a health injector" ;
+TAG_HEALTHINJECTOR = "Health Injector" ;

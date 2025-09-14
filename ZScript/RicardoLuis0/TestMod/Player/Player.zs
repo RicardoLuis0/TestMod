@@ -3,12 +3,14 @@ class TestModPlayer : DoomPlayer
 	bool grenade_key_pressed;
 	bool melee_key_pressed;
 	bool unload_key_pressed;
+	bool cycle_key_pressed;
 
 	void ClearActionKeys()
 	{
 		grenade_key_pressed=false;
 		melee_key_pressed=false;
 		unload_key_pressed=false;
+		cycle_key_pressed=false;
 	}
 	
 	bool invuse_key_down;

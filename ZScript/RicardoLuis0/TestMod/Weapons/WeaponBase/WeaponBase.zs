@@ -5,15 +5,19 @@ class ModWeaponBase : Weapon {
 	
 	bool partialPickupHasMagazine;
 	bool partialPickupNoMagazine;
+	bool magazineWeaponHasChamber;
+	bool magazineWeaponChamberLoaded;
 	Class<Ammo> customUnloadAmmo;
 	
 	Property PickupHandleMagazine : partialPickupHasMagazine;
 	Property PickupHandleNoMagazine : partialPickupNoMagazine;
+	Property HasChamber : magazineWeaponHasChamber;
 	Property CustomUnloadAmmo : customUnloadAmmo;
 	
 	Default{
 		Decal "BulletChip";
 		+WEAPON.NOAUTOAIM;
+		ModWeaponBase.HasChamber false;
 	}
 	
 	static Vector3 angleToVec3(double a_yaw,double a_pitch,double length=1){
@@ -36,7 +40,10 @@ class ModWeaponBase : Weapon {
 	virtual void ReadyTick() {}
 	virtual void PredictedReadyTick() {}
 	
-	action void A_ReloadAmmo(int empty,int nonempty) {
+	action void A_ReloadAmmo(int empty,int nonempty)
+	{
+		if(sv_drop_magazine_reload) invoker.UnloadAmmo(false);
+		
 		int reloadAmount = min(
 							invoker.ammo1.amount > 0 ? nonempty : empty,
 							invoker.ammo1.amount + invoker.ammo2.amount
@@ -45,8 +52,10 @@ class ModWeaponBase : Weapon {
 		invoker.ammo1.amount = reloadAmount;
 	}
 	
-	action void A_ReloadAmmoMagazineDefaults() {
-		A_ReloadAmmo(invoker.ammo1.maxamount-1,invoker.ammo1.maxamount);
+	action void A_ReloadAmmoMagazineDefaults()
+	{
+		A_ReloadAmmo(invoker.magazineWeaponHasChamber ? invoker.ammo1.maxamount-1 : invoker.ammo1.maxamount,
+					 (!invoker.magazineWeaponHasChamber || invoker.magazineWeaponChamberLoaded)? invoker.ammo1.maxamount : invoker.ammo1.maxamount - 1);
 	}
 	
 	virtual bool OnGrenadeKeyPressed(){
@@ -67,11 +76,18 @@ class ModWeaponBase : Weapon {
 		return false;
 	}
 	
-	virtual void GrenadeThrowAnimOver(){
+	virtual void GrenadeThrowAnimOver()
+	{
 	}
 	
-	virtual bool OnUnloadKeyPressed(){
+	virtual bool OnUnloadKeyPressed()
+	{
 		return UnloadAmmo();
+	}
+	
+	virtual bool OnCycleKeyPressed()
+	{
+		return false;
 	}
 	
 	action void A_NotifyGrenadeThrowAnimEnd(){
@@ -82,23 +98,36 @@ class ModWeaponBase : Weapon {
 		WRFX_NOGRENADE=1,
 		WRFX_NOMELEE=2,
 		WRFX_NOUNLOAD=4,
+		WRFX_NOCYCLE=8,
 	};
 	
 	action void W_WeaponReady(int flags=0,int flags_extra=0){
 		if(!(flags_extra&WRFX_NOGRENADE)&&TestModPlayer(self).grenade_key_pressed){
-			if(invoker.OnGrenadeKeyPressed()){
+			if(invoker.OnGrenadeKeyPressed())
+			{
 				TestModPlayer(self).ClearActionKeys();
 				return;
 			}
 		}
 		if(!(flags_extra&WRFX_NOMELEE)&&TestModPlayer(self).melee_key_pressed){
-			if(invoker.OnMeleeKeyPressed()){
+			if(invoker.OnMeleeKeyPressed())
+			{
 				TestModPlayer(self).ClearActionKeys();
 				return;
 			}
 		}
-		if(invoker.partialPickupHasMagazine&&!(flags_extra&WRFX_NOUNLOAD)&&TestModPlayer(self).unload_key_pressed){
-			if(invoker.OnUnloadKeyPressed()){
+		if(invoker.partialPickupHasMagazine && !(flags_extra&WRFX_NOUNLOAD) && TestModPlayer(self).unload_key_pressed)
+		{
+			if(invoker.OnUnloadKeyPressed())
+			{
+				TestModPlayer(self).ClearActionKeys();
+				return;
+			}
+		}
+		if(invoker.partialPickupHasMagazine && !(flags_extra&WRFX_NOCYCLE) && TestModPlayer(self).cycle_key_pressed)
+		{
+			if(invoker.OnCycleKeyPressed())
+			{
 				TestModPlayer(self).ClearActionKeys();
 				return;
 			}

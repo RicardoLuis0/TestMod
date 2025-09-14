@@ -1,37 +1,25 @@
+//===================================================
+// 
+// base - magazine yes, bolt yes
+// 
+//===================================================
+
 Sprite RIFFA0, 320, 168
 {
-    Patch "Patches/Weapons/SMG/SMG_FireA.png", 0, 0
-    Offset 1, 0
+    Patch "Patches/Weapons/SMG/SMG_Idle_NoBolt.png", 0, 0
+    Offset 2, 0
 }
 
 Sprite RIFFB0, 320, 168
 {
-    Patch "Patches/Weapons/SMG/SMG_FireB.png", 0, 0
-    Offset 2, 0
+    Patch "Patches/Weapons/SMG/SMG_Fire.png", 0, 0
+    Offset 1, 0
 }
 
 Sprite RIFGA0, 320, 168
 {
     Patch "Patches/Weapons/SMG/SMG_Idle.png", 0, 0
     Offset 2, 0
-}
-
-Sprite RIFJA0, 320, 168
-{
-    Patch "Patches/Weapons/SMG/SMG_Idle.png", 0, 0
-    Offset 2, -1
-}
-
-Sprite RIFJB0, 320, 168
-{
-    Patch "Patches/Weapons/SMG/SMG_Idle.png", 0, 0
-    Offset 4, -2
-}
-
-Sprite RIFJC0, 320, 168
-{
-    Patch "Patches/Weapons/SMG/SMG_Idle.png", 0, 0
-    Offset 7, -3
 }
 
 Sprite RIFLA0, 39, 16
@@ -42,133 +30,693 @@ Sprite RIFLA0, 39, 16
 
 Sprite RIFRA0, 202, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadA.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_RaiseA_NoMag.png", 0, 0
     Offset -56, 8
 }
 
 Sprite RIFRB0, 202, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadA.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_RaiseA_NoMag.png", 0, 0
     Offset -66, 12
 }
 
 Sprite RIFRC0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadB.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_RaiseB_NoMag.png", 0, 0
     Offset -18, 10
 }
 
 Sprite RIFRD0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadC.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_RaiseC_NoMag.png", 0, 0
     Offset -26, 10
 }
 
 Sprite RIFRE0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadD.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_RaiseD_NoMag.png", 0, 0
     Offset -40, 9
 }
 
 Sprite RIFRF0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadE.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_RaiseE_NoMag.png", 0, 0
     Offset -40, 8
 }
 
 Sprite RIFRG0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadF.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_ReloadA.png", 0, 0
     Offset -35, 12
 }
 
 Sprite RIFRH0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadG.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_ReloadB.png", 0, 0
     Offset -17, 12
 }
 
 Sprite RIFRI0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadH.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_ReloadC.png", 0, 0
     Offset -17, 12
 }
 
 Sprite RIFRK0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadI.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_ReloadD.png", 0, 0
     Offset -18, 12
 }
 
 Sprite RIFRL0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadJ.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_ReloadE.png", 0, 0
     Offset -19, 12
 }
 
 Sprite RIFRM0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadK.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_ReloadF.png", 0, 0
     Offset -23, 10
 }
 
 Sprite RIFRN0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadK.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_ReloadF.png", 0, 0
     Offset -23, 1
 }
 
 Sprite RIFRO0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadK.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_ReloadF.png", 0, 0
     Offset -25, -11
 }
 
 Sprite RIFRP0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadL.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_RaiseE.png", 0, 0
     Offset -40, 12
 }
 
 Sprite RIFRQ0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadM.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_RaiseD.png", 0, 0
     Offset -40, 10
 }
 
 Sprite RIFRR0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadN.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_RaiseC.png", 0, 0
     Offset -26, 9
 }
 
 Sprite RIFRS0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadO.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_RaiseB.png", 0, 0
     Offset -18, 8
 }
 
 Sprite RIFRT0, 202, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_ReloadP.png", 0, 0
+    Patch "Patches/Weapons/SMG/SMG_RaiseA.png", 0, 0
     Offset -56, 12
 }
 
-Sprite RIFSA0, 320, 168
+Sprite RIFCA0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_Idle.png", 0, 0
-    Offset 50, -32
+    Patch "Patches/Weapons/SMG/SMG_ChargeA.png", 0, 0
+    Offset -40, 8
 }
 
-Sprite RIFSB0, 320, 168
+Sprite RIFCB0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_Idle.png", 0, 0
-    Offset 40, -20
+    Patch "Patches/Weapons/SMG/SMG_ChargeB.png", 0, 0
+    Offset -40, 8
 }
 
-Sprite RIFSC0, 320, 168
+Sprite RIFCC0, 288, 180
 {
-    Patch "Patches/Weapons/SMG/SMG_Idle.png", 0, 0
-    Offset 23, -6
+    Patch "Patches/Weapons/SMG/SMG_ChargeC.png", 0, 0
+    Offset -40, 8
 }
 
+Sprite RIFCD0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeD.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIFCE0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeE.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIFCF0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeF.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIFCG0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeG.png", 0, 0
+    Offset -40, 8
+}
+
+//===================================================
+// 
+// magazine yes, bolt no
+// 
+//===================================================
+
+Sprite RIGFA0, 320, 168
+{
+    Patch "Patches/Weapons/SMG/SMG_Idle_NoBolt.png", 0, 0
+    Offset 2, 0
+}
+
+Sprite RIGFB0, 320, 168
+{
+    Patch "Patches/Weapons/SMG/SMG_Fire.png", 0, 0
+    Offset 1, 0
+}
+
+Sprite RIGGA0, 320, 168
+{
+    Patch "Patches/Weapons/SMG/SMG_Idle_NoBolt.png", 0, 0
+    Offset 2, 0
+}
+
+Sprite RIGRA0, 202, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseA_NoMag_NoBolt.png", 0, 0
+    Offset -56, 8
+}
+
+Sprite RIGRB0, 202, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseA_NoMag_NoBolt.png", 0, 0
+    Offset -66, 12
+}
+
+Sprite RIGRC0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseB_NoMag_NoBolt.png", 0, 0
+    Offset -18, 10
+}
+
+Sprite RIGRD0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseC_NoMag_NoBolt.png", 0, 0
+    Offset -26, 10
+}
+
+Sprite RIGRE0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseD_NoMag_NoBolt.png", 0, 0
+    Offset -40, 9
+}
+
+Sprite RIGRF0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseE_NoMag_NoBolt.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIGRG0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadA_NoBolt.png", 0, 0
+    Offset -35, 12
+}
+
+Sprite RIGRH0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadB_NoBolt.png", 0, 0
+    Offset -17, 12
+}
+
+Sprite RIGRI0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadC_NoBolt.png", 0, 0
+    Offset -17, 12
+}
+
+Sprite RIGRK0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadD_NoBolt.png", 0, 0
+    Offset -18, 12
+}
+
+Sprite RIGRL0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadE_NoBolt.png", 0, 0
+    Offset -19, 12
+}
+
+Sprite RIGRM0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadF_NoBolt.png", 0, 0
+    Offset -23, 10
+}
+
+Sprite RIGRN0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadF_NoBolt.png", 0, 0
+    Offset -23, 1
+}
+
+Sprite RIGRO0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadF_NoBolt.png", 0, 0
+    Offset -25, -11
+}
+
+Sprite RIGRP0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseE_NoBolt.png", 0, 0
+    Offset -40, 12
+}
+
+Sprite RIGRQ0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseD_NoBolt.png", 0, 0
+    Offset -40, 10
+}
+
+Sprite RIGRR0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseC_NoBolt.png", 0, 0
+    Offset -26, 9
+}
+
+Sprite RIGRS0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseB_NoBolt.png", 0, 0
+    Offset -18, 8
+}
+
+Sprite RIGRT0, 202, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseA_NoBolt.png", 0, 0
+    Offset -56, 12
+}
+Sprite RIGCA0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeA.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIGCB0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeB.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIGCC0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeC.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIGCD0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeD.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIGCE0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeE.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIGCF0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeF.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIGCG0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeG.png", 0, 0
+    Offset -40, 8
+}
+
+//===================================================
+// 
+// base - magazine no, bolt yes
+// 
+//===================================================
+
+Sprite RIHFA0, 320, 168
+{
+    Patch "Patches/Weapons/SMG/SMG_Idle_NoMag_NoBolt.png", 0, 0
+    Offset 2, 0
+}
+
+Sprite RIHFB0, 320, 168
+{
+    Patch "Patches/Weapons/SMG/SMG_Fire_NoMag.png", 0, 0
+    Offset 1, 0
+}
+
+Sprite RIHGA0, 320, 168
+{
+    Patch "Patches/Weapons/SMG/SMG_Idle_NoMag.png", 0, 0
+    Offset 2, 0
+}
+
+Sprite RIHRA0, 202, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseA_NoMag.png", 0, 0
+    Offset -56, 8
+}
+
+Sprite RIHRB0, 202, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseA_NoMag.png", 0, 0
+    Offset -66, 12
+}
+
+Sprite RIHRC0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseB_NoMag.png", 0, 0
+    Offset -18, 10
+}
+
+Sprite RIHRD0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseC_NoMag.png", 0, 0
+    Offset -26, 10
+}
+
+Sprite RIHRE0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseD_NoMag.png", 0, 0
+    Offset -40, 9
+}
+
+Sprite RIHRF0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseE_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIHRG0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadA.png", 0, 0
+    Offset -35, 12
+}
+
+Sprite RIHRH0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadB.png", 0, 0
+    Offset -17, 12
+}
+
+Sprite RIHRI0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadC.png", 0, 0
+    Offset -17, 12
+}
+
+Sprite RIHRK0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadD.png", 0, 0
+    Offset -18, 12
+}
+
+Sprite RIHRL0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadE.png", 0, 0
+    Offset -19, 12
+}
+
+Sprite RIHRM0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadF.png", 0, 0
+    Offset -23, 10
+}
+
+Sprite RIHRN0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadF.png", 0, 0
+    Offset -23, 1
+}
+
+Sprite RIHRO0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadF.png", 0, 0
+    Offset -25, -11
+}
+
+Sprite RIHRP0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseE.png", 0, 0
+    Offset -40, 12
+}
+
+Sprite RIHRQ0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseD.png", 0, 0
+    Offset -40, 10
+}
+
+Sprite RIHRR0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseC.png", 0, 0
+    Offset -26, 9
+}
+
+Sprite RIHRS0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseB.png", 0, 0
+    Offset -18, 8
+}
+
+Sprite RIHRT0, 202, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseA.png", 0, 0
+    Offset -56, 12
+}
+Sprite RIHCA0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeA_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIHCB0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeB_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIHCC0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeC_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIHCD0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeD_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIHCE0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeE_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIHCF0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeF_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIHCG0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeG_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+//===================================================
+// 
+// base - magazine no, bolt no
+// 
+//===================================================
+
+Sprite RIIFA0, 320, 168
+{
+    Patch "Patches/Weapons/SMG/SMG_Idle_NoMag_NoBolt.png", 0, 0
+    Offset 2, 0
+}
+
+Sprite RIIFB0, 320, 168
+{
+    Patch "Patches/Weapons/SMG/SMG_Fire_NoMag.png", 0, 0
+    Offset 1, 0
+}
+
+Sprite RIIGA0, 320, 168
+{
+    Patch "Patches/Weapons/SMG/SMG_Idle_NoMag_NoBolt.png", 0, 0
+    Offset 2, 0
+}
+
+Sprite RIIRA0, 202, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseA_NoMag_NoBolt.png", 0, 0
+    Offset -56, 8
+}
+
+Sprite RIIRB0, 202, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseA_NoMag_NoBolt.png", 0, 0
+    Offset -66, 12
+}
+
+Sprite RIIRC0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseB_NoMag_NoBolt.png", 0, 0
+    Offset -18, 10
+}
+
+Sprite RIIRD0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseC_NoMag_NoBolt.png", 0, 0
+    Offset -26, 10
+}
+
+Sprite RIIRE0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseD_NoMag_NoBolt.png", 0, 0
+    Offset -40, 9
+}
+
+Sprite RIIRF0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseE_NoMag_NoBolt.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIIRG0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadA_NoBolt.png", 0, 0
+    Offset -35, 12
+}
+
+Sprite RIIRH0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadB_NoBolt.png", 0, 0
+    Offset -17, 12
+}
+
+Sprite RIIRI0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadC_NoBolt.png", 0, 0
+    Offset -17, 12
+}
+
+Sprite RIIRK0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadD_NoBolt.png", 0, 0
+    Offset -18, 12
+}
+
+Sprite RIIRL0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadE_NoBolt.png", 0, 0
+    Offset -19, 12
+}
+
+Sprite RIIRM0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadF_NoBolt.png", 0, 0
+    Offset -23, 10
+}
+
+Sprite RIIRN0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadF_NoBolt.png", 0, 0
+    Offset -23, 1
+}
+
+Sprite RIIRO0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ReloadF_NoBolt.png", 0, 0
+    Offset -25, -11
+}
+
+Sprite RIIRP0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseE_NoBolt.png", 0, 0
+    Offset -40, 12
+}
+
+Sprite RIIRQ0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseD_NoBolt.png", 0, 0
+    Offset -40, 10
+}
+
+Sprite RIIRR0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseC_NoBolt.png", 0, 0
+    Offset -26, 9
+}
+
+Sprite RIIRS0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseB_NoBolt.png", 0, 0
+    Offset -18, 8
+}
+
+Sprite RIIRT0, 202, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_RaiseA_NoBolt.png", 0, 0
+    Offset -56, 12
+}
+Sprite RIICA0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeA_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIICB0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeB_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIICC0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeC_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIICD0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeD_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIICE0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeE_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIICF0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeF_NoMag.png", 0, 0
+    Offset -40, 8
+}
+
+Sprite RIICG0, 288, 180
+{
+    Patch "Patches/Weapons/SMG/SMG_ChargeG_NoMag.png", 0, 0
+    Offset -40, 8
+}

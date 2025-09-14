@@ -54,6 +54,28 @@ mixin class StateCalls
 		return ResolveState(P_CallSL(go_to));
 	}
 
+	action void P_RemoteCallJmp(int id, StateLabel go_to, StateLabel return_to)
+	{
+		let ls = invoker.GetLayerState(id);
+		ls.callStack.push(ResolveState(return_to));
+		
+		if(invoker.owner.player)
+		{
+			invoker.owner.player.SetPSprite(id, ResolveState(go_to));
+		}
+	}
+
+	action void P_RemoteCallJmpChain(int id, State go_to, StateLabel return_to)
+	{
+		let ls = invoker.GetLayerState(id);
+		ls.callStack.push(ResolveState(return_to));
+		
+		if(invoker.owner.player)
+		{
+			invoker.owner.player.SetPSprite(id, go_to);
+		}
+	}
+
 	action StateLabel P_CallJmpSL(StateLabel go_to, StateLabel return_to)
 	{
 		int id = OverlayID();
@@ -67,6 +89,16 @@ mixin class StateCalls
 	action State P_CallJmp(StateLabel go_to, StateLabel return_to)
 	{
 		return ResolveState(P_CallJmpSL(go_to, return_to));
+	}
+
+	action State P_CallJmpChain(State go_to, StateLabel return_to)
+	{
+		int id = OverlayID();
+		
+		let ls = invoker.GetLayerState(id);
+		ls.callStack.push(ResolveState(return_to));
+		
+		return go_to;
 	}
 
 	action State P_Return()
